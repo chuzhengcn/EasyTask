@@ -4,7 +4,8 @@
     "version"       : "0.0.1",
     "author"        : "Chu Zheng <chuzhengcn@gmail.com>",
     "dependencies"  : {
-        "express"   : "3.x"
+        "express"   : "3.x",
+        "jade"      : "*"
     },
     "repository"    : "git@github.com:chuzhengcn/EasyTask.git",
     "engines"       : {
