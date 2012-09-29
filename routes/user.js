@@ -1,8 +1,7 @@
+exports.list = function(req, res) {
+    res.render('user/index', { title: '用户列表' })
+}
 
-/*
- * GET users listing.
- */
-
-exports.list = function(req, res){
+exports.create = function(req, res) {
     res.send("respond with a resource")
 }

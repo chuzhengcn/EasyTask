@@ -1,0 +1,175 @@
+a:hover {
+  text-decoration: none;
+}
+button {
+  background: none;
+  border: none;
+}
+.dark-fields input[type="text"],
+.dark-fields input[type="email"],
+.dark-fields input[type="password"],
+.dark-fields input[type="search"],
+.dark-fields textarea,
+.dark-fields select {
+  background-color: rgba(0,0,0,0.35);
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.7) inset, 0 1px 0 rgba(0,0,0,0.65), 0 2px 0 rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.8);
+}
+.dark-fields input[type="text"]:focus,
+.dark-fields input[type="email"]:focus,
+.dark-fields input[type="password"]:focus,
+.dark-fields input[type="search"]:focus,
+.dark-fields textarea:focus,
+.dark-fields select:focus {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.7) inset, 0 1px 0 rgba(0,0,0,0.65), 0 1px 12px rgba(255,255,255,0.65);
+}
+body {
+  background: #333 url("/images/body-bg.png") 0 0 repeat;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  min-width: 1000px;
+}
+#header {
+  background: url("/images/header-bg.png") 0 0 repeat-x;
+  border-bottom: 1px solid #010101;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.66);
+  height: 48px;
+  width: 100%;
+}
+#header .search {
+  float: left;
+  padding: 13px 20px 0 20px;
+}
+#header .search input {
+  width: 292px;
+  padding-right: 20px;
+  background: rgba(0,0,0,0.35) url("/images/icon-search.png") 96% center no-repeat;
+  height: 16px;
+  line-height: 16px;
+}
+#header .user-avatar {
+  float: right;
+  padding: 0 10px;
+  height: 48px;
+  color: rgba(255,255,255,0.66);
+}
+#header .user-avatar span {
+  float: right;
+  line-height: 48px;
+  padding: 0 10px;
+}
+#header .user-avatar img {
+  vertical-align: text-top;
+  float: right;
+  margin-top: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.45) inset, 0 1px 0 rgba(255,255,255,0.33);
+}
+#logo {
+  cursor: pointer;
+  float: left;
+  height: 48px;
+  line-height: 48px;
+  padding: 0 20px;
+  font-size: 24px;
+  color: #cdcdcd;
+  font-weight: bold;
+}
+#logo:hover {
+  color: #eee;
+}
+#main {
+  position: absolute;
+  top: 49px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-width: 1000px;
+  overflow: hidden;
+}
+#sidebar {
+  float: left;
+  height: 100%;
+  position: relative;
+  width: 180px;
+}
+#sidebar .sidebar-content {
+  bottom: 48px;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+#sidebar .sidebar-content ul {
+  padding-top: 30px;
+}
+#sidebar .sidebar-content a {
+  color: rgba(255,255,255,0.66);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.66);
+  font-weight: 500;
+  display: block;
+  height: 38px;
+}
+#sidebar .sidebar-content a span {
+  display: inline-block;
+  padding: 0 20px;
+}
+#sidebar .sidebar-content a:hover {
+  color: #fff;
+}
+#sidebar .sidebar-bottom {
+  border-top: 1px solid rgba(0,0,0,0.18);
+  bottom: 0;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset;
+  position: absolute;
+  width: 180px;
+  color: rgba(255,255,255,0.45);
+  display: block;
+  line-height: 48px;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.66);
+  height: 48px;
+}
+#sidebar .sidebar-bottom .app-settings {
+  height: 20px;
+  width: 20px;
+  background: url("/images/icon-action.png") 0 -340px no-repeat;
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
+#content {
+  bottom: 0;
+  left: 181px;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#content .content-layout {
+  height: 100%;
+}
+#content .content-layout .list {
+  background: #fff;
+  border-right: 1px solid #dcdcdc;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 100;
+}
+#content .content-layout .list .list-header {
+  background-color: #f8f8f8;
+  background: -webkit-linear-gradient(#f4f4f4, #eee) repeat 0 0;
+  background: -moz-linear-gradient(#f4f4f4, #eee) repeat 0 0;
+  padding: 12px;
+  border-bottom: 1px solid #dcdcdc;
+}
+#content .content-layout .list .list-header header {
+  font-weight: bold;
+  color: #515151;
+  line-height: 26px;
+}
