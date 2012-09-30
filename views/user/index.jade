@@ -1,5 +1,6 @@
 extends ../layout
-
+append head
+    script(src='/javascripts/user/index.js')
 block content
     .app-layout
         include ../include/app-header
@@ -7,9 +8,36 @@ block content
             include ../include/app-sidebar
             #content
                 .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                                        form.form-horizontal
+                                            .control-group
+                                                label.control-label(for='name') 名字
+                                                .controls
+                                                    input(type='text', placeholder='名称', name='name')
+                                            .control-group
+                                                label.control-label(for='ip') IP
+                                                .controls
+                                                    input(type='text', placeholder='IP', name='ip')
+                                            .control-group
+                                                label.control-label(for='name') 角色
+                                                .controls
+                                                    select
+                                                        option PM
+                                                        option programmer
+                                                        option tester
+                                                        option designer
+                                                        option customer  
+                                            .control-group
+                                                .controls
+                                                    button.btn.btn-primary 创建
                     .list
-                        .list-header
+                        .list-header.clearfix
                             header 成员
-
-
-
+                            .create-wrapper
+                                button.btn.btn-primary 添加成员

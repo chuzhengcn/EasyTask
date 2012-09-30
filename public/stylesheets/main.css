@@ -4,6 +4,7 @@ a:hover {
 button {
   background: none;
   border: none;
+  outline: none;
 }
 .dark-fields input[type="text"],
 .dark-fields input[type="email"],
@@ -24,6 +25,10 @@ button {
 .dark-fields textarea:focus,
 .dark-fields select:focus {
   box-shadow: 0 1px 3px rgba(0,0,0,0.7) inset, 0 1px 0 rgba(0,0,0,0.65), 0 1px 12px rgba(255,255,255,0.65);
+}
+.scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 body {
   background: #333 url("/images/body-bg.png") 0 0 repeat;
@@ -119,7 +124,8 @@ body {
   display: inline-block;
   padding: 0 20px;
 }
-#sidebar .sidebar-content a:hover {
+#sidebar .sidebar-content a:hover,
+#sidebar .sidebar-content a.selected {
   color: #fff;
 }
 #sidebar .sidebar-bottom {
@@ -153,6 +159,53 @@ body {
 #content .content-layout {
   height: 100%;
 }
+#content .content-layout .detail-wrapper {
+  float: right;
+  height: 100%;
+  position: relative;
+  width: 432px;
+  z-index: 99;
+}
+#content .content-layout .detail-wrapper .detail {
+  background-color: #fdfdfd;
+  width: 432px;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#content .content-layout .detail-wrapper .detail section {
+  height: 100%;
+}
+#content .content-layout .detail-wrapper .detail section .action-bar {
+  height: 50px;
+  line-height: 36px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+#content .content-layout .detail-wrapper .detail section .action-bar .button-close-pane {
+  float: right;
+  margin: 16px 8px 0 8px;
+  height: 20px;
+  width: 20px;
+  background: url("/images/icon-action.png") 0 -20px no-repeat;
+}
+#content .content-layout .detail-wrapper .detail section .scrollable {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+#content .content-layout .detail-wrapper .detail section .scrollable .inner {
+  padding-top: 12px;
+}
+#content .content-layout .detail-wrapper .detail section .scrollable .form-horizontal .control-label {
+  width: 80px;
+}
+#content .content-layout .detail-wrapper .detail section .scrollable .form-horizontal .controls {
+  margin-left: 100px;
+}
 #content .content-layout .list {
   background: #fff;
   border-right: 1px solid #dcdcdc;
@@ -165,11 +218,21 @@ body {
   background-color: #f8f8f8;
   background: -webkit-linear-gradient(#f4f4f4, #eee) repeat 0 0;
   background: -moz-linear-gradient(#f4f4f4, #eee) repeat 0 0;
-  padding: 12px;
+  padding: 0 12px;
+  height: 50px;
   border-bottom: 1px solid #dcdcdc;
 }
 #content .content-layout .list .list-header header {
   font-weight: bold;
   color: #515151;
-  line-height: 26px;
+  line-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  float: left;
+  font-size: 16px;
+}
+#content .content-layout .list .list-header .create-wrapper {
+  float: right;
+  padding-top: 10px;
 }
