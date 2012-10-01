@@ -163,7 +163,7 @@ body {
   float: right;
   height: 100%;
   position: relative;
-  width: 432px;
+  width: 0;
   z-index: 99;
 }
 #content .content-layout .detail-wrapper .detail {
@@ -235,4 +235,38 @@ body {
 #content .content-layout .list .list-header .create-wrapper {
   float: right;
   padding-top: 10px;
+}
+.avatar-preview {
+  margin-bottom: 20px;
+}
+.avatar-preview img {
+  max-width: 100px;
+  max-height: 100px;
+}
+.user-list {
+  position: absolute;
+  left: 0;
+  top: 51px;
+  bottom: 0;
+  right: 0;
+}
+.user-list .user-list-wrapper {
+  padding: 20px;
+}
+.user-list .user-list-wrapper .user-item {
+  float: left;
+  width: 300px;
+  height: 120px;
+  overflow: hidden;
+}
+.user-list .user-list-wrapper .user-item img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+.user-list .user-list-wrapper .user-item .item-info {
+  float: left;
+}
+.user-list .user-list-wrapper .user-item .item-info .name {
+  font-weight: bold;
 }

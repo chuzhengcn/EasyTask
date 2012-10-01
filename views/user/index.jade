@@ -15,29 +15,44 @@ block content
                                     button.button-close-pane
                                 .scrollable
                                     .inner
-                                        form.form-horizontal
+                                        form#create_user_form.form-horizontal(action='/users')
                                             .control-group
                                                 label.control-label(for='name') 名字
                                                 .controls
-                                                    input(type='text', placeholder='名称', name='name')
+                                                    input(type='text', autocomplete='off', placeholder='名称', name='name', required='true')
                                             .control-group
                                                 label.control-label(for='ip') IP
                                                 .controls
-                                                    input(type='text', placeholder='IP', name='ip')
+                                                    input(type='text', autocomplete='off', placeholder='IP', name='ip', required='true')
                                             .control-group
-                                                label.control-label(for='name') 角色
+                                                label.control-label(for='role') 角色
                                                 .controls
-                                                    select
-                                                        option PM
-                                                        option programmer
-                                                        option tester
-                                                        option designer
-                                                        option customer  
+                                                    select(name='role')
+                                                        option(value='PM') PM
+                                                        option(value='Programmer') Programmer
+                                                        option(value='Tester') Tester
+                                                        option(value='Designer') Designer
+                                                        option(value='Customer') Customer
+                                            .control-group
+                                                label.control-label(for='avatar') 头像
+                                                .controls
+                                                    input(type='file')
+                                            .controls-group
+                                                .controls
+                                                    .avatar-preview
+                                                       img.img-polaroid(src='/images/blank-avatar.jpg') 
                                             .control-group
                                                 .controls
-                                                    button.btn.btn-primary 创建
+                                                    button#create_user_btn.btn.btn-primary 添加
                     .list
                         .list-header.clearfix
                             header 成员
                             .create-wrapper
                                 button.btn.btn-primary 添加成员
+                        .user-list.scrollable
+                            .user-list-wrapper.clearfix
+                                .user-item
+                                    img(src='/images/blank-avatar.jpg')
+                                    .name 火柴
+                                    .role
+                                        em 开发
