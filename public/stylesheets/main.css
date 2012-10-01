@@ -255,18 +255,21 @@ body {
 }
 .user-list .user-list-wrapper .user-item {
   float: left;
-  width: 300px;
-  height: 120px;
+  width: 250px;
+  height: 80px;
   overflow: hidden;
+  color: #333;
 }
 .user-list .user-list-wrapper .user-item img {
+  float: left;
   width: 50px;
   height: 50px;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 .user-list .user-list-wrapper .user-item .item-info {
   float: left;
 }
 .user-list .user-list-wrapper .user-item .item-info .name {
+  padding: 5px 5px 10px 0;
   font-weight: bold;
 }
