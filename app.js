@@ -28,6 +28,11 @@ var user    = require('./routes/user')
 app.get('/',                user.list)
 app.get('/users',           user.list)
 app.post('/users',          user.create)
+app.get('/users/:id',       user.show)
+app.put('/users/:id',       user.update)
+app.delete('/users/:id',    user.delete)
+
+
 //---------------------------------------------------------------
 http.createServer(app).listen(app.get('port'), function(){
     console.log("EasyTask server listening on port " + app.get('port'))

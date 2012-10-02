@@ -1,7 +1,14 @@
 var user_coll = require('../db/user')
 
 exports.list = function(req, res) {
-    res.render('user/index', { title: '用户列表' })
+    user_coll.findAll(function(err, userListResult) {
+        res.render('user/index', 
+            { 
+                title   : '用户列表' ,
+                users   : userListResult
+            }
+        )
+    })
 }
 
 exports.create = function(req, res) {
@@ -16,6 +23,34 @@ exports.create = function(req, res) {
             return
         }
 
+        res.send({ ok : 1 })
+    })
+}
+
+exports.show = function(req, res) {
+    user_coll.findById(req.params.id, function(err, userInfoResult) {
+        res.render('user/info', 
+            { 
+                title   : userInfoResult.name ,
+                user    : userInfoResult
+            }
+        )
+    }) 
+}
+
+exports.update = function(req, res) {
+    user_coll.findById(req.params.id, function(err, userInfoResult) {
+        res.render('user/info', 
+            { 
+                title   : userInfoResult.name ,
+                user    : userInfoResult
+            }
+        )
+    }) 
+}
+
+exports.delete = function(req, res) {
+    user_coll.removeById(req.params.id, function(err, result) {
         res.send({ ok : 1 })
     })
 }

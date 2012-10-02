@@ -15,3 +15,16 @@ app.utility = {
         $('#content .detail-wrapper').animate({ width : '0px' })
     }
 }
+
+app.viewhelper = {
+    setSelect : function(selectId) {
+        var defauleValue = $('#' + selectId).data('originName')
+        $('#' + selectId).change(function() {
+            $('#' + selectId + ' option').each(function() {
+                if ($(this).val() == defauleValue) {
+                   $(this).attr('selected', 'selected')
+                }
+            })
+        }).change() 
+    }
+}

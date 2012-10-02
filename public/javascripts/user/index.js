@@ -6,7 +6,7 @@
     })
 
     function eventBind() {
-        $('.create-wrapper button').click(function() {
+        $('.operate-wrapper button').click(function() {
             app.utility.showRightSideBar()
         })
 

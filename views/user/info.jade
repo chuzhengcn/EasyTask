@@ -1,6 +1,6 @@
 extends ../layout
 append head
-    script(src='/javascripts/user/index.js')
+    script(src='/javascripts/user/info.js')
 block content
     .app-layout
         include ../include/app-header
@@ -15,19 +15,20 @@ block content
                                     button.button-close-pane
                                 .scrollable
                                     .inner
-                                        form#create_user_form.form-horizontal(action='/users')
+                                        form#edit_user_form.form-horizontal(action='/users')
+                                            input(type='hidden', value='#{user._id}', name='id')
                                             .control-group
                                                 label.control-label(for='name') 名字
                                                 .controls
-                                                    input(type='text', autocomplete='off', placeholder='名称', name='name', required='true')
+                                                    input(type='text', value='#{user.name}', autocomplete='off', placeholder='名称', name='name', required='true')
                                             .control-group
                                                 label.control-label(for='ip') IP
                                                 .controls
-                                                    input(type='text', autocomplete='off', placeholder='IP', name='ip', required='true')
+                                                    input(type='text', value='#{user.ip}', autocomplete='off', placeholder='IP', name='ip', required='true')
                                             .control-group
                                                 label.control-label(for='role') 角色
                                                 .controls
-                                                    select(name='role')
+                                                    select#role_select(name='role', data-origin-name='#{user.role}')
                                                         option(value='PM') PM
                                                         option(value='Programmer') Programmer
                                                         option(value='Tester') Tester
@@ -43,19 +44,23 @@ block content
                                                        img.img-rounded.img-polaroid(src='/images/blank-avatar.jpg') 
                                             .control-group
                                                 .controls
-                                                    button#create_user_btn.btn.btn-primary 添加
+                                                    button#edit_user_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
-                            header 成员
+                            header
+                                ul.breadcrumb
+                                    li
+                                        a(href='/users') 成员
+                                        span.divider /
+                                    li.active #{user.name}
                             .operate-wrapper
-                                button.btn.btn-primary 添加成员
+                                button.btn.btn-primary 编辑
+                                button.btn.btn-danger 删除
                         .user-list.scrollable
-                            .user-list-wrapper.clearfix
-                                - each user in users
-                                    a.user-item(href='/users/#{user._id}')
-                                        img.img-rounded.img-polaroid(src='/images/blank-avatar.jpg')
-                                        .item-info
-                                            .name #{user.name}
-                                            small
-                                                em #{user.role}
-                                            .ip #{user.ip}
+                            .user-info-wrapper.clearfix
+                                .pull-left
+                                    img.img-rounded.img-polaroid(src='/images/blank-avatar.jpg')
+                                .pull-left
+                                    h4 #{user.name}
+                                    p #{user.role}
+                                    p #{user.ip}

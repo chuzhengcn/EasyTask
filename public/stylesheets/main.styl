@@ -195,9 +195,15 @@ body
                     white-space nowrap
                     float left
                     font-size 16px
-                .create-wrapper
+                    .breadcrumb
+                        padding 0
+                        margin 0
+                        background none
+                .operate-wrapper
                     float right
                     padding-top 10px
+                    button
+                        margin-right 10px
 //----------------------user-list----------------------------------------
 .avatar-preview
     margin-bottom 20px
@@ -215,16 +221,30 @@ body
         .user-item
             float left
             width 250px
-            height 80px
+            height 70px
             overflow hidden
             color #333
+            border solid 1px #fff
+            padding 5px
+            margin 0 20px 20px 0
+            &:hover
+                border-radius 6px
+                box-shadow 0 1px 12px rgba(0, 0, 0, 0.2) inset, 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 12px  rgba(255, 255, 255, 0.65) inset
             img
                 float left
-                width 50px
-                height 50px
+                width 60px
+                height 60px
                 margin-right 15px
             .item-info
                 float left
                 .name
-                    padding 5px 5px 10px 0
+                    padding 5px 5px 0 0
                     font-weight bold
+//----------------------user-info----------------------------------------
+.user-info-wrapper
+    padding 20px
+    border-bottom solid 1px #dfdfdf
+    img
+        width 90px
+        height 90px
+        margin-right 20px
