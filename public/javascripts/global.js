@@ -13,6 +13,22 @@ app.utility = {
     },
     hideRightSideBar : function() {
         $('#content .detail-wrapper').animate({ width : '0px' })
+    },
+    isImage : function(fileType) {
+        if (/image/.test(fileType)) {
+            return true
+        } else {
+            return false
+        }
+    },
+    createObjectURL : function (blob) {
+        if (window.URL) {
+            return window.URL.createObjectURL(blob)
+        } else if (window.webkitURL) {
+            return window.webkitURL.createObjectURL(blob)
+        } else {
+            return null
+        }
     }
 }
 

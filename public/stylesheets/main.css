@@ -201,10 +201,10 @@ body {
   padding-top: 12px;
 }
 #content .content-layout .detail-wrapper .detail section .scrollable .form-horizontal .control-label {
-  width: 80px;
+  width: 70px;
 }
 #content .content-layout .detail-wrapper .detail section .scrollable .form-horizontal .controls {
-  margin-left: 100px;
+  margin-left: 90px;
 }
 #content .content-layout .list {
   background: #fff;
@@ -244,12 +244,19 @@ body {
 #content .content-layout .list .list-header .operate-wrapper button {
   margin-right: 10px;
 }
+#create_user_btn {
+  margin-top: 20px;
+}
+#upload_avatar_btn {
+  margin-left: 10px;
+  display: none;
+}
 .avatar-preview {
-  margin-bottom: 20px;
+  height: 90px;
 }
 .avatar-preview img {
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 80px;
+  max-height: 80px;
 }
 .user-list {
   position: absolute;

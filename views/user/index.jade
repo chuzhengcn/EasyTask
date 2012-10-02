@@ -36,11 +36,13 @@ block content
                                             .control-group
                                                 label.control-label(for='avatar') 头像
                                                 .controls
-                                                    input(type='file')
-                                            .controls-group
-                                                .controls
                                                     .avatar-preview
                                                        img.img-rounded.img-polaroid(src='/images/blank-avatar.jpg') 
+                                                       input(type='hidden', name='avatar_url')
+                                            .controls-group
+                                                .controls
+                                                    input#upload_avatar_input(type='file', name='avatar')
+                                                    button#upload_avatar_btn.btn.btn-info 开始上传
                                             .control-group
                                                 .controls
                                                     button#create_user_btn.btn.btn-primary 添加
