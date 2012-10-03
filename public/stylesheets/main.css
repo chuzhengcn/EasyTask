@@ -247,10 +247,6 @@ body {
 #create_user_btn {
   margin-top: 20px;
 }
-#upload_avatar_btn {
-  margin-left: 10px;
-  display: none;
-}
 .avatar-preview {
   height: 90px;
 }
@@ -303,4 +299,7 @@ body {
   max-width: 90px;
   max-height: 90px;
   margin-right: 20px;
+}
+#edit_user_btn {
+  margin-top: 20px;
 }

@@ -15,7 +15,7 @@ block content
                                     button.button-close-pane
                                 .scrollable
                                     .inner
-                                        form#edit_user_form.form-horizontal(action='/users')
+                                        form#edit_user_form.form-horizontal(action='/users/#{user._id}')
                                             input(type='hidden', value='#{user._id}', name='id')
                                             .control-group
                                                 label.control-label(for='name') 名字
@@ -35,13 +35,15 @@ block content
                                                         option(value='Designer') Designer
                                                         option(value='Customer') Customer
                                             .control-group
-                                                label.control-label(for='avatar') 头像
-                                                .controls
-                                                    input(type='file')
-                                            .controls-group
+                                                label.control-label(for='avatar_url') 头像
                                                 .controls
                                                     .avatar-preview
                                                        img.img-rounded.img-polaroid(src='#{user.avatar_url}') 
+                                                       input(type='hidden', name='avatar_url', value='#{user.avatar_url}')
+                                            .controls-group
+                                                label.control-label(for='avatar') 更换头像
+                                                .controls
+                                                    input#upload_avatar_input(type='file', name='avatar')
                                             .control-group
                                                 .controls
                                                     button#edit_user_btn.btn.btn-primary 更新

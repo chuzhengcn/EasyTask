@@ -33,9 +33,9 @@ app.put('/users/:id',       user.update)
 app.delete('/users/:id',    user.delete)
 //-----upload----------------------------------------------
 var upload    = require('./routes/upload')
-app.post('/upload-avatar',   upload.createAvatar)
-
-
+app.post('/upload-avatar',              upload.createAvatar)
+app.put('/upload-avatar/:file_name',    upload.updateAvatar)
+app.delete('/upload-avatar/:file_name', upload.deleteAvatar)
 //---------------------------------------------------------------
 http.createServer(app).listen(app.get('port'), function(){
     console.log("EasyTask server listening on port " + app.get('port'))

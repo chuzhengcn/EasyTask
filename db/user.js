@@ -13,6 +13,10 @@ exports.findById = function(id, cb) {
     user_coll.findById(id, cb)
 }
 
+exports.updateById = function(id, userDoc, cb) {
+    user_coll.updateById(id, { $set : userDoc }, cb)
+}
+
 exports.removeById = function(id, cb) {
     user_coll.removeById(id, cb)
 }
