@@ -16,6 +16,7 @@ exports.create = function(req, res) {
         name            : req.body.name,
         ip              : req.body.ip,
         role            : req.body.role,
+        avatar_url      : req.body.avatar_url,
         created_time    : new Date()
     }, function(err, result) {
         if (err) {

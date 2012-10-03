@@ -23,7 +23,7 @@ block content
                                             .control-group
                                                 label.control-label(for='ip') IP
                                                 .controls
-                                                    input(type='text', autocomplete='off', placeholder='IP', name='ip', required='true')
+                                                    input(type='text', autocomplete='off', placeholder='IP', name='ip', required='true', pattern='\d+\.\d+\.\d+\.\d+')
                                             .control-group
                                                 label.control-label(for='role') 角色
                                                 .controls
@@ -42,7 +42,6 @@ block content
                                             .controls-group
                                                 .controls
                                                     input#upload_avatar_input(type='file', name='avatar')
-                                                    button#upload_avatar_btn.btn.btn-info 开始上传
                                             .control-group
                                                 .controls
                                                     button#create_user_btn.btn.btn-primary 添加
@@ -55,7 +54,7 @@ block content
                             .user-list-wrapper.clearfix
                                 - each user in users
                                     a.user-item(href='/users/#{user._id}')
-                                        img.img-rounded.img-polaroid(src='/images/blank-avatar.jpg')
+                                        img.img-rounded.img-polaroid(src='#{user.avatar_url}')
                                         .item-info
                                             .name #{user.name}
                                             small

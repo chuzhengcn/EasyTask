@@ -41,7 +41,7 @@ block content
                                             .controls-group
                                                 .controls
                                                     .avatar-preview
-                                                       img.img-rounded.img-polaroid(src='/images/blank-avatar.jpg') 
+                                                       img.img-rounded.img-polaroid(src='#{user.avatar_url}') 
                                             .control-group
                                                 .controls
                                                     button#edit_user_btn.btn.btn-primary 更新
@@ -59,7 +59,8 @@ block content
                         .user-list.scrollable
                             .user-info-wrapper.clearfix
                                 .pull-left
-                                    img.img-rounded.img-polaroid(src='/images/blank-avatar.jpg')
+                                    a(href='#{user.avatar_url}')
+                                        img.img-rounded.img-polaroid(src='#{user.avatar_url}')
                                 .pull-left
                                     h4 #{user.name}
                                     p #{user.role}

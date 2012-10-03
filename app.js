@@ -12,7 +12,7 @@ app.configure(function(){
     app.set('view engine', 'jade')
     app.use(express.favicon(__dirname + '/public/images/favicon.ico'))
     app.use(express.logger('dev'))
-    app.use(express.bodyParser({keepExtensions: true}))
+    app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname }))
     app.use(express.methodOverride())
     app.use(app.router)
     app.use(stylus.middleware({src: path.join(__dirname, 'public')}))
@@ -23,9 +23,8 @@ app.configure('development', function(){
     app.use(express.errorHandler())
 })
 //-----------------------route-----------------------------------
-//----user--------------------
+//----user------------------------------------------------------
 var user    = require('./routes/user')
-
 app.get('/',                user.list)
 app.get('/users',           user.list)
 app.post('/users',          user.create)
@@ -34,7 +33,6 @@ app.put('/users/:id',       user.update)
 app.delete('/users/:id',    user.delete)
 //-----upload----------------------------------------------
 var upload    = require('./routes/upload')
-
 app.post('/upload-avatar',   upload.createAvatar)
 
 
