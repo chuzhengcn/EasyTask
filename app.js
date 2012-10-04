@@ -23,15 +23,19 @@ app.configure('development', function(){
     app.use(express.errorHandler())
 })
 //-----------------------route-----------------------------------
-//----user------------------------------------------------------
+//---------task--------------------------------------------------
+var task = require('./routes/task')
+app.get('/',        task.list)
+app.get('/tasks',   task.list)
+app.post('/tasks',  task.create)
+//---------user------------------------------------------------------
 var user    = require('./routes/user')
-app.get('/',                user.list)
 app.get('/users',           user.list)
 app.post('/users',          user.create)
 app.get('/users/:id',       user.show)
 app.put('/users/:id',       user.update)
 app.delete('/users/:id',    user.delete)
-//-----upload----------------------------------------------
+//---------upload----------------------------------------------
 var upload    = require('./routes/upload')
 app.post('/upload-avatar',              upload.createAvatar)
 app.put('/upload-avatar/:file_name',    upload.updateAvatar)

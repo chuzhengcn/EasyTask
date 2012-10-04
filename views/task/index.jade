@@ -1,0 +1,49 @@
+extends ../layout
+append head
+    script(src='/javascripts/task/index.js')
+block content
+    .app-layout
+        include ../include/app-header
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                                        form#create_task_form.form-horizontal(action='/tasks')
+                                            .control-group
+                                                label.control-label(for='name') 任务名
+                                                .controls
+                                                    input(type='text', autocomplete='off', placeholder='任务名', name='name', required='true')
+                                            .control-group
+                                                label.control-label(for='task_users') 参与者
+                                                .controls
+                                                    input(type='text',name='task_users',list="task_users_option", autocomplete='off')
+                                                    input(type='text',name='task_users',list="task_users_option", autocomplete='off')
+                                                    input(type='text',name='task_users',list="task_users_option", autocomplete='off')
+                                                    a#add_more_task_user(href='#')
+                                                        i.icon-plus
+                                                        | 更多参与者 
+                                                    datalist#task_users_option
+                                                        - each user in users
+                                                            option(value='#{user.name}') #{user.role}
+                                            .control-group
+                                                .controls
+                                                    button#create_task_btn.btn.btn-primary 添加
+                    .list
+                        .list-header.clearfix
+                            header 任务
+                            .operate-wrapper
+                                button.btn.btn-primary 添加任务
+                        .list-body.scrollable
+                            ul.task-list.unstyled
+                                - each task in tasks
+                                    li 
+                                        a.clearfix(href='/tasks/#{task._id}') 
+                                            span.task-custom-id #{task.task_id}
+                                            span.task-name #{task.name}

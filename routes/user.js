@@ -5,13 +5,13 @@ var upload          = require('./upload')
 var routeApp        = require('./app')
 
 exports.list = function(req, res) {
-    routeApp.identifying(req, function(user) {
+    routeApp.identifying(req, function(loginUser) {
         user_coll.findAll(function(err, userListResult) {
             res.render('user/index', 
                 { 
-                    title   : '用户列表' ,
-                    users   : userListResult,
-                    user    : user
+                    title      : '用户列表' ,
+                    users      : userListResult,
+                    me         : loginUser
                 }
             )
         })
@@ -36,14 +36,17 @@ exports.create = function(req, res) {
 }
 
 exports.show = function(req, res) {
-    user_coll.findById(req.params.id, function(err, userInfoResult) {
-        res.render('user/info', 
-            { 
-                title   : userInfoResult.name ,
-                user    : userInfoResult
-            }
-        )
-    }) 
+    routeApp.identifying(req, function(loginUser) {
+        user_coll.findById(req.params.id, function(err, userInfoResult) {
+            res.render('user/info', 
+                { 
+                    title   : userInfoResult.name ,
+                    user    : userInfoResult,
+                    me      : loginUser
+                }
+            )
+        })
+    })
 }
 
 exports.update = function(req, res) {
@@ -67,7 +70,7 @@ exports.delete = function(req, res) {
         var fileName = result.avatar_url.split('/')[result.avatar_url.split('/').length - 1]
         fs.exists(avatarLocalDir + fileName, function(exists) {
             if (exists) {
-                fs.unlink(avatarLocalDir + fileName, function () {
+                fs.unlink(avatarLocalDir + fileName, function() {
                     deleteUserInfo(req, res) 
                 })
             } else {

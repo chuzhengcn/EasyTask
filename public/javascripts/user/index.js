@@ -21,7 +21,7 @@
         })
 
         $('#create_user_btn').click(function(event) {           
-            if (form_is_valid('create_user_form')) {
+            if (app.utility.isValidForm('create_user_form')) {
                 if (needAvatar()) {
                     satrtUpload(startCreateUser)
                 } else {
@@ -49,11 +49,6 @@
                 }
             }
         })
-    }
-
-    function form_is_valid(formId) {
-        var valid = document.getElementById(formId).checkValidity()
-        return valid
     }
 
     function createUserIsWorking() {

@@ -2,7 +2,7 @@ header#header
     a#logo(href='/') 平台项目进度表
     .search.dark-fields
         input(type='search', autocomplete='off')
-    - if (user !== null)
-        a.user-avatar(href='/users/#{user._id}')
-            span  #{user.name}
-            img(src='#{user.avatar_url}')
+    - if (me !== null)
+        a.user-avatar(href='/users/#{me._id}')
+            span  #{me.name}
+            img(src='#{me.avatar_url}')

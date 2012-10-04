@@ -303,3 +303,36 @@ body {
 #edit_user_btn {
   margin-top: 20px;
 }
+#add_more_task_user {
+  display: block;
+}
+#add_more_task_user i {
+  margin-right: 5px;
+}
+input[name='task_users'] {
+  margin-bottom: 10px;
+}
+.list-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 51px;
+}
+.list-body .task-list {
+  background-color: #e9eef7;
+}
+.list-body .task-list li {
+  border-bottom: 1px solid #ebebeb;
+}
+.list-body .task-list li a {
+  color: rgba(0,0,0,0.85);
+  display: block;
+  padding: 7px 15px 7px 15px;
+  border-top: solid 1px #dae2f2;
+}
+.list-body .task-list li a .task-custom-id {
+  width: 40px;
+  float: left;
+  margin-right: 10px;
+}

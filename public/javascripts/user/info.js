@@ -31,7 +31,7 @@
         })
 
         $('#edit_user_btn').click(function(event) {
-            if (form_is_valid('edit_user_form')) {
+            if (app.utility.isValidForm('edit_user_form')) {
                 if (needChangeAvatar()) {
                     satrtUpload(startEditUser)
                 } else {
@@ -73,11 +73,6 @@
                 }
             })
         }
-    }
-
-    function form_is_valid(formId) {
-        var valid = document.getElementById(formId).checkValidity()
-        return valid
     }
 
     function editUserIsWorking() {

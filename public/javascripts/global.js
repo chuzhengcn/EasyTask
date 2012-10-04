@@ -29,6 +29,10 @@ app.utility = {
         } else {
             return null
         }
+    },
+    isValidForm : function(formId) {
+        var valid = document.getElementById(formId).checkValidity()
+        return valid
     }
 }
 
