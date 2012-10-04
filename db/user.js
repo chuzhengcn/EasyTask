@@ -13,6 +13,11 @@ exports.findById = function(id, cb) {
     user_coll.findById(id, cb)
 }
 
+exports.findByIp = function(ip, cb) {
+	// ip must be unique, todo：create method ensure ip must be unique
+	user_coll.findOne({ip : ip}, cb)
+}
+
 exports.updateById = function(id, userDoc, cb) {
     user_coll.updateById(id, { $set : userDoc }, cb)
 }

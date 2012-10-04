@@ -2,6 +2,7 @@ header#header
     a#logo(href='/') 平台项目进度表
     .search.dark-fields
         input(type='search', autocomplete='off')
-    a.user-avatar(href='')
-        span  正正
-        img(src='http://192.168.10.102/system/avatars/1/original/chuzheng.jpg?1321001276')
+    - if (user !== null)
+        a.user-avatar(href='/users/#{user._id}')
+            span  #{user.name}
+            img(src='#{user.avatar_url}')

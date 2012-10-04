@@ -2,16 +2,20 @@ var user_coll       = require('../db/user')
 var fs              = require('fs')
 var avatarLocalDir  = __dirname + '/../public/attachments/avatar/'
 var upload          = require('./upload')
+var routeApp        = require('./app')
 
 exports.list = function(req, res) {
-    user_coll.findAll(function(err, userListResult) {
-        res.render('user/index', 
-            { 
-                title   : '用户列表' ,
-                users   : userListResult
-            }
-        )
-    })
+    routeApp.identifying(req, function(user) {
+        user_coll.findAll(function(err, userListResult) {
+            res.render('user/index', 
+                { 
+                    title   : '用户列表' ,
+                    users   : userListResult,
+                    user    : user
+                }
+            )
+        })
+    }) 
 }
 
 exports.create = function(req, res) {
@@ -60,18 +64,17 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
     //delete avatar
     user_coll.findById(req.params.id, function(err, result) {
-        console.log(result)
         var fileName = result.avatar_url.split('/')[result.avatar_url.split('/').length - 1]
         fs.exists(avatarLocalDir + fileName, function(exists) {
             if (exists) {
                 fs.unlink(avatarLocalDir + fileName, function () {
-                    // delete user-info
-                    user_coll.removeById(req.params.id, function(err, result) {
-                        res.send({ ok : 1 })
-                    })
+                    deleteUserInfo(req, res) 
                 })
             } else {
-                // delete user-info
+                deleteUserInfo(req, res)     
+            }
+            // delete user-info
+            function deleteUserInfo(req, res) {
                 user_coll.removeById(req.params.id, function(err, result) {
                     res.send({ ok : 1 })
                 })
