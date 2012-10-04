@@ -20,6 +20,25 @@ exports.list = function(req, res) {
     })
 }
 
+exports.show = function(req, res) {
+    routeApp.identifying(req, function(loginUser) {
+        task_coll.findById(req.params.id, function(err, task) {
+                if (!task) {
+                    res.redirect('/404')
+                    return
+                }
+                
+                res.render('task/info', 
+                    { 
+                        title   : task.name, 
+                        me      : loginUser, 
+                        task    : task
+                    } 
+                )
+        }) 
+    })
+}
+
 exports.create = function(req, res) {
     routeApp.ownAuthority(req, function(isOwn, operator) {
         if (!isOwn) {
@@ -52,6 +71,28 @@ exports.create = function(req, res) {
                 }
             )
         }) 
+    })
+}
+
+exports.delete = function(req, res) {
+    routeApp.ownAuthority(req, function(isOwn, operator) {
+        if (!isOwn) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+        task_coll.findById(req.params.id, function(err, result) {
+            task_coll.removeById(req.params.id, function(err) {
+                res.send({ ok : 1 })
+                routeApp.createLogItem({
+                    operator_id     : operator._id,
+                    operator_name   : operator.name,
+                    event_time      : new Date(),
+                    event_name      : result.name,
+                    event_id        : result._id,
+                    log_type        : 2
+                })
+            }) 
+        })
     })
 }
 

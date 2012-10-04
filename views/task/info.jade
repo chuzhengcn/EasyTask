@@ -1,0 +1,69 @@
+extends ../layout
+append head
+    script(src='/javascripts/task/info.js')
+block content
+    .app-layout
+        include ../include/app-header
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                                        //- form#edit_user_form.form-horizontal(action='/users/#{user._id}')
+                                        //-     input(type='hidden', value='#{user._id}', name='id')
+                                        //-     .control-group
+                                        //-         label.control-label(for='name') 名字
+                                        //-         .controls
+                                        //-             input(type='text', value='#{user.name}', autocomplete='off', placeholder='名称', name='name', required='true')
+                                        //-     .control-group
+                                        //-         label.control-label(for='ip') IP
+                                        //-         .controls
+                                        //-             input(type='text', value='#{user.ip}', autocomplete='off', placeholder='IP', name='ip', required='true')
+                                        //-     .control-group
+                                        //-         label.control-label(for='role') 角色
+                                        //-         .controls
+                                        //-             select#role_select(name='role', data-origin-name='#{user.role}')
+                                        //-                 option(value='PM') PM
+                                        //-                 option(value='Programmer') Programmer
+                                        //-                 option(value='Tester') Tester
+                                        //-                 option(value='Designer') Designer
+                                        //-                 option(value='Customer') Customer
+                                        //-     .control-group
+                                        //-         label.control-label(for='avatar_url') 头像
+                                        //-         .controls
+                                        //-             .avatar-preview
+                                        //-                img.img-rounded.img-polaroid(src='#{user.avatar_url}') 
+                                        //-                input(type='hidden', name='avatar_url', value='#{user.avatar_url}')
+                                        //-     .controls-group
+                                        //-         label.control-label(for='avatar') 更换头像
+                                        //-         .controls
+                                        //-             input#upload_avatar_input(type='file', name='avatar')
+                                        //-     .control-group
+                                        //-         .controls
+                                        //-             button#edit_user_btn.btn.btn-primary 更新
+                    .list
+                        .list-header.clearfix
+                            header
+                                ul.breadcrumb
+                                    li
+                                        a(href='/tasks') 任务
+                                        span.divider /
+                                    li.active #{task.task_id} - #{task.name}
+                            .operate-wrapper
+                                //- button.btn.btn-primary 编辑
+                                button.btn.btn-danger(data-id='#{task._id}') 删除
+                        //- .user-list.scrollable
+                        //-     .user-info-wrapper.clearfix
+                        //-         .pull-left
+                        //-             a(href='#{user.avatar_url}')
+                        //-                 img.img-rounded.img-polaroid(src='#{user.avatar_url}')
+                        //-         .pull-left
+                        //-             h4 #{user.name}
+                        //-             p #{user.role}
+                        //-             p #{user.ip}

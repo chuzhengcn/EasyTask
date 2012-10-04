@@ -38,6 +38,10 @@ exports.create = function(req, res) {
 exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         user_coll.findById(req.params.id, function(err, userInfoResult) {
+            if (!userInfoResult) {
+                res.redirect('/404')
+                return
+            }
             res.render('user/info', 
                 { 
                     title   : userInfoResult.name ,

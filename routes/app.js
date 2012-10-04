@@ -1,7 +1,8 @@
 var user_coll       = require('../db/user')
 var log_coll        = require('../db/log')
 var logType = {
-    createTask : 1
+    createTask  : 1,
+    deleteTask  : 2,  
 }
 
 exports.identifying = function (req, cb) {

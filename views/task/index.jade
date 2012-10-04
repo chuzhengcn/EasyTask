@@ -44,6 +44,6 @@ block content
                             ul.task-list.unstyled
                                 - each task in tasks
                                     li 
-                                        a.clearfix(href='/tasks/#{task._id}') 
+                                        a(href='/tasks/#{task._id}') 
                                             span.task-custom-id #{task.task_id}
-                                            span.task-name #{task.name}
+                                            span #{task.name}

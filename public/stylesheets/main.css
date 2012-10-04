@@ -336,3 +336,18 @@ input[name='task_users'] {
   float: left;
   margin-right: 10px;
 }
+.err-404 {
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 30px;
+  padding-top: 200px;
+}
+.err-404 .tip {
+  padding-top: 20px;
+  font-size: 14px;
+}
+.err-404 .tip a {
+  color: #fff;
+  text-decoration: underline;
+}
