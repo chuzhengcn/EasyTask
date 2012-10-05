@@ -23,18 +23,21 @@ exports.list = function(req, res) {
 exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         task_coll.findById(req.params.id, function(err, task) {
-                if (!task) {
-                    res.redirect('/404')
-                    return
-                }
-                
+            if (!task) {
+                res.redirect('/404')
+                return
+            }
+
+            user_coll.findTaskUsers(task.task_users, function(err, usersResult) {
                 res.render('task/info', 
                     { 
-                        title   : task.name, 
-                        me      : loginUser, 
-                        task    : task
+                        title       : task.name, 
+                        me          : loginUser, 
+                        task        : task,
+                        taskUsers   : usersResult,
                     } 
                 )
+            })
         }) 
     })
 }
@@ -64,8 +67,8 @@ exports.create = function(req, res) {
                         operator_id     : operator._id,
                         operator_name   : operator.name,
                         event_time      : result[0].created_time,
-                        event_name      : result[0].name,
-                        event_id        : result[0]._id,
+                        event_target    : result[0].name,
+                        event_target_id : result[0]._id,
                         log_type        : 1
                     })
                 }
@@ -75,23 +78,24 @@ exports.create = function(req, res) {
 }
 
 exports.archive = function(req, res) {
-    // todo
-    // routeApp.identifying(req, function(loginUser) {
-    //     task_coll.findById(req.params.id, function(err, task) {
-    //             if (!task) {
-    //                 res.redirect('/404')
-    //                 return
-    //             }
-                
-    //             res.render('task/info', 
-    //                 { 
-    //                     title   : task.name, 
-    //                     me      : loginUser, 
-    //                     task    : task
-    //                 } 
-    //             )
-    //     }) 
-    // })
+    routeApp.ownAuthority(req, function(isOwn, operator) {
+        if (!isOwn) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        task_coll.findAndModifyById(req.params.id, { active : false }, function(err, result) {
+            res.send({ ok : 1 })
+            routeApp.createLogItem({
+                operator_id     : operator._id,
+                operator_name   : operator.name,
+                event_time      : new Date(),
+                event_target    : result.name,
+                event_target_id : result._id,
+                log_type        : 3
+            })
+        })
+    })
 }
 
 exports.delete = function(req, res) {
@@ -107,8 +111,8 @@ exports.delete = function(req, res) {
                     operator_id     : operator._id,
                     operator_name   : operator.name,
                     event_time      : new Date(),
-                    event_name      : result.name,
-                    event_id        : result._id,
+                    event_target    : result.name,
+                    event_target_id : result._id,
                     log_type        : 2
                 })
             }) 

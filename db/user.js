@@ -25,3 +25,7 @@ exports.updateById = function(id, userDoc, cb) {
 exports.removeById = function(id, cb) {
     user_coll.removeById(id, cb)
 }
+
+exports.findTaskUsers = function(userNameArray, cb) {
+    user_coll.find({name : {$in : userNameArray}}).toArray(cb)
+}

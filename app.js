@@ -25,11 +25,12 @@ app.configure('development', function(){
 //-----------------------route-----------------------------------
 //---------task--------------------------------------------------
 var task = require('./routes/task')
-app.get('/',        task.list)
-app.get('/tasks',   task.list)
-app.post('/tasks',  task.create)
-app.get('/tasks/:id',  task.show)
-app.delete('/tasks/:id',    task.delete)
+app.get('/',                    task.list)
+app.get('/tasks',               task.list)
+app.post('/tasks',              task.create)
+app.get('/tasks/:id',           task.show)
+app.delete('/tasks/:id',        task.delete)
+app.put('/tasks/:id/archive',   task.archive)
 //---------user------------------------------------------------------
 var user    = require('./routes/user')
 app.get('/users',           user.list)

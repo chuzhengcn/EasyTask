@@ -57,14 +57,16 @@ block content
                                     li.active(data-id='#{task._id}') #{task.task_id} - #{task.name}
                             .operate-wrapper
                                 button.btn.btn-primary.btn-small 编辑
-                                button.btn.btn-inverse.btn-small 存档
-                                button.btn.btn-danger.btn-small 删除
-                        //- .user-list.scrollable
-                        //-     .user-info-wrapper.clearfix
-                        //-         .pull-left
-                        //-             a(href='#{user.avatar_url}')
-                        //-                 img.img-rounded.img-polaroid(src='#{user.avatar_url}')
-                        //-         .pull-left
-                        //-             h4 #{user.name}
-                        //-             p #{user.role}
-                        //-             p #{user.ip}
+                                button#archive_task_btn.btn.btn-inverse.btn-small 存档
+                                button#delete_task_btn.btn.btn-danger.btn-small 删除
+                        .task-summary.scrollable
+                            .task-summary-wrapper.clearfix
+                                .task-users.clearfix
+                                    - each user in taskUsers
+                                        .user
+                                            img.img-polaroid.img-rounded(src='#{user.avatar_url}')
+                                            .info 
+                                                .name #{user.name}
+                                                .role 
+                                                    small 
+                                                        em #{user.role}

@@ -5,8 +5,12 @@
     })
 
     function eventBind() {
-        $('.operate-wrapper button.btn-danger').click(function() {
+        $('#delete_task_btn').click(function() {
             deleteTask()
+        })
+
+        $('#archive_task_btn').click(function() {
+            archiveTask()
         })
     }
 
@@ -26,6 +30,20 @@
                 }
             })
         }
+    }
+
+    function archiveTask() {
+        $.ajax({
+            type        : 'put',
+            url         : '/tasks/' + getTaskId() + '/archive',
+            success     : function(data) {
+                if (data.ok) {
+                    location.href = '/tasks'
+                } else {
+                    alert(data.msg)
+                }
+            }
+        })
     }
 
     function getTaskId() {

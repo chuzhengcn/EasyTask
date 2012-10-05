@@ -14,9 +14,13 @@ exports.findById = function(id, cb) {
 }
 
 exports.updateById = function(id, taskDoc, cb) {
-    task_coll.updateById(id, { $set : taskDoc }, cb)
+    task_coll.updateById(id, { $set : taskDoc }, {safe:true}, cb)
 }
 
 exports.removeById = function(id, cb) {
     task_coll.removeById(id, cb)
+}
+
+exports.findAndModifyById = function(id, taskDoc, cb) {
+    task_coll.findAndModify({ _id : task_coll.id(id) }, {}, { $set : taskDoc}, {new : true}, cb)
 }
