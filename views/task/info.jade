@@ -54,10 +54,11 @@ block content
                                     li
                                         a(href='/tasks') 任务
                                         span.divider /
-                                    li.active #{task.task_id} - #{task.name}
+                                    li.active(data-id='#{task._id}') #{task.task_id} - #{task.name}
                             .operate-wrapper
-                                //- button.btn.btn-primary 编辑
-                                button.btn.btn-danger(data-id='#{task._id}') 删除
+                                button.btn.btn-primary.btn-small 编辑
+                                button.btn.btn-inverse.btn-small 存档
+                                button.btn.btn-danger.btn-small 删除
                         //- .user-list.scrollable
                         //-     .user-info-wrapper.clearfix
                         //-         .pull-left

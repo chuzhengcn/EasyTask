@@ -74,6 +74,26 @@ exports.create = function(req, res) {
     })
 }
 
+exports.archive = function(req, res) {
+    // todo
+    // routeApp.identifying(req, function(loginUser) {
+    //     task_coll.findById(req.params.id, function(err, task) {
+    //             if (!task) {
+    //                 res.redirect('/404')
+    //                 return
+    //             }
+                
+    //             res.render('task/info', 
+    //                 { 
+    //                     title   : task.name, 
+    //                     me      : loginUser, 
+    //                     task    : task
+    //                 } 
+    //             )
+    //     }) 
+    // })
+}
+
 exports.delete = function(req, res) {
     routeApp.ownAuthority(req, function(isOwn, operator) {
         if (!isOwn) {

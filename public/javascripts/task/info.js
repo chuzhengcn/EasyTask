@@ -15,7 +15,7 @@
         if (sure) {
             $.ajax({
                 type        : 'delete',
-                url         : '/tasks/' + $('.operate-wrapper button.btn-danger').data('id'),
+                url         : '/tasks/' + getTaskId(),
                 success     : function(data) {
                     if (data.ok) {
                         alert('删除成功')
@@ -26,5 +26,9 @@
                 }
             })
         }
+    }
+
+    function getTaskId() {
+        return $('.breadcrumb li.active').data('id')
     }
 })()

@@ -239,10 +239,10 @@ body {
 }
 #content .content-layout .list .list-header .operate-wrapper {
   float: right;
-  padding-top: 10px;
+  padding-top: 13px;
 }
 #content .content-layout .list .list-header .operate-wrapper button {
-  margin-right: 10px;
+  margin-left: 10px;
 }
 #create_user_btn {
   margin-top: 20px;
