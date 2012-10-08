@@ -344,7 +344,7 @@ input[name='task_users'] {
   right: 0;
 }
 .task-summary .task-summary-wrapper {
-  padding: 10px 0;
+  padding-bottom: 10px;
 }
 .task-summary .task-summary-wrapper .task-users {
   border-bottom: solid 1px #dfdfdf;
@@ -371,7 +371,8 @@ input[name='task_users'] {
 .task-summary .task-summary-wrapper .task-users .user .info .name {
   margin-bottom: 5px;
 }
-#edit_task_info_form_wrapper {
+#edit_task_info_form_wrapper,
+#edit_task_users_form_wrapper {
   display: none;
 }
 .err-404 {

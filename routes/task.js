@@ -29,14 +29,17 @@ exports.show = function(req, res) {
             }
 
             user_coll.findTaskUsers(task.task_users, function(err, usersResult) {
-                res.render('task/info', 
-                    { 
-                        title       : task.name, 
-                        me          : loginUser, 
-                        task        : task,
-                        taskUsers   : usersResult,
-                    } 
-                )
+                user_coll.findAll(function(err, usersArray) {
+                    res.render('task/info', 
+                        { 
+                            title       : task.name, 
+                            me          : loginUser, 
+                            task        : task,
+                            taskUsers   : usersResult,
+                            users       : usersArray,
+                        } 
+                    )
+                })
             })
         }) 
     })
@@ -133,7 +136,18 @@ exports.update = function(req, res) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
-        task_coll.findAndModifyById(req.params.id, { name : req.body.name }, function(err, result) {
+
+        var updateDoc = {}
+        var log_type  = 5
+        if (req.body.name) {
+            updateDoc = { name : req.body.name }
+        }
+
+        if (req.body.task_users) {
+            updateDoc = { task_users : generateTaskUsers(req) }
+            log_type  = 6
+        }
+        task_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
             res.send({ ok : 1 })
             routeApp.createLogItem({
                 operator_id     : operator._id,
@@ -141,7 +155,7 @@ exports.update = function(req, res) {
                 event_time      : new Date(),
                 event_target    : result.name,
                 event_target_id : result._id,
-                log_type        : 5
+                log_type        : log_type
             })
         })
     })

@@ -18,14 +18,29 @@
             $('#edit_task_info_form_wrapper').show()
         })
 
+        $('#edit_task_users').click(function() {
+            app.utility.showRightSideBar()
+            $('#edit_task_users_form_wrapper').show()
+        })
+
         $('.button-close-pane').click(function() {
             app.utility.hideRightSideBar()
-            $('.inner .task-info_form-wrapper').fadeOut()
+            $('.inner .task-form-wrapper').fadeOut()
         })
 
         $('#edit_task_info_form_btn').click(function(event) {
             var self = this
             readyToEditTaskInfo.call(this, event)
+        })
+
+        $('#edit_task_users_form_btn').click(function(event) {
+            var self = this
+            readyToEditTaskUsers.call(this, event)
+        })
+
+        $('#add_more_task_user').click(function(event) {
+            addMoreTaskUserInput()
+            event.preventDefault()
         })
     }
 
@@ -60,6 +75,7 @@
             }
         })
     }
+
     function readyToEditTaskInfo(event) {
         if (app.utility.isValidForm('edit_task_info_form')) {
             startEditTaskInfo()
@@ -73,16 +89,60 @@
             url         : $('#edit_task_info_form').attr('action'),
             data        : $('#edit_task_info_form').serialize(),
             success     : function(data) {
-                if (data.ok) {
-                    location.href = location.href
-                } else {
+                if (!data.ok) {
                     alert(data.msg)
-                    location.href = location.href
                 }
+                location.href = location.href
             }
         })
     }
 
+    function readyToEditTaskUsers(event) {
+        if (app.utility.isValidForm('edit_task_users_form')) {
+            if (agreePossibleUnknowUser()) {
+                startEditTaskUsers()
+            }
+            event.preventDefault() 
+        }
+    }
+
+    function agreePossibleUnknowUser() {
+        var userOptionArray = [] 
+        var agree           = true
+        $('#task_users_option option').each(function() {
+            userOptionArray.push($(this).val())
+        })
+
+        $('input[name="task_users"]').each(function() {
+            var userName = $(this).val()
+            if (userName !== '') {
+                if (userOptionArray.indexOf(userName) == -1) {
+                    alert('未知参与者\n\n' + userName + '\n\n不能包含该人员')
+                    agree = false
+                }
+            }
+        })
+        return agree
+    }
+
+    function startEditTaskUsers() {
+        $.ajax({
+            type        : 'put',
+            url         : $('#edit_task_users_form').attr('action'),
+            data        : $('#edit_task_users_form').serialize(),
+            success     : function(data) {
+                if (!data.ok) {
+                    alert(data.msg)
+                }
+                location.href = location.href
+            }
+        })
+    }
+
+    function addMoreTaskUserInput() {
+        $('input[name="task_users"]:first').clone().insertBefore($('#add_more_task_user')).val('').focus()
+    }
+    
     function getTaskId() {
         return $('.breadcrumb li.active').data('id')
     }

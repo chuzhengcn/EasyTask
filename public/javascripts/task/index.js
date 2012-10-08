@@ -44,15 +44,14 @@
             var userName = $(this).val()
             if (userName !== '') {
                 if (userOptionArray.indexOf(userName) == -1) {
-                    var sureToUnknownUser = confirm('未知参与者\n\n' + userName + '\n\n是否继续创建该任务？')
-                    if (!sureToUnknownUser) {
-                        agree = false
-                    }
+                    alert('未知参与者\n\n' + userName + '\n\n不能包含该人员')
+                    agree = false
                 }
             }
         })
         return agree
     }
+    
     function readyToCreateTask(event) {
         if (app.utility.isValidForm('create_task_form')) {
             if (agreePossibleUnknowUser()) {

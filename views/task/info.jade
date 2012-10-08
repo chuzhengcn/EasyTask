@@ -15,7 +15,7 @@ block content
                                     button.button-close-pane
                                 .scrollable
                                     .inner
-                                        #edit_task_info_form_wrapper.task-info_form-wrapper
+                                        #edit_task_info_form_wrapper.task-form-wrapper
                                             form#edit_task_info_form.form-horizontal(action='/tasks/#{task._id}')
                                                 .control-group
                                                     label.control-label(for='name') 任务名称
@@ -24,6 +24,22 @@ block content
                                                 .control-group
                                                     .controls
                                                         button#edit_task_info_form_btn.btn.btn-primary 更新
+                                        #edit_task_users_form_wrapper.task-form-wrapper
+                                            form#edit_task_users_form.form-horizontal(action='/tasks/#{task._id}')
+                                                .control-group
+                                                    label.control-label(for='task_users') 参与者
+                                                    .controls
+                                                        - each user in taskUsers
+                                                            input(type='text',name='task_users',list="task_users_option", autocomplete='off', value='#{user.name}')
+                                                        a#add_more_task_user(href='#', tabindex='-1')
+                                                            i.icon-plus
+                                                            | 更多参与者 
+                                                        datalist#task_users_option
+                                                            - each user in users
+                                                                option(value='#{user.name}') #{user.role}
+                                                .control-group
+                                                    .controls
+                                                        button#edit_task_users_form_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
                             header
@@ -42,6 +58,8 @@ block content
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
                                 .task-users.clearfix
+                                    h5 参与者
+                                        button#edit_task_users.btn.btn-link.btn-mini 编辑
                                     - each user in taskUsers
                                         a.user(href='/users/#{user._id}')
                                             img.img-polaroid.img-rounded(src='#{user.avatar_url}')
