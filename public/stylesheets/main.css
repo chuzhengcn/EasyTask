@@ -353,7 +353,7 @@ input[name='task_users'] {
 .task-summary .task-summary-wrapper .task-users .user {
   float: left;
   margin-bottom: 10px;
-  width: 200px;
+  width: 180px;
   height: 60px;
   color: #666;
 }
@@ -370,6 +370,9 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-users .user .info .name {
   margin-bottom: 5px;
+}
+#edit_task_info_form_wrapper {
+  display: none;
 }
 .err-404 {
   text-align: center;

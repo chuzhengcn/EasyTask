@@ -26,7 +26,7 @@
     }
 
     function addMoreTaskUserInput() {
-        $('input[name="task_users"]:first').clone().insertBefore($('#add_more_task_user'))
+        $('input[name="task_users"]:first').clone().insertBefore($('#add_more_task_user')).val('').focus()
     }
 
     function resetCreateTaskForm() {
@@ -58,8 +58,7 @@
             if (agreePossibleUnknowUser()) {
                 createTaskIsWorking()
                 satrtCreateTask()
-            } else {
-            }
+            } 
             event.preventDefault() 
         }
     }
@@ -75,7 +74,7 @@
             data        : $('#create_task_form').serialize(),
             success     : function(data) {
                 if (data.ok) {
-                    location.href = location.href
+                    location.href = '/tasks/' + data.id
                 } else {
                     createTaskIsComplete()
                     alert(data.msg)

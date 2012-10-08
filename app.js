@@ -29,6 +29,7 @@ app.get('/',                    task.list)
 app.get('/tasks',               task.list)
 app.post('/tasks',              task.create)
 app.get('/tasks/:id',           task.show)
+app.put('/tasks/:id',           task.update)
 app.delete('/tasks/:id',        task.delete)
 app.put('/tasks/:id/archive',   task.archive)
 //---------user------------------------------------------------------

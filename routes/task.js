@@ -54,6 +54,8 @@ exports.create = function(req, res) {
                     name            : req.body.name,
                     task_users      : generateTaskUsers(req),
                     task_id         : task_id,
+                    active          : true,
+                    branch          : '',
                     created_time    : new Date()
                 },  
                 function(err, result) {
@@ -61,7 +63,7 @@ exports.create = function(req, res) {
                         res.send({ ok : 0, msg : '数据库错误' })
                         return
                     }
-                    res.send({ ok : 1 })
+                    res.send({ ok : 1, id : result[0]._id})
                     //only support create one task in one time 
                     routeApp.createLogItem({
                         operator_id     : operator._id,
@@ -83,18 +85,23 @@ exports.archive = function(req, res) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
-
-        task_coll.findAndModifyById(req.params.id, { active : false }, function(err, result) {
-            res.send({ ok : 1 })
-            routeApp.createLogItem({
-                operator_id     : operator._id,
-                operator_name   : operator.name,
-                event_time      : new Date(),
-                event_target    : result.name,
-                event_target_id : result._id,
-                log_type        : 3
+        task_coll.findById(req.params.id, function(err, task_result) {
+            var log_type_result = 3
+            if (!task_result.active) {
+                log_type_result = 4
+            }
+            task_coll.findAndModifyById(req.params.id, { active : !task_result.active }, function(err, result) {
+                res.send({ ok : 1 , active : !task_result.active})
+                routeApp.createLogItem({
+                    operator_id     : operator._id,
+                    operator_name   : operator.name,
+                    event_time      : new Date(),
+                    event_target    : result.name,
+                    event_target_id : result._id,
+                    log_type        : log_type_result,
+                })
             })
-        })
+        })   
     })
 }
 
@@ -116,6 +123,26 @@ exports.delete = function(req, res) {
                     log_type        : 2
                 })
             }) 
+        })
+    })
+}
+
+exports.update = function(req, res) {
+    routeApp.ownAuthority(req, function(isOwn, operator) {
+        if (!isOwn) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+        task_coll.findAndModifyById(req.params.id, { name : req.body.name }, function(err, result) {
+            res.send({ ok : 1 })
+            routeApp.createLogItem({
+                operator_id     : operator._id,
+                operator_name   : operator.name,
+                event_time      : new Date(),
+                event_target    : result.name,
+                event_target_id : result._id,
+                log_type        : 5
+            })
         })
     })
 }

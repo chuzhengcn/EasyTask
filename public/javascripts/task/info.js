@@ -12,6 +12,21 @@
         $('#archive_task_btn').click(function() {
             archiveTask()
         })
+
+        $('#edit_task_info').click(function() {
+            app.utility.showRightSideBar()
+            $('#edit_task_info_form_wrapper').show()
+        })
+
+        $('.button-close-pane').click(function() {
+            app.utility.hideRightSideBar()
+            $('.inner .task-info_form-wrapper').fadeOut()
+        })
+
+        $('#edit_task_info_form_btn').click(function(event) {
+            var self = this
+            readyToEditTaskInfo.call(this, event)
+        })
     }
 
     function deleteTask() {
@@ -38,9 +53,31 @@
             url         : '/tasks/' + getTaskId() + '/archive',
             success     : function(data) {
                 if (data.ok) {
-                    location.href = '/tasks'
+                    location.href = '/tasks/' + getTaskId()
                 } else {
                     alert(data.msg)
+                }
+            }
+        })
+    }
+    function readyToEditTaskInfo(event) {
+        if (app.utility.isValidForm('edit_task_info_form')) {
+            startEditTaskInfo()
+            event.preventDefault() 
+        }
+    }
+
+    function startEditTaskInfo() {
+        $.ajax({
+            type        : 'put',
+            url         : $('#edit_task_info_form').attr('action'),
+            data        : $('#edit_task_info_form').serialize(),
+            success     : function(data) {
+                if (data.ok) {
+                    location.href = location.href
+                } else {
+                    alert(data.msg)
+                    location.href = location.href
                 }
             }
         })
