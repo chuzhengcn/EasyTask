@@ -79,6 +79,7 @@
     function readyToEditTaskInfo(event) {
         if (app.utility.isValidForm('edit_task_info_form')) {
             startEditTaskInfo()
+            editTaskIsWorking()
             event.preventDefault() 
         }
     }
@@ -100,6 +101,7 @@
     function readyToEditTaskUsers(event) {
         if (app.utility.isValidForm('edit_task_users_form')) {
             if (agreePossibleUnknowUser()) {
+                editTaskUsersIsWorking()
                 startEditTaskUsers()
             }
             event.preventDefault() 
@@ -145,5 +147,13 @@
     
     function getTaskId() {
         return $('.breadcrumb li.active').data('id')
+    }
+
+    function editTaskIsWorking() {
+        $('#edit_task_info_form_btn').html('提交中...').addClass('disable').off()
+    }
+
+    function editTaskUsersIsWorking() {
+        $('#edit_task_users_form_btn').html('提交中...').addClass('disable').off()
     }
 })()

@@ -72,8 +72,8 @@ exports.create = function(req, res) {
                         operator_id     : operator._id,
                         operator_name   : operator.name,
                         event_time      : result[0].created_time,
-                        event_target    : result[0].name,
-                        event_target_id : result[0]._id,
+                        task_name       : result[0].name,
+                        task_id         : result[0]._id,
                         log_type        : 1
                     })
                 }
@@ -99,8 +99,8 @@ exports.archive = function(req, res) {
                     operator_id     : operator._id,
                     operator_name   : operator.name,
                     event_time      : new Date(),
-                    event_target    : result.name,
-                    event_target_id : result._id,
+                    task_name       : result.name,
+                    task_id         : result._id,
                     log_type        : log_type_result,
                 })
             })
@@ -121,8 +121,8 @@ exports.delete = function(req, res) {
                     operator_id     : operator._id,
                     operator_name   : operator.name,
                     event_time      : new Date(),
-                    event_target    : result.name,
-                    event_target_id : result._id,
+                    task_name       : result.name,
+                    task_id         : result._id,
                     log_type        : 2
                 })
             }) 
@@ -153,8 +153,8 @@ exports.update = function(req, res) {
                 operator_id     : operator._id,
                 operator_name   : operator.name,
                 event_time      : new Date(),
-                event_target    : result.name,
-                event_target_id : result._id,
+                task_name       : result.name,
+                task_id         : result._id,
                 log_type        : log_type
             })
         })
