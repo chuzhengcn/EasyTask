@@ -289,7 +289,7 @@ input[name='task_users']
         padding-bottom 10px
         .task-users
             border-bottom solid 1px #dfdfdf
-            padding 0 20px
+            padding 0 200px 0 20px
             h5
                 float left
                 height 25px
@@ -327,9 +327,8 @@ input[name='task_users']
                 margin-bottom 0
         .task-summary-todo,
         .task-summary-version,
-        .task-summary-file,
-        .task-summary-milestone
-            padding 10px 20px 10px 20px
+        .task-summary-file
+            padding 10px 200px 10px 20px
             border-bottom solid 1px #dfdfdf
             h5
                 float left
@@ -345,6 +344,36 @@ input[name='task_users']
                 &:hover
                     button
                         display inline-block
+        .task-summary-milestone
+            position absolute
+            top 70px
+            right 20px
+            width 190px
+            overflow hidden
+            border 1px solid #ECE9D9
+            background-color #FFFBE4
+            box-shadow 2px 2px 3px rgba(0, 0, 0, 0.4)
+            h5
+                height 25px
+                padding-left 10px
+                a
+                    float left
+                    color #444
+                    &:hover
+                        text-decoration underline
+                button
+                    display none
+                    float left
+                &:hover
+                    button
+                        display inline-block
+            ul
+                font-size 12px
+                li
+                    height 20px
+                    margin-bottom 5px
+                    span
+                        margin-left 10px
 #edit_task_info_form_wrapper,#edit_task_users_form_wrapper,#add_task_milestone_form_wrapper
     display none
     form

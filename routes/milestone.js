@@ -2,6 +2,7 @@ var routeApp        = require('./app')
 var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
 var milestone_coll  = require('../db/milestone')
+var time            = require('../helper/time')
 
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -61,7 +62,7 @@ exports.create = function(req, res) {
             milestone_coll.create({
                     name            : getMilestoneName(req),
                     task_id         : req.params.task_id,
-                    event_time      : req.body.task_milestone_time,
+                    event_time      : time.parse_date(req.body.task_milestone_time),
                     created_time    : new Date()
                 },  
                 function(err, result) {
@@ -81,7 +82,7 @@ exports.create = function(req, res) {
                         log_type        : 7
                     })
 
-                    res.send({ ok : 1, id : result[0]._id})
+                    res.send({ ok : 1 })
                 }
             )
         })  

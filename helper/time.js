@@ -43,7 +43,7 @@ exports.end_of_day = function (date) {
     return new Date(date.getTime() + distance_to_local_end_of_day)
 }
 // Date => 2012/02/14 ---------------------------------------------------------------------------------------
-exports.format_to_data = function (date, connectors) {
+exports.format_to_date = function (date, connectors) {
     if (!(date instanceof Date)) {
         return 'invalid Date'
     }
@@ -83,14 +83,14 @@ exports.format_to_datetime = function (date, connectors) {
         return 'invalid Date'
     }
 
-    var format_data = exports.format_to_data(date, connectors)
+    var format_data = exports.format_to_date(date, connectors)
     var format_time = exports.format_to_time(date)
 
     return format_data + ' ' + format_time
 }
 
 // var collection = [{ time : new Date() }, { time2 : new Date() }] => [{ time : 2012-08-07 }, {time2: 14:55:52}]
-// exports.format_specify_field(collection ,{time : 'data:-', time2 : 'time'}),string after ':' means connectors
+// exports.format_specify_field(collection ,{time : 'date:-', time2 : 'time'}),string after ':' means connectors
 exports.format_specify_field = function(collection, field) {
     // only handle Object or Array
     if (!field || typeof field !== 'object') {
@@ -99,7 +99,7 @@ exports.format_specify_field = function(collection, field) {
 
     // custom format string maps to method
     var format_time_map = {
-        'date'      : exports.format_to_data,
+        'date'      : exports.format_to_date,
         'time'      : exports.format_to_time,
         'datetime'  : exports.format_to_datetime
     }

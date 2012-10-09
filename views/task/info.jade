@@ -52,7 +52,7 @@ block content
                                                                 option(value='提交测试') 提交测试
                                                                 option(value='发外网') 发外网
                                                             input#custom_milestone_name_input(type='text',name='task_milestone_name', autocomplete='off', placeholder='输入事件名称')
-                                                            button#custom_milestone_name.btn.btn-link.btn-small 自定义事件名称
+                                                            button(tabindex='-1')#custom_milestone_name.btn.btn-link.btn-small 自定义事件名称
                                                 .control-group
                                                     label.control-label(for='task_milestone_time') 时间
                                                     .controls
@@ -102,10 +102,6 @@ block content
                                                     .role 
                                                         small 
                                                             em #{user.role}
-                                .task-summary-milestone.clearfix
-                                    h5 
-                                        a(href='#') 时间点
-                                        button#add_milestone_in_taskinfo.btn.btn-link.btn-mini 添加时间点
                                 .task-summary-todo.clearfix
                                     h5
                                         a(href='#') 待办事项
@@ -114,5 +110,12 @@ block content
                                     h5 版本管理
                                 .task-summary-file.clearfix
                                     h5 附件
-                                
-
+                                .task-summary-milestone.clearfix
+                                    h5 
+                                        a(href='#') 时间点
+                                        button#add_milestone_in_taskinfo.btn.btn-link.btn-mini 添加时间点
+                                    ul
+                                        - each milestone in milestones
+                                            li
+                                                a(href='/tasks/#{task._id}/milestones/#{milestone._id}') #{milestone.name}
+                                                span #{milestone.event_time.substring(5)}
