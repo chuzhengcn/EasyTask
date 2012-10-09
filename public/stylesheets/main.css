@@ -350,6 +350,23 @@ input[name='task_users'] {
   border-bottom: solid 1px #dfdfdf;
   padding: 0 20px;
 }
+.task-summary .task-summary-wrapper .task-users h5 {
+  float: left;
+  height: 25px;
+}
+.task-summary .task-summary-wrapper .task-users h5 span {
+  float: left;
+}
+.task-summary .task-summary-wrapper .task-users h5 button {
+  display: none;
+  float: left;
+}
+.task-summary .task-summary-wrapper .task-users h5:hover button {
+  display: inline-block;
+}
+.task-summary .task-summary-wrapper .task-users .task-users-wrapper {
+  clear: both;
+}
 .task-summary .task-summary-wrapper .task-users .user {
   float: left;
   margin-bottom: 10px;
@@ -371,9 +388,65 @@ input[name='task_users'] {
 .task-summary .task-summary-wrapper .task-users .user .info .name {
   margin-bottom: 5px;
 }
-#edit_task_info_form_wrapper,
-#edit_task_users_form_wrapper {
+.task-summary .task-summary-wrapper .task-nav {
+  padding: 10px 20px 10px 20px;
+  border-bottom: solid 1px #dfdfdf;
+}
+.task-summary .task-summary-wrapper .task-nav ul {
+  margin-bottom: 0;
+}
+.task-summary .task-summary-wrapper .task-summary-todo,
+.task-summary .task-summary-wrapper .task-summary-version,
+.task-summary .task-summary-wrapper .task-summary-file,
+.task-summary .task-summary-wrapper .task-summary-milestone {
+  padding: 10px 20px 10px 20px;
+  border-bottom: solid 1px #dfdfdf;
+}
+.task-summary .task-summary-wrapper .task-summary-todo h5,
+.task-summary .task-summary-wrapper .task-summary-version h5,
+.task-summary .task-summary-wrapper .task-summary-file h5,
+.task-summary .task-summary-wrapper .task-summary-milestone h5 {
+  float: left;
+  height: 25px;
+}
+.task-summary .task-summary-wrapper .task-summary-todo h5 a,
+.task-summary .task-summary-wrapper .task-summary-version h5 a,
+.task-summary .task-summary-wrapper .task-summary-file h5 a,
+.task-summary .task-summary-wrapper .task-summary-milestone h5 a {
+  float: left;
+  color: #444;
+}
+.task-summary .task-summary-wrapper .task-summary-todo h5 a:hover,
+.task-summary .task-summary-wrapper .task-summary-version h5 a:hover,
+.task-summary .task-summary-wrapper .task-summary-file h5 a:hover,
+.task-summary .task-summary-wrapper .task-summary-milestone h5 a:hover {
+  text-decoration: underline;
+}
+.task-summary .task-summary-wrapper .task-summary-todo h5 button,
+.task-summary .task-summary-wrapper .task-summary-version h5 button,
+.task-summary .task-summary-wrapper .task-summary-file h5 button,
+.task-summary .task-summary-wrapper .task-summary-milestone h5 button {
   display: none;
+  float: left;
+}
+.task-summary .task-summary-wrapper .task-summary-todo h5:hover button,
+.task-summary .task-summary-wrapper .task-summary-version h5:hover button,
+.task-summary .task-summary-wrapper .task-summary-file h5:hover button,
+.task-summary .task-summary-wrapper .task-summary-milestone h5:hover button {
+  display: inline-block;
+}
+#edit_task_info_form_wrapper,
+#edit_task_users_form_wrapper,
+#add_task_milestone_form_wrapper {
+  display: none;
+}
+#edit_task_info_form_wrapper form legend,
+#edit_task_users_form_wrapper form legend,
+#add_task_milestone_form_wrapper form legend {
+  padding: 0 20px 3px 20px;
+}
+#add_task_milestone_form_wrapper select {
+  margin-bottom: 10px;
 }
 .err-404 {
   text-align: center;

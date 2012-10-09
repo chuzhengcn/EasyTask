@@ -52,7 +52,7 @@
     }
 
     function createUserIsWorking() {
-        $('#create_user_btn').html('提交中...').addClass('disable').off()
+        $('#create_user_btn').html('提交中...').addClass('disabled').off()
     }
 
     function needAvatar() {

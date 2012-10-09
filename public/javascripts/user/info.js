@@ -76,7 +76,7 @@
     }
 
     function editUserIsWorking() {
-        $('#edit_user_btn').html('提交中...').addClass('disable').off()
+        $('#edit_user_btn').html('提交中...').addClass('disabled').off()
     }
 
     function needChangeAvatar() {

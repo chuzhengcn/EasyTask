@@ -290,6 +290,19 @@ input[name='task_users']
         .task-users
             border-bottom solid 1px #dfdfdf
             padding 0 20px
+            h5
+                float left
+                height 25px
+                span
+                    float left
+                button
+                    display none
+                    float left
+                &:hover
+                    button
+                        display inline-block
+            .task-users-wrapper
+                clear both
             .user
                 float left
                 margin-bottom 10px
@@ -307,8 +320,39 @@ input[name='task_users']
                     font-weight bold
                     .name
                         margin-bottom 5px
-#edit_task_info_form_wrapper,#edit_task_users_form_wrapper
+        .task-nav
+            padding 10px 20px 10px 20px
+            border-bottom solid 1px #dfdfdf
+            ul
+                margin-bottom 0
+        .task-summary-todo,
+        .task-summary-version,
+        .task-summary-file,
+        .task-summary-milestone
+            padding 10px 20px 10px 20px
+            border-bottom solid 1px #dfdfdf
+            h5
+                float left
+                height 25px
+                a
+                    float left
+                    color #444
+                    &:hover
+                        text-decoration underline
+                button
+                    display none
+                    float left
+                &:hover
+                    button
+                        display inline-block
+#edit_task_info_form_wrapper,#edit_task_users_form_wrapper,#add_task_milestone_form_wrapper
     display none
+    form
+        legend
+            padding 0 20px 3px 20px
+#add_task_milestone_form_wrapper
+    select
+        margin-bottom 10px
 //----------------------404-----------------------------------------------------
 .err-404
     text-align center

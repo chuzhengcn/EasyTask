@@ -17,6 +17,7 @@ block content
                                     .inner
                                         #edit_task_info_form_wrapper.task-form-wrapper
                                             form#edit_task_info_form.form-horizontal(action='/tasks/#{task._id}')
+                                                legend 编辑任务名称
                                                 .control-group
                                                     label.control-label(for='name') 任务名称
                                                     .controls
@@ -26,6 +27,7 @@ block content
                                                         button#edit_task_info_form_btn.btn.btn-primary 更新
                                         #edit_task_users_form_wrapper.task-form-wrapper
                                             form#edit_task_users_form.form-horizontal(action='/tasks/#{task._id}')
+                                                legend 编辑参与者
                                                 .control-group
                                                     label.control-label(for='task_users') 参与者
                                                     .controls
@@ -40,6 +42,23 @@ block content
                                                 .control-group
                                                     .controls
                                                         button#edit_task_users_form_btn.btn.btn-primary 更新
+                                        #add_task_milestone_form_wrapper.task-form-wrapper
+                                            form#add_task_milestone_form.form-horizontal(action='/tasks/#{task._id}/milestones')
+                                                legend 添加时间点
+                                                .control-group
+                                                    label.control-label(for='task_milestone_name') 名称
+                                                    .controls
+                                                            select(name='task_milestone_name')
+                                                                option(value='提交测试') 提交测试
+                                                                option(value='发外网') 发外网
+                                                            input(type='text',name='task_milestone_name', autocomplete='off', placeholder='或者输入事件名称')
+                                                .control-group
+                                                    label.control-label(for='task_milestone_time') 时间
+                                                    .controls
+                                                        input(type='date',name='task_milestone_time', autocomplete='off')
+                                                .control-group
+                                                    .controls
+                                                        button#add_task_milestone_form_btn.btn.btn-primary 添加
                     .list
                         .list-header.clearfix
                             header
@@ -57,14 +76,42 @@ block content
                                 button#delete_task_btn.btn.btn-danger.btn-small 删除
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
+                                .task-nav
+                                    ul.nav.nav-pills
+                                        li.active
+                                            a(href='') 摘要
+                                        li
+                                            a(href='') 时间点
+                                        li
+                                            a(href='') 待办列表
+                                        li
+                                            a(href='') 版本管理
+                                        li
+                                            a(href='') 附件
                                 .task-users.clearfix
-                                    h5 参与者
+                                    h5
+                                        span 参与者
                                         button#edit_task_users.btn.btn-link.btn-mini 编辑
-                                    - each user in taskUsers
-                                        a.user(href='/users/#{user._id}')
-                                            img.img-polaroid.img-rounded(src='#{user.avatar_url}')
-                                            .info 
-                                                .name #{user.name}
-                                                .role 
-                                                    small 
-                                                        em #{user.role}
+                                    .task-users-wrapper.clearfix
+                                        - each user in taskUsers
+                                            a.user(href='/users/#{user._id}')
+                                                img.img-polaroid.img-rounded(src='#{user.avatar_url}')
+                                                .info 
+                                                    .name #{user.name}
+                                                    .role 
+                                                        small 
+                                                            em #{user.role}
+                                .task-summary-milestone.clearfix
+                                    h5 
+                                        a(href='#') 时间点
+                                        button#add_milestone_in_taskinfo.btn.btn-link.btn-mini 添加时间点
+                                .task-summary-todo.clearfix
+                                    h5
+                                        a(href='#') 待办事项
+                                        button#add_todo_item_in_taskinfo.btn.btn-link.btn-mini 添加待办项
+                                .task-summary-version.clearfix
+                                    h5 版本管理
+                                .task-summary-file.clearfix
+                                    h5 附件
+                                
+

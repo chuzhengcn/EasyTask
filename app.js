@@ -32,6 +32,13 @@ app.get('/tasks/:id',           task.show)
 app.put('/tasks/:id',           task.update)
 app.delete('/tasks/:id',        task.delete)
 app.put('/tasks/:id/archive',   task.archive)
+//--------milestone-------------------------------------------------
+var milestone = require('./routes/milestone')
+app.post('/tasks/:task_id/milestones',          milestone.create)
+app.get('/tasks/:task_id/milestones/:id',       milestone.show)
+app.get('/tasks/:task_id/milestones',           milestone.list)
+app.put('/tasks/:task_id/milestones/:id',       milestone.update)
+app.delete('/tasks/:task_id/milestones/:id',    milestone.delete)
 //---------user------------------------------------------------------
 var user    = require('./routes/user')
 app.get('/users',           user.list)

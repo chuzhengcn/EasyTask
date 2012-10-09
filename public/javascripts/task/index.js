@@ -63,7 +63,7 @@
     }
 
     function createTaskIsWorking() {
-        $('#create_task_btn').html('提交中...').addClass('disable').off()
+        $('#create_task_btn').html('提交中...').addClass('disabled').off()
     }
 
     function satrtCreateTask() {
@@ -83,7 +83,7 @@
     }
 
     function createTaskIsComplete() {
-        $('#create_task_btn').html('提交').removeClass('disable').on('click', function(event) {
+        $('#create_task_btn').html('提交').removeClass('disabled').on('click', function(event) {
             var self = this
             readyToCreateTask.call(self, event)
         })
