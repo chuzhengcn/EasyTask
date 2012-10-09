@@ -61,6 +61,20 @@
         $('#add_task_milestone_form_btn').click(function(event) {
             readyToAddMilestone()
         })
+
+        //custome milestone name btn
+        $('#custom_milestone_name').toggle(
+            function() {
+                $('#custom_milestone_name_input').show()
+                $('#add_task_milestone_form select').hide()
+                $(this).html('选择常用事件')
+            },
+            function() {
+                $('#custom_milestone_name_input').hide()
+                $('#add_task_milestone_form select').show()
+                $(this).html('自定义事件名称')
+            }
+        )
     }
 
     function deleteTask() {
@@ -191,8 +205,8 @@
     function startAddMilestone() {
         $.ajax({
             type        : 'post',
-            url         : $('#edit_task_users_form').attr('action'),
-            data        : $('#edit_task_users_form').serialize(),
+            url         : $('#add_task_milestone_form').attr('action'),
+            data        : $('#add_task_milestone_form').serialize(),
             success     : function(data) {
                 if (!data.ok) {
                     alert(data.msg)

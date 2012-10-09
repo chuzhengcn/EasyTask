@@ -445,8 +445,8 @@ input[name='task_users'] {
 #add_task_milestone_form_wrapper form legend {
   padding: 0 20px 3px 20px;
 }
-#add_task_milestone_form_wrapper select {
-  margin-bottom: 10px;
+#add_task_milestone_form_wrapper input[name='task_milestone_name'] {
+  display: none;
 }
 .err-404 {
   text-align: center;

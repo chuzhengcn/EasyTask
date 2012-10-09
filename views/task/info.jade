@@ -51,7 +51,8 @@ block content
                                                             select(name='task_milestone_name')
                                                                 option(value='提交测试') 提交测试
                                                                 option(value='发外网') 发外网
-                                                            input(type='text',name='task_milestone_name', autocomplete='off', placeholder='或者输入事件名称')
+                                                            input#custom_milestone_name_input(type='text',name='task_milestone_name', autocomplete='off', placeholder='输入事件名称')
+                                                            button#custom_milestone_name.btn.btn-link.btn-small 自定义事件名称
                                                 .control-group
                                                     label.control-label(for='task_milestone_time') 时间
                                                     .controls

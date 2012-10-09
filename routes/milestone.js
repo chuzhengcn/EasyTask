@@ -1,7 +1,7 @@
 var routeApp        = require('./app')
 var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
-var counter_coll    = require('../db/counter')
+var milestone_coll  = require('../db/milestone')
 
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -52,57 +52,39 @@ exports.create = function(req, res) {
             return
         }
 
-        task_coll.create({
-                name            : req.body.name,
-                task_users      : generateTaskUsers(req),
-                task_id         : task_id,
-                active          : true,
-                branch          : '',
-                created_time    : new Date()
-            },  
-            function(err, result) {
-                if (err) {
-                    res.send({ ok : 0, msg : '数据库错误' })
-                    return
-                }
-                res.send({ ok : 1, id : result[0]._id})
-                //only support create one task in one time 
-                routeApp.createLogItem({
-                    operator_id     : operator._id,
-                    operator_name   : operator.name,
-                    event_time      : result[0].created_time,
-                    task_name       : result[0].name,
-                    task_id         : result[0]._id,
-                    log_type        : 1
-                })
-            }
-        )
-    })
-}
-
-exports.archive = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
-            res.send({ ok : 0, msg : '没有权限'})
+        if (!getMilestoneName(req) || !req.body.task_milestone_time || !req.params.task_id) {
+            res.send({ ok : 0, msg : '名称或时间不能为空' })
             return
         }
-        task_coll.findById(req.params.id, function(err, task_result) {
-            var log_type_result = 3
-            if (!task_result.active) {
-                log_type_result = 4
-            }
-            task_coll.findAndModifyById(req.params.id, { active : !task_result.active }, function(err, result) {
-                res.send({ ok : 1 , active : !task_result.active})
-                routeApp.createLogItem({
-                    operator_id     : operator._id,
-                    operator_name   : operator.name,
-                    event_time      : new Date(),
-                    task_name       : result.name,
-                    task_id         : result._id,
-                    log_type        : log_type_result,
-                })
-            })
-        })   
+
+        task_coll.findById(req.params.task_id, function(err, task) {
+            milestone_coll.create({
+                    name            : getMilestoneName(req),
+                    task_id         : req.params.task_id,
+                    event_time      : req.body.task_milestone_time,
+                    created_time    : new Date()
+                },  
+                function(err, result) {
+                    if (err) {
+                        res.send({ ok : 0, msg : '数据库错误' })
+                        return
+                    }
+                    //only support create one task in one time 
+                    routeApp.createLogItem({
+                        operator_id     : operator._id,
+                        operator_name   : operator.name,
+                        event_time      : result[0].created_time,
+                        task_name       : task.name,
+                        task_id         : task._id,
+                        milestone_name  : result[0].name,
+                        milestone_id    : result[0]._id,
+                        log_type        : 7
+                    })
+
+                    res.send({ ok : 1, id : result[0]._id})
+                }
+            )
+        })  
     })
 }
 
@@ -157,4 +139,17 @@ exports.update = function(req, res) {
             })
         })
     })
+}
+
+function getMilestoneName(req) {
+    var name  = ''
+    var names = req.body.task_milestone_name
+    if (names && Array.isArray(names)) {
+        if (names[1]) {
+            name = names[1]
+        } else {
+            name = names[0]
+        }
+    }
+    return name
 }
