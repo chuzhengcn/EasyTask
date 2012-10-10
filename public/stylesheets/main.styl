@@ -332,7 +332,6 @@ input[name='task_users']
             ul
                 margin-bottom 0
         .task-summary-todo,
-        .task-summary-version,
         .task-summary-file
             padding 10px 200px 10px 20px
             border-bottom solid 1px #dfdfdf
@@ -352,7 +351,7 @@ input[name='task_users']
                         display inline-block
         .task-summary-milestone
             position absolute
-            top 70px
+            top 190px
             right 20px
             width 190px
             overflow hidden
@@ -362,11 +361,8 @@ input[name='task_users']
             h5
                 height 25px
                 padding-left 10px
-                a
+                span
                     float left
-                    color #444
-                    &:hover
-                        text-decoration underline
                 button
                     display none
                     float left
@@ -380,6 +376,31 @@ input[name='task_users']
                     margin-bottom 5px
                     span
                         margin-left 10px
+        .task-summary-version
+            position absolute
+            top 60px
+            right 20px
+            width 190px
+            height 100px
+            overflow hidden
+            border 1px solid #ECE9D9
+            background-color #FFFBE4
+            box-shadow 2px 2px 3px rgba(0, 0, 0, 0.4)
+            h5
+                padding-left 10px
+                a
+                    color #444
+                    &:hover
+                        text-decoration underline
+            .branch
+                padding 0 10px 10px 10px
+                display block
+                font-size 12px
+            .status
+                padding 0 10px 0 10px
+                font-size 12px
+                a
+                    margin-left 10px
 #edit_task_info_form_wrapper,#edit_task_users_form_wrapper,#add_task_milestone_form_wrapper
     display none
     form

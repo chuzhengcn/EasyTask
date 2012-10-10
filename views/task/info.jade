@@ -84,8 +84,6 @@ block content
                                         li
                                             a(href='') 待办列表
                                         li
-                                            a(href='') 版本管理
-                                        li
                                             a(href='') 附件
                                 .task-users.clearfix
                                     h5
@@ -104,13 +102,18 @@ block content
                                     h5
                                         a(href='#') 待办事项
                                         button#add_todo_item_in_taskinfo.btn.btn-link.btn-mini 添加待办项
-                                .task-summary-version.clearfix
-                                    h5 版本管理
                                 .task-summary-file.clearfix
                                     h5 附件
+                                .task-summary-version.clearfix
+                                    h5 
+                                        a(href='#') 版本管理
+                                    a.branch(href='#', title='单击修改分支') master-zhiyu/1174
+                                    .status
+                                        span.label 任务已分配
+                                        a(href='#') 修改状态
                                 .task-summary-milestone.clearfix
                                     h5 
-                                        a(href='#') 时间点
+                                        span 时间点
                                         button#add_milestone_in_taskinfo.btn.btn-link.btn-mini 添加时间点
                                     ul
                                         - each milestone in milestones
