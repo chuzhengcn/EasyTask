@@ -244,6 +244,13 @@ body {
 #content .content-layout .list .list-header .operate-wrapper button {
   margin-left: 10px;
 }
+#content .content-layout .list .main-body {
+  position: absolute;
+  top: 51px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
 #create_user_btn {
   margin-top: 20px;
 }
@@ -479,6 +486,9 @@ input[name='task_users'] {
 }
 #add_task_milestone_form_wrapper input[name='task_milestone_name'] {
   display: none;
+}
+.milestone-info-wrapper {
+  padding: 20px;
 }
 .err-404 {
   text-align: center;

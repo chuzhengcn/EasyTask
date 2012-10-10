@@ -23,24 +23,20 @@ exports.list = function(req, res) {
 
 exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
-        task_coll.findById(req.params.id, function(err, task) {
-            if (!task) {
+        milestone_coll.findById(req.params.id, function(err, milestone) {
+            if (!milestone) {
                 res.redirect('/404')
                 return
             }
-
-            user_coll.findTaskUsers(task.task_users, function(err, usersResult) {
-                user_coll.findAll(function(err, usersArray) {
-                    res.render('task/info', 
-                        { 
-                            title       : task.name, 
-                            me          : loginUser, 
-                            task        : task,
-                            taskUsers   : usersResult,
-                            users       : usersArray,
-                        } 
-                    )
-                })
+            task_coll.findById(milestone.task_id, function(err, task) {
+               res.render('milestone/info', 
+                   { 
+                       title       : task.name + '-时间点-' + milestone.name, 
+                       me          : loginUser, 
+                       task        : task,
+                       milestone   : time.format_specify_field(milestone, {event_time : 'date:-'}) 
+                   } 
+               ) 
             })
         }) 
     })
@@ -95,17 +91,22 @@ exports.delete = function(req, res) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
-        task_coll.findById(req.params.id, function(err, result) {
-            task_coll.removeById(req.params.id, function(err) {
-                res.send({ ok : 1 })
-                routeApp.createLogItem({
-                    operator_id     : operator._id,
-                    operator_name   : operator.name,
-                    event_time      : new Date(),
-                    task_name       : result.name,
-                    task_id         : result._id,
-                    log_type        : 2
+        milestone_coll.findById(req.params.id, function(err, result) {
+            milestone_coll.removeById(req.params.id, function(err) {
+                task_coll.findById(result.task_id, function(err, task) {
+                    routeApp.createLogItem({
+                        operator_id     : operator._id,
+                        operator_name   : operator.name,
+                        event_time      : new Date(),
+                        task_name       : task.name,
+                        task_id         : task._id,
+                        milestone_id    : result._id,
+                        milestone_name  : result.name
+                        log_type        : 8
+                    })
                 })
+
+                res.send({ ok : 1 })
             }) 
         })
     })

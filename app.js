@@ -38,7 +38,7 @@ app.post('/tasks/:task_id/milestones',          milestone.create)
 app.get('/tasks/:task_id/milestones/:id',       milestone.show)
 app.get('/tasks/:task_id/milestones',           milestone.list)
 app.put('/tasks/:task_id/milestones/:id',       milestone.update)
-app.delete('/tasks/:task_id/milestones/:id',    milestone.delete)
+app.delete('/milestones/:id',    milestone.delete)
 //---------user------------------------------------------------------
 var user    = require('./routes/user')
 app.get('/users',           user.list)

@@ -1,0 +1,49 @@
+extends ../layout
+append head
+    script(src='/javascripts/milestone/info.js')
+block content
+    .app-layout
+        include ../include/app-header
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header
+                                ul.breadcrumb
+                                    li
+                                        a(href='/tasks') 任务
+                                        span.divider /
+                                    li 
+                                        a(href='/tasks/#{task._id}') #{task.task_id} - #{task.name}
+                                        span.divider /
+                                    li.active(data-id='#{milestone._id}') 时间点 - #{milestone.name}
+                            .operate-wrapper
+                                button#delete_milestone_btn.btn.btn-danger.btn-small 删除
+                        .main-body.scrollable
+                            .milestone-info-wrapper.clearfix
+                                form#edit_task_milestone_form.form-horizontal(action='/tasks/#{task._id}/milestones/#{milestone._id}')
+                                    legend 编辑时间点
+                                    .control-group
+                                        label.control-label(for='task_milestone_name') 名称
+                                        .controls
+                                                select(name='task_milestone_name')
+                                                    option(value='提交测试') 提交测试
+                                                    option(value='发外网') 发外网
+                                                input#custom_milestone_name_input(type='text',name='task_milestone_name', autocomplete='off', placeholder='输入事件名称')
+                                                button(tabindex='-1')#custom_milestone_name.btn.btn-link.btn-small 自定义事件名称
+                                    .control-group
+                                        label.control-label(for='task_milestone_time') 时间
+                                        .controls
+                                            input(type='date',name='task_milestone_time', autocomplete='off', value='#{milestone.event_time}')
+                                    .control-group
+                                        .controls
+                                            button#edit_task_milestone_form_btn.btn.btn-primary 更新
