@@ -73,6 +73,18 @@
                 $(this).html('自定义事件名称')
             }
         )
+
+        //add task milestone btn
+        $('#task_branch_btn').click(function() {
+            app.utility.showRightSideBar()
+            $('#task_branch_form_wrapper').show()
+        })
+
+        //add or update task branch
+        $('#task_branch_form_btn').click(function(event) {
+            readyToUpsertBranch.call(this, event, $(this))
+        })
+
     }
 
     function deleteTask($btn) {
@@ -197,7 +209,7 @@
         }
     }
 
-    function startAddMilestone() {
+    function startAddMilestone($btn) {
         $.ajax({
             type        : 'post',
             url         : $('#add_task_milestone_form').attr('action'),
@@ -212,5 +224,25 @@
                 location.href = location.href
             }
         })
+    }
+
+    function readyToUpsertBranch(event, $btn) {
+        if (app.utility.isValidForm('task_branch_form')) {
+            $.ajax({
+                type        : 'put',
+                url         : $('#task_branch_form').attr('action'),
+                data        : $('#task_branch_form').serialize(),
+                beforeSend  : function() {
+                    app.utility.isWorking($btn)
+                },
+                success     : function(data) {
+                    if (!data.ok) {
+                        alert(data.msg)
+                    }
+                    location.href = location.href
+                }
+            })
+            event.preventDefault() 
+        }
     }
 })()

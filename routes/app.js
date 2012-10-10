@@ -10,6 +10,7 @@ var logType = {
     addMilestone    : 7,
     deleteMilestone : 8,
     editMilestone   : 9,
+    setTaskBranch   : 10,
 }
 
 exports.identifying = function (req, cb) {

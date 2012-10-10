@@ -64,6 +64,7 @@ exports.create = function(req, res) {
                     task_id         : task_id,
                     active          : true,
                     branch          : '',
+                    status          : '',
                     created_time    : new Date()
                 },  
                 function(err, result) {
@@ -152,8 +153,13 @@ exports.update = function(req, res) {
             updateDoc = { task_users : generateTaskUsers(req) }
             log_type  = 6
         }
+
+        if (req.body.branch) {
+            updateDoc = { branch : req.body.branch}
+            log_type  = 10
+        }
         task_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
-            res.send({ ok : 1 })
+            
             routeApp.createLogItem({
                 operator_id     : operator._id,
                 operator_name   : operator.name,
@@ -162,6 +168,8 @@ exports.update = function(req, res) {
                 task_id         : result._id,
                 log_type        : log_type
             })
+
+            res.send({ ok : 1 })
         })
     })
 }

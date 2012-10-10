@@ -60,6 +60,16 @@ block content
                                                 .control-group
                                                     .controls
                                                         button#add_task_milestone_form_btn.btn.btn-primary 添加
+                                        #task_branch_form_wrapper.task-form-wrapper
+                                            form#task_branch_form.form-horizontal(action='/tasks/#{task._id}')
+                                                legend 编辑开发分支
+                                                .control-group
+                                                    label.control-label(for='branch') 分支名
+                                                    .controls
+                                                        input(type='text', value='#{task.branch}', autocomplete='off', placeholder='例如：master-zhengzheng/123', name='branch')
+                                                .control-group
+                                                    .controls
+                                                        button#task_branch_form_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
                             header
@@ -107,11 +117,14 @@ block content
                                 .task-summary-version.clearfix
                                     h5 
                                         a(href='#',title='点击查看任务版本历史') 版本管理
-                                    .branch 开发分支：
-                                        a(href='#',title='单击修改分支') master-zhiyu/1174
+                                    .branch
+                                        - if (task.branch)
+                                            button#task_branch_btn.btn.btn-mini.btn-link(title='单击修改分支') #{task.branch}
+                                        - else
+                                            button#task_branch_btn.btn.btn-mini.btn-link 分支待添加
                                     .status
                                         span.label 任务已分配
-                                        a(href='#') 修改状态
+                                        a(href='#') 修改任务状态
                                 .task-summary-milestone.clearfix
                                     h5 
                                         span 时间点
