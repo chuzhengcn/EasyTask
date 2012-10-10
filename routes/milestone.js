@@ -4,23 +4,6 @@ var task_coll       = require('../db/task')
 var milestone_coll  = require('../db/milestone')
 var time            = require('../helper/time')
 
-exports.list = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
-        user_coll.findAll(function(err, users) {
-            task_coll.findAll(function(err, tasks) {
-                res.render('task/index', 
-                    { 
-                        title   : '任务', 
-                        me      : loginUser, 
-                        users   : users,
-                        tasks   : tasks
-                    } 
-                )
-            })
-        }) 
-    })
-}
-
 exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         milestone_coll.findById(req.params.id, function(err, milestone) {

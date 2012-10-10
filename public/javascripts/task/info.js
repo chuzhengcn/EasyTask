@@ -7,12 +7,12 @@
     function eventBind() {
         //delete task btn
         $('#delete_task_btn').click(function() {
-            deleteTask()
+            deleteTask($(this))
         })
 
         //archive task btn
         $('#archive_task_btn').click(function() {
-            archiveTask()
+            archiveTask($(this))
         })
 
         //edit task name btn
@@ -35,12 +35,12 @@
 
         //submit task name
         $('#edit_task_info_form_btn').click(function(event) {
-            readyToEditTaskInfo.call(this, event)
+            readyToEditTaskInfo.call(this, event, $(this))
         })
 
         //submit task users
         $('#edit_task_users_form_btn').click(function(event) {
-            readyToEditTaskUsers.call(this, event)
+            readyToEditTaskUsers.call(this, event, $(this))
         })
 
         //add more task users btn-link
@@ -57,7 +57,7 @@
 
         //submit task milestone btn
         $('#add_task_milestone_form_btn').click(function(event) {
-            readyToAddMilestone.call(this, event)
+            readyToAddMilestone.call(this, event, $(this))
         })
 
         //custome milestone name btn
@@ -75,12 +75,15 @@
         )
     }
 
-    function deleteTask() {
+    function deleteTask($btn) {
         var sure = confirm('确认删除？')
         if (sure) {
             $.ajax({
                 type        : 'delete',
                 url         : '/tasks/' + getTaskId(),
+                beforeSend  : function() {
+                    app.utility.isWorking($btn)
+                },
                 success     : function(data) {
                     if (data.ok) {
                         alert('删除成功')
@@ -93,10 +96,13 @@
         }
     }
 
-    function archiveTask() {
+    function archiveTask($btn) {
         $.ajax({
             type        : 'put',
             url         : '/tasks/' + getTaskId() + '/archive',
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
             success     : function(data) {
                 if (data.ok) {
                     location.href = '/tasks/' + getTaskId()
@@ -107,19 +113,21 @@
         })
     }
 
-    function readyToEditTaskInfo(event) {
+    function readyToEditTaskInfo(event, $btn) {
         if (app.utility.isValidForm('edit_task_info_form')) {
-            startEditTaskInfo()
-            editTaskIsWorking()
+            startEditTaskInfo($btn)
             event.preventDefault() 
         }
     }
 
-    function startEditTaskInfo() {
+    function startEditTaskInfo($btn) {
         $.ajax({
             type        : 'put',
             url         : $('#edit_task_info_form').attr('action'),
             data        : $('#edit_task_info_form').serialize(),
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
             success     : function(data) {
                 if (!data.ok) {
                     alert(data.msg)
@@ -129,11 +137,10 @@
         })
     }
 
-    function readyToEditTaskUsers(event) {
+    function readyToEditTaskUsers(event, $btn) {
         if (app.utility.isValidForm('edit_task_users_form')) {
             if (agreePossibleUnknowUser()) {
-                editTaskUsersIsWorking()
-                startEditTaskUsers()
+                startEditTaskUsers($btn)
             }
             event.preventDefault() 
         }
@@ -158,11 +165,14 @@
         return agree
     }
 
-    function startEditTaskUsers() {
+    function startEditTaskUsers($btn) {
         $.ajax({
             type        : 'put',
             url         : $('#edit_task_users_form').attr('action'),
             data        : $('#edit_task_users_form').serialize(),
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
             success     : function(data) {
                 if (!data.ok) {
                     alert(data.msg)
@@ -180,24 +190,11 @@
         return $('.breadcrumb li.active').data('id')
     }
 
-    function editTaskIsWorking() {
-        $('#edit_task_info_form_btn').html('提交中...').addClass('disabled').off()
-    }
-
-    function editTaskUsersIsWorking() {
-        $('#edit_task_users_form_btn').html('提交中...').addClass('disabled').off()
-    }
-
-    function readyToAddMilestone(event) {
+    function readyToAddMilestone(event, $btn) {
         if (app.utility.isValidForm('add_task_milestone_form')) {
-            addMilestoneIsWorking()
-            startAddMilestone()
+            startAddMilestone($btn)
             event.preventDefault() 
         }
-    }
-
-    function addMilestoneIsWorking() {
-        $('#add_task_milestone_form_btn').html('提交中...').addClass('disabled').off()
     }
 
     function startAddMilestone() {
@@ -205,6 +202,9 @@
             type        : 'post',
             url         : $('#add_task_milestone_form').attr('action'),
             data        : $('#add_task_milestone_form').serialize(),
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
             success     : function(data) {
                 if (!data.ok) {
                     alert(data.msg)

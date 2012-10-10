@@ -8,25 +8,24 @@
     function eventBind() {
         //delete task btn
         $('#delete_milestone_btn').click(function() {
-            deleteMilestone()
+            deleteMilestone($(this))
         })
 
         //submit task milestone btn
         $('#edit_task_milestone_form_btn').click(function(event) {
-            readyToEditMilestone.call(this, event)
-        })
-
-        $('#edit_task_milestone_form').submit(function(event) {
-            readyToEditMilestone.call(this, event)
+            readyToEditMilestone.call(this, event, $(this))
         })
     }
 
-    function deleteMilestone() {
+    function deleteMilestone($btn) {
         var sure = confirm('确认删除？')
         if (sure) {
             $.ajax({
                 type        : 'delete',
                 url         : '/milestones/' + getMilestoneId(),
+                beforeSend  : function() {
+                    app.utility.isWorking($btn)
+                },
                 success     : function(data) {
                     if (data.ok) {
                         alert('删除成功')
@@ -40,19 +39,21 @@
     }
 
 
-    function readyToEditMilestone(event) {
+    function readyToEditMilestone(event, $btn) {
         if (app.utility.isValidForm('edit_task_milestone_form')) {
-            startEditMilestone()
-            editMilestoneIsWorking()
+            startEditMilestone($btn)
             event.preventDefault() 
         }
     }
 
-    function startEditMilestone() {
+    function startEditMilestone($btn) {
         $.ajax({
             type        : 'put',
             url         : $('#edit_task_milestone_form').attr('action'),
             data        : $('#edit_task_milestone_form').serialize(),
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
             success     : function(data) {
                 if (!data.ok) {
                     alert(data.msg)
@@ -65,10 +66,6 @@
 
     function getMilestoneId() {
         return $('.breadcrumb li.active').data('id')
-    }
-
-    function editMilestoneIsWorking() {
-        $('#edit_task_milestone_form_btn').html('提交中...').addClass('disabled').off()
     }
 
     function setMilestoneOriginNameInRightWay() {

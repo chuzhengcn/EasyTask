@@ -33,6 +33,9 @@ app.utility = {
     isValidForm : function(formId) {
         var valid = document.getElementById(formId).checkValidity()
         return valid
+    },
+    isWorking   : function($btn) {
+        $btn.html('提交中...').addClass('disabled').off()
     }
 }
 
