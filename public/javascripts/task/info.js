@@ -35,13 +35,11 @@
 
         //submit task name
         $('#edit_task_info_form_btn').click(function(event) {
-            var self = this
             readyToEditTaskInfo.call(this, event)
         })
 
         //submit task users
         $('#edit_task_users_form_btn').click(function(event) {
-            var self = this
             readyToEditTaskUsers.call(this, event)
         })
 
@@ -59,18 +57,18 @@
 
         //submit task milestone btn
         $('#add_task_milestone_form_btn').click(function(event) {
-            readyToAddMilestone()
+            readyToAddMilestone.call(this, event)
         })
 
         //custome milestone name btn
         $('#custom_milestone_name').toggle(
             function() {
                 $('#custom_milestone_name_input').show()
-                $('#add_task_milestone_form select').hide()
+                $('#add_task_milestone_form select').hide().val('')
                 $(this).html('选择常用事件')
             },
             function() {
-                $('#custom_milestone_name_input').hide()
+                $('#custom_milestone_name_input').hide().val('')
                 $('#add_task_milestone_form select').show()
                 $(this).html('自定义事件名称')
             }
@@ -190,7 +188,7 @@
         $('#edit_task_users_form_btn').html('提交中...').addClass('disabled').off()
     }
 
-    function readyToAddMilestone() {
+    function readyToAddMilestone(event) {
         if (app.utility.isValidForm('add_task_milestone_form')) {
             addMilestoneIsWorking()
             startAddMilestone()

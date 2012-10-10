@@ -9,6 +9,7 @@ var logType = {
     editTaskUsers   : 6,
     addMilestone    : 7,
     deleteMilestone : 8,
+    editMilestone   : 9,
 }
 
 exports.identifying = function (req, cb) {

@@ -101,7 +101,7 @@ exports.delete = function(req, res) {
                         task_name       : task.name,
                         task_id         : task._id,
                         milestone_id    : result._id,
-                        milestone_name  : result.name
+                        milestone_name  : result.name,
                         log_type        : 8
                     })
                 })
@@ -119,26 +119,27 @@ exports.update = function(req, res) {
             return
         }
 
-        var updateDoc = {}
-        var log_type  = 5
-        if (req.body.name) {
-            updateDoc = { name : req.body.name }
+        var updateDoc = {
+            name            : getMilestoneName(req),
+            event_time      : time.parse_date(req.body.task_milestone_time),
+            modify_time     : new Date()
         }
 
-        if (req.body.task_users) {
-            updateDoc = { task_users : generateTaskUsers(req) }
-            log_type  = 6
-        }
-        task_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
-            res.send({ ok : 1 })
-            routeApp.createLogItem({
-                operator_id     : operator._id,
-                operator_name   : operator.name,
-                event_time      : new Date(),
-                task_name       : result.name,
-                task_id         : result._id,
-                log_type        : log_type
+        milestone_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
+            //write log
+            task_coll.findById(req.params.task_id, function(err, task) {
+                routeApp.createLogItem({
+                    operator_id     : operator._id,
+                    operator_name   : operator.name,
+                    event_time      : new Date(),
+                    task_name       : task.name,
+                    task_id         : task._id,
+                    milestone_id    : result._id,
+                    milestone_name  : result.name,
+                    log_type        : 9
+                })
             })
+            res.send({ ok : 1 })
         })
     })
 }

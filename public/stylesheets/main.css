@@ -490,6 +490,9 @@ input[name='task_users'] {
 .milestone-info-wrapper {
   padding: 20px;
 }
+.milestone-info-wrapper #edit_task_milestone_form #custom_milestone_name_input {
+  display: none;
+}
 .err-404 {
   text-align: center;
   color: #fff;

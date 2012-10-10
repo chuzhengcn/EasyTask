@@ -1,7 +1,8 @@
 (function() {
     $(function() {
         app.utility.highlightCurrentPage('任务')
-        // eventBind()
+        eventBind()
+        setMilestoneOriginNameInRightWay()
     })
 
     function eventBind() {
@@ -15,19 +16,9 @@
             readyToEditMilestone.call(this, event)
         })
 
-        //custome milestone name btn
-        $('#custom_milestone_name').toggle(
-            function() {
-                $('#custom_milestone_name_input').show()
-                $('#add_task_milestone_form select').hide()
-                $(this).html('选择常用事件')
-            },
-            function() {
-                $('#custom_milestone_name_input').hide()
-                $('#add_task_milestone_form select').show()
-                $(this).html('自定义事件名称')
-            }
-        )
+        $('#edit_task_milestone_form').submit(function(event) {
+            readyToEditMilestone.call(this, event)
+        })
     }
 
     function deleteMilestone() {
@@ -39,7 +30,7 @@
                 success     : function(data) {
                     if (data.ok) {
                         alert('删除成功')
-                        location.href = $('.breadcrumb a:eq(1)').attr('href')
+                        location.href = getTaskUrl()
                     } else {
                         alert(data.msg)
                     }
@@ -66,7 +57,7 @@
                 if (!data.ok) {
                     alert(data.msg)
                 }
-                location.href = location.href
+                location.href = getTaskUrl()
             }
         })
     }
@@ -79,5 +70,42 @@
     function editMilestoneIsWorking() {
         $('#edit_task_milestone_form_btn').html('提交中...').addClass('disabled').off()
     }
-    
+
+    function setMilestoneOriginNameInRightWay() {
+        var originName = $('#custom_milestone_name_input').val()
+        var isInSelect = false
+        $('#edit_task_milestone_form select option').each(function(index, value) {
+            if ($(this).val() == originName) {
+                $(this).attr('selected', 'selected')
+                $('#custom_milestone_name_input').val('').hide()
+                isInSelect = true
+            }
+        })
+
+        if (!isInSelect) {
+            $('#edit_task_milestone_form select').val('').hide()
+            $('#custom_milestone_name').html('选择常用事件')
+            $('#custom_milestone_name').toggle(selectMilestone, customMilestone)
+            $('#custom_milestone_name_input').show()
+        } else {
+            $('#custom_milestone_name').toggle(customMilestone, selectMilestone)
+        }
+
+        function selectMilestone() {
+            $('#custom_milestone_name_input').hide().val('')
+            $('#edit_task_milestone_form select').show()
+            $('#custom_milestone_name').html('选择常用事件')
+        }
+
+        function customMilestone() {
+            $('#custom_milestone_name_input').show()
+            $('#edit_task_milestone_form select').hide().val('')
+            $('#custom_milestone_name').html('自定义事件名称')
+        }
+    }
+
+    function getTaskUrl() {
+        return $('.breadcrumb a:eq(1)').attr('href')
+    }
+
 })()
