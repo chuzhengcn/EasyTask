@@ -519,6 +519,48 @@ input[name='task_users'] {
 .milestone-info-wrapper #edit_task_milestone_form #custom_milestone_name_input {
   display: none;
 }
+.status-info-wrapper {
+  padding: 20px 50px;
+}
+.status-info-wrapper .status-history-item {
+  padding: 10px;
+}
+.status-info-wrapper .status-history-item img {
+  float: left;
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+.status-info-wrapper .status-history-item .status-history-content {
+  float: left;
+  border-radius: 6px;
+  border: solid 1px #dfdfdf;
+}
+.status-info-wrapper .status-history-item .status-history-content .popstripe {
+  height: 2px;
+  border-radius: 6px;
+}
+.status-info-wrapper .status-history-item .status-history-content .status-name {
+  border-bottom: solid 1px #dfdfdf;
+  padding: 10px;
+  font-weight: bold;
+}
+.status-info-wrapper .status-history-item .status-history-content .states-date {
+  background: #fdfdfd;
+  color: #999;
+  padding: 5px 10px;
+  font-size: 12px;
+  text-align: right;
+  border-top: solid 1px #dfdfdf;
+}
+#mark_task_status_form legend {
+  padding: 0 20px 3px 20px;
+}
+.popstripe {
+  background-image: linear-gradient(0deg, #e75239 0%, #e75239 12.5%, #ff961c 12.5%, #ff961c 25%, #ffcc27 25%, #ffcc27 37.5%, #fce62f 37.5%, #fce62f 50%, #cde35b 50%, #cde35b 62.5%, #82cc33 62.5%, #82cc33 75%, #41bece 75%, #41bece 87.5%, #049cdb 87.5%, #049cdb 100%);
+  background-image: -webkit-linear-gradient(0deg, #e75239 0%, #e75239 12.5%, #ff961c 12.5%, #ff961c 25%, #ffcc27 25%, #ffcc27 37.5%, #fce62f 37.5%, #fce62f 50%, #cde35b 50%, #cde35b 62.5%, #82cc33 62.5%, #82cc33 75%, #41bece 75%, #41bece 87.5%, #049cdb 87.5%, #049cdb 100%);
+  background-image: -moz-linear-gradient(0deg, #e75239 0%, #e75239 12.5%, #ff961c 12.5%, #ff961c 25%, #ffcc27 25%, #ffcc27 37.5%, #fce62f 37.5%, #fce62f 50%, #cde35b 50%, #cde35b 62.5%, #82cc33 62.5%, #82cc33 75%, #41bece 75%, #41bece 87.5%, #049cdb 87.5%, #049cdb 100%);
+}
 .err-404 {
   text-align: center;
   color: #fff;

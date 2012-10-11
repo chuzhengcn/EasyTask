@@ -11,6 +11,7 @@ var logType = {
     deleteMilestone : 8,
     editMilestone   : 9,
     setTaskBranch   : 10,
+    setTaskStatus   : 11, 
 }
 
 exports.identifying = function (req, cb) {
@@ -31,8 +32,14 @@ exports.ownAuthority = function(req, cb) {
     })
 }
 
-exports.createLogItem = function (log, cb) {
-    log.created_time = new Date()
+exports.createLogItem = function (log, operator, task, cb) {
+    log.operator_id     = operator._id
+    log.operator_name   = operator.name
+    log.operator_avatar = operator.avatar_url
+    log.task_id         = task._id
+    log.task_name       = task.name
+    log.created_time    = new Date()
+    
     log_coll.create(log, function(err, result) {
         if (cb) {
             cb()

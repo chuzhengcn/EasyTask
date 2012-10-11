@@ -36,6 +36,24 @@ app.utility = {
     },
     isWorking   : function($btn) {
         $btn.html('提交中...').addClass('disabled').off()
+    },
+    //get queryKey through url in client js
+    get_query_value : function(query_key) {
+        var query_str = location.search.substring(1)
+
+        if (query_str == '' || query_str == undefined) {
+            return
+        }
+
+        var key_value_group = query_str.split('&')
+
+        for(var i = 0 ; i < key_value_group.length; i++) {
+            var key   = key_value_group[i].split('=')[0]
+            var value = key_value_group[i].split('=')[1]
+            if (key == query_key) {
+                return value
+            }
+        }
     }
 }
 

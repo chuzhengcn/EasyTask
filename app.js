@@ -23,6 +23,7 @@ app.configure('development', function(){
     app.use(express.errorHandler())
 })
 //-----------------------route-----------------------------------
+
 //---------task--------------------------------------------------
 var task = require('./routes/task')
 app.get('/',                    task.list)
@@ -32,12 +33,20 @@ app.get('/tasks/:id',           task.show)
 app.put('/tasks/:id',           task.update)
 app.delete('/tasks/:id',        task.delete)
 app.put('/tasks/:id/archive',   task.archive)
+
 //--------milestone-------------------------------------------------
 var milestone = require('./routes/milestone')
 app.post('/tasks/:task_id/milestones',          milestone.create)
 app.get('/tasks/:task_id/milestones/:id',       milestone.show)
 app.put('/tasks/:task_id/milestones/:id',       milestone.update)
 app.delete('/milestones/:id',                   milestone.delete)
+
+//--------status-------------------------------------------------
+var status = require('./routes/status')
+app.get('/tasks/:task_id/status',    status.listByTask)
+app.post('/tasks/:task_id/status',   status.create)
+app.delete('/status/:id',            status.delete)
+
 //---------user------------------------------------------------------
 var user    = require('./routes/user')
 app.get('/users',           user.list)
@@ -45,6 +54,7 @@ app.post('/users',          user.create)
 app.get('/users/:id',       user.show)
 app.put('/users/:id',       user.update)
 app.delete('/users/:id',    user.delete)
+
 //---------upload----------------------------------------------
 var upload    = require('./routes/upload')
 app.post('/upload-avatar',              upload.createAvatar)

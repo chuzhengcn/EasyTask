@@ -116,15 +116,15 @@ block content
                                     h5 附件
                                 .task-summary-version.clearfix
                                     h5 
-                                        a(href='#',title='点击查看任务版本历史') 版本管理
+                                        a(href='/tasks/#{task._id}/status',title='点击查看任务版本历史') 版本管理
                                     .branch
                                         - if (task.branch)
                                             button#task_branch_btn.btn.btn-mini.btn-link(title='单击修改分支') #{task.branch}
                                         - else
                                             button#task_branch_btn.btn.btn-mini.btn-link 分支待添加
                                     .status
-                                        span.label 任务已分配
-                                        a(href='#') 修改任务状态
+                                        span.label #{task.status}
+                                        a(href='/tasks/#{task._id}/status?change=true') 修改任务状态
                                 .task-summary-milestone.clearfix
                                     h5 
                                         span 时间点

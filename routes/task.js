@@ -3,7 +3,7 @@ var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
 var counter_coll    = require('../db/counter')
 var milestone_coll  = require('../db/milestone')
-var version_coll    = require('../db/version')
+var status_coll     = require('../db/status')
 var time            = require('../helper/time')
 
 exports.list = function(req, res) {
@@ -65,7 +65,7 @@ exports.create = function(req, res) {
                     task_id         : task_id,
                     active          : true,
                     branch          : '',
-                    status          : '',
+                    status          : '需求提交',
                     created_time    : new Date()
                 },  
                 function(err, result) {
@@ -75,14 +75,7 @@ exports.create = function(req, res) {
                     }
                     res.send({ ok : 1, id : result[0]._id})
                     //only support create one task in one time 
-                    routeApp.createLogItem({
-                        operator_id     : operator._id,
-                        operator_name   : operator.name,
-                        event_time      : result[0].created_time,
-                        task_name       : result[0].name,
-                        task_id         : result[0]._id,
-                        log_type        : 1
-                    })
+                    routeApp.createLogItem({ log_type : 1 }, operator, result[0])
                 }
             )
         }) 
@@ -102,14 +95,7 @@ exports.archive = function(req, res) {
             }
             task_coll.findAndModifyById(req.params.id, { active : !task_result.active }, function(err, result) {
                 res.send({ ok : 1 , active : !task_result.active})
-                routeApp.createLogItem({
-                    operator_id     : operator._id,
-                    operator_name   : operator.name,
-                    event_time      : new Date(),
-                    task_name       : result.name,
-                    task_id         : result._id,
-                    log_type        : log_type_result,
-                })
+                routeApp.createLogItem({ log_type : log_type_result,}, operator, result)
             })
         })   
     })
@@ -124,14 +110,7 @@ exports.delete = function(req, res) {
         task_coll.findById(req.params.id, function(err, result) {
             task_coll.removeById(req.params.id, function(err) {
                 res.send({ ok : 1 })
-                routeApp.createLogItem({
-                    operator_id     : operator._id,
-                    operator_name   : operator.name,
-                    event_time      : new Date(),
-                    task_name       : result.name,
-                    task_id         : result._id,
-                    log_type        : 2
-                })
+                routeApp.createLogItem({log_type : 2 }, operator, result)
             }) 
         })
     })
@@ -158,26 +137,20 @@ exports.update = function(req, res) {
         if (req.body.branch) {
             updateDoc = { branch : req.body.branch}
             log_type  = 10
-            version_coll.create({ 
+            status_coll.create({ 
                 task_id         : req.params.id,
-                name            : '设置分支：' + req.body.branch,
+                name            : '把任务分支修改为：' + req.body.branch,
                 content         : '',
                 files           : [],
                 operator_id     : operator._id,
                 operator_name   : operator.name,
+                operator_avatar : operator.avatar_url,
                 created_time    : new Date(),
             })
         }
         task_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
             
-            routeApp.createLogItem({
-                operator_id     : operator._id,
-                operator_name   : operator.name,
-                event_time      : new Date(),
-                task_name       : result.name,
-                task_id         : result._id,
-                log_type        : log_type
-            })
+            routeApp.createLogItem({log_type : log_type }, operator, result)
 
             res.send({ ok : 1 })
         })
