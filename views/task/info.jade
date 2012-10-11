@@ -119,9 +119,9 @@ block content
                                         a(href='/tasks/#{task._id}/status',title='点击查看任务版本历史') 版本管理
                                     .branch
                                         - if (task.branch)
-                                            button#task_branch_btn.btn.btn-mini.btn-link(title='单击修改分支') #{task.branch}
+                                            button#task_branch_btn.btn.btn-small.btn-link(title='单击修改分支') #{task.branch}
                                         - else
-                                            button#task_branch_btn.btn.btn-mini.btn-link 分支待添加
+                                            button#task_branch_btn.btn.btn-small.btn-link 分支待添加
                                     .status
                                         span.label #{task.status}
                                         a(href='/tasks/#{task._id}/status?change=true') 修改任务状态

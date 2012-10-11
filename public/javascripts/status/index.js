@@ -58,7 +58,7 @@
                 if (!data.ok) {
                     alert(data.msg)
                 }
-                location.href = location.protocol + '//' + location.hostname + location.pathname
+                location.href = location.href.split('?')[0]
             }
         })
     }

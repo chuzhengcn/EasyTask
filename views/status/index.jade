@@ -21,8 +21,8 @@ block content
                                                 label.control-label(for='task_status_name') 状态
                                                 .controls
                                                         select#task_status_selecter(name='task_status_name', data-origin-name="#{task.status}")
-                                                            opeion(value='需求已提交') 需求提交
-                                                            opeion(value='任务已分配') 任务已分配
+                                                            option(value='需求提交') 需求提交
+                                                            option(value='任务已分配') 任务已分配
                                                             option(value='开发已完成') 开发已完成
                                                             option(value='已提交Master') 已提交Master
                                                             option(value='已提交Test') 已提交Test
@@ -46,6 +46,7 @@ block content
                                         a(href='/tasks/#{task._id}') #{task.task_id} - #{task.name}
                                         span.divider /
                                     li.active 版本管理
+                                        span.status-in-nav.label #{task.status}
                             .operate-wrapper
                                 button#mark_task_status.btn.btn-primary.btn-small 修改状态
                         .main-body.scrollable
@@ -56,7 +57,8 @@ block content
                                         .status-history-content
                                             .popstripe
                                             .status-name #{status.name}
-                                            .status-history-text #{status.content}
+                                            - if (status.content !== '')
+                                                .status-history-des #{status.content}
                                             .states-date #{status.created_time} by #{status.operator_name} 
 
                                 
