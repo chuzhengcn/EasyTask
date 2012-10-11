@@ -3,6 +3,7 @@ var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
 var counter_coll    = require('../db/counter')
 var milestone_coll  = require('../db/milestone')
+var version_coll    = require('../db/version')
 var time            = require('../helper/time')
 
 exports.list = function(req, res) {
@@ -157,6 +158,15 @@ exports.update = function(req, res) {
         if (req.body.branch) {
             updateDoc = { branch : req.body.branch}
             log_type  = 10
+            version_coll.create({ 
+                task_id         : req.params.id,
+                name            : '设置分支：' + req.body.branch,
+                content         : '',
+                files           : [],
+                operator_id     : operator._id,
+                operator_name   : operator.name,
+                created_time    : new Date(),
+            })
         }
         task_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
             

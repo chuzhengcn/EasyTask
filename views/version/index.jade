@@ -1,0 +1,50 @@
+extends ../layout
+append head
+    script(src='/javascripts/version/info.js')
+block content
+    .app-layout
+        include ../include/app-header
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                                        form#mark_task_status_form.form-horizontal(action='/tasks/#{task._id}/status')
+                                            legend 修改任务状态
+                                            .control-group
+                                                label.control-label(for='task_status_name') 状态
+                                                .controls
+                                                        select(name='task_status_name')
+                                                            opeion(value='任务已分配') 任务已分配
+                                                            option(value='开发已完成') 开发已完成
+                                                            option(value='已提交Master') 已提交Master
+                                                            option(value='测试通过') 测试通过
+                                            .control-group
+                                                label.control-label(for='description') 描述
+                                                .controls
+                                                    textarea(name='description', autocomplete='off', placeholder='可选描述，需求和发布说明最好另建立文档说明，不要写在这里')
+                                            .control-group
+                                                .controls
+                                                    button#mark_task_status_form_btn.btn.btn-primary 更新
+                    .list
+                        .list-header.clearfix
+                            header
+                                ul.breadcrumb
+                                    li
+                                        a(href='/tasks') 任务
+                                        span.divider /
+                                    li 
+                                        a(href='/tasks/#{task._id}') #{task.task_id} - #{task.name}
+                                        span.divider /
+                                    li.active 版本管理
+                            .operate-wrapper
+                                button#mark_task_status.btn.btn-danger.btn-small 修改状态
+                        .main-body.scrollable
+                            .status-info-wrapper.clearfix
+                                
