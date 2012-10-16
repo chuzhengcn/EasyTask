@@ -299,6 +299,7 @@ input[name='task_users']
             h5
                 float left
                 height 25px
+                cursor pointer
                 span
                     float left
                 button
@@ -338,30 +339,45 @@ input[name='task_users']
             h5
                 float left
                 height 25px
+                cursor pointer
+                span
+                    float left
+                    margin-right 5px
                 a
                     float left
-                    color #444
+                    font-weight normal
+                    font-size 12px
+                    display none
                     &:hover
                         text-decoration underline
-                button
-                    display none
-                    float left
                 &:hover
-                    button
+                    a
                         display inline-block
         .task-summary-file
-            .file-item
-                background #fdfdfd
-                float left
-                padding 10px 10px 10px 70px
-                border-radius 6px
-                position relative
-                .type
-                    position absolute
-                    top 10px
-                    left 10px
-                    width 50px
-                    height 50px
+            .file-item-wrapper
+                clear both
+                .file-item
+                    background #fdfdfd
+                    float left
+                    padding 10px 10px 10px 70px
+                    border-radius 6px
+                    position relative
+                    border solid 1px #dfdfdf
+                    margin 0 20px 20px 0
+                    width 300px
+                    .type
+                        position absolute
+                        top 10px
+                        left 10px
+                        width 40px
+                        height 40px
+                        border solid 1px #dfdfdf
+                    .name
+                        overflow hidden
+                        text-overflow ellipsis
+                        white-space nowrap
+                    .log
+                        font-size 12px
         .task-summary-milestone
             position absolute
             top 190px
@@ -383,7 +399,6 @@ input[name='task_users']
                     button
                         display inline-block
             ul
-                font-size 12px
                 li
                     height 20px
                     margin-bottom 5px
@@ -394,7 +409,7 @@ input[name='task_users']
             top 60px
             right 10px
             width 200px
-            height 100px
+            height 120px
             overflow hidden
             border 1px solid #ECE9D9
             background-color #FFFBE4
@@ -406,8 +421,7 @@ input[name='task_users']
                     &:hover
                         text-decoration underline
             .branch
-                padding 0 10px 5px 5px
-                font-size 12px
+                padding 0 10px 15px 0px
                 button
                     &:hover
                         text-decoration underline
@@ -455,7 +469,7 @@ input[name='task_users']
                 height 1px
                 border-radius 6px
             .status-name
-                padding 10px 300px 10px 10px
+                padding 10px 150px 10px 10px
                 font-weight bold
                 position relative
                 .states-date

@@ -43,7 +43,7 @@ exports.show = function(req, res) {
                                     task        : task,
                                     taskUsers   : usersResult,
                                     users       : usersArray,
-                                    taskFiles   : taskFileResult,
+                                    taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'datetime'}),
                                     milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
                                 } 
                             )

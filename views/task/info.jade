@@ -110,26 +110,29 @@ block content
                                                             em #{user.role}
                                 .task-summary-todo.clearfix
                                     h5
-                                        a(href='#') 待办事项
-                                        button#add_todo_item_in_taskinfo.btn.btn-link.btn-mini 添加待办项
+                                        span 最新待办事项
+                                        a(href='#') 添加待办事项
                                 .task-summary-file.clearfix
-                                    h5 附件
-                                    - each file in taskFiles
-                                        .file-item
-                                            .type(data-type='#{file.type}')
-                                            a.name(href='#{file.url}') #{file.name}
-                                            .log #{file.opeator_name} 上传于 #{file.created_time}
+                                    h5 
+                                        span 最新附件
+                                        a(href='#') 上传
+                                    .file-item-wrapper.clearfix
+                                        - each file in taskFiles
+                                            .file-item
+                                                .type(data-type='#{file.type}')
+                                                a.name(href='#{file.url}') #{file.name}
+                                                .log #{file.operator_name} 上传于 #{file.created_time}
                                 .task-summary-version.clearfix
                                     h5 
                                         a(href='/tasks/#{task._id}/status',title='点击查看任务版本历史') 版本管理
                                     .branch
                                         - if (task.branch)
-                                            button#task_branch_btn.btn.btn-small.btn-link(title='单击修改分支') #{task.branch}
+                                            button#task_branch_btn.btn.btn-link(title='单击修改分支') #{task.branch}
                                         - else
-                                            button#task_branch_btn.btn.btn-small.btn-link 分支待添加
+                                            button#task_branch_btn.btn.btn-link 分支待添加
                                     .status
                                         span.label.label-inverse #{task.status}
-                                        a(href='/tasks/#{task._id}/status?change=true') 修改任务状态
+                                        a(href='/tasks/#{task._id}/status?change=true') 修改状态
                                 .task-summary-milestone.clearfix
                                     h5 
                                         span 时间点

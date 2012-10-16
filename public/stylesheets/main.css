@@ -360,6 +360,7 @@ input[name='task_users'] {
 .task-summary .task-summary-wrapper .task-users h5 {
   float: left;
   height: 25px;
+  cursor: pointer;
 }
 .task-summary .task-summary-wrapper .task-users h5 span {
   float: left;
@@ -411,38 +412,56 @@ input[name='task_users'] {
 .task-summary .task-summary-wrapper .task-summary-file h5 {
   float: left;
   height: 25px;
+  cursor: pointer;
+}
+.task-summary .task-summary-wrapper .task-summary-todo h5 span,
+.task-summary .task-summary-wrapper .task-summary-file h5 span {
+  float: left;
+  margin-right: 5px;
 }
 .task-summary .task-summary-wrapper .task-summary-todo h5 a,
 .task-summary .task-summary-wrapper .task-summary-file h5 a {
   float: left;
-  color: #444;
+  font-weight: normal;
+  font-size: 12px;
+  display: none;
 }
 .task-summary .task-summary-wrapper .task-summary-todo h5 a:hover,
 .task-summary .task-summary-wrapper .task-summary-file h5 a:hover {
   text-decoration: underline;
 }
-.task-summary .task-summary-wrapper .task-summary-todo h5 button,
-.task-summary .task-summary-wrapper .task-summary-file h5 button {
-  display: none;
-  float: left;
-}
-.task-summary .task-summary-wrapper .task-summary-todo h5:hover button,
-.task-summary .task-summary-wrapper .task-summary-file h5:hover button {
+.task-summary .task-summary-wrapper .task-summary-todo h5:hover a,
+.task-summary .task-summary-wrapper .task-summary-file h5:hover a {
   display: inline-block;
 }
-.task-summary .task-summary-wrapper .task-summary-file .file-item {
+.task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper {
+  clear: both;
+}
+.task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper .file-item {
   background: #fdfdfd;
   float: left;
   padding: 10px 10px 10px 70px;
   border-radius: 6px;
   position: relative;
+  border: solid 1px #dfdfdf;
+  margin: 0 20px 20px 0;
+  width: 300px;
 }
-.task-summary .task-summary-wrapper .task-summary-file .file-item .type {
+.task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper .file-item .type {
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  border: solid 1px #dfdfdf;
+}
+.task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper .file-item .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper .file-item .log {
+  font-size: 12px;
 }
 .task-summary .task-summary-wrapper .task-summary-milestone {
   position: absolute;
@@ -468,9 +487,6 @@ input[name='task_users'] {
 .task-summary .task-summary-wrapper .task-summary-milestone h5:hover button {
   display: inline-block;
 }
-.task-summary .task-summary-wrapper .task-summary-milestone ul {
-  font-size: 12px;
-}
 .task-summary .task-summary-wrapper .task-summary-milestone ul li {
   height: 20px;
   margin-bottom: 5px;
@@ -483,7 +499,7 @@ input[name='task_users'] {
   top: 60px;
   right: 10px;
   width: 200px;
-  height: 100px;
+  height: 120px;
   overflow: hidden;
   border: 1px solid #ece9d9;
   background-color: #fffbe4;
@@ -499,8 +515,7 @@ input[name='task_users'] {
   text-decoration: underline;
 }
 .task-summary .task-summary-wrapper .task-summary-version .branch {
-  padding: 0 10px 5px 5px;
-  font-size: 12px;
+  padding: 0 10px 15px 0px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .branch button:hover {
   text-decoration: underline;
@@ -564,7 +579,7 @@ input[name='task_users'] {
   border-radius: 6px;
 }
 .status-info-wrapper .status-history-item .status-history-content .status-name {
-  padding: 10px 300px 10px 10px;
+  padding: 10px 150px 10px 10px;
   font-weight: bold;
   position: relative;
 }
