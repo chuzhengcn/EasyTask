@@ -27,12 +27,11 @@ exports.create = function(req, res) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
-
         status_coll.create({ 
             task_id         : req.params.task_id,
             name            : req.body.task_status_name,
             content         : req.body.description,
-            files           : [],
+            files           : req.body.taskfiles,
             operator_id     : operator._id,
             operator_name   : operator.name,
             operator_avatar : operator.avatar_url,

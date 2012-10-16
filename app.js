@@ -57,9 +57,10 @@ app.delete('/users/:id',    user.delete)
 
 //---------upload----------------------------------------------
 var upload    = require('./routes/upload')
-app.post('/upload-avatar',              upload.createAvatar)
-app.put('/upload-avatar/:file_name',    upload.updateAvatar)
-app.delete('/upload-avatar/:file_name', upload.deleteAvatar)
+app.post('/upload-avatar',                  upload.createAvatar)
+app.put('/upload-avatar/:file_name',        upload.updateAvatar)
+app.delete('/upload-avatar/:file_name',     upload.deleteAvatar)
+app.post('/tasks/:task_id/upload-files',    upload.createTaskFiles)
 //--------------------error------------------------
 var error = require('./routes/error')
 app.get('/404', error.handler404)

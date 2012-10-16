@@ -199,7 +199,7 @@
     }
     
     function getTaskId() {
-        return $('.breadcrumb li.active').data('id')
+        return $('.list-header header').data('id')
     }
 
     function readyToAddMilestone(event, $btn) {

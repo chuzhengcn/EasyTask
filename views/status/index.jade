@@ -32,33 +32,47 @@ block content
                                                 label.control-label(for='description') 描述
                                                 .controls
                                                     textarea.span3(name='description', autocomplete='off', rows="4", placeholder='可选描述，需求和发布说明最好另建立文档说明，不要写在这里')
+                                            .controls-group
+                                                label.control-label(for='task_files') 附件
+                                                .controls
+                                                    input#upload_status_files_input(type='file', name='task_files',multiple="multiple")
                                             .control-group
                                                 .controls
                                                     button#mark_task_status_form_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
-                            header
-                                ul.breadcrumb
-                                    li
-                                        a(href='/tasks') 任务
-                                        span.divider /
-                                    li 
-                                        a(href='/tasks/#{task._id}') #{task.task_id} - #{task.name}
-                                        span.divider /
-                                    li.active 版本管理
-                                        span.status-in-nav.label #{task.status}
+                            header(data-id='#{task._id}') #{task.task_id} - #{task.name}
                             .operate-wrapper
+                                a.btn.btn-small(href='/tasks') 
+                                    i.icon-chevron-left
+                                    |  返回任务列表
                                 button#mark_task_status.btn.btn-primary.btn-small 修改状态
                         .main-body.scrollable
                             .status-info-wrapper.clearfix
+                                .task-nav
+                                    ul.nav.nav-pills
+                                        li
+                                            a(href='/tasks/#{task._id}') 摘要
+                                        li
+                                            a(href='') 待办列表
+                                        li.active
+                                            a(href='/tasks/#{task._id}/status') 版本管理
+                                        li
+                                            a(href='') 附件
                                 - each status in statusHistory
                                     .status-history-item.clearfix
                                         img.img-rounded(src='#{status.operator_avatar}')
                                         .status-history-content
                                             .popstripe
                                             .status-name #{status.name}
+                                                .states-date #{status.created_time.substring(5)} by #{status.operator_name}
                                             - if (status.content !== '')
                                                 .status-history-des #{status.content}
-                                            .states-date #{status.created_time} by #{status.operator_name} 
+                                            - if (status.files)
+                                                .status-files
+                                                    - each file in status.files
+                                                        .file-item
+                                                            i.icon-file
+                                                            a(href='#{file.url}') #{file.name}
 
-                                
+                                                                  
