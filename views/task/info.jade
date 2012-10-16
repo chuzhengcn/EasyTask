@@ -90,7 +90,7 @@ block content
                                         li.active
                                             a(href='/tasks/#{task._id}') 摘要
                                         li
-                                            a(href='') 待办列表
+                                            a(href='') 待办事项
                                         li
                                             a(href='/tasks/#{task._id}/status') 版本管理
                                         li
@@ -114,6 +114,11 @@ block content
                                         button#add_todo_item_in_taskinfo.btn.btn-link.btn-mini 添加待办项
                                 .task-summary-file.clearfix
                                     h5 附件
+                                    - each file in taskFiles
+                                        .file-item
+                                            .type(data-type='#{file.type}')
+                                            a.name(href='#{file.url}') #{file.name}
+                                            .log #{file.opeator_name} 上传于 #{file.created_time}
                                 .task-summary-version.clearfix
                                     h5 
                                         a(href='/tasks/#{task._id}/status',title='点击查看任务版本历史') 版本管理

@@ -430,6 +430,20 @@ input[name='task_users'] {
 .task-summary .task-summary-wrapper .task-summary-file h5:hover button {
   display: inline-block;
 }
+.task-summary .task-summary-wrapper .task-summary-file .file-item {
+  background: #fdfdfd;
+  float: left;
+  padding: 10px 10px 10px 70px;
+  border-radius: 6px;
+  position: relative;
+}
+.task-summary .task-summary-wrapper .task-summary-file .file-item .type {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+}
 .task-summary .task-summary-wrapper .task-summary-milestone {
   position: absolute;
   top: 190px;
@@ -530,13 +544,13 @@ input[name='task_users'] {
   margin-bottom: 0;
 }
 .status-info-wrapper .status-history-item {
-  padding: 20px 20px 20px 80px;
+  padding: 20px 150px 20px 210px;
   position: relative;
 }
 .status-info-wrapper .status-history-item img {
   position: absolute;
   top: 20px;
-  left: 20px;
+  left: 150px;
   width: 50px;
   height: 50px;
   margin-right: 10px;

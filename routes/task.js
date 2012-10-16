@@ -5,6 +5,7 @@ var counter_coll    = require('../db/counter')
 var milestone_coll  = require('../db/milestone')
 var status_coll     = require('../db/status')
 var time            = require('../helper/time')
+var file_coll       = require('../db/file')
 
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -34,16 +35,19 @@ exports.show = function(req, res) {
             user_coll.findTaskUsers(task.task_users, function(err, usersResult) {
                 user_coll.findAll(function(err, usersArray) {
                     milestone_coll.findByTaskId(req.params.id, function(err, milestones) {
-                        res.render('task/info', 
-                            { 
-                                title       : task.name, 
-                                me          : loginUser, 
-                                task        : task,
-                                taskUsers   : usersResult,
-                                users       : usersArray,
-                                milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
-                            } 
-                        )
+                        file_coll.findByTaskIdInSummary(req.params.id, function(err, taskFileResult) {
+                            res.render('task/info', 
+                                { 
+                                    title       : task.name, 
+                                    me          : loginUser, 
+                                    task        : task,
+                                    taskUsers   : usersResult,
+                                    users       : usersArray,
+                                    taskFiles   : taskFileResult,
+                                    milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
+                                } 
+                            )
+                        })
                     })
                 })
             })

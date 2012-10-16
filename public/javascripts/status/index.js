@@ -62,7 +62,7 @@
         if (app.utility.isValidForm('mark_task_status_form')) {
             event.preventDefault() 
             if (needFiles()) {
-                satrtUpload(function() {
+                satrtUpload($btn, function() {
                      startAddStatus($btn)
                 })
             } else {
@@ -101,7 +101,7 @@
         }
     }
 
-    function satrtUpload(cb) {
+    function satrtUpload($btn, cb) {
         var file_form = new FormData()
         var file_attr = $('#upload_status_files_input').attr('name')
         for (var i = 0; i < target_file.length; i++) {
@@ -112,11 +112,14 @@
             url         : '/tasks/' + getTaskId() + '/upload-files',
             processData : false,
             contentType : false,
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
             data        : file_form,
             success     : function(data) {
                 if (data.ok == 1) {
                     files_info = data.files
-                    $('#upload_status_files_input').remove()
+                    // $('#upload_status_files_input').remove()
                     cb()
                 } else {
                     alert('上传失败')

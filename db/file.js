@@ -24,3 +24,7 @@ exports.removeById = function(id, cb) {
 exports.findAndModifyById = function(id, fileDoc, cb) {
     file_coll.findAndModify({ _id : file_coll.id(id) }, {}, { $set : fileDoc}, {new : true}, cb)
 }
+
+exports.findByTaskIdInSummary = function(taskId,cb) {
+    file_coll.find({ task_id : taskId}).sort({ created_time : -1 }).limit(3).toArray(cb)
+}
