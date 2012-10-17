@@ -450,11 +450,10 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper .file-item .type {
   position: absolute;
-  top: 10px;
+  top: 5px;
   left: 10px;
-  width: 40px;
-  height: 40px;
-  border: solid 1px #dfdfdf;
+  max-width: 40px;
+  max-height: 50px;
 }
 .task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper .file-item .name {
   overflow: hidden;

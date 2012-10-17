@@ -136,8 +136,8 @@ block content
                                         a(href='#') 上传
                                     .file-item-wrapper.clearfix
                                         - each file in taskFiles
-                                            .file-item
-                                                .type(data-type='#{file.type}')
+                                            .file-item(data-type='#{file.type}')
+                                                img.type(src='')
                                                 a.name(href='#{file.url}') #{file.name}
                                                 .log #{file.operator_name} 上传于 #{file.created_time}
                                 .task-summary-milestone.clearfix

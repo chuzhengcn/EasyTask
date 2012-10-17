@@ -80,9 +80,19 @@ exports.create = function(req, res) {
                         res.send({ ok : 0, msg : '数据库错误' })
                         return
                     }
-                    res.send({ ok : 1, id : result[0]._id})
-                    //only support create one task in one time 
-                    routeApp.createLogItem({ log_type : 1 }, operator, result[0])
+                    status_coll.create({
+                        task_id         : result[0]._id.toString(),
+                        name            : '需求提交',
+                        content         : '',
+                        files           : [],
+                        operator_id     : operator._id,
+                        operator_name   : operator.name,
+                        operator_avatar : operator.avatar_url,
+                        created_time    : new Date(),
+                    }, function(err, statusResult) {
+                        routeApp.createLogItem({ log_type : 1 }, operator, result[0])
+                        res.send({ ok : 1, id : result[0]._id})
+                    })
                 }
             )
         }) 
