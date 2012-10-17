@@ -86,6 +86,11 @@
         $('#task_branch_form_btn').click(function(event) {
             readyToUpsertBranch.call(this, event, $(this))
         })
+        //get the new task custom id
+        $('#get_new_custom_id').click(function(event) {
+            getNewCustomId()
+            event.preventDefault()
+        })
 
     }
 
@@ -246,5 +251,19 @@
             })
             event.preventDefault() 
         }
+    }
+
+    function getNewCustomId() {
+        $('#get_new_custom_id').html('正在获取')
+        $.ajax({
+            type        : 'put',
+            url         : '/get-new-custom-id',
+            success     : function(data) {
+                if (data.ok == 1) {
+                    $('#task_branch_form input[name="branch"]').val('/' + data.id)
+                    $('#get_new_custom_id').html('再次获取')
+                }
+            }
+        })
     }
 })()

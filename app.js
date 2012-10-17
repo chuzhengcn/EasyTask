@@ -33,6 +33,7 @@ app.get('/tasks/:id',           task.show)
 app.put('/tasks/:id',           task.update)
 app.delete('/tasks/:id',        task.delete)
 app.put('/tasks/:id/archive',   task.archive)
+app.put('/get-new-custom-id',   task.newCustomId)
 
 //--------milestone-------------------------------------------------
 var milestone = require('./routes/milestone')

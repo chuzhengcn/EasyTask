@@ -67,6 +67,7 @@ block content
                                                     label.control-label(for='branch') 分支名
                                                     .controls
                                                         input(type='text', value='#{task.branch}', autocomplete='off', placeholder='例如：master-zhengzheng/123', name='branch')
+                                                        button#get_new_custom_id.btn.btn-small 获取新ID
                                                 .control-group
                                                     .controls
                                                         button#task_branch_form_btn.btn.btn-primary 更新
@@ -112,9 +113,9 @@ block content
                                         a(href='/tasks/#{task._id}/status?change=true', title='单击修改状态') #{task.status}
                                     .last-action 最新：
                                         - if (lastStatus)
-                                            | #{lastStatus.operator.name}把任务修改为 
                                             span.label #{lastStatus.name}
-                                            |  on #{lastStatus.created_time.substring(5)}
+                                            |  #{lastStatus.operator.name} 
+                                            |  #{lastStatus.created_time.substring(5)}
                                         - else
                                             | 无
                                 .task-summary-todo.clearfix

@@ -188,6 +188,12 @@ exports.update = function(req, res) {
     })
 }
 
+exports.newCustomId = function(req, res) {
+    counter_coll.saveTaskId(function(err, newId) {
+        res.send({ ok : 1, id : newId})
+    })
+}
+
 function generateTaskUsers(req, cb) {
     var generateResult  = []
     var users           = req.body.task_users
