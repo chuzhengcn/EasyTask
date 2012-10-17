@@ -3,6 +3,7 @@ var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
 var status_coll     = require('../db/status')
 var time            = require('../helper/time')
+var view            = require('../helper/view')
 
 exports.listByTask = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -12,7 +13,7 @@ exports.listByTask = function(req, res) {
                     { 
                         title           : '版本管理 - ' + task.name, 
                         me              : loginUser, 
-                        statusHistory   : time.format_specify_field(statusHistory, { created_time : 'datetime'}),
+                        statusHistory   : view.keepLineBreak(time.format_specify_field(statusHistory, { created_time : 'datetime'}), ['content']),
                         task            : task,
                     } 
                 )
