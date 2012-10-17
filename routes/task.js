@@ -36,17 +36,20 @@ exports.show = function(req, res) {
                 user_coll.findAll(function(err, usersArray) {
                     milestone_coll.findByTaskId(req.params.id, function(err, milestones) {
                         file_coll.findByTaskIdInSummary(req.params.id, function(err, taskFileResult) {
-                            res.render('task/info', 
-                                { 
-                                    title       : task.name, 
-                                    me          : loginUser, 
-                                    task        : task,
-                                    taskUsers   : usersResult,
-                                    users       : usersArray,
-                                    taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'datetime'}),
-                                    milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
-                                } 
-                            )
+                            status_coll.findByTask(req.params.id, function(err, taskStatusResult) {
+                                res.render('task/info', 
+                                    { 
+                                        title       : task.name, 
+                                        me          : loginUser, 
+                                        task        : task,
+                                        taskUsers   : usersResult,
+                                        users       : usersArray,
+                                        lastStatus  : time.format_specify_field(taskStatusResult[0], {created_time : 'datetime'}),
+                                        taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'datetime'}),
+                                        milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
+                                    } 
+                                )
+                            })
                         })
                     })
                 })

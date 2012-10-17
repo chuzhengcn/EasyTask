@@ -90,15 +90,15 @@ block content
                                         li.active
                                             a(href='/tasks/#{task._id}') 摘要
                                         li
-                                            a(href='') 待办事项
-                                        li
                                             a(href='/tasks/#{task._id}/status') 版本管理
+                                        li
+                                            a(href='') 待办事项
                                         li
                                             a(href='') 附件
                                 .task-users.clearfix
                                     h5
                                         span 参与者
-                                        button#edit_task_users.btn.btn-link.btn-mini 编辑
+                                        button#edit_task_users.btn.btn-link 编辑
                                     .task-users-wrapper.clearfix
                                         - each user in taskUsers
                                             a.user(href='/users/#{user._id}')
@@ -108,6 +108,24 @@ block content
                                                     .role 
                                                         small 
                                                             em #{user.role}
+                                .task-summary-version.clearfix
+                                    h5
+                                        span 版本管理
+                                        a(href='/tasks/#{task._id}/status?change=true',title='修改任务状态') 修改状态 
+                                    .branch 分支：
+                                        - if (task.branch)
+                                            button#task_branch_btn.btn.btn-link(title='单击修改分支') #{task.branch}
+                                        - else
+                                            button#task_branch_btn.btn.btn-link 分支待添加
+                                    .status 状态：
+                                        a(href='/tasks/#{task._id}/status?change=true', title='单击修改状态') #{task.status}
+                                    .last-action 最新：
+                                        - if (lastStatus)
+                                            | #{lastStatus.operator_name}把任务修改为 
+                                            span.label #{lastStatus.name}
+                                            |  on #{lastStatus.created_time.substring(5)}
+                                        - else
+                                            | 无
                                 .task-summary-todo.clearfix
                                     h5
                                         span 最新待办事项
@@ -122,21 +140,10 @@ block content
                                                 .type(data-type='#{file.type}')
                                                 a.name(href='#{file.url}') #{file.name}
                                                 .log #{file.operator_name} 上传于 #{file.created_time}
-                                .task-summary-version.clearfix
-                                    h5 
-                                        a(href='/tasks/#{task._id}/status',title='点击查看任务版本历史') 版本管理
-                                    .branch
-                                        - if (task.branch)
-                                            button#task_branch_btn.btn.btn-link(title='单击修改分支') #{task.branch}
-                                        - else
-                                            button#task_branch_btn.btn.btn-link 分支待添加
-                                    .status
-                                        span.label.label-inverse #{task.status}
-                                        a(href='/tasks/#{task._id}/status?change=true') 修改状态
                                 .task-summary-milestone.clearfix
                                     h5 
                                         span 时间点
-                                        button#add_milestone_in_taskinfo.btn.btn-link.btn-mini 添加时间点
+                                        button#add_milestone_in_taskinfo.btn.btn-link 添加时间点
                                     ul
                                         - each milestone in milestones
                                             li

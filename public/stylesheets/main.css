@@ -364,10 +364,12 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-users h5 span {
   float: left;
+  margin-right: 5px;
 }
 .task-summary .task-summary-wrapper .task-users h5 button {
   display: none;
   float: left;
+  padding: 0;
 }
 .task-summary .task-summary-wrapper .task-users h5:hover button {
   display: inline-block;
@@ -423,7 +425,6 @@ input[name='task_users'] {
 .task-summary .task-summary-wrapper .task-summary-file h5 a {
   float: left;
   font-weight: normal;
-  font-size: 12px;
   display: none;
 }
 .task-summary .task-summary-wrapper .task-summary-todo h5 a:hover,
@@ -465,7 +466,7 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-summary-milestone {
   position: absolute;
-  top: 190px;
+  top: 60px;
   right: 10px;
   width: 200px;
   overflow: hidden;
@@ -479,10 +480,12 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-summary-milestone h5 span {
   float: left;
+  margin-right: 5px;
 }
 .task-summary .task-summary-wrapper .task-summary-milestone h5 button {
   display: none;
   float: left;
+  padding: 0;
 }
 .task-summary .task-summary-wrapper .task-summary-milestone h5:hover button {
   display: inline-block;
@@ -495,37 +498,45 @@ input[name='task_users'] {
   margin-left: 10px;
 }
 .task-summary .task-summary-wrapper .task-summary-version {
-  position: absolute;
-  top: 60px;
-  right: 10px;
-  width: 200px;
-  height: 120px;
-  overflow: hidden;
-  border: 1px solid #ece9d9;
-  background-color: #fffbe4;
-  box-shadow: 2px 2px 3px rgba(0,0,0,0.4);
+  padding: 10px 220px 10px 20px;
+  border-bottom: solid 1px #dfdfdf;
 }
 .task-summary .task-summary-wrapper .task-summary-version h5 {
-  padding-left: 10px;
+  height: 25px;
+  cursor: pointer;
+}
+.task-summary .task-summary-wrapper .task-summary-version h5 span {
+  float: left;
+  margin-right: 5px;
 }
 .task-summary .task-summary-wrapper .task-summary-version h5 a {
-  color: #444;
+  float: left;
+  font-weight: normal;
+  display: none;
 }
 .task-summary .task-summary-wrapper .task-summary-version h5 a:hover {
   text-decoration: underline;
 }
+.task-summary .task-summary-wrapper .task-summary-version h5:hover a {
+  display: inline-block;
+}
 .task-summary .task-summary-wrapper .task-summary-version .branch {
-  padding: 0 10px 15px 0px;
+  float: left;
+  padding-right: 80px;
+}
+.task-summary .task-summary-wrapper .task-summary-version .branch button {
+  padding: 0;
 }
 .task-summary .task-summary-wrapper .task-summary-version .branch button:hover {
   text-decoration: underline;
 }
 .task-summary .task-summary-wrapper .task-summary-version .status {
-  padding: 0 10px 0 10px;
-  font-size: 12px;
+  float: left;
 }
-.task-summary .task-summary-wrapper .task-summary-version .status a {
-  margin-left: 10px;
+.task-summary .task-summary-wrapper .task-summary-version .last-action {
+  clear: both;
+  padding: 10px 0 10px 0;
+  margin-top: 10px;
 }
 #edit_task_info_form_wrapper,
 #edit_task_users_form_wrapper,
