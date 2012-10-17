@@ -273,6 +273,15 @@
                 case 'application/vnd.ms-excel' :
                     setIcon.call(this, 'xls.png')
                     break
+                case 'application/x-shockwave-flash' :
+                    setIcon.call(this, 'swf.png')
+                    break
+                case 'application/vnd.ms-powerpoint' :
+                    setIcon.call(this, 'ppt.png')
+                    break
+                case 'application/vnd.openxmlformats-officedocument.presentationml.presentation' :
+                    setIcon.call(this, 'pptx.png')
+                    break
                 case 'image/jpeg' :
                     setImgPreview.call(this)
                     break
