@@ -630,6 +630,44 @@ input[name='task_users'] {
   background-image: -webkit-linear-gradient(0deg, #e75239 0%, #e75239 12.5%, #ff961c 12.5%, #ff961c 25%, #ffcc27 25%, #ffcc27 37.5%, #fce62f 37.5%, #fce62f 50%, #cde35b 50%, #cde35b 62.5%, #82cc33 62.5%, #82cc33 75%, #41bece 75%, #41bece 87.5%, #049cdb 87.5%, #049cdb 100%);
   background-image: -moz-linear-gradient(0deg, #e75239 0%, #e75239 12.5%, #ff961c 12.5%, #ff961c 25%, #ffcc27 25%, #ffcc27 37.5%, #fce62f 37.5%, #fce62f 50%, #cde35b 50%, #cde35b 62.5%, #82cc33 62.5%, #82cc33 75%, #41bece 75%, #41bece 87.5%, #049cdb 87.5%, #049cdb 100%);
 }
+.files-list-wrapper .task-nav {
+  padding: 10px 20px 10px 20px;
+  border-bottom: solid 1px #dfdfdf;
+}
+.files-list-wrapper .task-nav ul {
+  margin-bottom: 0;
+}
+.files-list-wrapper .file-item {
+  position: relative;
+  margin: 20px 150px 20px 210px;
+  border-radius: 6px;
+  border: solid 1px #dfdfdf;
+  height: 80px;
+}
+.files-list-wrapper .file-item .popstripe {
+  height: 1px;
+  border-radius: 6px;
+}
+.files-list-wrapper .file-item img {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  max-width: 50px;
+  max-height: 60px;
+}
+.files-list-wrapper .file-item .name {
+  position: absolute;
+  left: 80px;
+  top: 10px;
+}
+.files-list-wrapper .file-item .log {
+  position: absolute;
+  left: 80px;
+  top: 40px;
+}
+#upload_task_files_form legend {
+  padding: 0 20px 3px 20px;
+}
 .err-404 {
   text-align: center;
   color: #fff;

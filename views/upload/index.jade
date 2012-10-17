@@ -1,0 +1,44 @@
+extends ../layout
+append head
+    script(src='/javascripts/upload/index.js')
+block content
+    .app-layout
+        include ../include/app-header
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                                        form#upload_task_files_form.form-horizontal(action='/tasks/#{task._id}/upload-files')
+                                            legend 上传附件
+                                            .controls-group
+                                                label.control-label(for='task_files') 附件
+                                                .controls
+                                                    input#upload_status_files_input(type='file', name='task_files',multiple="multiple")
+                                            .control-group
+                                                .controls
+                                                    button#upload_task_files_form_btn.btn.btn-primary 上传
+                    .list
+                        .list-header.clearfix
+                            header(data-id='#{task._id}') #{task.custom_id} - #{task.name}
+                            .operate-wrapper
+                                a.btn.btn-small(href='/tasks') 
+                                    i.icon-chevron-left
+                                    |  返回任务列表
+                                button#upload_task_files.btn.btn-primary.btn-small 上传附件
+                        .main-body.scrollable
+                            .files-list-wrapper.clearfix
+                                include ../include/task-nav
+                                - if (files)
+                                    - each file in files
+                                        .file-item(data-type='#{file.type}')
+                                            .popstripe
+                                            img.type(src='')
+                                            a.name(href='#{file.url}') #{file.name}
+                                            .log #{file.operator.name} 上传于 #{file.created_time}                                                             

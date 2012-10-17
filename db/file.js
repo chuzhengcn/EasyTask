@@ -1,5 +1,6 @@
 var db          = require('./config').db
 var file_coll   = db.collection('file')
+var user_coll   = require('./user')
 
 exports.create = function(file, cb) {
     file_coll.insert(file, {safe:true}, cb)
@@ -26,5 +27,13 @@ exports.findAndModifyById = function(id, fileDoc, cb) {
 }
 
 exports.findByTaskIdInSummary = function(taskId,cb) {
-    file_coll.find({ task_id : taskId}).sort({ created_time : -1 }).limit(4).toArray(cb)
+    file_coll.find({ task_id : taskId}).sort({ created_time : -1 }).limit(4).toArray(function(err, taskResults) {
+        user_coll.includeUsers(taskResults, cb)
+    })
+}
+
+exports.findByTaskId = function(taskId,cb) {
+    file_coll.find({ task_id : taskId}).sort({ created_time : -1 }).toArray(function(err, taskResults) {
+        user_coll.includeUsers(taskResults, cb)
+    })
 }

@@ -1,6 +1,8 @@
 var fs              = require('fs')
 var file_coll       = require('../db/file')
+var task_coll       = require('../db/task')
 var routeApp        = require('./app')
+var time            = require('../helper/time')
 
 
 var avatarLocalDir  = __dirname + '/../public/attachments/avatar/'
@@ -38,6 +40,23 @@ exports.deleteAvatar = function(req, res) {
             })
         }
     }) 
+}
+
+exports.list = function(req, res) {
+    routeApp.identifying(req, function(loginUser) {
+        file_coll.findByTaskId(req.params.task_id, function(err, files) {
+            task_coll.findById(req.params.task_id, function(err, task) {
+                res.render('upload/index', 
+                    { 
+                        title   : '附件 -' + task.name , 
+                        me      : loginUser, 
+                        task    : task,
+                        files   : time.format_specify_field(files,{created_time : 'datetime'}),
+                    } 
+                )
+            })
+        }) 
+    })
 }
 
 exports.createTaskFiles = function(req, res) {
@@ -90,7 +109,6 @@ exports.createTaskFiles = function(req, res) {
                             size            : size,
                             url             : taskFileServerDir + name,
                             task_id         : taskId,
-                            operator_name   : operator.name,
                             operator_id     : operator._id,
                             created_time    : new Date(),
                         }, function(err, fileResult) {
@@ -102,6 +120,9 @@ exports.createTaskFiles = function(req, res) {
                             filesNum = filesNum - 1
                             if (filesNum == 0) {
                                 res.send({ ok : 1, files : savedFiles})
+                                task_coll.findById(taskId, function(err, taskResult) {
+                                    routeApp.createLogItem({ log_type : 12 }, operator, taskResult)
+                                })
                             }
                         })
                     })

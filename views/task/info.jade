@@ -31,8 +31,8 @@ block content
                                                 .control-group
                                                     label.control-label(for='task_users') 参与者
                                                     .controls
-                                                        - each user in taskUsers
-                                                            input(type='text',name='task_users',list="task_users_option", autocomplete='off', value='#{user.name}')
+                                                        - each taskuser in taskUsers
+                                                            input(type='text',name='task_users',list="task_users_option", autocomplete='off', value='#{taskuser.name}')
                                                         a#add_more_task_user(href='#', tabindex='-1')
                                                             i.icon-plus
                                                             | 更多参与者 
@@ -72,7 +72,7 @@ block content
                                                         button#task_branch_form_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}') #{task.task_id} - #{task.name}
+                            header(data-id='#{task._id}') #{task.custom_id} - #{task.name}
                             .operate-wrapper
                                 a.btn.btn-small(href='/tasks') 
                                     i.icon-chevron-left
@@ -85,29 +85,20 @@ block content
                                 button#delete_task_btn.btn.btn-danger.btn-small 删除
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
-                                .task-nav
-                                    ul.nav.nav-pills
-                                        li.active
-                                            a(href='/tasks/#{task._id}') 摘要
-                                        li
-                                            a(href='/tasks/#{task._id}/status') 版本管理
-                                        li
-                                            a(href='') 待办事项
-                                        li
-                                            a(href='') 附件
+                                include ../include/task-nav
                                 .task-users.clearfix
                                     h5
                                         span 参与者
                                         button#edit_task_users.btn.btn-link 编辑
                                     .task-users-wrapper.clearfix
-                                        - each user in taskUsers
-                                            a.user(href='/users/#{user._id}')
-                                                img.img-polaroid.img-rounded(src='#{user.avatar_url}')
+                                        - each taskuser in taskUsers
+                                            a.user(href='/users/#{taskuser._id}')
+                                                img.img-polaroid.img-rounded(src='#{taskuser.avatar_url}')
                                                 .info 
-                                                    .name #{user.name}
+                                                    .name #{taskuser.name}
                                                     .role 
                                                         small 
-                                                            em #{user.role}
+                                                            em #{taskuser.role}
                                 .task-summary-version.clearfix
                                     h5
                                         span 版本管理
@@ -121,7 +112,7 @@ block content
                                         a(href='/tasks/#{task._id}/status?change=true', title='单击修改状态') #{task.status}
                                     .last-action 最新：
                                         - if (lastStatus)
-                                            | #{lastStatus.operator_name}把任务修改为 
+                                            | #{lastStatus.operator.name}把任务修改为 
                                             span.label #{lastStatus.name}
                                             |  on #{lastStatus.created_time.substring(5)}
                                         - else
@@ -133,13 +124,13 @@ block content
                                 .task-summary-file.clearfix
                                     h5 
                                         span 最新附件
-                                        a(href='#') 上传
+                                        a(href='/tasks/#{task._id}/uploads?create=true') 上传
                                     .file-item-wrapper.clearfix
                                         - each file in taskFiles
                                             .file-item(data-type='#{file.type}')
                                                 img.type(src='')
                                                 a.name(href='#{file.url}') #{file.name}
-                                                .log #{file.operator_name} 上传于 #{file.created_time}
+                                                .log #{file.operator.name} 上传于 #{file.created_time}
                                 .task-summary-milestone.clearfix
                                     h5 
                                         span 时间点

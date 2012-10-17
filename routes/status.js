@@ -33,8 +33,6 @@ exports.create = function(req, res) {
             content         : req.body.description,
             files           : req.body.taskfiles,
             operator_id     : operator._id,
-            operator_name   : operator.name,
-            operator_avatar : operator.avatar_url,
             created_time    : new Date(),
         }, function(err, status) {
             if (err) {

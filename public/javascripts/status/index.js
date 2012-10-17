@@ -3,6 +3,7 @@
     var files_info = []
     $(function() {
         app.utility.highlightCurrentPage('任务')
+        app.utility.highlightTaskNav('版本管理')
         setOriginTaskStatus()
         checkPaneNeedOpen()
         eventBind()

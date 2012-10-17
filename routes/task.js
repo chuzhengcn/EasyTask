@@ -32,7 +32,7 @@ exports.show = function(req, res) {
                 return
             }
 
-            user_coll.findTaskUsers(task.task_users, function(err, usersResult) {
+            user_coll.findTaskUsers(task.users, function(err, usersResult) {
                 user_coll.findAll(function(err, usersArray) {
                     milestone_coll.findByTaskId(req.params.id, function(err, milestones) {
                         file_coll.findByTaskIdInSummary(req.params.id, function(err, taskFileResult) {
@@ -64,38 +64,37 @@ exports.create = function(req, res) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
-
-        counter_coll.saveTaskId(function(err, task_id) {
-            task_coll.create({
-                    name            : req.body.name,
-                    task_users      : generateTaskUsers(req),
-                    task_id         : task_id,
-                    active          : true,
-                    branch          : '',
-                    status          : '需求提交',
-                    created_time    : new Date()
-                },  
-                function(err, result) {
-                    if (err) {
-                        res.send({ ok : 0, msg : '数据库错误' })
-                        return
+        generateTaskUsers(req, function(taskUsers) {
+            counter_coll.saveTaskId(function(err, custom_id) {
+                task_coll.create({
+                        name            : req.body.name,
+                        users           : taskUsers,
+                        custom_id       : custom_id,
+                        active          : true,
+                        branch          : '',
+                        status          : '需求提交',
+                        created_time    : new Date()
+                    },  
+                    function(err, result) {
+                        if (err) {
+                            res.send({ ok : 0, msg : '数据库错误' })
+                            return
+                        }
+                        status_coll.create({
+                            task_id         : result[0]._id.toString(),
+                            name            : '需求提交',
+                            content         : '',
+                            files           : [],
+                            operator_id     : operator._id,
+                            created_time    : new Date(),
+                        }, function(err, statusResult) {
+                            routeApp.createLogItem({ log_type : 1 }, operator, result[0])
+                            res.send({ ok : 1, id : result[0]._id})
+                        })
                     }
-                    status_coll.create({
-                        task_id         : result[0]._id.toString(),
-                        name            : '需求提交',
-                        content         : '',
-                        files           : [],
-                        operator_id     : operator._id,
-                        operator_name   : operator.name,
-                        operator_avatar : operator.avatar_url,
-                        created_time    : new Date(),
-                    }, function(err, statusResult) {
-                        routeApp.createLogItem({ log_type : 1 }, operator, result[0])
-                        res.send({ ok : 1, id : result[0]._id})
-                    })
-                }
-            )
-        }) 
+                )
+            }) 
+        })
     })
 }
 
@@ -142,47 +141,75 @@ exports.update = function(req, res) {
 
         var updateDoc = {}
         var log_type  = 5
+
         if (req.body.name) {
             updateDoc = { name : req.body.name }
+            startUpdateTask()
+            return
         }
 
         if (req.body.task_users) {
-            updateDoc = { task_users : generateTaskUsers(req) }
             log_type  = 6
+            generateTaskUsers(req, function(taskUsers) {
+                updateDoc = {users : taskUsers}
+                startUpdateTask()
+            })
+
+            return
         }
 
         if (req.body.branch) {
             updateDoc = { branch : req.body.branch}
             log_type  = 10
+            var custom_id = req.body.branch.split('/')[1]
+            if (custom_id) {
+                updateDoc.custom_id = custom_id
+            }
             status_coll.create({ 
                 task_id         : req.params.id,
-                name            : '把任务分支修改为：' + req.body.branch,
+                name            : '把分支修改为：' + req.body.branch,
                 content         : '',
                 files           : [],
                 operator_id     : operator._id,
-                operator_name   : operator.name,
-                operator_avatar : operator.avatar_url,
                 created_time    : new Date(),
             })
+            startUpdateTask()
+            return
         }
-        task_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
-            
-            routeApp.createLogItem({log_type : log_type }, operator, result)
 
-            res.send({ ok : 1 })
-        })
+        function startUpdateTask() {
+            task_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
+                
+                routeApp.createLogItem({log_type : log_type }, operator, result)
+
+                res.send({ ok : 1 })
+            })
+        }
     })
 }
 
-function generateTaskUsers(req) {
+function generateTaskUsers(req, cb) {
     var generateResult  = []
     var users           = req.body.task_users
+    var userNum         = 0
     if (users && Array.isArray(users)) {
+
+        users.forEach(function(item, index, array) {
+            if (item) {
+                userNum++
+            }
+        })
+
         users.forEach(function(item, index, array) {
             if (item !== '') {
-                generateResult.push(item)
+                user_coll.findByName(item, function(err, user) {
+                    generateResult.push(user._id)
+                    userNum--
+                    if (userNum == 0) {
+                        cb(generateResult)
+                    }
+                })  
             }
         })
     }
-    return generateResult
 }

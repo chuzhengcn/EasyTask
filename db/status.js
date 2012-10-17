@@ -1,5 +1,6 @@
-var db              = require('./config').db
+var db             = require('./config').db
 var status_coll    = db.collection('status')
+var user_coll      = require('./user')
 
 exports.create = function(status, cb) {
     status_coll.insert(status, cb)
@@ -26,5 +27,7 @@ exports.findAndModifyById = function(id, statusDoc, cb) {
 }
 
 exports.findByTask = function(task_id, cb) {
-    status_coll.find({ task_id : task_id}).sort({ created_time : -1 }).toArray(cb)
+    status_coll.find({ task_id : task_id}).sort({ created_time : -1 }).toArray(function(err, statusResults) {
+        user_coll.includeUsers(statusResults, cb)
+    })
 }

@@ -49,18 +49,7 @@ exports.create = function(req, res) {
                         res.send({ ok : 0, msg : '数据库错误' })
                         return
                     }
-                    //only support create one task in one time 
-                    routeApp.createLogItem({
-                        operator_id     : operator._id,
-                        operator_name   : operator.name,
-                        event_time      : result[0].created_time,
-                        task_name       : task.name,
-                        task_id         : task._id,
-                        milestone_name  : result[0].name,
-                        milestone_id    : result[0]._id,
-                        log_type        : 7
-                    })
-
+                    routeApp.createLogItem({ log_type : 7 }, operator, task)
                     res.send({ ok : 1 })
                 }
             )
@@ -77,16 +66,7 @@ exports.delete = function(req, res) {
         milestone_coll.findById(req.params.id, function(err, result) {
             milestone_coll.removeById(req.params.id, function(err) {
                 task_coll.findById(result.task_id, function(err, task) {
-                    routeApp.createLogItem({
-                        operator_id     : operator._id,
-                        operator_name   : operator.name,
-                        event_time      : new Date(),
-                        task_name       : task.name,
-                        task_id         : task._id,
-                        milestone_id    : result._id,
-                        milestone_name  : result.name,
-                        log_type        : 8
-                    })
+                    routeApp.createLogItem({ log_type : 8 }, operator, task)
                 })
 
                 res.send({ ok : 1 })
@@ -111,16 +91,7 @@ exports.update = function(req, res) {
         milestone_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
             //write log
             task_coll.findById(req.params.task_id, function(err, task) {
-                routeApp.createLogItem({
-                    operator_id     : operator._id,
-                    operator_name   : operator.name,
-                    event_time      : new Date(),
-                    task_name       : task.name,
-                    task_id         : task._id,
-                    milestone_id    : result._id,
-                    milestone_name  : result.name,
-                    log_type        : 9
-                })
+                routeApp.createLogItem({ log_type : 9 }, operator, task)
             })
             res.send({ ok : 1 })
         })

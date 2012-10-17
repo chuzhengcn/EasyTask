@@ -26,6 +26,25 @@ exports.removeById = function(id, cb) {
     user_coll.removeById(id, cb)
 }
 
-exports.findTaskUsers = function(userNameArray, cb) {
-    user_coll.find({name : {$in : userNameArray}}).toArray(cb)
+exports.findTaskUsers = function(userArray, cb) {
+    user_coll.find({_id : {$in : userArray}}).sort({ role : -1 }).toArray(cb)
+}
+
+exports.findByName = function(name, cb) {
+    user_coll.findOne({ name : name } , cb)
+}
+
+exports.includeUsers = function(originArray, cb) {
+    var userMap = {}
+    user_coll.find().toArray(function(err, userResults) {
+        userResults.forEach(function(item, index, array) {
+            userMap[item._id] = item
+        })
+        
+        var originArrayIncludeUser = originArray.map(function(item, index, array) {
+            item.operator = userMap[item.operator_id]
+            return item
+        })
+        cb(err, originArrayIncludeUser)
+    })
 }

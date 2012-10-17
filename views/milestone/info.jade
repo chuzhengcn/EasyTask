@@ -27,7 +27,7 @@ block content
                                         span.divider /
                                     li.active(data-id='#{milestone._id}') 时间点 - #{milestone.name}
                             .operate-wrapper
-                                button#delete_milestone_btn.btn.btn-danger.btn-small 删除
+                                button#delete_milestone_btn.btn.btn-danger.btn-small 删除时间点
                         .main-body.scrollable
                             .milestone-info-wrapper.clearfix
                                 form#edit_task_milestone_form.form-horizontal(action='/tasks/#{task._id}/milestones/#{milestone._id}')

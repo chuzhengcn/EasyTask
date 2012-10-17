@@ -1,7 +1,8 @@
 (function() {
     $(function() {
         app.utility.highlightCurrentPage('任务')
-        setFileIcon()
+        app.utility.highlightTaskNav('摘要')
+        app.viewhelper.setFileIcon()
         eventBind()
     })
 
@@ -244,64 +245,6 @@
                 }
             })
             event.preventDefault() 
-        }
-    }
-
-    function setFileIcon() {
-        if (!$('.file-item')) {
-            return
-        } 
-
-        $('.file-item').each(function() {
-            var type = $(this).data('type')
-            switch(type) {
-                case 'text/plain' :
-                    setIcon.call(this, 'txt.png')
-                    break
-                case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' :
-                    setIcon.call(this, 'xlsx.png')
-                    break
-                case 'application/msword' :
-                    setIcon.call(this, 'doc.png')
-                    break
-                case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
-                    setIcon.call(this, 'docx.png')
-                    break
-                case 'application/pdf' :
-                    setIcon.call(this, 'pdf.png')
-                    break
-                case 'application/vnd.ms-excel' :
-                    setIcon.call(this, 'xls.png')
-                    break
-                case 'application/x-shockwave-flash' :
-                    setIcon.call(this, 'swf.png')
-                    break
-                case 'application/vnd.ms-powerpoint' :
-                    setIcon.call(this, 'ppt.png')
-                    break
-                case 'application/vnd.openxmlformats-officedocument.presentationml.presentation' :
-                    setIcon.call(this, 'pptx.png')
-                    break
-                case 'image/jpeg' :
-                    setImgPreview.call(this)
-                    break
-                case 'image/png' :
-                    setImgPreview.call(this)
-                    break
-                case 'image/gif' :
-                    setImgPreview.call(this)
-                    break
-                default :
-                    setIcon.call(this, 'binary.png')
-            }   
-        })
-
-        function setIcon(iconAddress) {
-            $(this).children('img').attr('src', '/images/' + iconAddress)
-        }
-
-        function setImgPreview() {
-            $(this).children('img').attr('src', $(this).children('.name').attr('href'))
         }
     }
 })()

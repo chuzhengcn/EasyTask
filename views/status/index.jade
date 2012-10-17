@@ -41,7 +41,7 @@ block content
                                                     button#mark_task_status_form_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}') #{task.task_id} - #{task.name}
+                            header(data-id='#{task._id}') #{task.custom_id} - #{task.name}
                             .operate-wrapper
                                 a.btn.btn-small(href='/tasks') 
                                     i.icon-chevron-left
@@ -49,23 +49,14 @@ block content
                                 button#mark_task_status.btn.btn-primary.btn-small 修改状态
                         .main-body.scrollable
                             .status-info-wrapper.clearfix
-                                .task-nav
-                                    ul.nav.nav-pills
-                                        li
-                                            a(href='/tasks/#{task._id}') 摘要
-                                        li
-                                            a(href='') 待办事项
-                                        li.active
-                                            a(href='/tasks/#{task._id}/status') 版本管理
-                                        li
-                                            a(href='') 附件
+                                include ../include/task-nav
                                 - each status in statusHistory
                                     .status-history-item.clearfix
-                                        img.img-rounded(src='#{status.operator_avatar}')
+                                        img.img-rounded(src='#{status.operator.avatar_url}')
                                         .status-history-content
                                             .popstripe
                                             .status-name #{status.name}
-                                                .states-date #{status.created_time.substring(5)} by #{status.operator_name}
+                                                .states-date #{status.created_time.substring(5)} by #{status.operator.name}
                                             - if (status.content !== '')
                                                 .status-history-des #{status.content}
                                             - if (status.files)
