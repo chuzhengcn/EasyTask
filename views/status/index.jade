@@ -58,7 +58,7 @@ block content
                                             .status-name #{status.name}
                                                 .states-date #{status.created_time.substring(5)} by #{status.operator.name}
                                             - if (status.content !== '')
-                                                .status-history-des #{status.content}
+                                                .status-history-des !{status.content}
                                             - if (status.files)
                                                 .status-files
                                                     - each file in status.files
