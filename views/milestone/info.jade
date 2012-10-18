@@ -17,16 +17,11 @@ block content
                                     .inner
                     .list
                         .list-header.clearfix
-                            header
-                                ul.breadcrumb
-                                    li
-                                        a(href='/tasks') 任务
-                                        span.divider /
-                                    li 
-                                        a(href='/tasks/#{task._id}') #{task.task_id} - #{task.name}
-                                        span.divider /
-                                    li.active(data-id='#{milestone._id}') 时间点 - #{milestone.name}
+                            header #{task.custom_id} - #{task.name}
                             .operate-wrapper
+                                a.btn.btn-small(href='/tasks/#{task._id}') 
+                                    i.icon-chevron-left
+                                    |  返回任务摘要
                                 button#delete_milestone_btn.btn.btn-danger.btn-small 删除时间点
                         .main-body.scrollable
                             .milestone-info-wrapper.clearfix

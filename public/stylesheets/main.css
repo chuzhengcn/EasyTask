@@ -497,7 +497,7 @@ input[name='task_users'] {
   margin-left: 10px;
 }
 .task-summary .task-summary-wrapper .task-summary-version {
-  padding: 10px 220px 10px 20px;
+  padding: 10px 220px 20px 20px;
   border-bottom: solid 1px #dfdfdf;
 }
 .task-summary .task-summary-wrapper .task-summary-version h5 {
@@ -521,7 +521,7 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-summary-version .branch {
   float: left;
-  padding-right: 80px;
+  padding-right: 50px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .branch button {
   padding: 0;
@@ -531,11 +531,14 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-summary-version .status {
   float: left;
+  padding-right: 50px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .last-action {
-  clear: both;
-  padding: 10px 0 10px 0;
-  margin-top: 10px;
+  float: left;
+  padding: 0;
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action span {
+  margin-right: 10px;
 }
 #edit_task_info_form_wrapper,
 #edit_task_users_form_wrapper,

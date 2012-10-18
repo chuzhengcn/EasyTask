@@ -55,6 +55,13 @@ app.post('/users',          user.create)
 app.get('/users/:id',       user.show)
 app.put('/users/:id',       user.update)
 app.delete('/users/:id',    user.delete)
+//---------todo------------------------------------------------------
+var todo    = require('./routes/todo')
+app.get('/tasks/:task_id/todos',           todo.list)
+app.post('/tasks/:task_id/todos',          todo.create)
+app.get('/tasks/:task_id/todos/:id',       todo.show)
+app.put('/tasks/:task_id/todos/:id',       todo.update)
+app.delete('/todos/:id',                   todo.delete)
 
 //---------upload----------------------------------------------
 var upload    = require('./routes/upload')
