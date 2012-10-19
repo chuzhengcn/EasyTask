@@ -13,6 +13,7 @@ var logType = {
     setTaskBranch   : 10,
     setTaskStatus   : 11,
     uploadTaskFile  : 12,
+    addTodo         : 13, 
 }
 
 exports.identifying = function (req, cb) {

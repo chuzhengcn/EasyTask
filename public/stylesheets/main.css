@@ -341,6 +341,9 @@ input[name='task_users'] {
   padding: 7px 15px 7px 15px;
   border-top: solid 1px #dae2f2;
 }
+.list-body .task-list li a:hover {
+  text-decoration: underline;
+}
 .list-body .task-list li a .task-custom-id {
   width: 40px;
   float: left;
@@ -646,36 +649,91 @@ input[name='task_users'] {
 .files-list-wrapper .task-nav ul {
   margin-bottom: 0;
 }
-.files-list-wrapper .file-item {
+.files-list-wrapper .file-item-wrapper {
   position: relative;
-  margin: 20px 150px 20px 210px;
+  padding: 20px 150px 20px 210px;
+}
+.files-list-wrapper .file-item-wrapper .operate-avatar {
+  position: absolute;
+  top: 22px;
+  left: 150px;
+  width: 50px;
+  height: 50px;
+}
+.files-list-wrapper .file-item-wrapper .file-item {
+  position: relative;
   border-radius: 6px;
   border: solid 1px #dfdfdf;
   height: 80px;
 }
-.files-list-wrapper .file-item .popstripe {
+.files-list-wrapper .file-item-wrapper .file-item .popstripe {
   height: 1px;
   border-radius: 6px;
 }
-.files-list-wrapper .file-item img {
+.files-list-wrapper .file-item-wrapper .file-item img {
   position: absolute;
   top: 10px;
   left: 10px;
   max-width: 50px;
   max-height: 60px;
 }
-.files-list-wrapper .file-item .name {
+.files-list-wrapper .file-item-wrapper .file-item .name {
   position: absolute;
   left: 80px;
   top: 10px;
 }
-.files-list-wrapper .file-item .log {
+.files-list-wrapper .file-item-wrapper .file-item .log {
   position: absolute;
   left: 80px;
   top: 40px;
 }
 #upload_task_files_form legend {
   padding: 0 20px 3px 20px;
+}
+.todo-list-wrapper .task-nav {
+  padding: 10px 20px 10px 20px;
+  border-bottom: solid 1px #dfdfdf;
+}
+.todo-list-wrapper .task-nav ul {
+  margin-bottom: 0;
+}
+.todo-list-wrapper .todo-list {
+  background: #e9eef7;
+}
+.todo-list-wrapper .todo-list li {
+  border-bottom: 1px solid #dae2f2;
+  padding: 10px 15px 10px 15px;
+  height: 20px;
+}
+.todo-list-wrapper .todo-list li a.name {
+  color: rgba(0,0,0,0.85);
+  float: left;
+  width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.todo-list-wrapper .todo-list li .category {
+  float: right;
+  margin-left: 20px;
+  line-height: 20px;
+}
+.todo-list-wrapper .todo-list li .time {
+  float: right;
+  margin-left: 40px;
+  margin-right: 20px;
+}
+.todo-list-wrapper .todo-list li .complete,
+.todo-list-wrapper .todo-list li .un-complete {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 0 20px 0 20px;
+  background: url("/images/complete.png") 0 0 no-repeat;
+  cursor: pointer;
+}
+.todo-list-wrapper .todo-list li .un-complete {
+  background: url("/images/un-complete.png") 0 0 no-repeat;
 }
 .todo-new-wrapper .task-nav {
   padding: 10px 20px 10px 20px;
@@ -685,13 +743,20 @@ input[name='task_users'] {
   margin-bottom: 0;
 }
 .todo-new-wrapper #create_task_todo_form {
-  padding: 20px;
+  padding: 10px 20px;
 }
 .todo-new-wrapper #create_task_todo_form select {
   margin-left: 5px;
 }
-.todo-new-wrapper #create_task_todo_form #categorys_form_btn {
+.todo-new-wrapper #create_task_todo_form #create_task_todo_form_btn {
   margin-top: 20px;
+}
+.todo-info-wrapper .task-nav {
+  padding: 10px 20px 10px 20px;
+  border-bottom: solid 1px #dfdfdf;
+}
+.todo-info-wrapper .task-nav ul {
+  margin-bottom: 0;
 }
 .err-404 {
   text-align: center;

@@ -30,8 +30,8 @@ exports.list = function(req, res) {
                     { 
                         title   : '待办事项 - ' + task.name, 
                         me      : loginUser,
-                        todos   : todos, 
-                        task    : task
+                        todos   : time.format_specify_field(todos, { created_time : 'datetime' }), 
+                        task    : task,
                     } 
                 )
             })
@@ -41,33 +41,21 @@ exports.list = function(req, res) {
 
 exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
-        task_coll.findById(req.params.id, function(err, task) {
+        task_coll.findById(req.params.task_id, function(err, task) {
             if (!task) {
                 res.redirect('/404')
                 return
             }
 
-            user_coll.findTaskUsers(task.users, function(err, usersResult) {
-                user_coll.findAll(function(err, usersArray) {
-                    milestone_coll.findByTaskId(req.params.id, function(err, milestones) {
-                        file_coll.findByTaskIdInSummary(req.params.id, function(err, taskFileResult) {
-                            status_coll.findByTask(req.params.id, function(err, taskStatusResult) {
-                                res.render('task/info', 
-                                    { 
-                                        title       : task.name, 
-                                        me          : loginUser, 
-                                        task        : task,
-                                        taskUsers   : usersResult,
-                                        users       : usersArray,
-                                        lastStatus  : time.format_specify_field(taskStatusResult[0], {created_time : 'datetime'}),
-                                        taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'datetime'}),
-                                        milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
-                                    } 
-                                )
-                            })
-                        })
-                    })
-                })
+            todo_coll.findById(req.params.id, function(err, todo) {
+                res.render('todo/info',
+                    {
+                        title : todo.name + '-' + 'task.name',
+                        me    : loginUser,
+                        todo  : time.format_specify_field(todo, {created_time : 'datetime'}),
+                        task  : task,
+                    }
+                )
             })
         }) 
     })
@@ -79,39 +67,31 @@ exports.create = function(req, res) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
-        generateTaskUsers(req, function(taskUsers) {
-            counter_coll.saveTaskId(function(err, custom_id) {
-                task_coll.create({
-                        name            : req.body.name,
-                        users           : taskUsers,
-                        custom_id       : custom_id,
-                        active          : true,
-                        branch          : '',
-                        status          : '需求提交',
-                        created_time    : new Date()
-                    },  
-                    function(err, result) {
-                        if (err) {
-                            res.send({ ok : 0, msg : '数据库错误' })
-                            return
-                        }
-                        status_coll.create({
-                            task_id         : result[0]._id.toString(),
-                            name            : '需求提交',
-                            content         : '',
-                            files           : [],
-                            operator_id     : operator._id,
-                            created_time    : new Date(),
-                        }, function(err, statusResult) {
-                            routeApp.createLogItem({ log_type : 1 }, operator, result[0])
-                            res.send({ ok : 1, id : result[0]._id})
-                        })
-                    }
-                )
-            }) 
+        todo_coll.create({ 
+            task_id         : req.params.task_id,
+            name            : req.body.name,
+            content         : req.body.description,
+            category        : req.body.category,
+            files           : req.body.taskfiles,
+            operator_id     : operator._id,
+            created_time    : new Date(),
+            mordify_time    : new Date(),
+            complete        : false,
+        }, function(err, status) {
+            if (err) {
+                res.send({ ok : 0, msg : '数据库错误' })
+                return
+            }
+            
+            res.send({ ok : 1 })
+
+            task_coll.findById(req.params.task_id, function(err, task) {
+                routeApp.createLogItem({ todo_name : req.body.name, log_type : 11, }, operator, task)
+            })
         })
     })
 }
+
 
 exports.archive = function(req, res) {
     routeApp.ownAuthority(req, function(isOwn, operator) {

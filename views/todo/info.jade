@@ -1,0 +1,31 @@
+extends ../layout
+append head
+    script(src='/javascripts/todo/info.js')
+block content
+    .app-layout
+        include ../include/app-header
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header(data-id='#{task._id}') #{task.custom_id} - #{task.name}
+                            .operate-wrapper
+                                a.btn.btn-small(href='/tasks/#{task._id}/todos') 
+                                    i.icon-chevron-left
+                                    |  返回待办列表
+                        .main-body.scrollable
+                            .todo-info-wrapper.clearfix
+                                include ../include/task-nav
+                                .todo-info
+                                    h3.name #{todo.name}
+                                        span.label #{todo.category}
+                                    .content #{todo.content}

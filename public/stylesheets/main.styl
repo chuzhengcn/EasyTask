@@ -3,6 +3,8 @@ $body-bg        = '/images/body-bg.png'
 $header-bg      = '/images/header-bg.png'
 $icon-search    = '/images/icon-search.png'
 $icon-action    = '/images/icon-action.png'
+$complete       = '/images/complete.png'
+$un-complete    = '/images/un-complete.png'
 //---------------basic-------------------------------------------
 
 //----------------utility--------------------------------------
@@ -190,7 +192,7 @@ body
                     font-weight bold
                     color #515151
                     line-height 50px
-                    overflow: hidden
+                    overflow hidden
                     text-overflow ellipsis
                     white-space nowrap
                     float left
@@ -282,6 +284,8 @@ input[name='task_users']
                 display block
                 padding 7px 15px 7px 15px
                 border-top solid 1px #DAE2F2
+                &:hover
+                    text-decoration underline
                 .task-custom-id
                     width 40px
                     float left
@@ -521,32 +525,77 @@ input[name='task_users']
         border-bottom solid 1px #dfdfdf
         ul
             margin-bottom 0
-    .file-item
+    .file-item-wrapper
         position relative
-        margin 20px 150px 20px 210px
-        border-radius 6px
-        border solid 1px #dfdfdf
-        height 80px
-        .popstripe
-            height 1px
+        padding 20px 150px 20px 210px
+        .operate-avatar
+            position absolute
+            top 22px
+            left 150px
+            width 50px
+            height 50px
+        .file-item
+            position relative
             border-radius 6px
-        img
-            position absolute
-            top 10px
-            left 10px
-            max-width 50px
-            max-height 60px
-        .name
-            position absolute
-            left 80px
-            top 10px
-        .log
-            position absolute
-            left 80px
-            top 40px
+            border solid 1px #dfdfdf
+            height 80px
+            .popstripe
+                height 1px
+                border-radius 6px
+            img
+                position absolute
+                top 10px
+                left 10px
+                max-width 50px
+                max-height 60px
+            .name
+                position absolute
+                left 80px
+                top 10px
+            .log
+                position absolute
+                left 80px
+                top 40px
 #upload_task_files_form
     legend
         padding 0 20px 3px 20px
+//----------------------todo-list-------------------------------------------------
+.todo-list-wrapper
+    .task-nav
+        padding 10px 20px 10px 20px
+        border-bottom solid 1px #dfdfdf
+        ul
+            margin-bottom 0
+    .todo-list
+        background #E9EEF7
+        li
+            border-bottom 1px solid #DAE2F2
+            padding 10px 15px 10px 15px
+            height 20px
+            a.name
+                color rgba(0, 0, 0, 0.85)
+                float left
+                width 300px
+                white-space nowrap
+                overflow hidden
+                text-overflow ellipsis
+            .category
+                float right
+                margin-left 20px
+                line-height 20px
+            .time
+                float right
+                margin-left 40px
+                margin-right 20px
+            .complete, .un-complete
+                float left
+                width 20px
+                height 20px
+                margin 0 20px 0 20px
+                background url($complete) 0 0 no-repeat
+                cursor pointer
+            .un-complete
+                background url($un-complete) 0 0 no-repeat
 //----------------------todo-new----------------------------------------------------
 .todo-new-wrapper
     .task-nav
@@ -555,11 +604,18 @@ input[name='task_users']
         ul
             margin-bottom 0
     #create_task_todo_form
-        padding 20px
+        padding 10px 20px
         select
             margin-left 5px
-        #categorys_form_btn
+        #create_task_todo_form_btn
             margin-top 20px
+//------------------------todo-info--------------------------------------------------
+.todo-info-wrapper
+    .task-nav
+        padding 10px 20px 10px 20px
+        border-bottom solid 1px #dfdfdf
+        ul
+            margin-bottom 0
 //----------------------404---------------------------------------------------------
 .err-404
     text-align center

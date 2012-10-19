@@ -24,6 +24,18 @@ block content
                                     |  返回任务摘要
                                 a.btn.btn-primary.btn-small(href='/tasks/#{task._id}/todo/new') 添加待办事项
                         .main-body.scrollable
-                            .status-info-wrapper.clearfix
+                            .todo-list-wrapper.clearfix
                                 include ../include/task-nav
+                                ul.todo-list.unstyled
+                                    - each todo in todos
+                                        li
+                                            - if (todo.complete)
+                                                span.complete(title='标记事项未完成')
+                                            - else
+                                                span.un-complete(title='标记事项已完成')
+                                            a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
+                                            span.time #{todo.created_time.substring(5)}
+                                            span.category.label #{todo.category}
+
+
                                 

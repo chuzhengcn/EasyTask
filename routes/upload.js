@@ -82,7 +82,17 @@ exports.createTaskFiles = function(req, res) {
         })
 
         function saveFiles(req, res) {
-            var files = req.files.task_files
+            var files
+            //where file from due to editor use different res format
+            if (req.files.task_files) {
+                files = req.files.task_files
+            } else if (req.files.imgFile) {
+                files = req.files.imgFile
+            } else {
+                res.send({ ok : 0, msg: '没有上传文件' })
+                return
+            }
+            
             if (Array.isArray(files)) {
                 var filesNum = files.length
                 files.forEach(function(item, index, array) {
@@ -99,7 +109,7 @@ exports.createTaskFiles = function(req, res) {
                 var size = file.size
                 fs.exists(taskFileLocalDir + name , function(exists) {
                     if(exists) {
-                        name = Date.now() + name 
+                        name = Date.now() + '-' + name 
                     }
 
                     fs.rename(file.path, taskFileLocalDir + name, function() {
@@ -112,14 +122,21 @@ exports.createTaskFiles = function(req, res) {
                             operator_id     : operator._id,
                             created_time    : new Date(),
                         }, function(err, fileResult) {
-                            if (err) {
-                                res.send({ ok : 0, msg : '数据库错误'})
-                                return
-                            }
                             savedFiles.push(fileResult[0])
                             filesNum = filesNum - 1
                             if (filesNum == 0) {
-                                res.send({ ok : 1, files : savedFiles})
+                                if (err) {
+                                    res.send({ ok : 0, msg : '数据库错误'})
+                                    return
+                                }
+
+                                if (req.files.imgFile) {
+                                    //editor plubin need this res format
+                                    res.send({ error : 0, url : savedFiles[0].url })
+                                } else {
+                                    res.send({ ok : 1, files : savedFiles})
+                                }
+
                                 task_coll.findById(taskId, function(err, taskResult) {
                                     routeApp.createLogItem({ log_type : 12 }, operator, taskResult)
                                 })
