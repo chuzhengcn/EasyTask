@@ -8,6 +8,20 @@ var time            = require('../helper/time')
 var file_coll       = require('../db/file')
 var todo_coll       = require('../db/todo')
 
+exports.new = function(req, res) {
+    routeApp.identifying(req, function(loginUser) {
+        task_coll.findById(req.params.task_id, function(err, task) {
+            res.render('todo/new', 
+                { 
+                    title   : '添加待办事项 - ' + task.name, 
+                    me      : loginUser,
+                    task    : task
+                } 
+            )
+        })
+    })
+}
+
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         task_coll.findById(req.params.task_id, function(err, task) {

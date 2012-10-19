@@ -1,0 +1,50 @@
+extends ../layout
+append head
+    script(src='/framework/kindeditor-4.1.3/kindeditor.js')
+    script(src='/framework/kindeditor-4.1.3/lang/zh_CN.js')
+    script(src='/javascripts/todo/new.js')
+block content
+    .app-layout
+        include ../include/app-header
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header(data-id='#{task._id}') #{task.custom_id} - #{task.name}
+                            .operate-wrapper
+                                a.btn.btn-small(href='/tasks/#{task._id}/todos') 
+                                    i.icon-chevron-left
+                                    |  返回待办列表
+                        .main-body.scrollable
+                            .todo-new-wrapper.clearfix
+                                include ../include/task-nav
+                                form#create_task_todo_form.form-horizontal(action='/tasks/#{task._id}/todos')
+                                    legend 添加待办项
+                                    .control-group
+                                        label.control-label(for='name') 名称和类别
+                                        .controls
+                                            input.span6(type='text', autocomplete='off', name='name', required='true') 
+                                            select#task_todo_category_selecter(name='category')
+                                                option(value='需求') 需求
+                                                option(value='bug') bug
+                                                option(value='其它') 其它
+                                    .control-group
+                                        label.control-label(for='description') 描述
+                                        .controls
+                                            textarea#new_todo_des.span9(name='description', autocomplete='off', rows="16")
+                                    .controls-group
+                                        label.control-label(for='task_files') 附件
+                                        .controls
+                                            input#upload_todo_files_input(type='file', name='task_files',multiple="multiple")
+                                    .control-group
+                                        .controls
+                                            button#categorys_form_btn.btn.btn-primary 添 加

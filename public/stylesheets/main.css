@@ -244,6 +244,9 @@ body {
 #content .content-layout .list .list-header .operate-wrapper button {
   margin-left: 10px;
 }
+#content .content-layout .list .list-header .operate-wrapper a {
+  margin-left: 10px;
+}
 #content .content-layout .list .main-body {
   position: absolute;
   top: 51px;
@@ -673,6 +676,22 @@ input[name='task_users'] {
 }
 #upload_task_files_form legend {
   padding: 0 20px 3px 20px;
+}
+.todo-new-wrapper .task-nav {
+  padding: 10px 20px 10px 20px;
+  border-bottom: solid 1px #dfdfdf;
+}
+.todo-new-wrapper .task-nav ul {
+  margin-bottom: 0;
+}
+.todo-new-wrapper #create_task_todo_form {
+  padding: 20px;
+}
+.todo-new-wrapper #create_task_todo_form select {
+  margin-left: 5px;
+}
+.todo-new-wrapper #create_task_todo_form #categorys_form_btn {
+  margin-top: 20px;
 }
 .err-404 {
   text-align: center;
