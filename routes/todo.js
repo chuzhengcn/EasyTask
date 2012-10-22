@@ -47,12 +47,12 @@ exports.show = function(req, res) {
                 return
             }
 
-            todo_coll.findById(req.params.id, function(err, todo) {
+            todo_coll.findByIdIncludeUser(req.params.id, function(err, todo) {
                 res.render('todo/info',
                     {
-                        title : todo.name + '-' + 'task.name',
+                        title : todo[0].name + '-' + task.name,
                         me    : loginUser,
-                        todo  : time.format_specify_field(todo, {created_time : 'datetime'}),
+                        todo  : time.format_specify_field(todo[0], {modify_time : 'datetime'}),
                         task  : task,
                     }
                 )
@@ -75,7 +75,7 @@ exports.create = function(req, res) {
             files           : req.body.taskfiles,
             operator_id     : operator._id,
             created_time    : new Date(),
-            mordify_time    : new Date(),
+            modify_time     : new Date(),
             complete        : false,
         }, function(err, status) {
             if (err) {
@@ -135,76 +135,23 @@ exports.update = function(req, res) {
         }
 
         var updateDoc = {}
-        var log_type  = 5
+        var log_type  = 14
 
-        if (req.body.name) {
-            updateDoc = { name : req.body.name }
-            startUpdateTask()
+        if (req.body.complete) {
+            updateDoc = { complete : req.body.complete }
+            startUpdateTodo()
             return
         }
 
-        if (req.body.task_users) {
-            log_type  = 6
-            generateTaskUsers(req, function(taskUsers) {
-                updateDoc = {users : taskUsers}
-                startUpdateTask()
-            })
-
-            return
-        }
-
-        if (req.body.branch) {
-            updateDoc = { branch : req.body.branch}
-            log_type  = 10
-            var custom_id = req.body.branch.split('/')[1]
-            if (custom_id) {
-                updateDoc.custom_id = custom_id
-            }
-            status_coll.create({ 
-                task_id         : req.params.id,
-                name            : '把分支修改为：' + req.body.branch,
-                content         : '',
-                files           : [],
-                operator_id     : operator._id,
-                created_time    : new Date(),
-            })
-            startUpdateTask()
-            return
-        }
-
-        function startUpdateTask() {
-            task_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
-                
-                routeApp.createLogItem({log_type : log_type }, operator, result)
-
+        function startUpdateTodo() {
+            todo_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
                 res.send({ ok : 1 })
+
+                task_coll.findById(req.params.task_id, function(err, task) {
+                    routeApp.createLogItem({log_type : log_type, todo_id : result._id }, operator, task)
+                })
+                
             })
         }
     })
-}
-
-function generateTaskUsers(req, cb) {
-    var generateResult  = []
-    var users           = req.body.task_users
-    var userNum         = 0
-    if (users && Array.isArray(users)) {
-
-        users.forEach(function(item, index, array) {
-            if (item) {
-                userNum++
-            }
-        })
-
-        users.forEach(function(item, index, array) {
-            if (item !== '') {
-                user_coll.findByName(item, function(err, user) {
-                    generateResult.push(user._id)
-                    userNum--
-                    if (userNum == 0) {
-                        cb(generateResult)
-                    }
-                })  
-            }
-        })
-    }
 }

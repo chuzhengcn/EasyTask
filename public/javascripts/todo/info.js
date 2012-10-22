@@ -5,100 +5,50 @@
     $(function() {
         app.utility.highlightCurrentPage('任务')
         app.utility.highlightTaskNav('待办事项')
-        // eventBind()
+        eventBind()
     })
 
     function eventBind() {
-
-        //submit task todo btn
-        $('#create_task_todo_form_btn').click(function(event) {
-            readyToAddTodo.call(this, event, $(this))
+        $('#complete_todo_btn').click(function(){
+            changeCompleteStatus.call(this)
         })
-
-        //ready to upload
-        $('#upload_todo_files_input').change(function(event) {
-            if (event.currentTarget.files) {
-                target_file = event.currentTarget.files
-            } else {
-                target_file = null
-            }
-            
-        })
-
-    }
-    
-    function getTaskId() {
-        return $('.list-header header').data('id')
     }
 
-    function readyToAddTodo(event, $btn) {
-        if (app.utility.isValidForm('create_task_todo_form')) {
-            event.preventDefault() 
-            if (needFiles()) {
-                satrtUpload($btn, function() {
-                     startAddTodos($btn)
-                })
-            } else {
-                startAddTodos($btn)
-            }
+    function changeCompleteStatus() {
+        var classCompleteMap = {
+            'complete'    : true,
+            'un-complete' : false
         }
-    }
-
-    function startAddTodos($btn) {
-        var sendToServerData =  {}
-        editor.sync()
-        $('#create_task_todo_form').serializeArray().forEach(function(item, index, array) {
-            sendToServerData[item.name] = item.value
-        })
-        sendToServerData.taskfiles = files_info
+        if (classCompleteMap[$(this).attr('class')]) {
+            $(this).attr({
+                'class' : 'un-complete',
+                'title' : '标记事项已完成'
+            })
+        } else {
+            $(this).attr({
+                'class' : 'complete',
+                'title' : '标记事项未完成'
+            })
+        }
         $.ajax({
-            type        : 'post',
-            url         : $('#create_task_todo_form').attr('action'),
-            data        : sendToServerData,
-            beforeSend  : function() {
-                app.utility.isWorking($btn)
-            },
+            type        : 'put',
+            url         : '/tasks/' + getTaskId() + '/todos/' + getTodoId(),
+            data        : { complete : classCompleteMap[$(this).attr('class')]},
             success     : function(data) {
                 if (!data.ok) {
                     alert(data.msg)
                 }
-                location.href = '/tasks/' + getTaskId() + '/todos'
+                
             }
         })
     }
 
-    function needFiles() {
-        if (target_file) {
-            return true
-        } else {
-            return false
-        }
+    function getTaskId() {
+        return $('.list-header header').data('id')
     }
 
-    function satrtUpload($btn, cb) {
-        var file_form = new FormData()
-        var file_attr = $('#upload_todo_files_input').attr('name')
-        for (var i = 0; i < target_file.length; i++) {
-            file_form.append(file_attr, target_file[i])
-        }
-        $.ajax({
-            type        : 'post',
-            url         : '/tasks/' + getTaskId() + '/upload-files',
-            processData : false,
-            contentType : false,
-            beforeSend  : function() {
-                app.utility.isWorking($btn)
-            },
-            data        : file_form,
-            success     : function(data) {
-                if (data.ok == 1) {
-                    files_info = data.files
-                    cb()
-                } else {
-                    alert('上传失败')
-                }
-            } 
-        })
+    function getTodoId() {
+        return $('.todo-info').data('id')
     }
 
 })()

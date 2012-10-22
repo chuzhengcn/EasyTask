@@ -14,6 +14,10 @@ var logType = {
     setTaskStatus   : 11,
     uploadTaskFile  : 12,
     addTodo         : 13, 
+    completeTodo    : 14,
+    reopenTodo      : 15,
+    updateTodo      : 16,
+    deleteTodo      : 17,
 }
 
 exports.identifying = function (req, cb) {

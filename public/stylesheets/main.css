@@ -758,6 +758,56 @@ input[name='task_users'] {
 .todo-info-wrapper .task-nav ul {
   margin-bottom: 0;
 }
+.todo-info-wrapper .todo-info {
+  background: #f4f3f1;
+  border-bottom: solid 1px #dedfe3;
+}
+.todo-info-wrapper .todo-info h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 10px 0 10px 20px;
+  border-bottom: solid 1px #dedfe3;
+}
+.todo-info-wrapper .todo-info h3 span {
+  float: left;
+}
+.todo-info-wrapper .todo-info h3 span.label {
+  clear: left;
+  margin: 10px 20px 0 5px;
+}
+.todo-info-wrapper .todo-info h3 .complete,
+.todo-info-wrapper .todo-info h3 .un-complete {
+  float: right;
+  width: 20px;
+  height: 20px;
+  margin: 10px 20px 0 20px;
+  background: url("/images/complete.png") 0 0 no-repeat;
+  cursor: pointer;
+}
+.todo-info-wrapper .todo-info h3 .un-complete {
+  background: url("/images/un-complete.png") 0 0 no-repeat;
+}
+.todo-info-wrapper .todo-info h3 .operator {
+  float: right;
+  padding: 10px 20px 0 10px;
+  color: #7a7874;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;
+}
+.todo-info-wrapper .todo-info h3 .file-item {
+  float: left;
+  margin: 10px 10px 0 5px;
+  font-size: 12px;
+  line-height: 20px;
+}
+.todo-info-wrapper .todo-info .content {
+  padding: 20px 30px;
+}
+.todo-info-wrapper .todo-info .content img {
+  max-width: 1200px;
+  margin: 10px auto;
+}
 .err-404 {
   text-align: center;
   color: #fff;

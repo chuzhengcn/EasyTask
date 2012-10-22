@@ -1,5 +1,6 @@
 var db          = require('./config').db
 var todo_coll   = db.collection('todo')
+var user_coll   = require('./user')
 
 exports.create = function(todo, cb) {
     todo_coll.insert(todo, {safe:true}, cb)
@@ -11,6 +12,12 @@ exports.findAll = function(cb) {
 
 exports.findById = function(id, cb) {
     todo_coll.findById(id, cb)
+}
+
+exports.findByIdIncludeUser = function(id, cb) {
+    todo_coll.findById(id, function(err, todoResult) {
+        user_coll.includeUsers([todoResult], cb)
+    })
 }
 
 exports.updateById = function(id, todoDoc, cb) {
@@ -26,5 +33,7 @@ exports.findAndModifyById = function(id, todoDoc, cb) {
 }
 
 exports.findByTask = function(taskId, cb) {
-    todo_coll.find({task_id : taskId}).sort({ created_time : -1 }).toArray(cb)
+    todo_coll.find({task_id : taskId}).sort({ created_time : -1 }).toArray(function(err, todoResults) {
+        user_coll.includeUsers(todoResults, cb)
+    })
 }

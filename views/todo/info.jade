@@ -25,7 +25,17 @@ block content
                         .main-body.scrollable
                             .todo-info-wrapper.clearfix
                                 include ../include/task-nav
-                                .todo-info
-                                    h3.name #{todo.name}
+                                .todo-info(data-id='#{todo._id}')
+                                    h3.name.clearfix
+                                        - if (todo.complete)
+                                            span.complete#complete_todo_btn(title='标记事项未完成')
+                                        - else
+                                            span.un-complete#complete_todo_btn(title='标记事项已完成')
+                                        span #{todo.name}
                                         span.label #{todo.category}
-                                    .content #{todo.content}
+                                        - each file in todo.files
+                                            .file-item
+                                                i.icon-file
+                                                a(href='#{file.url}') #{file.name}
+                                        .operator #{todo.operator.name} 修改于 #{todo.modify_time}  
+                                    .content !{todo.content}
