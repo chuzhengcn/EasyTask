@@ -206,7 +206,7 @@ exports.update = function(req, res) {
             if (req.body.taskfiles) {
                 req.body.taskfiles.forEach(function(item, index, array) {
                     todo_coll.addTodoFile(req.params.id, item, function(err, todo) {
-                        
+
                     })
                 })
             }
