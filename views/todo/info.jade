@@ -33,9 +33,25 @@ block content
                                             span.un-complete#complete_todo_btn(title='标记事项已完成')
                                         span #{todo.name}
                                         span.label #{todo.category}
-                                        - each file in todo.files
-                                            .file-item
-                                                i.icon-file
-                                                a(href='#{file.url}') #{file.name}
+                                        - if (todo.files)
+                                            - each file in todo.files
+                                                .file-item
+                                                    i.icon-file
+                                                    a(href='#{file.url}') #{file.name}
                                         .operator #{todo.operator.name} 修改于 #{todo.modify_time}  
                                     .content !{todo.content}
+                                .todo-discussion
+                                    h5 关于该事项的讨论
+                                    form#add_comment_form.add-comment(action='/tasks/#{task._id}/todos/#{todo._id}')
+                                        img.img-rounded.my-avatar(src='#{me.avatar_url}')
+                                        textarea(placeholder='这里添加留言',rows='3', required='true', name='comment')
+                                        button#add_comment_btn.btn.btn-small.btn-primary 留言
+                                    - each comment in todo.comments
+                                        .comment-item
+                                            img.img-rounded.operate-avatar(src='#{comment.operator.avatar_url}')
+                                            .comment-info
+                                                .popstripe
+                                                .comment-content !{comment.content}
+                                            .comment-time #{comment.created_time} by #{comment.operator.name}
+
+

@@ -18,6 +18,7 @@ var logType = {
     reopenTodo      : 15,
     updateTodo      : 16,
     deleteTodo      : 17,
+    addTodoComment  : 18,
 }
 
 exports.identifying = function (req, cb) {

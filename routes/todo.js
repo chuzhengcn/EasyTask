@@ -5,6 +5,7 @@ var counter_coll    = require('../db/counter')
 var milestone_coll  = require('../db/milestone')
 var status_coll     = require('../db/status')
 var time            = require('../helper/time')
+var view            = require('../helper/view')
 var file_coll       = require('../db/file')
 var todo_coll       = require('../db/todo')
 
@@ -48,11 +49,12 @@ exports.show = function(req, res) {
             }
 
             todo_coll.findByIdIncludeUser(req.params.id, function(err, todo) {
+                todo.comments = time.format_specify_field(todo.comments, { created_time : 'datetime'})
                 res.render('todo/info',
                     {
-                        title : todo[0].name + '-' + task.name,
+                        title : todo.name + '-' + task.name,
                         me    : loginUser,
-                        todo  : time.format_specify_field(todo[0], {modify_time : 'datetime'}),
+                        todo  : view.keepLineBreak(time.format_specify_field(todo, {modify_time : 'datetime'}),['content']),
                         task  : task,
                     }
                 )
@@ -72,11 +74,16 @@ exports.create = function(req, res) {
             name            : req.body.name,
             content         : req.body.description,
             category        : req.body.category,
-            files           : req.body.taskfiles,
+            files           : req.body.taskfiles || [],
             operator_id     : operator._id,
             created_time    : new Date(),
             modify_time     : new Date(),
-            complete        : false,
+            complete        : 0,
+            comments        : [{
+                operator_id     : operator._id,
+                content         : '创建了这个事项',
+                created_time    : new Date(),
+            }],
         }, function(err, status) {
             if (err) {
                 res.send({ ok : 0, msg : '数据库错误' })
@@ -137,8 +144,36 @@ exports.update = function(req, res) {
         var updateDoc = {}
         var log_type  = 14
 
-        if (req.body.complete) {
-            updateDoc = { complete : req.body.complete }
+        if (req.body.complete !== undefined ) {
+            var content
+            if (req.body.complete == 1) {
+                content = '已完成'
+            } else {
+                content = '还没有完成'
+            }
+
+            updateDoc = { 
+                complete    : req.body.complete,
+                modify_time : new Date(),
+                comment     : {
+                    operator_id     : operator._id,
+                    content         : content,
+                    created_time    : new Date(),
+                }
+            }
+            startUpdateTodo()
+            return
+        }
+
+        if (req.body.comment) {
+            log_type   = 18
+            updateDoc  = {
+                comment : {
+                    operator_id     : operator._id,
+                    content         : req.body.comment,
+                    created_time    : new Date(),
+                }
+            }
             startUpdateTodo()
             return
         }

@@ -12,18 +12,20 @@
         $('#complete_todo_btn').click(function(){
             changeCompleteStatus.call(this)
         })
+
+        $('#add_comment_btn').click(function(event) {
+            submitCommentForm.call(this, event, $(this))
+        })
     }
 
     function changeCompleteStatus() {
-        var classCompleteMap = {
-            'complete'    : true,
-            'un-complete' : false
-        }
-        if (classCompleteMap[$(this).attr('class')]) {
+        var status = 1
+        if ($(this).attr('class') == 'complete') {
             $(this).attr({
                 'class' : 'un-complete',
                 'title' : '标记事项已完成'
             })
+            status = 0
         } else {
             $(this).attr({
                 'class' : 'complete',
@@ -33,7 +35,7 @@
         $.ajax({
             type        : 'put',
             url         : '/tasks/' + getTaskId() + '/todos/' + getTodoId(),
-            data        : { complete : classCompleteMap[$(this).attr('class')]},
+            data        : { complete : status},
             success     : function(data) {
                 if (!data.ok) {
                     alert(data.msg)
@@ -49,6 +51,26 @@
 
     function getTodoId() {
         return $('.todo-info').data('id')
+    }
+
+    function submitCommentForm(event, $btn) {
+        if (app.utility.isValidForm('add_comment_form')) {
+            event.preventDefault() 
+            $.ajax({
+                type        : 'put',
+                url         : $('#add_comment_form').attr('action'),
+                data        : $('#add_comment_form').serialize(),
+                beforeSend  : function() {
+                    app.utility.isWorking($btn)
+                },
+                success     : function(data) {
+                    if (!data.ok) {
+                        alert(data.msg)
+                    }
+                    location.href = location.href
+                }
+            })
+        }
     }
 
 })()

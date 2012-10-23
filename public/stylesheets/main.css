@@ -808,6 +808,51 @@ input[name='task_users'] {
   max-width: 1200px;
   margin: 10px auto;
 }
+.todo-info-wrapper .todo-discussion {
+  padding: 20px;
+}
+.todo-info-wrapper .todo-discussion .add-comment {
+  position: relative;
+  padding: 20px 140px 20px 210px;
+}
+.todo-info-wrapper .todo-discussion .add-comment .my-avatar {
+  position: absolute;
+  top: 22px;
+  left: 150px;
+  width: 50px;
+  height: 50px;
+}
+.todo-info-wrapper .todo-discussion .add-comment textarea {
+  width: 100%;
+  margin-bottom: 5px;
+}
+.todo-info-wrapper .todo-discussion .comment-item {
+  position: relative;
+  padding: 20px 140px 20px 210px;
+}
+.todo-info-wrapper .todo-discussion .comment-item .operate-avatar {
+  position: absolute;
+  top: 22px;
+  left: 150px;
+  width: 50px;
+  height: 50px;
+}
+.todo-info-wrapper .todo-discussion .comment-item .comment-info {
+  border-radius: 6px;
+  border: solid 1px #dfdfdf;
+}
+.todo-info-wrapper .todo-discussion .comment-item .comment-info .popstripe {
+  height: 1px;
+  border-radius: 6px;
+}
+.todo-info-wrapper .todo-discussion .comment-item .comment-info .comment-content {
+  padding: 10px;
+}
+.todo-info-wrapper .todo-discussion .comment-item .comment-time {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #999;
+}
 .err-404 {
   text-align: center;
   color: #fff;

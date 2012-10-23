@@ -16,7 +16,12 @@ exports.findById = function(id, cb) {
 
 exports.findByIdIncludeUser = function(id, cb) {
     todo_coll.findById(id, function(err, todoResult) {
-        user_coll.includeUsers([todoResult], cb)
+        user_coll.includeUsers([todoResult], function(err, todoResultIncludeUser) {
+            user_coll.includeUsers(todoResultIncludeUser[0].comments, function(err, commentsInlucdeUser) {
+                todoResultIncludeUser[0].comments = commentsInlucdeUser.reverse()
+                cb(err, todoResultIncludeUser[0])
+            })
+        })
     })
 }
 
@@ -29,7 +34,13 @@ exports.removeById = function(id, cb) {
 }
 
 exports.findAndModifyById = function(id, todoDoc, cb) {
-    todo_coll.findAndModify({ _id : todo_coll.id(id) }, {}, { $set : todoDoc}, {new : true}, cb)
+    if (todoDoc.comment) {
+        var comment     = todoDoc.comment
+        delete todoDoc.comment
+        todo_coll.findAndModify({ _id : todo_coll.id(id) }, {}, { $set : todoDoc, $push: {comments : comment}}, {new : true}, cb)
+    } else {
+        todo_coll.findAndModify({ _id : todo_coll.id(id) }, {}, { $set : todoDoc}, {new : true}, cb)
+    }
 }
 
 exports.findByTask = function(taskId, cb) {
