@@ -609,6 +609,26 @@ input[name='task_users']
             margin-left 5px
         #create_task_todo_form_btn
             margin-top 20px
+//----------------------todo-new----------------------------------------------------
+.todo-edit-wrapper
+    .task-nav
+        padding 10px 20px 10px 20px
+        border-bottom solid 1px #dfdfdf
+        ul
+            margin-bottom 0
+    #edit_task_todo_form
+        padding 10px 20px
+        select
+            margin-left 5px
+        .todo-origin-files
+            padding-top 5px
+            .ori-file-item
+                float left
+            i
+                cursor pointer
+                margin 2px 15px 0 5px
+        #edit_task_todo_form_btn
+            margin-top 20px
 //------------------------todo-info--------------------------------------------------
 .todo-info-wrapper
     .task-nav
@@ -638,6 +658,10 @@ input[name='task_users']
                 cursor pointer
             .un-complete
                 background url($un-complete) 0 0 no-repeat
+            .edit-todo, #delete_todo
+                float right
+                margin 7px 10px 0 0
+                font-weight normal
             .operator
                 float right
                 padding 10px 20px 0 10px

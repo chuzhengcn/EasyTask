@@ -27,10 +27,13 @@ block content
                                 include ../include/task-nav
                                 .todo-info(data-id='#{todo._id}')
                                     h3.name.clearfix
+                                        button#delete_todo.btn.btn-small.btn-danger 删除
+                                        a.edit-todo.btn.btn-small.btn-primary(href='/tasks/#{task._id}/todo/#{todo._id}/edit') 编辑
                                         - if (todo.complete)
                                             span.complete#complete_todo_btn(title='标记事项未完成')
                                         - else
                                             span.un-complete#complete_todo_btn(title='标记事项已完成')
+
                                         span #{todo.name}
                                         span.label #{todo.category}
                                         - if (todo.files)

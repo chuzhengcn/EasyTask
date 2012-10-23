@@ -751,6 +751,32 @@ input[name='task_users'] {
 .todo-new-wrapper #create_task_todo_form #create_task_todo_form_btn {
   margin-top: 20px;
 }
+.todo-edit-wrapper .task-nav {
+  padding: 10px 20px 10px 20px;
+  border-bottom: solid 1px #dfdfdf;
+}
+.todo-edit-wrapper .task-nav ul {
+  margin-bottom: 0;
+}
+.todo-edit-wrapper #edit_task_todo_form {
+  padding: 10px 20px;
+}
+.todo-edit-wrapper #edit_task_todo_form select {
+  margin-left: 5px;
+}
+.todo-edit-wrapper #edit_task_todo_form .todo-origin-files {
+  padding-top: 5px;
+}
+.todo-edit-wrapper #edit_task_todo_form .todo-origin-files .ori-file-item {
+  float: left;
+}
+.todo-edit-wrapper #edit_task_todo_form .todo-origin-files i {
+  cursor: pointer;
+  margin: 2px 15px 0 5px;
+}
+.todo-edit-wrapper #edit_task_todo_form #edit_task_todo_form_btn {
+  margin-top: 20px;
+}
 .todo-info-wrapper .task-nav {
   padding: 10px 20px 10px 20px;
   border-bottom: solid 1px #dfdfdf;
@@ -786,6 +812,12 @@ input[name='task_users'] {
 }
 .todo-info-wrapper .todo-info h3 .un-complete {
   background: url("/images/un-complete.png") 0 0 no-repeat;
+}
+.todo-info-wrapper .todo-info h3 .edit-todo,
+.todo-info-wrapper .todo-info h3 #delete_todo {
+  float: right;
+  margin: 7px 10px 0 0;
+  font-weight: normal;
 }
 .todo-info-wrapper .todo-info h3 .operator {
   float: right;

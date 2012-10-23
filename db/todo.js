@@ -48,3 +48,17 @@ exports.findByTask = function(taskId, cb) {
         user_coll.includeUsers(todoResults, cb)
     })
 }
+
+exports.removeTodoFile = function(todo_id, file_id, cb) {
+    todo_coll.findById(todo_id, function(err, todo) {
+        var fileRemoved = todo.files.filter(function(item, index, array) {
+            return item._id !== file_id
+        })
+
+        todo_coll.updateById(todo_id, {$set : { files : fileRemoved }}, cb)
+    })
+}
+
+exports.addTodoFile = function(todo_id, file, cb) {
+    todo_coll.findAndModify({ _id : todo_coll.id(todo_id) }, {}, { $push: {files : file}}, {new : true}, cb)
+}

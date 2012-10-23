@@ -16,6 +16,10 @@
         $('#add_comment_btn').click(function(event) {
             submitCommentForm.call(this, event, $(this))
         })
+
+        $('#delete_todo').click(function(event) {
+            delete_todo.call(this, event, $(this))
+        })
     }
 
     function changeCompleteStatus() {
@@ -71,6 +75,27 @@
                 }
             })
         }
+    }
+
+    function delete_todo(event, $btn) {
+        var sure = confirm('确认删除？')
+        if (!sure) {
+            return
+        }
+
+        $.ajax({
+            type        : 'delete',
+            url         : '/tasks/' + getTaskId() + '/todos/' + getTodoId(),
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
+            success     : function(data) {
+                if (!data.ok) {
+                    alert(data.msg)
+                }
+                location.href = '/tasks/' + getTaskId() + '/todos'
+            }
+        })
     }
 
 })()
