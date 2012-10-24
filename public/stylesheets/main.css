@@ -422,6 +422,15 @@ input[name='task_users'] {
   font-weight: normal;
   margin: 3px 0 0 0;
 }
+.task-summary .task-summary-wrapper .task-users header .btn i,
+.task-summary .task-summary-wrapper .task-summary-milestone header .btn i,
+.task-summary .task-summary-wrapper .task-summary-todo header .btn i,
+.task-summary .task-summary-wrapper .task-summary-file header .btn i,
+.task-summary .task-summary-wrapper .task-summary-version header .btn i,
+.task-summary .task-summary-wrapper  header .btn i {
+  margin-right: 3px;
+  margin-top: 1px;
+}
 .task-summary .task-summary-wrapper .task-users .task-users-wrapper {
   clear: both;
   padding: 20px 220px 0 20px;
@@ -452,7 +461,7 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-summary-milestone ul li {
   height: 20px;
-  margin: 10px 20px 0 0;
+  margin: 20px 20px 0 0;
   float: left;
 }
 .task-summary .task-summary-wrapper .task-summary-milestone ul li span {

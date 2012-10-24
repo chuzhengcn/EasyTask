@@ -90,7 +90,9 @@ block content
                                 include ../include/task-nav
                                 .task-users.clearfix
                                     header 参与者
-                                        button#edit_task_users.btn.btn-small 编辑   
+                                        button#edit_task_users.btn.btn-small 
+                                            i.icon-edit
+                                            | 编辑参与人员   
                                     .task-users-wrapper.clearfix
                                         - each taskuser in taskUsers
                                             a.user(href='/users/#{taskuser._id}')
@@ -102,7 +104,9 @@ block content
                                                             em #{taskuser.role}
                                 .task-summary-milestone.clearfix
                                     header 时间点
-                                        button#add_milestone_in_taskinfo.btn.btn-small 添加时间点
+                                        button#add_milestone_in_taskinfo.btn.btn-small 
+                                            i.icon-plus-sign
+                                            | 添加时间点
                                     ul.clearfix
                                         - each milestone in milestones
                                             li
@@ -111,7 +115,9 @@ block content
                                 .task-summary-todo.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新待办事项
-                                        a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 添加待办事项
+                                        a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 
+                                            i.icon-plus-sign
+                                            | 添加待办事项
                                     ul.unstyled
                                         - each todo in taskTodos
                                             li(data-id='#{todo._id}')
@@ -127,7 +133,9 @@ block content
                                 .task-summary-version.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/status', title='查看全部版本管理信息') 版本管理
-                                        a.btn.btn-small(href='/tasks/#{task._id}/status?change=true',title='修改任务状态') 修改状态 
+                                        a.btn.btn-small(href='/tasks/#{task._id}/status?change=true',title='修改任务状态') 
+                                            i.icon-wrench
+                                            | 修改任务状态 
                                     .branch 分支：
                                         - if (task.branch)
                                             button#task_branch_btn.btn.btn-link(title='单击修改分支') #{task.branch}
@@ -139,7 +147,9 @@ block content
                                 .task-summary-file.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/uploads', title='查看全部附件') 最新附件
-                                        a.btn.btn-small(href='/tasks/#{task._id}/uploads?create=true') 上传
+                                        a.btn.btn-small(href='/tasks/#{task._id}/uploads?create=true') 
+                                            i.icon-upload
+                                            | 上传
                                     .file-item-wrapper.clearfix
                                         - each file in taskFiles
                                             .file-item(data-type='#{file.type}')
