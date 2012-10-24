@@ -692,10 +692,22 @@ input[name='task_users'] {
 }
 .todo-list-wrapper .task-nav {
   padding: 10px 20px 10px 20px;
-  border-bottom: solid 1px #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
 }
 .todo-list-wrapper .task-nav ul {
   margin-bottom: 0;
+}
+.todo-list-wrapper .todo-filter {
+  padding: 10px 20px;
+  background: linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
+  background: -webkit-linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
+  height: 32px;
+  line-height: 30px;
+  padding: 0 30px;
+}
+.todo-list-wrapper .todo-filter .btn-group {
+  float: left;
+  margin-right: 30px;
 }
 .todo-list-wrapper .todo-list {
   background: #e9eef7;

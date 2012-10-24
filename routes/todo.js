@@ -26,7 +26,15 @@ exports.new = function(req, res) {
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         task_coll.findById(req.params.task_id, function(err, task) {
-            todo_coll.findByTask(req.params.task_id, function(err, todos) {
+            var todoFilter = {}
+            // todo: check validate req query
+            if (req.query) {
+                todoFilter = req.query
+            }
+
+            todoFilter.task_id = req.params.task_id
+
+            todo_coll.findByTask(todoFilter, function(err, todos) {
                 res.render('todo/index', 
                     { 
                         title   : '待办事项 - ' + task.name, 
@@ -101,7 +109,7 @@ exports.create = function(req, res) {
             operator_id     : operator._id,
             created_time    : new Date(),
             modify_time     : new Date(),
-            complete        : 0,
+            complete        : '0',
             comments        : [],
         }, function(err, status) {
             if (err) {

@@ -26,6 +26,31 @@ block content
                         .main-body.scrollable
                             .todo-list-wrapper.clearfix
                                 include ../include/task-nav
+                                .todo-filter
+                                    .btn-group
+                                        a.btn.btn-small.dropdown-toggle(data-toggle="dropdown", href="#") 完成状态
+                                            span.caret
+                                        ul.dropdown-menu
+                                            li
+                                                a(href='/tasks/#{task._id}/todos')  全部
+                                            li
+                                                a(href='/tasks/#{task._id}/todos?complete=0')  未完成
+                                            li
+                                                a(href='/tasks/#{task._id}/todos?complete=1')  已完成
+                                    .btn-group
+                                        a.btn.btn-small.dropdown-toggle(data-toggle="dropdown", href="#") 类别
+                                            span.caret
+                                        ul.dropdown-menu
+                                            li
+                                                a(href='/tasks/#{task._id}/todos')  全部
+                                            li
+                                                a(href='/tasks/#{task._id}/todos?category=需求')  需求
+                                            li
+                                                a(href='/tasks/#{task._id}/todos?category=bug')  bug
+                                            li
+                                                a(href='/tasks/#{task._id}/todos?category=功能点')  功能点
+                                            li
+                                                a(href='/tasks/#{task._id}/todos?category=其它')  其它
                                 ul.todo-list.unstyled
                                     - each todo in todos
                                         li(data-id='#{todo._id}')
