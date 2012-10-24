@@ -279,15 +279,25 @@ input[name='task_users']
     left 0
     right 0
     top 51px
+    .task-list-filter
+        background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
+        background -webkit-linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
+        height 32px
+        line-height 30px
+        padding 0 10px
+        .btn-group
+            float left
+            margin-right 30px
     .task-list
         background-color #E9EEF7
         li
+            padding 7px 15px 7px 15px
+            height 20px
             border-bottom 1px solid #EBEBEB
+            border-top solid 1px #DAE2F2
             a
                 color rgba(0, 0, 0, 0.85)
-                display block
-                padding 7px 15px 7px 15px
-                border-top solid 1px #DAE2F2
+                float left
                 &:hover
                     text-decoration underline
                 .task-custom-id

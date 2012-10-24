@@ -41,9 +41,25 @@ block content
                             .operate-wrapper
                                 button.btn.btn-primary 添加任务
                         .list-body.scrollable
+                            .task-list-filter
+                                .btn-group#task_status_filter
+                                    button.btn.btn-small 全部任务
+                                    button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                        span.caret
+                                    ul.dropdown-menu
+                                        li.dropdown-submenu
+                                            a(tabindex='-1',href='/') 全部任务
+                                            ul.dropdown-menu
+                                        li.divider
+                                        li
+                                            a(href='/tasks?status=需求提交')  需求提交
+                                        li
+                                            a(href='/tasks?active=false')  已存档
+                                datalist#datalist_status_selecter
+                                    include ../include/task-status
                             ul.task-list.unstyled
                                 - each task in tasks
                                     li 
                                         a(href='/tasks/#{task._id}') 
-                                            span.task-custom-id #{task.task_id}
+                                            span.task-custom-id #{task.custom_id}
                                             span #{task.name}

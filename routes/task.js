@@ -11,7 +11,19 @@ var time            = require('../helper/time')
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         user_coll.findAll(function(err, users) {
-            task_coll.findAll(function(err, tasks) {
+            var filter      = {}
+            filter.active   = true
+            if (req.query) {
+                if (req.query.active !== undefined) {
+                    filter.active = false
+                }
+
+                if(req.query.status) {
+                    filter.status = req.query.status
+                }
+            }
+            
+            task_coll.findAll(filter, function(err, tasks) {
                 res.render('task/index', 
                     { 
                         title   : '任务', 

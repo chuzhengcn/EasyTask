@@ -131,7 +131,7 @@
             },
             success     : function(data) {
                 if (data.ok) {
-                    location.href = '/tasks/' + getTaskId()
+                    location.href = '/tasks'
                 } else {
                     alert(data.msg)
                 }

@@ -1,6 +1,7 @@
 (function() {
     $(function() {
         app.utility.highlightCurrentPage('任务')
+        fillTaskStatusToFilter()
         eventBind()
     })
 
@@ -86,6 +87,31 @@
         $('#create_task_btn').html('提交').removeClass('disabled').on('click', function(event) {
             var self = this
             readyToCreateTask.call(self, event)
+        })
+    }
+
+    function fillTaskStatusToFilter() {
+        var currentStatus = app.utility.get_query_value('status') || app.utility.get_query_value('active')
+        var taskBaseLink =  '/tasks'
+        //mark current status
+        if(currentStatus) {
+            if (currentStatus == 'false') {
+                $('#task_status_filter button:first').html('已存档')
+            } else {
+                $('#task_status_filter button:first').html(decodeURIComponent(currentStatus))
+            }
+        }
+
+        $('#datalist_status_selecter option').each(function(index, value) {
+            if (index == 0) {
+                return
+            }
+
+            $('#task_status_filter .dropdown-submenu .dropdown-menu').append('<li><a href="'
+                + taskBaseLink + '?status=' + $(this).val()
+                + '">'
+                + $(this).val()
+                + '</a></li>')
         })
     }
 })()

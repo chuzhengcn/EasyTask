@@ -5,8 +5,8 @@ exports.create = function(task, cb) {
     task_coll.insert(task, {safe:true}, cb)
 }
 
-exports.findAll = function(cb) {
-    task_coll.find().toArray(cb)
+exports.findAll = function(filter, cb) {
+    task_coll.find(filter).sort({status : 1, custom_id : -1, create_time : -1}).toArray(cb)
 }
 
 exports.findById = function(id, cb) {

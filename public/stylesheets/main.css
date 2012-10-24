@@ -335,17 +335,29 @@ input[name='task_users'] {
   right: 0;
   top: 51px;
 }
+.list-body .task-list-filter {
+  background: linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
+  background: -webkit-linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
+  height: 32px;
+  line-height: 30px;
+  padding: 0 10px;
+}
+.list-body .task-list-filter .btn-group {
+  float: left;
+  margin-right: 30px;
+}
 .list-body .task-list {
   background-color: #e9eef7;
 }
 .list-body .task-list li {
+  padding: 7px 15px 7px 15px;
+  height: 20px;
   border-bottom: 1px solid #ebebeb;
+  border-top: solid 1px #dae2f2;
 }
 .list-body .task-list li a {
   color: rgba(0,0,0,0.85);
-  display: block;
-  padding: 7px 15px 7px 15px;
-  border-top: solid 1px #dae2f2;
+  float: left;
 }
 .list-body .task-list li a:hover {
   text-decoration: underline;
