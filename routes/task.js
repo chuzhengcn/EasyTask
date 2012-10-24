@@ -11,7 +11,9 @@ var time            = require('../helper/time')
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         user_coll.findAll(function(err, users) {
-            var filter      = {}
+            var filter      = {
+                active : true,
+            }
             filter.active   = true
             if (req.query) {
                 if (req.query.active !== undefined) {
