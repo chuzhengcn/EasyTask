@@ -713,6 +713,9 @@ input[name='task_users'] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.todo-list-wrapper .todo-list li a.name:hover {
+  text-decoration: underline;
+}
 .todo-list-wrapper .todo-list li .category {
   float: right;
   margin-left: 20px;
@@ -722,6 +725,8 @@ input[name='task_users'] {
   float: right;
   margin-left: 40px;
   margin-right: 20px;
+  font-size: 12px;
+  color: #666;
 }
 .todo-list-wrapper .todo-list li .complete,
 .todo-list-wrapper .todo-list li .un-complete {
@@ -734,6 +739,10 @@ input[name='task_users'] {
 }
 .todo-list-wrapper .todo-list li .un-complete {
   background: url("/images/un-complete.png") 0 0 no-repeat;
+}
+.todo-list-wrapper .todo-list li .comment-count {
+  float: right;
+  margin-top: 3px;
 }
 .todo-new-wrapper .task-nav {
   padding: 10px 20px 10px 20px;
@@ -803,10 +812,9 @@ input[name='task_users'] {
 }
 .todo-info-wrapper .todo-info h3 .complete,
 .todo-info-wrapper .todo-info h3 .un-complete {
-  float: right;
   width: 20px;
   height: 20px;
-  margin: 10px 20px 0 20px;
+  margin: 10px 20px 0 5px;
   background: url("/images/complete.png") 0 0 no-repeat;
   cursor: pointer;
 }
@@ -826,6 +834,9 @@ input[name='task_users'] {
   font-size: 12px;
   font-weight: normal;
   line-height: 20px;
+}
+.todo-info-wrapper .todo-info h3 .operator span {
+  margin-left: 20px;
 }
 .todo-info-wrapper .todo-info h3 .file-item {
   float: left;

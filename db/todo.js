@@ -44,7 +44,7 @@ exports.findAndModifyById = function(id, todoDoc, cb) {
 }
 
 exports.findByTask = function(taskId, cb) {
-    todo_coll.find({task_id : taskId}).sort({ created_time : -1 }).toArray(function(err, todoResults) {
+    todo_coll.find({task_id : taskId}).sort({ category : 1, complete : 1 , created_time : -1}).toArray(function(err, todoResults) {
         user_coll.includeUsers(todoResults, cb)
     })
 }

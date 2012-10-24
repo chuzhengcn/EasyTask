@@ -28,14 +28,16 @@ block content
                                 include ../include/task-nav
                                 ul.todo-list.unstyled
                                     - each todo in todos
-                                        li
-                                            - if (todo.complete)
+                                        li(data-id='#{todo._id}')
+                                            - if (todo.complete == 1)
                                                 span.complete(title='标记事项未完成')
                                             - else
                                                 span.un-complete(title='标记事项已完成')
                                             a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
-                                            span.time #{todo.created_time.substring(5)}
+                                            span.time #{todo.operator.name} 创建于 #{todo.created_time.substring(5)}  
                                             span.category.label #{todo.category}
+                                            - if (todo.comments.length !== 0)
+                                                span.comment-count.badge.badge-inverse #{todo.comments.length}留言
 
 
                                 

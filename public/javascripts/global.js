@@ -129,5 +129,28 @@ app.viewhelper = {
         function setImgPreview() {
             $(this).children('img').attr('src', $(this).children('.name').attr('href'))
         }
+    },
+    markDifferentColorToTodoCategory : function($statusObjGroup) {
+        $statusObjGroup.each(function() {
+            removeOtherColor($(this))
+
+            switch ($(this).text()) {
+                case '需求' :
+                    $(this).addClass('label-warning')
+                    break
+                case 'bug' :
+                    $(this).addClass('label-important')
+                    break
+                case '功能点' :
+                    $(this).addClass('label-info')
+                    break
+                default :
+                    break
+            }
+        })
+
+        function removeOtherColor($statusObj) {
+            $statusObj.removeClass('label-success label-warning label-important label-info label-inverse')
+        }
     }
 }

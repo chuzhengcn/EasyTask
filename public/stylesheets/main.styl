@@ -579,6 +579,8 @@ input[name='task_users']
                 white-space nowrap
                 overflow hidden
                 text-overflow ellipsis
+                &:hover
+                    text-decoration underline
             .category
                 float right
                 margin-left 20px
@@ -587,6 +589,8 @@ input[name='task_users']
                 float right
                 margin-left 40px
                 margin-right 20px
+                font-size 12px
+                color #666
             .complete, .un-complete
                 float left
                 width 20px
@@ -596,6 +600,9 @@ input[name='task_users']
                 cursor pointer
             .un-complete
                 background url($un-complete) 0 0 no-repeat
+            .comment-count
+                float right
+                margin-top 3px
 //----------------------todo-new----------------------------------------------------
 .todo-new-wrapper
     .task-nav
@@ -650,10 +657,9 @@ input[name='task_users']
                 clear left
                 margin 10px 20px 0 5px
             .complete, .un-complete
-                float right
                 width 20px
                 height 20px
-                margin 10px 20px 0 20px
+                margin 10px 20px 0 5px
                 background url($complete) 0 0 no-repeat
                 cursor pointer
             .un-complete
@@ -669,6 +675,8 @@ input[name='task_users']
                 font-size 12px
                 font-weight normal
                 line-height 20px
+                span
+                    margin-left 20px
             .file-item
                 float left
                 margin 10px 10px 0 5px

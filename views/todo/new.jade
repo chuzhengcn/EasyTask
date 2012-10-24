@@ -33,9 +33,7 @@ block content
                                         .controls
                                             input.span6(type='text', autocomplete='off', name='name', required='true') 
                                             select#task_todo_category_selecter(name='category')
-                                                option(value='需求') 需求
-                                                option(value='bug') bug
-                                                option(value='其它') 其它
+                                                include ../include/todo-category
                                     .control-group
                                         label.control-label(for='description') 描述
                                         .controls
