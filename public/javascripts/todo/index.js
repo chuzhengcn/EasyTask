@@ -5,6 +5,7 @@
         app.utility.highlightCurrentPage('任务')
         app.utility.highlightTaskNav('待办事项')
         app.viewhelper.markDifferentColorToTodoCategory($('.todo-list span.category'))
+        fillTodoCategoryToFilter()
         eventBind()
     })
 
@@ -47,6 +48,17 @@
 
     function getTaskId() {
         return $('.list-header header').data('id')
+    }
+
+    function fillTodoCategoryToFilter() {
+        var todoAllLink =  $('#todo_category_dropdown li:first a').attr('href')
+        $('#todo_category_datalist option').each(function() {
+            $('#todo_category_dropdown').append('<li><a href="'
+                + todoAllLink + '?category=' + $(this).val()
+                + '">'
+                + $(this).val()
+                + '</a></li>')
+        })
     }
 
 })()

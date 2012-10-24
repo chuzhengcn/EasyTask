@@ -17,7 +17,8 @@ block content
                                     .inner
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}') #{task.custom_id} - #{task.name}
+                            header(data-id='#{task._id}')
+                                a.task-name(href='/tasks/#{task._id}') #{task.custom_id} - #{task.name}
                             .operate-wrapper
                                 a.btn.btn-small(href='/tasks/#{task._id}') 
                                     i.icon-chevron-left
@@ -40,17 +41,11 @@ block content
                                     .btn-group
                                         a.btn.btn-small.dropdown-toggle(data-toggle="dropdown", href="#") 类别
                                             span.caret
-                                        ul.dropdown-menu
+                                        ul#todo_category_dropdown.dropdown-menu
                                             li
                                                 a(href='/tasks/#{task._id}/todos')  全部
-                                            li
-                                                a(href='/tasks/#{task._id}/todos?category=需求')  需求
-                                            li
-                                                a(href='/tasks/#{task._id}/todos?category=bug')  bug
-                                            li
-                                                a(href='/tasks/#{task._id}/todos?category=功能点')  功能点
-                                            li
-                                                a(href='/tasks/#{task._id}/todos?category=其它')  其它
+                                    datalist#todo_category_datalist
+                                        include ../include/todo-category
                                 ul.todo-list.unstyled
                                     - each todo in todos
                                         li(data-id='#{todo._id}')

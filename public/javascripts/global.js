@@ -152,5 +152,37 @@ app.viewhelper = {
         function removeOtherColor($statusObj) {
             $statusObj.removeClass('label-success label-warning label-important label-info label-inverse')
         }
+    },
+    markDifferentColorToTaskStatus : function($statusObjGroup) {
+        $statusObjGroup.each(function() {
+            removeOtherColor($(this))
+
+            switch ($(this).text()) {
+                case '任务已分配' :
+                    $(this).addClass('label-warning')
+                    break
+                case '开发已完成' :
+                    $(this).addClass('label-info')
+                    break
+                case '已提交Master' :
+                    $(this).addClass('label-inverse')
+                    break
+                case '已提交Test' :
+                    $(this).addClass('label-inverse')
+                    break
+                case '已提交Dev' :
+                    $(this).addClass('label-inverse')
+                    break
+                case '测试通过' :
+                    $(this).addClass('label-success')
+                    break
+                default :
+                    break
+            }
+        })
+
+        function removeOtherColor($statusObj) {
+            $statusObj.removeClass('label-success label-warning label-important label-info label-inverse')
+        }
     }
 }

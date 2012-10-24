@@ -201,6 +201,10 @@ body
                         padding 0
                         margin 0
                         background none
+                    a.task-name
+                        color #515151
+                        &:hover
+                            text-decoration underline
                 .operate-wrapper
                     float right
                     padding-top 13px
@@ -299,25 +303,39 @@ input[name='task_users']
     right 0
     .task-summary-wrapper
         padding-bottom 10px
-        .task-users
+        .task-nav
+            padding 10px 20px 10px 20px
             border-bottom solid 1px #dfdfdf
-            padding 0 220px 0 20px
-            h5
-                float left
-                height 25px
-                cursor pointer
-                span
+            ul
+                margin-bottom 0
+        .task-users,
+        .task-summary-milestone,
+        .task-summary-todo,
+        .task-summary-file,
+        .task-summary-version,
+            padding 0 0 10px 0
+            header
+                background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
+                background -webkit-linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
+                height 32px
+                line-height 30px
+                padding 0 10px 0 20px
+                color #666
+                font-weight bold
+                font-size 12px
+                a.more
                     float left
-                    margin-right 5px
-                button
-                    display none
-                    float left
-                    padding 0
-                &:hover
-                    button
-                        display inline-block
+                    color #666
+                    &:hover
+                        text-decoration underline
+                .btn
+                    float right
+                    font-weight normal
+                    margin 3px 0 0 0
+        .task-users
             .task-users-wrapper
                 clear both
+                padding 20px 220px 0 20px
             .user
                 float left
                 margin-bottom 10px
@@ -335,43 +353,79 @@ input[name='task_users']
                     font-weight bold
                     .name
                         margin-bottom 5px
-        .task-nav
-            padding 10px 20px 10px 20px
-            border-bottom solid 1px #dfdfdf
+        .task-summary-milestone
             ul
-                margin-bottom 0
-        .task-summary-todo,
-        .task-summary-file
-            padding 10px 220px 10px 20px
-            border-bottom solid 1px #dfdfdf
-            h5
+                padding 0 20px 0 20px
+                li
+                    height 20px
+                    margin 10px 20px 0 0
+                    float left
+                    span
+                        margin-left 10px
+                        padding-right 30px
+        .task-summary-version
+            .branch
                 float left
-                height 25px
-                cursor pointer
-                span
-                    float left
-                    margin-right 5px
-                a
-                    float left
-                    font-weight normal
-                    display none
+                padding 20px 50px 10px 20px
+                button
+                    padding 0
                     &:hover
                         text-decoration underline
-                &:hover
-                    a
-                        display inline-block
+            .status
+                float left
+                padding 20px 50px 10px 20px
+        .task-summary-todo
+            ul
+                clear both
+                padding 10px 20px 0 20px
+                li
+                    padding 8px 0
+                    height 20px
+                    border-bottom solid 1px #dfdfdf
+                    a.name
+                        color rgba(0, 0, 0, 0.85)
+                        float left
+                        width 300px
+                        white-space nowrap
+                        overflow hidden
+                        text-overflow ellipsis
+                        &:hover
+                            text-decoration underline
+                    .category
+                        float right
+                        margin-left 20px
+                        line-height 20px
+                    .time
+                        float right
+                        margin-left 40px
+                        margin-right 20px
+                        font-size 12px
+                        color #666
+                    .complete, .un-complete
+                        float left
+                        width 20px
+                        height 20px
+                        margin 0 20px 0 0
+                        background url($complete) 0 0 no-repeat
+                        cursor pointer
+                    .un-complete
+                        background url($un-complete) 0 0 no-repeat
+                    .comment-count
+                        float right
+                        margin-top 3px
         .task-summary-file
             .file-item-wrapper
                 clear both
+                padding 20px 20px 10px 20px
                 .file-item
-                    background #fdfdfd
+                    background #f4f4f4
                     float left
                     padding 10px 10px 10px 70px
-                    border-radius 6px
                     position relative
                     border solid 1px #dfdfdf
                     margin 0 20px 20px 0
-                    width 300px
+                    width 280px
+                    box-shadow 0 1px 3px rgba(0, 0, 0, 0.33), 0 1px 0 #FFFFFF inset
                     .type
                         position absolute
                         top 5px
@@ -384,67 +438,6 @@ input[name='task_users']
                         white-space nowrap
                     .log
                         font-size 12px
-        .task-summary-milestone
-            position absolute
-            top 60px
-            right 10px
-            width 200px
-            overflow hidden
-            border 1px solid #ECE9D9
-            background-color #FFFBE4
-            box-shadow 2px 2px 3px rgba(0, 0, 0, 0.4)
-            h5
-                height 25px
-                padding-left 10px
-                span
-                    float left
-                    margin-right 5px
-                button
-                    display none
-                    float left
-                    padding 0
-                &:hover
-                    button
-                        display inline-block
-            ul
-                li
-                    height 20px
-                    margin-bottom 5px
-                    span
-                        margin-left 10px
-        .task-summary-version
-            padding 10px 220px 20px 20px
-            border-bottom solid 1px #dfdfdf
-            h5
-                height 25px
-                cursor pointer
-                span
-                    float left
-                    margin-right 5px
-                a
-                    float left
-                    font-weight normal
-                    display none
-                    &:hover
-                        text-decoration underline
-                &:hover
-                    a
-                        display inline-block
-            .branch
-                float left
-                padding-right 50px
-                button
-                    padding 0
-                    &:hover
-                        text-decoration underline
-            .status
-                float left
-                padding-right 50px
-            .last-action
-                float left
-                padding 0
-                span
-                    margin-right 10px
 #edit_task_info_form_wrapper,#edit_task_users_form_wrapper,#add_task_milestone_form_wrapper,#task_branch_form_wrapper
     display none
     form
@@ -536,12 +529,10 @@ input[name='task_users']
             height 50px
         .file-item
             position relative
-            border-radius 6px
             border solid 1px #dfdfdf
+            background #f4f4f4
             height 80px
-            .popstripe
-                height 1px
-                border-radius 6px
+            box-shadow 0 1px 3px rgba(0, 0, 0, 0.33), 0 1px 0 #FFFFFF inset
             img
                 position absolute
                 top 10px
@@ -567,7 +558,6 @@ input[name='task_users']
         ul
             margin-bottom 0
     .todo-filter
-        padding 10px 20px
         background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
         background -webkit-linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
         height 32px

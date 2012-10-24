@@ -41,7 +41,8 @@ block content
                                                     button#mark_task_status_form_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}') #{task.custom_id} - #{task.name}
+                            header(data-id='#{task._id}')
+                                a.task-name(href='/tasks/#{task._id}') #{task.custom_id} - #{task.name}
                             .operate-wrapper
                                 a.btn.btn-small(href='/tasks/#{task._id}') 
                                     i.icon-chevron-left

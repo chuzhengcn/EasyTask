@@ -43,8 +43,8 @@ exports.findAndModifyById = function(id, todoDoc, cb) {
     }
 }
 
-exports.findByTask = function(todoFilter, cb) {
-    todo_coll.find(todoFilter).sort({ category : 1, complete : 1 , created_time : -1}).toArray(function(err, todoResults) {
+exports.findByTask = function(todoFilter, limitNum, cb) {
+    todo_coll.find(todoFilter).sort({ category : 1, complete : 1 , created_time : -1}).limit(limitNum).toArray(function(err, todoResults) {
         user_coll.includeUsers(todoResults, cb)
     })
 }

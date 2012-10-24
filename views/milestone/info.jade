@@ -17,7 +17,8 @@ block content
                                     .inner
                     .list
                         .list-header.clearfix
-                            header #{task.custom_id} - #{task.name}
+                            header
+                                a.task-name(href='/tasks/#{task._id}') #{task.custom_id} - #{task.name}
                             .operate-wrapper
                                 a.btn.btn-small(href='/tasks/#{task._id}') 
                                     i.icon-chevron-left

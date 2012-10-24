@@ -27,7 +27,7 @@ exports.findAndModifyById = function(id, fileDoc, cb) {
 }
 
 exports.findByTaskIdInSummary = function(taskId,cb) {
-    file_coll.find({ task_id : taskId}).sort({ created_time : -1 }).limit(4).toArray(function(err, taskResults) {
+    file_coll.find({ task_id : taskId}).sort({ created_time : -1 }).limit(6).toArray(function(err, taskResults) {
         user_coll.includeUsers(taskResults, cb)
     })
 }

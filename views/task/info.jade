@@ -73,7 +73,8 @@ block content
                                                         button#task_branch_form_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}') #{task.custom_id} - #{task.name}
+                            header(data-id='#{task._id}') 
+                                a.task-name(href='/tasks/#{task._id}') #{task.custom_id} - #{task.name}
                             .operate-wrapper
                                 a.btn.btn-small(href='/tasks') 
                                     i.icon-chevron-left
@@ -88,9 +89,8 @@ block content
                             .task-summary-wrapper.clearfix
                                 include ../include/task-nav
                                 .task-users.clearfix
-                                    h5
-                                        span 参与者
-                                        button#edit_task_users.btn.btn-link 编辑
+                                    header 参与者
+                                        button#edit_task_users.btn.btn-small 编辑   
                                     .task-users-wrapper.clearfix
                                         - each taskuser in taskUsers
                                             a.user(href='/users/#{taskuser._id}')
@@ -100,44 +100,49 @@ block content
                                                     .role 
                                                         small 
                                                             em #{taskuser.role}
+                                .task-summary-milestone.clearfix
+                                    header 时间点
+                                        button#add_milestone_in_taskinfo.btn.btn-small 添加时间点
+                                    ul.clearfix
+                                        - each milestone in milestones
+                                            li
+                                                a(href='/tasks/#{task._id}/milestones/#{milestone._id}',title='单击修改时间点') #{milestone.name}
+                                                span #{milestone.event_time.substring(5)}
+                                .task-summary-todo.clearfix
+                                    header 
+                                        a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新待办事项
+                                        a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 添加待办事项
+                                    ul.unstyled
+                                        - each todo in taskTodos
+                                            li(data-id='#{todo._id}')
+                                                - if (todo.complete == 1)
+                                                    span.complete(title='标记事项未完成')
+                                                - else
+                                                    span.un-complete(title='标记事项已完成')
+                                                a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
+                                                span.time #{todo.operator.name} 创建于 #{todo.created_time.substring(5)}  
+                                                span.category.label #{todo.category}
+                                                - if (todo.comments.length !== 0)
+                                                    span.comment-count.badge.badge-inverse #{todo.comments.length}留言
                                 .task-summary-version.clearfix
-                                    h5
-                                        span 版本管理
-                                        a(href='/tasks/#{task._id}/status?change=true',title='修改任务状态') 修改状态 
+                                    header 
+                                        a.more(href='/tasks/#{task._id}/status', title='查看全部版本管理信息') 版本管理
+                                        a.btn.btn-small(href='/tasks/#{task._id}/status?change=true',title='修改任务状态') 修改状态 
                                     .branch 分支：
                                         - if (task.branch)
                                             button#task_branch_btn.btn.btn-link(title='单击修改分支') #{task.branch}
                                         - else
                                             button#task_branch_btn.btn.btn-link 分支待添加
                                     .status 状态：
-                                        a(href='/tasks/#{task._id}/status?change=true', title='单击修改状态') #{task.status}
-                                    .last-action 最新：
-                                        - if (lastStatus)
-                                            span.label #{lastStatus.name}
-                                            |  #{lastStatus.operator.name} 
-                                            |  #{lastStatus.created_time.substring(5)}
-                                        - else
-                                            | 无
-                                .task-summary-todo.clearfix
-                                    h5
-                                        span 最新待办事项
-                                        a(href='/tasks/#{task._id}/todo/new') 添加待办事项
+                                        a(href='/tasks/#{task._id}/status?change=true', title='单击修改状态') 
+                                            span.label #{task.status}
                                 .task-summary-file.clearfix
-                                    h5 
-                                        span 最新附件
-                                        a(href='/tasks/#{task._id}/uploads?create=true') 上传
+                                    header 
+                                        a.more(href='/tasks/#{task._id}/uploads', title='查看全部附件') 最新附件
+                                        a.btn.btn-small(href='/tasks/#{task._id}/uploads?create=true') 上传
                                     .file-item-wrapper.clearfix
                                         - each file in taskFiles
                                             .file-item(data-type='#{file.type}')
                                                 img.type(src='')
                                                 a.name(href='#{file.url}') #{file.name}
                                                 .log #{file.operator.name} 上传于 #{file.created_time}
-                                .task-summary-milestone.clearfix
-                                    h5 
-                                        span 时间点
-                                        button#add_milestone_in_taskinfo.btn.btn-link 添加时间点
-                                    ul
-                                        - each milestone in milestones
-                                            li
-                                                a(href='/tasks/#{task._id}/milestones/#{milestone._id}') #{milestone.name}
-                                                span #{milestone.event_time.substring(5)}

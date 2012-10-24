@@ -4,8 +4,9 @@ var task_coll       = require('../db/task')
 var counter_coll    = require('../db/counter')
 var milestone_coll  = require('../db/milestone')
 var status_coll     = require('../db/status')
-var time            = require('../helper/time')
 var file_coll       = require('../db/file')
+var todo_coll       = require('../db/todo')
+var time            = require('../helper/time')
 
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -36,7 +37,7 @@ exports.show = function(req, res) {
                 user_coll.findAll(function(err, usersArray) {
                     milestone_coll.findByTaskId(req.params.id, function(err, milestones) {
                         file_coll.findByTaskIdInSummary(req.params.id, function(err, taskFileResult) {
-                            status_coll.findByTask(req.params.id, function(err, taskStatusResult) {
+                            todo_coll.findByTask({task_id : req.params.id}, 4, function(err, taskTodoResult) {
                                 res.render('task/info', 
                                     { 
                                         title       : task.name, 
@@ -44,7 +45,7 @@ exports.show = function(req, res) {
                                         task        : task,
                                         taskUsers   : usersResult,
                                         users       : usersArray,
-                                        lastStatus  : time.format_specify_field(taskStatusResult[0], {created_time : 'datetime'}),
+                                        taskTodos   : time.format_specify_field(taskTodoResult, {created_time : 'datetime'}),
                                         taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'datetime'}),
                                         milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
                                     } 

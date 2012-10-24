@@ -34,7 +34,7 @@ exports.list = function(req, res) {
 
             todoFilter.task_id = req.params.task_id
 
-            todo_coll.findByTask(todoFilter, function(err, todos) {
+            todo_coll.findByTask(todoFilter, 0, function(err, todos) {
                 res.render('todo/index', 
                     { 
                         title   : '待办事项 - ' + task.name, 

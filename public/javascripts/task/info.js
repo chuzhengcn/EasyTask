@@ -3,6 +3,8 @@
         app.utility.highlightCurrentPage('任务')
         app.utility.highlightTaskNav('摘要')
         app.viewhelper.setFileIcon()
+        app.viewhelper.markDifferentColorToTaskStatus($('.status span.label'))
+        app.viewhelper.markDifferentColorToTodoCategory($('.task-summary-todo span.category'))
         eventBind()
     })
 
