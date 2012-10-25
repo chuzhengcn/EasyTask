@@ -47,15 +47,16 @@ exports.list = function(req, res) {
             }
             
             task_coll.findAll(filter, (page-1)*perpageNum, perpageNum, function(err, tasks) {
-                tasks.forEach(function(item, index, array) {
-                    tasks[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
+                tasks.list.forEach(function(item, index, array) {
+                    tasks.list[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
                 })
                 res.render('task/index', 
                     { 
                         title   : '任务', 
                         me      : loginUser, 
                         users   : users,
-                        tasks   : tasks
+                        tasks   : tasks.list,
+                        total   : tasks.total,
                     } 
                 )
             })
@@ -64,21 +65,21 @@ exports.list = function(req, res) {
 }
 
 exports.mine = function(req, res) {
-    routeApp.identifying(req, 0, 0, function(loginUser) {
+    routeApp.identifying(req, function(loginUser) {
         var filter = {
             active : true,
             users  : loginUser._id
         }
 
-        task_coll.findAll(filter, function(err, tasks) {
-            tasks.forEach(function(item, index, array) {
-                tasks[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
+        task_coll.findAll(filter, 0, 0, function(err, tasks) {
+            tasks.list.forEach(function(item, index, array) {
+                tasks.list[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
             })
 
             res.render('task/mine',{
                 title : '我的任务',
                 me    : loginUser,
-                tasks : tasks,
+                tasks : tasks.list,
             })
         })
     })

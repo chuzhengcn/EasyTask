@@ -21,7 +21,7 @@ exports.findAll = function(filter, skipNum, limitNum, cb) {
 
     task_coll.find(filter).sort({status : 1, custom_id : -1, create_time : -1}).limit(limitNum).skip(skipNum).toArray(function(err, tasks) {
         if (tasks.length == 0) {
-            cb(err,[])
+            cb(err,{list : [], total: 0})
             return
         }
 
@@ -44,7 +44,10 @@ exports.findAll = function(filter, skipNum, limitNum, cb) {
 
         function checkComplete() {
             if (i==0) {
-                cb(err, tasks)
+                task_coll.count(filter, function(err, number) {
+                    cb(err, {list : tasks, total : number})
+                })
+                
             }
         }
     })
