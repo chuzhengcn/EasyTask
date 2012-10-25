@@ -7,6 +7,7 @@
         eventBind()
         popoverTaskInfo()
         app.viewhelper.markDifferentColorToTaskStatus($('.task-list li .status span.label'))
+        setPage()
     })
 
     function eventBind() {
@@ -42,6 +43,10 @@
 
         app.utility.highlightCurrentPage('任务')
 
+    }
+
+    function setPage(){
+        var total = $('ul.pager').data('count')
     }
 
     function popoverTaskInfo() {
