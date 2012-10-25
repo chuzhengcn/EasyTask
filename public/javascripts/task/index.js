@@ -1,6 +1,6 @@
 (function() {
     $(function() {
-        app.utility.highlightCurrentPage('任务')
+        highlightCurrentPage()
         fillTaskStatusToFilter()
         fillTaskBranchToFilter()
         fillTaskUserToFilter()
@@ -28,6 +28,20 @@
             var self = this
             readyToCreateTask.call(self, event)
         })
+    }
+    function highlightCurrentPage() {
+        if(app.utility.get_query_value('active')) {
+            app.utility.highlightCurrentPage('已存档')
+            return
+        }
+        
+        if( decodeURIComponent(app.utility.get_query_value('status')) == '需求提交') {
+            app.utility.highlightCurrentPage('需求')
+            return
+        }
+
+        app.utility.highlightCurrentPage('任务')
+
     }
 
     function popoverTaskInfo() {

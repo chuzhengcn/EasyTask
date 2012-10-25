@@ -20,9 +20,33 @@ block content
                             header 我的任务
                             .operate-wrapper
                         .list-body.scrollable
+                            .task-list-filter
+                                .task-custom-id id
+                                .name 任务名
+                                .branch 分支
+                                .status 状态
+                                .time  下一个时间点
+                                .users 人员
                             ul.task-list.unstyled
                                 - each task in tasks
                                     li 
-                                        a(href='/tasks/#{task._id}') 
-                                            span.task-custom-id #{task.custom_id}
-                                            span #{task.name}
+                                        .task-custom-id #{task.custom_id}
+                                        a.name(href='/tasks/#{task._id}') #{task.name}
+                                        .branch #{task.branch}
+                                        .status
+                                            span.label #{task.status}                                            
+                                        .time
+                                            - if (task.milestones.length > 0)
+                                                span(rel="popover", data-original-title="所有时间点") #{task.milestones[0].name} #{task.milestones[0].event_time.substring(5)}
+                                                .event-time-content-in-popover
+                                                    ul
+                                                        - each milestone in task.milestones
+                                                            li #{milestone.name} #{milestone.event_time.substring(5)}
+                                        .users
+                                            span(rel="popover", data-original-title="所有参与人员")
+                                                - each pop_user in task.users
+                                                    |  #{pop_user.name}
+                                            .task-users-content-in-popover
+                                                    ul
+                                                        - each pop_user in task.users
+                                                            li #{pop_user.name}

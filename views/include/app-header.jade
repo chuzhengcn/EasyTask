@@ -1,7 +1,8 @@
 header#header
     a#logo(href='/') 平台项目进度表
     .search.dark-fields
-        input(type='search', autocomplete='off')
+        form(action='/')
+            input(type='search', name='keyword', autocomplete='off')
     - if (me !== null)
         a.user-avatar(href='/users/#{me._id}')
             span  #{me.name}

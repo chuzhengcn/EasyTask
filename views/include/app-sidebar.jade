@@ -2,13 +2,21 @@ nav#sidebar
     .sidebar-content
         ul
             li
-                a(href='/')
+                a.selected(href='/')
                     i.icon-tasks
                     span 任务
             li
                 a(href='/mine')
                     i.icon-asterisk
                     span 我的任务
+            li
+                a(href='/tasks?status=需求提交')
+                    i.icon-cog
+                    span 需求
+            li
+                a(href='/tasks?active=false')
+                    i.icon-lock
+                    span 已存档
             li
                 a(href='/users')
                     i.icon-user

@@ -3,7 +3,7 @@
     var files_info = []
     
     $(function() {
-        app.utility.highlightCurrentPage('任务')
+        // app.utility.highlightCurrentPage('任务')
         app.utility.highlightTaskNav('待办事项')
         app.viewhelper.markDifferentColorToTodoCategory($('.todo-info h3 span.label'))
         eventBind()

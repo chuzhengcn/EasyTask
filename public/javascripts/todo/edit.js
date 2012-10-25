@@ -4,7 +4,7 @@
     var editor
     
     $(function() {
-        app.utility.highlightCurrentPage('任务')
+        // app.utility.highlightCurrentPage('任务')
         app.utility.highlightTaskNav('待办事项')
         app.viewhelper.setSelect('task_todo_category_selecter')
         eventBind()

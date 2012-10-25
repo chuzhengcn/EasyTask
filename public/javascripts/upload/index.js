@@ -1,7 +1,7 @@
 (function() {
     var target_file
     $(function() {
-        app.utility.highlightCurrentPage('任务')
+        // app.utility.highlightCurrentPage('任务')
         app.utility.highlightTaskNav('附件')
         app.viewhelper.setFileIcon()
         checkPaneNeedOpen()

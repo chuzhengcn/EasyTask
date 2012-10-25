@@ -1,6 +1,6 @@
 (function() {
     $(function() {
-        app.utility.highlightCurrentPage('任务')
+        // app.utility.highlightCurrentPage('任务')
         app.utility.highlightTaskNav('摘要')
         app.viewhelper.setFileIcon()
         app.viewhelper.markDifferentColorToTaskStatus($('.status span.label'))

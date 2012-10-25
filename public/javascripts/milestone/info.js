@@ -1,6 +1,6 @@
 (function() {
     $(function() {
-        app.utility.highlightCurrentPage('任务')
+        // app.utility.highlightCurrentPage('任务')
         eventBind()
         setMilestoneOriginNameInRightWay()
     })

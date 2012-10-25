@@ -18,6 +18,7 @@ exports.list = function(req, res) {
             if (req.query) {
                 if (req.query.active !== undefined) {
                     filter.active = false
+                    delete filter.status
                 }
 
                 if (req.query.status) {
@@ -30,6 +31,12 @@ exports.list = function(req, res) {
 
                 if (req.query.branch) {
                     filter.branch = req.query.branch
+                }
+
+                if(req.query.keyword) {
+                    filter = {
+                        '$or' : [{ 'custom_id' : req.query.keyword}, {'name' : new RegExp(req.query.keyword,'i')}]
+                    }
                 }
             }
             
@@ -58,6 +65,10 @@ exports.mine = function(req, res) {
         }
 
         task_coll.findAll(filter, function(err, tasks) {
+            tasks.forEach(function(item, index, array) {
+                tasks[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
+            })
+
             res.render('task/mine',{
                 title : '我的任务',
                 me    : loginUser,
