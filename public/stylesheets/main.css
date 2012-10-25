@@ -350,22 +350,51 @@ input[name='task_users'] {
   background-color: #e9eef7;
 }
 .list-body .task-list li {
-  padding: 7px 15px 7px 15px;
+  padding: 7px 10px 7px 15px;
   height: 20px;
   border-bottom: 1px solid #ebebeb;
   border-top: solid 1px #dae2f2;
 }
-.list-body .task-list li a {
-  color: rgba(0,0,0,0.85);
-  float: left;
-}
-.list-body .task-list li a:hover {
-  text-decoration: underline;
-}
-.list-body .task-list li a .task-custom-id {
+.list-body .task-list li .task-custom-id {
   width: 40px;
   float: left;
   margin-right: 10px;
+}
+.list-body .task-list li .name {
+  color: rgba(0,0,0,0.85);
+  float: left;
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.list-body .task-list li .name:hover {
+  text-decoration: underline;
+}
+.list-body .task-list li .status {
+  margin-left: 20px;
+  float: right;
+  width: 100px;
+}
+.list-body .task-list li .branch {
+  margin-left: 20px;
+  float: right;
+  width: 200px;
+}
+.list-body .task-list li .time {
+  float: right;
+  margin-left: 20px;
+  cursor: pointer;
+  width: 80px;
+}
+.list-body .task-list li.title {
+  background-color: #dedede;
+  border-top: solid 1px #dfdfdf;
+  border-bottom: none;
+}
+.event-time-content {
+  display: none;
+  padding: 0 10px;
 }
 .task-summary {
   position: absolute;
@@ -473,7 +502,7 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-summary-milestone ul li {
   height: 20px;
-  margin: 20px 20px 0 0;
+  margin: 20px 40px 0 0;
   float: left;
 }
 .task-summary .task-summary-wrapper .task-summary-milestone ul li span {

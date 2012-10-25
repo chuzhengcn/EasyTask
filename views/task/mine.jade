@@ -1,0 +1,28 @@
+extends ../layout
+append head
+    script(src='/javascripts/task/mine.js')
+block content
+    .app-layout
+        include ../include/app-header
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header 我的任务
+                            .operate-wrapper
+                        .list-body.scrollable
+                            ul.task-list.unstyled
+                                - each task in tasks
+                                    li 
+                                        a(href='/tasks/#{task._id}') 
+                                            span.task-custom-id #{task.custom_id}
+                                            span #{task.name}

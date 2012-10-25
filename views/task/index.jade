@@ -58,8 +58,23 @@ block content
                                 datalist#datalist_status_selecter
                                     include ../include/task-status
                             ul.task-list.unstyled
+                                li.title
+                                    .task-custom-id id
+                                    .name 任务名
+                                    .status 状态
+                                    .branch 分支
+                                    .time 时间点 
                                 - each task in tasks
                                     li 
-                                        a(href='/tasks/#{task._id}') 
-                                            span.task-custom-id #{task.custom_id}
-                                            span #{task.name}
+                                        .task-custom-id #{task.custom_id}
+                                        a.name(href='/tasks/#{task._id}') #{task.name}
+                                        .status
+                                            span.label #{task.status}                                            
+                                        .branch #{task.branch}
+                                        .time
+                                            - if (task.milestones.length > 0)
+                                                span.badge(rel="popover", data-original-title="时间点") #{task.milestones.length}时间点
+                                                ul.event-time-content
+                                                    - each milestone in task.milestones
+                                                        li #{milestone.name} #{milestone.event_time.substring(5)}
+                                        

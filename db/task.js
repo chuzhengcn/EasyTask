@@ -1,12 +1,42 @@
-var db          = require('./config').db
-var task_coll   = db.collection('task')
+var db              = require('./config').db
+var task_coll       = db.collection('task')
+var milestone_model = require('./milestone')
+var milestone_coll  = db.collection('milestone')
+var user_coll       = require('./user')
 
 exports.create = function(task, cb) {
     task_coll.insert(task, {safe:true}, cb)
 }
 
 exports.findAll = function(filter, cb) {
-    task_coll.find(filter).sort({status : 1, custom_id : -1, create_time : -1}).toArray(cb)
+    task_coll.find(filter).sort({status : 1, custom_id : -1, create_time : -1}).toArray(function(err, tasks) {
+        var i = tasks.length * 2
+        tasks.forEach(function(item, index, array) {
+            
+            milestone_model.findByTaskId(item._id.toString(), function(err, milestones) {
+                tasks[index].milestones = milestones
+                i--
+                checkComplete()
+            })
+
+            user_coll.findTaskUsers(item.users, function(err, users) {
+                tasks[index].users = users
+                i--
+                checkComplete()
+            })
+            
+        })
+
+        function checkComplete() {
+            if (i==0) {
+                cb(err, tasks)
+            }
+        }
+    })
+}
+
+exports.findByUser = function(userId, cb) {
+    task_coll.find({ users : task_coll.id(userId), active : true}).toArray(cb)
 }
 
 exports.findById = function(id, cb) {

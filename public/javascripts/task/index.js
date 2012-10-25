@@ -3,6 +3,7 @@
         app.utility.highlightCurrentPage('任务')
         fillTaskStatusToFilter()
         eventBind()
+        popoverEventTime()
     })
 
     function eventBind() {
@@ -23,6 +24,15 @@
         $('#create_task_btn').click(function(event) {           
             var self = this
             readyToCreateTask.call(self, event)
+        })
+    }
+
+    function popoverEventTime() {
+        $('.time span.badge').each(function() {
+            $(this).data('content',$(this).next().html())
+        })
+        $('.time span.badge').popover({
+            trigger : 'hover'
         })
     }
 
