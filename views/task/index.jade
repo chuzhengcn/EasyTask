@@ -63,7 +63,8 @@ block content
                                     .name 任务名
                                     .status 状态
                                     .branch 分支
-                                    .time 时间点 
+                                    .time 时间点
+                                    .users 人员 
                                 - each task in tasks
                                     li 
                                         .task-custom-id #{task.custom_id}
@@ -73,8 +74,14 @@ block content
                                         .branch #{task.branch}
                                         .time
                                             - if (task.milestones.length > 0)
-                                                span.badge(rel="popover", data-original-title="时间点") #{task.milestones.length}时间点
-                                                ul.event-time-content
-                                                    - each milestone in task.milestones
-                                                        li #{milestone.name} #{milestone.event_time.substring(5)}
-                                        
+                                                span.badge(rel="popover", data-original-title="时间点") #{task.milestones.length}
+                                                .event-time-content-in-popover
+                                                    ul
+                                                        - each milestone in task.milestones
+                                                            li #{milestone.name} #{milestone.event_time.substring(5)}
+                                        .users
+                                            span.badge(rel="popover", data-original-title="人员") #{task.users.length}
+                                            .task-users-content-in-popover
+                                                    ul
+                                                        - each pop_user in task.users
+                                                            li #{pop_user.name}

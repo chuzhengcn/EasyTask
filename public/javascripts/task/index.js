@@ -3,7 +3,7 @@
         app.utility.highlightCurrentPage('任务')
         fillTaskStatusToFilter()
         eventBind()
-        popoverEventTime()
+        popoverTaskInfo()
     })
 
     function eventBind() {
@@ -27,11 +27,11 @@
         })
     }
 
-    function popoverEventTime() {
-        $('.time span.badge').each(function() {
+    function popoverTaskInfo() {
+        $('span[rel="popover"]').each(function() {
             $(this).data('content',$(this).next().html())
         })
-        $('.time span.badge').popover({
+        $('span[rel="popover"]').popover({
             trigger : 'hover'
         })
     }
