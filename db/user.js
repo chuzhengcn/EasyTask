@@ -6,7 +6,7 @@ exports.create = function(user, cb) {
 }
 
 exports.findAll = function(cb) {
-    user_coll.find().toArray(cb)
+    user_coll.find().sort({ role : -1 }).toArray(cb)
 }
 
 exports.findById = function(id, cb) {

@@ -156,9 +156,8 @@ app.viewhelper = {
     markDifferentColorToTaskStatus : function($statusObjGroup) {
         $statusObjGroup.each(function() {
             removeOtherColor($(this))
-
-            switch ($(this).text()) {
-                case '任务已分配' :
+            switch ($.trim($(this).text())) {
+                case '需求提交' :
                     $(this).addClass('label-warning')
                     break
                 case '开发已完成' :
@@ -180,7 +179,6 @@ app.viewhelper = {
                     break
             }
         })
-
         function removeOtherColor($statusObj) {
             $statusObj.removeClass('label-success label-warning label-important label-info label-inverse')
         }

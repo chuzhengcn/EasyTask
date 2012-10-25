@@ -2,8 +2,11 @@
     $(function() {
         app.utility.highlightCurrentPage('任务')
         fillTaskStatusToFilter()
+        fillTaskBranchToFilter()
+        fillTaskUserToFilter()
         eventBind()
         popoverTaskInfo()
+        app.viewhelper.markDifferentColorToTaskStatus($('.task-list li .status span.label'))
     })
 
     function eventBind() {
@@ -32,7 +35,7 @@
             $(this).data('content',$(this).next().html())
         })
         $('span[rel="popover"]').popover({
-            trigger : 'hover'
+            trigger     : 'hover'
         })
     }
 
@@ -124,4 +127,23 @@
                 + '</a></li>')
         })
     }
+
+    function fillTaskBranchToFilter() {
+        var currentBranch = app.utility.get_query_value('branch')
+        if (currentBranch) {
+            $('#task_branch_filter button:first').html(decodeURIComponent(currentBranch))
+        }
+    }
+
+    function fillTaskUserToFilter() {
+        var currentUserId = app.utility.get_query_value('user')
+        if (currentUserId) {
+            $('#task_user_filter span.name').each(function() {
+                if ($(this).data('id') == currentUserId) {
+                    $('#task_user_filter button:first').html($(this).text())
+                }
+            })
+        }
+    }
+
 })()

@@ -42,45 +42,67 @@ block content
                                 button.btn.btn-primary 添加任务
                         .list-body.scrollable
                             .task-list-filter
-                                .btn-group#task_status_filter
-                                    button.btn.btn-small 正在开发
-                                    button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
-                                        span.caret
-                                    ul.dropdown-menu
-                                        li.dropdown-submenu
-                                            a(tabindex='-1',href='/') 正在开发
-                                            ul.dropdown-menu
-                                        li.divider
-                                        li
-                                            a(href='/tasks?status=需求提交')  需求提交
-                                        li
-                                            a(href='/tasks?active=false')  已存档
-                                datalist#datalist_status_selecter
-                                    include ../include/task-status
-                            ul.task-list.unstyled
-                                li.title
-                                    .task-custom-id id
-                                    .name 任务名
-                                    .status 状态
-                                    .branch 分支
-                                    .time 时间点
-                                    .users 人员 
+                                .task-custom-id id
+                                .name 任务名
+                                .branch
+                                    .btn-group#task_branch_filter
+                                        button.btn.btn-small 分支
+                                        button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                            span.caret
+                                        ul.dropdown-menu
+                                            li
+                                                a(href='/tasks?branch=master')  master
+                                            li
+                                                a(href='/tasks?branch=test') test
+                                            li
+                                                a(href='/tasks?branch=dev') dev
+                                .status
+                                    .btn-group#task_status_filter
+                                        button.btn.btn-small 正在开发
+                                        button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                            span.caret
+                                        ul.dropdown-menu
+                                            li.dropdown-submenu
+                                                a(tabindex='-1',href='/') 正在开发
+                                                ul.dropdown-menu
+                                            li.divider
+                                            li
+                                                a(href='/tasks?status=需求提交') 需求提交
+                                            li
+                                                a(href='/tasks?active=false') 已存档
+                                    datalist#datalist_status_selecter
+                                        include ../include/task-status
+                                .time  下一个时间点
+                                .users
+                                    .btn-group#task_user_filter
+                                        button.btn.btn-small 人员
+                                        button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                            span.caret
+                                        ul.dropdown-menu
+                                            - each user in users
+                                                li
+                                                    a.clearfix(href='/tasks?user=#{user._id}')
+                                                        span.name(data-id='#{user._id}') #{user.name}
+                                                        span.role #{user.role}
+                            ul.task-list.unstyled  
                                 - each task in tasks
                                     li 
                                         .task-custom-id #{task.custom_id}
                                         a.name(href='/tasks/#{task._id}') #{task.name}
+                                        .branch #{task.branch}
                                         .status
                                             span.label #{task.status}                                            
-                                        .branch #{task.branch}
                                         .time
                                             - if (task.milestones.length > 0)
-                                                span.badge(rel="popover", data-original-title="时间点") #{task.milestones.length}
+                                                span(rel="popover", data-original-title="所有时间点") #{task.milestones[0].name} #{task.milestones[0].event_time.substring(5)}
                                                 .event-time-content-in-popover
                                                     ul
                                                         - each milestone in task.milestones
                                                             li #{milestone.name} #{milestone.event_time.substring(5)}
                                         .users
-                                            span.badge(rel="popover", data-original-title="人员") #{task.users.length}
+                                            span(rel="popover", data-original-title="所有参与人员")
+                                                - each pop_user in task.users
+                                                    |  #{pop_user.name}
                                             .task-users-content-in-popover
                                                     ul
                                                         - each pop_user in task.users

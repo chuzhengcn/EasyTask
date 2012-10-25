@@ -288,6 +288,29 @@ input[name='task_users']
         .btn-group
             float left
             margin-right 30px
+        .task-custom-id
+            float left
+            width 50px
+            padding-left 5px
+        .name
+            float left
+        .status
+            float right
+            width 150px
+        .branch
+            float right
+            width 170px
+        .time
+            float right
+            width 160px
+        .users
+            float right
+            width 160px
+            span.name
+                float left
+            span.role
+                float right
+                font-size 12px
     .task-list
         background-color #E9EEF7
         li
@@ -296,9 +319,8 @@ input[name='task_users']
             border-bottom 1px solid #EBEBEB
             border-top solid 1px #DAE2F2
             .task-custom-id
-                width 40px
+                width 50px
                 float left
-                margin-right 10px
             .name
                 color rgba(0, 0, 0, 0.85)
                 float left
@@ -309,24 +331,26 @@ input[name='task_users']
                 &:hover
                     text-decoration underline
             .status
-                margin-left 20px
                 float right
-                width 100px
+                width 150px
             .branch
-                margin-left 20px
                 float right
-                width 200px
+                width 170px
                 height 20px
+                white-space nowrap
+                overflow hidden
+                text-overflow ellipsis
             .time,.users
                 float right
-                margin-left 20px
                 cursor pointer
-                width 60px
+                width 160px
                 height 20px
-            &.title
-                background-color #dedede
-                border-top solid 1px #dfdfdf
-                border-bottom none
+                white-space nowrap
+                overflow hidden
+                text-overflow ellipsis                
+            .time
+                span
+                    border-bottom dashed 1px #999
 .event-time-content-in-popover,.task-users-content-in-popover
     display none
 //---------------------------task-info-----------------------------------------

@@ -13,14 +13,23 @@ exports.list = function(req, res) {
         user_coll.findAll(function(err, users) {
             var filter      = {
                 active : true,
+                status : { '$nin' : ['需求提交']},
             }
             if (req.query) {
                 if (req.query.active !== undefined) {
                     filter.active = false
                 }
 
-                if(req.query.status) {
+                if (req.query.status) {
                     filter.status = req.query.status
+                }
+
+                if (req.query.user) {
+                    filter.users = req.query.user
+                }
+
+                if (req.query.branch) {
+                    filter.branch = req.query.branch
                 }
             }
             

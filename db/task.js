@@ -2,14 +2,29 @@ var db              = require('./config').db
 var task_coll       = db.collection('task')
 var milestone_model = require('./milestone')
 var milestone_coll  = db.collection('milestone')
-var user_coll       = require('./user')
+var user_model      = require('./user')
+var user_coll       = db.collection('user')
 
 exports.create = function(task, cb) {
     task_coll.insert(task, {safe:true}, cb)
 }
 
 exports.findAll = function(filter, cb) {
+    if (filter.users) {
+        filter.users = user_coll.id(filter.users)
+        console.log(filter)
+    }
+
+    if (filter.branch) {
+        filter.branch = new RegExp(filter.branch, 'i')
+    }
+
     task_coll.find(filter).sort({status : 1, custom_id : -1, create_time : -1}).toArray(function(err, tasks) {
+        if (tasks.length == 0) {
+            cb(err,[])
+            return
+        }
+
         var i = tasks.length * 2
         tasks.forEach(function(item, index, array) {
             
@@ -19,7 +34,7 @@ exports.findAll = function(filter, cb) {
                 checkComplete()
             })
 
-            user_coll.findTaskUsers(item.users, function(err, users) {
+            user_model.findTaskUsers(item.users, function(err, users) {
                 tasks[index].users = users
                 i--
                 checkComplete()
