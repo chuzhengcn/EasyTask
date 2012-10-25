@@ -9,7 +9,7 @@ exports.create = function(task, cb) {
     task_coll.insert(task, {safe:true}, cb)
 }
 
-exports.findAll = function(filter, cb) {
+exports.findAll = function(filter, skipNum, limitNum, cb) {
     if (filter.users) {
         filter.users = user_coll.id(filter.users)
         console.log(filter)
@@ -19,7 +19,7 @@ exports.findAll = function(filter, cb) {
         filter.branch = new RegExp(filter.branch, 'i')
     }
 
-    task_coll.find(filter).sort({status : 1, custom_id : -1, create_time : -1}).toArray(function(err, tasks) {
+    task_coll.find(filter).sort({status : 1, custom_id : -1, create_time : -1}).limit(limitNum).skip(skipNum).toArray(function(err, tasks) {
         if (tasks.length == 0) {
             cb(err,[])
             return

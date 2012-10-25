@@ -15,6 +15,8 @@ exports.list = function(req, res) {
                 active : true,
                 status : { '$nin' : ['需求提交']},
             }
+            var page = 1
+            var perpageNum = 20
             if (req.query) {
                 if (req.query.active !== undefined) {
                     filter.active = false
@@ -38,9 +40,13 @@ exports.list = function(req, res) {
                         '$or' : [{ 'custom_id' : req.query.keyword}, {'name' : new RegExp(req.query.keyword,'i')}]
                     }
                 }
+
+                if(req.query.page && typeof parseInt(req.query.page, 10) == 'number') {
+                    page = req.query.page
+                }
             }
             
-            task_coll.findAll(filter, function(err, tasks) {
+            task_coll.findAll(filter, (page-1)*perpageNum, perpageNum, function(err, tasks) {
                 tasks.forEach(function(item, index, array) {
                     tasks[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
                 })
@@ -58,7 +64,7 @@ exports.list = function(req, res) {
 }
 
 exports.mine = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
+    routeApp.identifying(req, 0, 0, function(loginUser) {
         var filter = {
             active : true,
             users  : loginUser._id
