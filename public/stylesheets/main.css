@@ -381,7 +381,7 @@ input[name='task_users'] {
   background-color: #e9eef7;
 }
 .list-body .task-list li {
-  padding: 7px 10px 7px 15px;
+  padding: 10px 10px 10px 15px;
   height: 20px;
   border-bottom: 1px solid #ebebeb;
   border-top: solid 1px #dae2f2;
