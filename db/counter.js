@@ -16,6 +16,13 @@ exports.saveTaskId = function(cb) {
 
 exports.saveCommentId = function(cb) {
     counter_coll.findAndModify({ comment_id : {$gt: 0}}, {}, {$inc : {comment_id : 1}}, { new : true, upsert : true }, function(err, result) {
+        if (!result) {
+            counter_coll.update({ comment_id : {$exists : true}}, {$set : { comment_id : 100}}, {}, function(err, result) {
+                cb(err, 100)
+            })
+
+            return
+        }
         cb(err, result.comment_id)
     })
 }
