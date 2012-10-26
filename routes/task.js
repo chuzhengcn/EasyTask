@@ -134,7 +134,7 @@ exports.create = function(req, res) {
             return
         }
 
-        generateTaskUsers(req, function(taskUsers) {
+        generateTaskUsers(req, res, function(taskUsers) {
             counter_coll.saveTaskId(function(err, custom_id) {
                 task_coll.create({
                         name            : req.body.name,
@@ -221,7 +221,7 @@ exports.update = function(req, res) {
 
         if (req.body.task_users) {
             log_type  = 6
-            generateTaskUsers(req, function(taskUsers) {
+            generateTaskUsers(req, res, function(taskUsers) {
                 updateDoc = {users : taskUsers}
                 startUpdateTask()
             })
@@ -265,8 +265,25 @@ exports.newCustomId = function(req, res) {
     })
 }
 
-function generateTaskUsers(req, cb) {
+function generateTaskUsers(req, res, cb) {
     var generateResult  = []
+    if (req.body.task_users) {
+        var allBlank = true
+        req.body.task_users.forEach(function(item, index, array) {
+            if (item) {
+                allBlank = false
+            }
+        })
+
+        if (allBlank) {
+            res.send({ ok : 0, msg : '必须添加至少一个参与人员'})
+            return 
+        }
+    } else {
+        res.send({ ok : 0, msg : '必须添加至少一个参与人员'})
+        return 
+    }
+
     var users           = req.body.task_users
     var userNum         = 0
     if (users && Array.isArray(users)) {
