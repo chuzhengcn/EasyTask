@@ -522,8 +522,8 @@ input[name='task_users'] {
   color: #666;
 }
 .task-summary .task-summary-wrapper .task-users .user img {
-  width: 50px;
-  height: 50px;
+  max-width: 50px;
+  max-height: 50px;
   float: left;
   margin-right: 10px;
 }
@@ -635,6 +635,8 @@ input[name='task_users'] {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 250px;
+  display: block;
 }
 .task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper .file-item .log {
   font-size: 12px;
