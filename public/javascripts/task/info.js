@@ -4,7 +4,7 @@
         app.utility.highlightTaskNav('摘要')
         app.viewhelper.setFileIcon()
         app.viewhelper.markDifferentColorToTaskStatus($('.status span.label'))
-        app.viewhelper.markDifferentColorToTodoCategory($('.task-summary-todo span.category'))
+        app.viewhelper.markDifferentColorToTodoCategory($('.task-summary-todo .category span.label'))
         eventBind()
     })
 

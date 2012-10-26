@@ -8,7 +8,7 @@ exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         milestone_coll.findById(req.params.id, function(err, milestone) {
             if (!milestone) {
-                res.redirect('/404')
+                routeApp.err404(req, res)
                 return
             }
             task_coll.findById(milestone.task_id, function(err, task) {

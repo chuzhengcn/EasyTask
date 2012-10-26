@@ -29,6 +29,7 @@ exports.list = function(req, res) {
 
                 if (req.query.user) {
                     filter.users = req.query.user
+                    delete filter.status
                 }
 
                 if (req.query.branch) {
@@ -67,11 +68,18 @@ exports.list = function(req, res) {
 exports.mine = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         var filter = {
-            active : true,
-            users  : loginUser._id
+            active : true
         }
 
-        task_coll.findAll(filter, 0, 0, function(err, tasks) {
+        var limitNum = 0
+
+        if (loginUser) {
+            filter.users  =  loginUser._id,
+            limitNum      =  20
+        }
+
+
+        task_coll.findAll(filter, 0, limitNum, function(err, tasks) {
             tasks.list.forEach(function(item, index, array) {
                 tasks.list[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
             })
@@ -89,7 +97,7 @@ exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         task_coll.findById(req.params.id, function(err, task) {
             if (!task) {
-                res.redirect('/404')
+                routeApp.err404(req, res)
                 return
             }
 
@@ -125,6 +133,7 @@ exports.create = function(req, res) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
+
         generateTaskUsers(req, function(taskUsers) {
             counter_coll.saveTaskId(function(err, custom_id) {
                 task_coll.create({
@@ -165,6 +174,7 @@ exports.archive = function(req, res) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
+
         task_coll.findById(req.params.id, function(err, task_result) {
             var log_type_result = 3
             if (!task_result.active) {

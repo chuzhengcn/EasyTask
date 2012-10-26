@@ -52,7 +52,7 @@ exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         task_coll.findById(req.params.task_id, function(err, task) {
             if (!task) {
-                res.redirect('/404')
+                routeApp.err404(req, res)
                 return
             }
 

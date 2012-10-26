@@ -39,7 +39,7 @@ exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         user_coll.findById(req.params.id, function(err, userInfoResult) {
             if (!userInfoResult) {
-                res.redirect('/404')
+                routeApp.err404(req, res)
                 return
             }
             res.render('user/info', 

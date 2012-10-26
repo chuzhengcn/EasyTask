@@ -428,6 +428,7 @@ input[name='task_users'] {
 }
 .list-body .pager {
   padding: 0 10px;
+  display: none;
 }
 .event-time-content-in-popover,
 .task-users-content-in-popover {
@@ -584,13 +585,13 @@ input[name='task_users'] {
   float: right;
   margin-left: 20px;
   line-height: 20px;
+  width: 90px;
 }
 .task-summary .task-summary-wrapper .task-summary-todo ul li .time {
   float: right;
-  margin-left: 40px;
-  margin-right: 20px;
   font-size: 12px;
   color: #666;
+  width: 180px;
 }
 .task-summary .task-summary-wrapper .task-summary-todo ul li .complete,
 .task-summary .task-summary-wrapper .task-summary-todo ul li .un-complete {
@@ -606,7 +607,8 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-summary-todo ul li .comment-count {
   float: right;
-  margin-top: 3px;
+  margin-top: 1px;
+  width: 60px;
 }
 .task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper {
   clear: both;
@@ -817,15 +819,14 @@ input[name='task_users'] {
 }
 .todo-list-wrapper .todo-list li .category {
   float: right;
-  margin-left: 20px;
   line-height: 20px;
+  width: 90px;
 }
 .todo-list-wrapper .todo-list li .time {
   float: right;
-  margin-left: 40px;
-  margin-right: 20px;
   font-size: 12px;
   color: #666;
+  width: 180px;
 }
 .todo-list-wrapper .todo-list li .complete,
 .todo-list-wrapper .todo-list li .un-complete {
@@ -841,7 +842,8 @@ input[name='task_users'] {
 }
 .todo-list-wrapper .todo-list li .comment-count {
   float: right;
-  margin-top: 3px;
+  margin-top: 1px;
+  width: 60px;
 }
 .todo-new-wrapper .task-nav {
   padding: 10px 20px 10px 20px;

@@ -67,7 +67,7 @@ block content
                                                     label.control-label(for='branch') 分支名
                                                     .controls
                                                         input(type='text', value='#{task.branch}', autocomplete='off', placeholder='例如：master-zhengzheng/123', name='branch')
-                                                        button#get_new_custom_id.btn.btn-small 获取新ID
+                                                        button#get_new_custom_id.btn.btn-small(tabindex='-1') 获取新ID
                                                 .control-group
                                                     .controls
                                                         button#task_branch_form_btn.btn.btn-primary 更新
@@ -126,10 +126,13 @@ block content
                                                 - else
                                                     span.un-complete(title='标记事项已完成')
                                                 a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
-                                                span.time #{todo.operator.name} 创建于 #{todo.created_time.substring(5)}  
-                                                span.category.label #{todo.category}
-                                                - if (todo.comments.length !== 0)
-                                                    span.comment-count.badge.badge-inverse #{todo.comments.length}留言
+                                                .comment-count
+                                                    - if (todo.comments.length !== 0)
+                                                        span.badge.badge-inverse #{todo.comments.length}留言
+                                                span.time #{todo.operator.name} 创建于 #{todo.created_time.substring(5)}
+                                                .category  
+                                                    span.label #{todo.category}
+
                                 .task-summary-version.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/status', title='查看全部版本管理信息') 版本管理

@@ -74,9 +74,7 @@ app.put('/upload-avatar/:file_name',        upload.updateAvatar)
 app.delete('/upload-avatar/:file_name',     upload.deleteAvatar)
 app.get('/tasks/:task_id/uploads',          upload.list)
 app.post('/tasks/:task_id/upload-files',    upload.createTaskFiles)
-//--------------------error------------------------
-var error = require('./routes/error')
-app.get('/404', error.handler404)
+
 //---------------------------------------------------------------
 http.createServer(app).listen(app.get('port'), function(){
     console.log("EasyTask server listening on port " + app.get('port'))

@@ -29,7 +29,7 @@ exports.identifying = function (req, cb) {
 }
 
 exports.ownAuthority = function(req, cb) {
-    var clientIp = req.connection.remoteAddress
+    var clientIp = req.ip
     user_coll.findByIp(clientIp, function(err, user) {
         if (user) {
             cb(true, user)
@@ -49,4 +49,8 @@ exports.createLogItem = function (log, operator, task, cb) {
             cb()
         }
     })
+}
+
+exports.err404 = function(req, res) {
+    res.status(404).render('404', {title : '404'})
 }

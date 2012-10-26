@@ -1,6 +1,7 @@
 (function() {
     $(function() {
         app.utility.highlightCurrentPage('我的任务')
+        app.viewhelper.markDifferentColorToTaskStatus($('.task-list li .status span.label'))
         popoverTaskInfo()
     })
 
