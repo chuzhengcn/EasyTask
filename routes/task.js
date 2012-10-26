@@ -236,15 +236,25 @@ exports.update = function(req, res) {
             if (custom_id) {
                 updateDoc.custom_id = custom_id
             }
-            status_coll.create({ 
-                task_id         : req.params.id,
-                name            : '把分支修改为：' + req.body.branch,
-                content         : '',
-                files           : [],
-                operator_id     : operator._id,
-                created_time    : new Date(),
+
+            task_coll.findById(req.params.id, function(err, taskResult) {
+                var branchInfoContent = '建立分支 ' + req.body.branch
+                if (taskResult.branch) {
+                    branchInfoContent = '分支由 ' + taskResult.branch + ' 变更为 ' + req.body.branch
+                }
+
+                status_coll.create({ 
+                    task_id         : req.params.id,
+                    name            : branchInfoContent,
+                    content         : '',
+                    files           : [],
+                    operator_id     : operator._id,
+                    created_time    : new Date(),
+                })
+
+                startUpdateTask()
+                
             })
-            startUpdateTask()
             return
         }
 
