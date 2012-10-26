@@ -47,3 +47,23 @@ exports.create = function(req, res) {
         })
     })
 }
+
+exports.delete = function(req, res) {
+    routeApp.ownAuthority(req, function(isOwn, operator) {
+        if (!isOwn) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        status_coll.findById(req.params.id, function(err, statusResult) {
+            var readyToDeleteFiles = statusResult.files
+            status_coll.removeById(req.params.id, function(err) {
+                res.send({ ok : 1 })
+            })
+
+            task_coll.findById(req.params.task_id, function(err, task) {
+                routeApp.createLogItem({ status_name : statusResult.name, log_type : 19, }, operator, task)
+            })
+        })
+    })
+}

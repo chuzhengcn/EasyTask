@@ -148,3 +148,44 @@ exports.createTaskFiles = function(req, res) {
         }
     })  
 }
+
+exports.deleteTaskFiles = function (files, cb) {
+    if (!files || typeof files !== 'object') {
+        cb(false)
+        return
+    }
+
+    var taskFileLocalDir = __dirname + '/../public/attachments/task/'
+
+    var filesCount = 1
+
+    if (Array.isArray(files)) {
+        filesCount = files.length
+        files.forEach(function(item, index, array) {
+            removeFileCollRecord(item)
+        })
+
+        return
+    }
+
+    removeFileCollRecord(files)
+
+    function removeFileCollRecord(file) {
+        file_coll.removeById(file._id.toString(), function(err) {
+            if (err) {
+                cb(false)
+                return
+            }
+
+            filesCount--
+
+            if (filesCount == 0) {
+                cb(true)
+            }
+
+            fs.unlink(taskFileLocalDir + file.task_id + '/' + file.name, function() {
+                
+            })
+        })
+    }
+}
