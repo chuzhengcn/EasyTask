@@ -17,7 +17,7 @@ exports.findAll = function(filter, skipNum, limitNum, cb) {
     if (filter.branch) {
         filter.branch = new RegExp(filter.branch, 'i')
     }
-    task_coll.find(filter).sort({status : 1, custom_id : -1, create_time : -1}).limit(limitNum).skip(skipNum).toArray(function(err, tasks) {
+    task_coll.find(filter).sort({status : -1, custom_id : -1, create_time : -1}).limit(limitNum).skip(skipNum).toArray(function(err, tasks) {
         if (!tasks || tasks.length == 0) {
             var i = 0
             checkComplete([])
