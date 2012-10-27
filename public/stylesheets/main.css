@@ -907,7 +907,6 @@ input[name='task_users'] {
   margin-top: 0;
   margin-bottom: 0;
   padding: 10px 0 10px 20px;
-  border-bottom: solid 1px #dedfe3;
 }
 .todo-info-wrapper .todo-info h3 span {
   float: left;
@@ -952,9 +951,13 @@ input[name='task_users'] {
 }
 .todo-info-wrapper .todo-info .content {
   padding: 20px 30px;
+  margin: 10px 20px;
+  border: solid 1px #dedfe3;
+  border-radius: 5px;
+  background-color: #f5f5f5;
 }
 .todo-info-wrapper .todo-info .content img {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 10px auto;
 }
 .todo-info-wrapper .todo-discussion {
