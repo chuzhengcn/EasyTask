@@ -550,13 +550,11 @@ input[name='task_users']
                 padding 10px 150px 10px 10px
                 font-weight bold
                 position relative
-                .states-date
+                .delete-this-status
                     position absolute
-                    color #999
-                    font-size 12px
-                    text-align right
-                    right 5px
                     top 10px
+                    right 10px
+                    cursor pointer
             .status-history-des
                 padding 10px
                 font-size 12px
@@ -568,6 +566,10 @@ input[name='task_users']
                     padding 5px 10px
                     i
                         margin-right 5px
+        .states-date
+            color #999
+            font-size 12px
+            padding 5px
 #mark_task_status_form
     legend
         padding 0 20px 3px 20px
@@ -684,7 +686,7 @@ input[name='task_users']
             margin-left 5px
         #create_task_todo_form_btn
             margin-top 20px
-//----------------------todo-new----------------------------------------------------
+//----------------------todo-edit----------------------------------------------------
 .todo-edit-wrapper
     .task-nav
         padding 10px 20px 10px 20px

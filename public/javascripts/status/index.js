@@ -37,6 +37,10 @@
             
         })
 
+        $('.delete-this-status').click(function() {
+            delete_status.call(this)
+        })
+
     }
 
     function setOriginTaskStatus() {
@@ -124,6 +128,26 @@
                     cb()
                 } else {
                     alert('上传失败')
+                }
+            } 
+        })
+    }
+
+    function delete_status() {
+        var statusId            = $(this).data('id')
+        var currentDeleteBtn    = $(this)
+        $.ajax({
+            type        : 'delete',
+            url         : '/tasks/' + getTaskId() + '/status/' + statusId,
+            beforeSend  : function() {
+                currentDeleteBtn.html('<span class="text-error">正在删除...</span>')
+            },
+            success     : function(data) {
+                if (data.ok == 1) {
+                    currentDeleteBtn.html('<span class="text-success">正在删除...</span>')
+                    location.href= location.href
+                } else {
+                    alert('删除失败')
                 }
             } 
         })

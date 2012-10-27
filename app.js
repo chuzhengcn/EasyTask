@@ -47,7 +47,7 @@ app.delete('/milestones/:id',                   milestone.delete)
 var status = require('./routes/status')
 app.get('/tasks/:task_id/status',       status.listByTask)
 app.post('/tasks/:task_id/status',      status.create)
-app.delete('tasks/:task_id/status/:id', status.delete)
+app.delete('/tasks/:task_id/status/:id', status.delete)
 
 //---------user------------------------------------------------------
 var user    = require('./routes/user')
