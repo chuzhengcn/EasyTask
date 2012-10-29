@@ -25,7 +25,7 @@ app.configure('development', function(){
 })
 
 app.configure('production', function(){
-    app.set('port', process.env.PORT || 80)
+    app.set('port', process.env.PORT || 5000)
 })
 //-----------------------route-----------------------------------
 
