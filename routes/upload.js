@@ -162,15 +162,15 @@ exports.deleteTaskFiles = function (files, cb) {
     if (Array.isArray(files)) {
         filesCount = files.length
         files.forEach(function(item, index, array) {
-            removeFileCollRecord(item)
+            removeFileCollRecordAndFile(item)
         })
 
         return
     }
 
-    removeFileCollRecord(files)
+    removeFileCollRecordAndFile(files)
 
-    function removeFileCollRecord(file) {
+    function removeFileCollRecordAndFile(file) {
         file_coll.removeById(file._id.toString(), function(err) {
             if (err) {
                 cb(false)
@@ -183,8 +183,16 @@ exports.deleteTaskFiles = function (files, cb) {
                 cb(true)
             }
 
-            fs.unlink(taskFileLocalDir + file.task_id + '/' + file.name, function() {
-                
+            fs.exists(taskFileLocalDir + file.task_id + '/' + file.name, function(exists) {
+                if (exists) {
+                    fs.unlink(taskFileLocalDir + file.task_id + '/' + file.name, function() {
+                        fs.readdir(taskFileLocalDir + file.task_id, function(err, files) {
+                            if (files.length == 0) {
+                                fs.rmdirSync(taskFileLocalDir + file.task_id)
+                            }
+                        })
+                    })
+                }
             })
         })
     }

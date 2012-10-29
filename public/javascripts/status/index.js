@@ -134,7 +134,7 @@
     }
 
     function delete_status() {
-        var sureToDelete = confirm('确认删除此记录？（此记录的附件将一并删除）')
+        var sureToDelete = confirm('确认删除？')
         if(!sureToDelete) {
             return
         }

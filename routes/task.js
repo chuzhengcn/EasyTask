@@ -7,6 +7,7 @@ var status_coll     = require('../db/status')
 var file_coll       = require('../db/file')
 var todo_coll       = require('../db/todo')
 var time            = require('../helper/time')
+var upload_route    = require('./upload') 
 
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -197,6 +198,10 @@ exports.delete = function(req, res) {
         task_coll.findById(req.params.id, function(err, result) {
             task_coll.removeById(req.params.id, function(err) {
                 res.send({ ok : 1 })
+
+                file_coll.findByTaskId(req.params.id, function(err,fileResults) {
+                    upload_route.deleteTaskFiles(fileResults, function() {})
+                })
                 routeApp.createLogItem({log_type : 2 }, operator, result)
             }) 
         })
