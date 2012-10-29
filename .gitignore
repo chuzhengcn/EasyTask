@@ -1,1 +1,5 @@
 /public/attachments/
+out.log
+err.log
+forever.log
+nohup.out
