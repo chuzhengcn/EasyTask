@@ -102,7 +102,7 @@
     }
 
     function getTaskUrl() {
-        return $('.breadcrumb a:eq(1)').attr('href')
+        return $('header a.task-name').attr('href')
     }
 
 })()
