@@ -31,3 +31,9 @@ exports.findByTask = function(task_id, cb) {
         user_coll.includeUsers(statusResults, cb)
     })
 }
+
+exports.findLastStatusByTask = function(task_id, cb) {
+    status_coll.find({ task_id : task_id}).sort({ created_time : -1 }).limit(1).toArray(function(err, statusResults) {
+        user_coll.includeUsers(statusResults, cb)
+    })
+}

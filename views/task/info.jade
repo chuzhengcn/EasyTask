@@ -133,7 +133,6 @@ block content
                                                 span.time #{todo.operator.name} 创建于 #{todo.created_time.substring(5)}
                                                 .category  
                                                     span.label #{todo.category}
-
                                 .task-summary-version.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/status', title='查看全部版本管理信息') 版本管理
@@ -148,6 +147,21 @@ block content
                                     .status 状态：
                                         a(href='/tasks/#{task._id}/status?change=true', title='单击修改状态') 
                                             span.label #{task.status}
+                                    .last-action.clearfix
+                                        span.title 最新：
+                                        .action-content
+                                            .popstripe
+                                            a.status-name.clearfix(href='/tasks/#{task._id}/status')
+                                                span #{taskStatus.name} 
+                                                - if (taskStatus.content !== '')
+                                                    span.status-history-des #{taskStatus.content}
+                                                .states-date #{taskStatus.created_time.substring(5)} by #{taskStatus.operator.name}
+                                            - if (taskStatus.files)
+                                                .status-files.clearfix
+                                                    - each file in taskStatus.files
+                                                        .file-item
+                                                            i.icon-file
+                                                            a(href='#{file.url}') #{file.name}
                                 .task-summary-file.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/uploads', title='查看全部附件') 最新附件

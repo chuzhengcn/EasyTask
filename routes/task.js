@@ -107,18 +107,21 @@ exports.show = function(req, res) {
                     milestone_coll.findByTaskId(req.params.id, function(err, milestones) {
                         file_coll.findByTaskIdInSummary(req.params.id, function(err, taskFileResult) {
                             todo_coll.findByTask({task_id : req.params.id}, 4, function(err, taskTodoResult) {
-                                res.render('task/info', 
-                                    { 
-                                        title       : task.name, 
-                                        me          : loginUser, 
-                                        task        : task,
-                                        taskUsers   : usersResult,
-                                        users       : usersArray,
-                                        taskTodos   : time.format_specify_field(taskTodoResult, {created_time : 'datetime'}),
-                                        taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'datetime'}),
-                                        milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
-                                    } 
-                                )
+                                status_coll.findLastStatusByTask(req.params.id, function(err, statusResults) {
+                                    res.render('task/info', 
+                                        { 
+                                            title       : task.name, 
+                                            me          : loginUser, 
+                                            task        : task,
+                                            taskUsers   : usersResult,
+                                            users       : usersArray,
+                                            taskStatus  : time.format_specify_field(statusResults, {created_time : 'datetime'})[0],
+                                            taskTodos   : time.format_specify_field(taskTodoResult, {created_time : 'datetime'}),
+                                            taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'datetime'}),
+                                            milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
+                                        } 
+                                    )
+                                })
                             })
                         })
                     })

@@ -562,6 +562,62 @@ input[name='task_users'] {
   float: left;
   padding: 20px 50px 10px 20px;
 }
+.task-summary .task-summary-wrapper .task-summary-version .last-action {
+  clear: both;
+  padding: 10px 30px 10px 60px;
+  position: relative;
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action .title {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  float: left;
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action .action-content {
+  border-radius: 6px;
+  border: solid 1px #dfdfdf;
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action .action-content .popstripe {
+  height: 1px;
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action .action-content .status-name {
+  padding: 10px;
+  font-weight: bold;
+  font-size: 12px;
+  display: block;
+  color: rgba(0,0,0,0.85);
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action .action-content .status-name span {
+  float: left;
+  margin-right: 10px;
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action .action-content .status-name .states-date {
+  color: #999;
+  font-size: 12px;
+  float: right;
+  margin-left: 10px;
+  position: relative;
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action .action-content .status-name .status-history-des {
+  float: left;
+  font-weight: normal;
+  max-width: 800px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action .action-content .status-files {
+  background: #fdfdfd;
+  border-top: solid 1px #dfdfdf;
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action .action-content .status-files .file-item {
+  float: left;
+  padding: 5px 10px;
+}
+.task-summary .task-summary-wrapper .task-summary-version .last-action .action-content .status-files .file-item i {
+  margin-right: 5px;
+}
 .task-summary .task-summary-wrapper .task-summary-todo ul {
   clear: both;
   padding: 10px 20px 0 20px;
