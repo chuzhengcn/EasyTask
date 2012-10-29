@@ -28,3 +28,7 @@ exports.findAndModifyById = function(id, milestoneDoc, cb) {
 exports.findByTaskId = function(taskId, cb) {
     milestone_coll.find({ task_id : taskId }).sort({ event_time : 1 }).toArray(cb)
 }
+
+exports.findNotExpiredByTaskId = function(taskId, cb) {
+    milestone_coll.find({ task_id : taskId, event_time : { $gt : new Date()}}).sort({ event_time : 1 }).toArray(cb)
+}

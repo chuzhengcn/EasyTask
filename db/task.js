@@ -27,7 +27,7 @@ exports.findAll = function(filter, skipNum, limitNum, cb) {
         var i = tasks.length * 2
         tasks.forEach(function(item, index, array) {
             
-            milestone_model.findByTaskId(item._id.toString(), function(err, milestones) {
+            milestone_model.findNotExpiredByTaskId(item._id.toString(), function(err, milestones) {
                 tasks[index].milestones = milestones
                 i--
                 checkComplete(tasks)
