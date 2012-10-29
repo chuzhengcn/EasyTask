@@ -238,7 +238,7 @@ exports.update = function(req, res) {
             updateDoc = { branch : req.body.branch}
             log_type  = 10
             var custom_id = req.body.branch.split('/')[1]
-            if (custom_id) {
+            if (custom_id && !isNaN(custom_id)) {
                 updateDoc.custom_id = custom_id
             }
 

@@ -39,7 +39,7 @@ block content
                                     .control-group
                                         label.control-label(for='task_milestone_time') 时间
                                         .controls
-                                            input(type='date',name='task_milestone_time', required='true', autocomplete='off', value='#{milestone.event_time}')
+                                            input(type='date',name='task_milestone_time', required='true', autocomplete='off', value='#{milestone.event_time}', pattern='^[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))$')
                                     .control-group
                                         .controls
                                             button#edit_task_milestone_form_btn.btn.btn-primary 更新
