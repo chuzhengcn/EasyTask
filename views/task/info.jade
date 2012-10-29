@@ -158,5 +158,5 @@ block content
                                         - each file in taskFiles
                                             .file-item(data-type='#{file.type}')
                                                 img.type(src='')
-                                                a.name(href='#{file.url}') #{file.name}
+                                                a.name(href='#{file.url}', target='_blank') #{file.name}
                                                 .log #{file.operator.name} 上传于 #{file.created_time}
