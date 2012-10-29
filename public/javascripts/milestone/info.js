@@ -65,7 +65,7 @@
 
 
     function getMilestoneId() {
-        return $('.breadcrumb li.active').data('id')
+        return $('#edit_task_milestone_form').data('id')
     }
 
     function setMilestoneOriginNameInRightWay() {

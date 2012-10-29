@@ -26,7 +26,7 @@ block content
                                 button#delete_milestone_btn.btn.btn-danger.btn-small 删除时间点
                         .main-body.scrollable
                             .milestone-info-wrapper.clearfix
-                                form#edit_task_milestone_form.form-horizontal(action='/tasks/#{task._id}/milestones/#{milestone._id}')
+                                form#edit_task_milestone_form.form-horizontal(action='/tasks/#{task._id}/milestones/#{milestone._id}', data-id='#{milestone._id}')
                                     legend 编辑时间点
                                     .control-group
                                         label.control-label(for='task_milestone_name') 名称
