@@ -7,6 +7,7 @@ var stylus  = require('stylus')
 var app = express()
 
 app.configure(function(){
+    app.set('port', process.env.PORT || 3000)
     app.set('views', __dirname + '/views')
     app.set('view engine', 'jade')
     app.use(express.favicon(__dirname + '/public/images/favicon.ico'))
@@ -20,12 +21,9 @@ app.configure(function(){
 })
 
 app.configure('development', function(){
-    app.set('port', process.env.PORT || 3000)
-    // app.use(express.errorHandler())
 })
 
 app.configure('production', function(){
-    app.set('port', process.env.PORT || 5000)
 })
 //-----------------------route-----------------------------------
 
