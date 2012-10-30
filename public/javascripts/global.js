@@ -172,6 +172,9 @@ app.viewhelper = {
                 case '已提交Dev' :
                     $(this).addClass('label-inverse')
                     break
+                case '测试打回' :
+                    $(this).addClass('label-important')
+                    break
                 case '测试通过' :
                     $(this).addClass('label-success')
                     break
