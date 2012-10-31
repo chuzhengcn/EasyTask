@@ -99,9 +99,10 @@ exports.format_specify_field = function(collection, field) {
 
     // custom format string maps to method
     var format_time_map = {
-        'date'      : exports.format_to_date,
-        'time'      : exports.format_to_time,
-        'datetime'  : exports.format_to_datetime
+        'date'          : exports.format_to_date,
+        'time'          : exports.format_to_time,
+        'datetime'      : exports.format_to_datetime,
+        'readable_time' : exports.readable_time,
     }
 
     //handle Array use recursive function --search field in array
@@ -171,6 +172,43 @@ exports.parse_date = function (date_str) {
     }
 
     return new Date(Date.UTC(year, month, day, hour, minute, second) - zone_ms)
+}
+
+//Data => 1分钟前，10分钟前，1小时前，一天前.......
+exports.readable_time = function (date) {
+    if (!(date instanceof Date)) {
+        return 'invalid Date'
+    }
+
+    var time_ms         = date.getTime()
+    var now_ms          = new Date().getTime()
+    var distance_ms     = now_ms - time_ms
+    var time_des_char   = '前'
+
+    if (distance_ms < 0) {
+        time_des_char = '后'
+        distance_ms = Math.abs(distance_ms)
+    }
+
+    if (distance_ms < one_minute_ms) {
+        return Math.floor(distance_ms/one_second_ms) + '秒' + time_des_char
+    }
+
+    if (distance_ms < one_hour_ms) {
+        return Math.floor(distance_ms/one_minute_ms) + '分钟' + time_des_char
+    }
+
+    if (distance_ms < one_day_ms) {
+        var hours   = Math.floor(distance_ms/one_hour_ms)
+        var minutes = Math.floor((distance_ms-(hours*one_hour_ms))/one_minute_ms)
+        if (minutes == 0) {
+            return hours + '小时' + time_des_char
+        } else {
+            return hours + '小时' + minutes + '分钟' + time_des_char
+        }
+    }
+
+    return exports.format_to_datetime(date)
 }
 // helper-----------------------------------------------------------------------------------------------
 // 8:7:2 => 08:07:02

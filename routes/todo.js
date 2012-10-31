@@ -40,7 +40,7 @@ exports.list = function(req, res) {
                     { 
                         title   : '待办事项 - ' + task.name, 
                         me      : loginUser,
-                        todos   : time.format_specify_field(todos, { created_time : 'datetime' }), 
+                        todos   : time.format_specify_field(todos, { created_time : 'readable_time' }), 
                         task    : task,
                     } 
                 )
@@ -58,12 +58,12 @@ exports.show = function(req, res) {
             }
 
             todo_coll.findByIdIncludeUser(req.params.id, function(err, todo) {
-                todo.comments = time.format_specify_field(todo.comments, { created_time : 'datetime'})
+                todo.comments = time.format_specify_field(todo.comments, { created_time : 'readable_time'})
                 res.render('todo/info',
                     {
                         title : todo.name + '-' + task.name,
                         me    : loginUser,
-                        todo  : time.format_specify_field(todo, {created_time : 'datetime', modify_time : 'datetime'}),
+                        todo  : time.format_specify_field(todo, {created_time : 'readable_time', modify_time : 'readable_time'}),
                         task  : task,
                     }
                 )

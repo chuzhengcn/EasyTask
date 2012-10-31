@@ -130,7 +130,7 @@ block content
                                                 .comment-count
                                                     - if (todo.comments.length !== 0)
                                                         span.badge.badge-inverse #{todo.comments.length}留言
-                                                span.time #{todo.operator.name} 创建于 #{todo.created_time.substring(5)}
+                                                span.time #{todo.operator.name} 创建于 #{todo.created_time}
                                                 .category  
                                                     span.label #{todo.category}
                                 .task-summary-version.clearfix
@@ -155,7 +155,7 @@ block content
                                                 span #{taskStatus.name} 
                                                 - if (taskStatus.content !== '')
                                                     span.status-history-des #{taskStatus.content}
-                                                .states-date #{taskStatus.created_time.substring(5)} by #{taskStatus.operator.name}
+                                                .states-date #{taskStatus.created_time} by #{taskStatus.operator.name}
                                             - if (taskStatus.files)
                                                 .status-files.clearfix
                                                     - each file in taskStatus.files

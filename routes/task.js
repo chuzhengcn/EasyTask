@@ -115,9 +115,9 @@ exports.show = function(req, res) {
                                             task        : task,
                                             taskUsers   : usersResult,
                                             users       : usersArray,
-                                            taskStatus  : time.format_specify_field(statusResults, {created_time : 'datetime'})[0],
-                                            taskTodos   : time.format_specify_field(taskTodoResult, {created_time : 'datetime'}),
-                                            taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'datetime'}),
+                                            taskStatus  : time.format_specify_field(statusResults, {created_time : 'readable_time'})[0],
+                                            taskTodos   : time.format_specify_field(taskTodoResult, {created_time : 'readable_time'}),
+                                            taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'readable_time'}),
                                             milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
                                         } 
                                     )

@@ -14,7 +14,7 @@ exports.listByTask = function(req, res) {
                     { 
                         title           : '版本管理 - ' + task.name, 
                         me              : loginUser, 
-                        statusHistory   : view.keepLineBreak(time.format_specify_field(statusHistory, { created_time : 'datetime'}), ['content']),
+                        statusHistory   : view.keepLineBreak(time.format_specify_field(statusHistory, { created_time : 'readable_time'}), ['content']),
                         task            : task,
                     } 
                 )
