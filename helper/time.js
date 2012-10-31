@@ -174,7 +174,10 @@ exports.parse_date = function (date_str) {
     return new Date(Date.UTC(year, month, day, hour, minute, second) - zone_ms)
 }
 
-//Data => 1分钟前，10分钟前，1小时前，一天前.......
+//Data => 1分钟前，10分钟前，1小时前，.......
+//1分钟之内 => 36秒前
+//一小时之内 => 36分钟前
+//2当天内 => 3小时29分钟前
 exports.readable_time = function (date) {
     if (!(date instanceof Date)) {
         return 'invalid Date'
@@ -198,7 +201,7 @@ exports.readable_time = function (date) {
         return Math.floor(distance_ms/one_minute_ms) + '分钟' + time_des_char
     }
 
-    if (distance_ms < one_day_ms) {
+    if (exports.is_today(date)) {
         var hours   = Math.floor(distance_ms/one_hour_ms)
         var minutes = Math.floor((distance_ms-(hours*one_hour_ms))/one_minute_ms)
         if (minutes == 0) {
@@ -210,6 +213,18 @@ exports.readable_time = function (date) {
 
     return exports.format_to_datetime(date)
 }
+// today? return true or false
+exports.is_today = function(date) {
+    var assigned_beginning_of_day = exports.beginning_of_day(date)
+    var today_beginning_of_day    = exports.beginning_of_day(new Date())
+
+    if (assigned_beginning_of_day.getTime() == today_beginning_of_day.getTime()) {
+        return true
+    } else {
+        return false
+    }
+}
+
 // helper-----------------------------------------------------------------------------------------------
 // 8:7:2 => 08:07:02
 function time_zero_completion (time_number) {
