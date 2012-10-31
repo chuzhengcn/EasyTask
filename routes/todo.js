@@ -156,14 +156,16 @@ exports.update = function(req, res) {
         }
 
         var updateDoc = {}
-        var log_type  = 14
+        var log_type
 
         if (req.body.complete !== undefined ) {
             var content
             if (req.body.complete == 1) {
                 content = '已完成'
+                log_type = log_coll.logType.completeTodo
             } else {
                 content = '还没有完成'
+                log_type = log_coll.logType.reopenTodo
             }
             updateDoc = { 
                 complete    : req.body.complete,
@@ -176,7 +178,6 @@ exports.update = function(req, res) {
 
         if (req.body.comment) {
             counter_coll.saveCommentId(function(err, comment_id) {
-                log_type   = 18
                 updateDoc  = {
                     comment : {
                         id              : comment_id,
@@ -185,6 +186,7 @@ exports.update = function(req, res) {
                         created_time    : new Date(),
                     }
                 }
+                log_type = log_coll.logType.addTodoComment
                 startUpdateTodo()
             })
             
@@ -199,7 +201,7 @@ exports.update = function(req, res) {
                 modify_time     : new Date(),
             }
 
-            log_type = 16
+            log_type = log_coll.logType.updateTodo
             startUpdateTodo()
             //逐条插入数据，今天太累了，先实现再说，改天把这里改高效
             if (req.body.taskfiles) {
@@ -219,7 +221,7 @@ exports.update = function(req, res) {
                 res.send({ ok : 1 })
 
                 task_coll.findById(req.params.task_id, function(err, task) {
-                    routeApp.createLogItem({log_type : log_coll.logType.updateTodo}, operator, task)
+                    routeApp.createLogItem({log_type : log_type}, operator, task)
                 })
                 
             })

@@ -181,9 +181,9 @@ exports.archive = function(req, res) {
         }
 
         task_coll.findById(req.params.id, function(err, task_result) {
-            var log_type_result = 3
+            var log_type_result = log_coll.logType.archiveTask
             if (!task_result.active) {
-                log_type_result = 4
+                log_type_result = log_coll.logType.activeTask
             }
             task_coll.findAndModifyById(req.params.id, { active : !task_result.active }, function(err, result) {
                 res.send({ ok : 1 , active : !task_result.active})
