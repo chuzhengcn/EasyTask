@@ -21,6 +21,10 @@ exports.removeById = function(id, cb) {
     milestone_coll.removeById(id, cb)
 }
 
+exports.removeByTask = function(task_id, cb) {
+    milestone_coll.remove({task_id : task_id}, cb)
+}
+
 exports.findAndModifyById = function(id, milestoneDoc, cb) {
     milestone_coll.findAndModify({ _id : milestone_coll.id(id) }, {}, { $set : milestoneDoc}, {new : true}, cb)
 }

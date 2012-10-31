@@ -22,6 +22,10 @@ exports.removeById = function(id, cb) {
     status_coll.removeById(id, cb)
 }
 
+exports.removeByTask = function(task_id, cb) {
+    status_coll.remove({task_id : task_id}, cb)
+}
+
 exports.findAndModifyById = function(id, statusDoc, cb) {
     status_coll.findAndModify({ _id : status_coll.id(id) }, {}, { $set : statusDoc }, {new : true}, cb)
 }

@@ -192,7 +192,7 @@ exports.archive = function(req, res) {
         })   
     })
 }
-
+//todo : delete todo and status once task hasbeen deleted
 exports.delete = function(req, res) {
     routeApp.ownAuthority(req, function(isOwn, operator) {
         if (!isOwn) {
@@ -206,6 +206,10 @@ exports.delete = function(req, res) {
                 file_coll.findByTaskId(req.params.id, function(err,fileResults) {
                     upload_route.deleteTaskFiles(fileResults, function() {})
                 })
+
+                milestone_coll.removeByTask(req.params.id, function(err) {})
+
+
                 routeApp.createLogItem({log_type : log_coll.logType.deleteTask }, operator, result)
             }) 
         })
