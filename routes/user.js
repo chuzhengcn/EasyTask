@@ -71,7 +71,6 @@ exports.show = function(req, res) {
                         }
                     })
                 }
-                console.log(log_grouped_arry)
                 res.render('user/info', 
                     { 
                         title   : userInfoResult.name,
