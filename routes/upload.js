@@ -3,6 +3,7 @@ var file_coll       = require('../db/file')
 var task_coll       = require('../db/task')
 var routeApp        = require('./app')
 var time            = require('../helper/time')
+var log_coll        = require('../db/log')
 
 
 var avatarLocalDir  = __dirname + '/../public/attachments/avatar/'
@@ -138,7 +139,7 @@ exports.createTaskFiles = function(req, res) {
                                 }
 
                                 task_coll.findById(taskId, function(err, taskResult) {
-                                    routeApp.createLogItem({ log_type : 12 }, operator, taskResult)
+                                    routeApp.createLogItem({ log_type : log_coll.logType.uploadTaskFile }, operator, taskResult)
                                 })
                             }
                         })

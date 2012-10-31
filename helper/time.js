@@ -215,6 +215,10 @@ exports.readable_time = function (date) {
 }
 // today? return true or false
 exports.is_today = function(date) {
+    if (!(date instanceof Date)) {
+        return 'invalid Date'
+    }
+    
     var assigned_beginning_of_day = exports.beginning_of_day(date)
     var today_beginning_of_day    = exports.beginning_of_day(new Date())
 

@@ -1,8 +1,11 @@
 var user_coll       = require('../db/user')
+var log_coll        = require('../db/log')
 var fs              = require('fs')
 var avatarLocalDir  = __dirname + '/../public/attachments/avatar/'
 var upload          = require('./upload')
 var routeApp        = require('./app')
+var time_helper     = require('../helper/time')
+
 
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -37,18 +40,47 @@ exports.create = function(req, res) {
 
 exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
-        user_coll.findById(req.params.id, function(err, userInfoResult) {
+        var user_id = req.params.id
+
+        user_coll.findById(user_id, function(err, userInfoResult) {
             if (!userInfoResult) {
                 routeApp.err404(req, res)
                 return
             }
-            res.render('user/info', 
-                { 
-                    title   : userInfoResult.name ,
-                    user    : userInfoResult,
-                    me      : loginUser
+
+            log_coll.findByOperatorIdIncludeTask(user_id, 0, 50, function(err, logResults) {
+                var log_grouped_arry = []
+                var date_arry        = []
+                if (logResults) {
+                    logResults.forEach(function(item, index, array) {
+                        var log_date 
+
+                        if (time_helper.is_today(item.created_time)) {
+                            log_date = '今天'
+                        } else {
+                            log_date = time_helper.format_to_date(item.created_time)
+                        }
+
+                        var date_index = date_arry.indexOf(log_date)
+
+                        if (date_index == -1) {
+                            date_arry.push(log_date)
+                            log_grouped_arry.push({ date : log_date, content : [time_helper.format_specify_field(item, {created_time : 'time'})]})
+                        } else {
+                            log_grouped_arry[date_index].content.push(time_helper.format_specify_field(item, {created_time : 'time'}))
+                        }
+                    })
                 }
-            )
+                console.log(log_grouped_arry)
+                res.render('user/info', 
+                    { 
+                        title   : userInfoResult.name,
+                        user    : userInfoResult,
+                        me      : loginUser,
+                        logs    : log_grouped_arry,
+                    }
+                )
+            })
         })
     })
 }

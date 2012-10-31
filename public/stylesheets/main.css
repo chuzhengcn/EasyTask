@@ -316,6 +316,34 @@ body {
   max-height: 90px;
   margin-right: 20px;
 }
+.user-operate-log .user-operate-log-title {
+  background: linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
+  background: -webkit-linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
+  height: 32px;
+  line-height: 30px;
+  padding: 0 10px;
+}
+.user-operate-log .log-item {
+  background-color: #fdfdfd;
+  padding: 10px;
+  margin: 20px;
+  border: solid 1px #dfdfdf;
+  border-radius: 6px;
+}
+.user-operate-log h5 {
+  padding: 0px 10px 0 10px;
+}
+.user-operate-log ul {
+  margin-left: 60px;
+}
+.user-operate-log ul li {
+  margin-bottom: 5px;
+}
+.user-operate-log ul li span {
+  font-size: 12px;
+  color: #666;
+  margin-left: 20px;
+}
 #edit_user_btn {
   margin-top: 20px;
 }

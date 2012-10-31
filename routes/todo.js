@@ -9,6 +9,7 @@ var view            = require('../helper/view')
 var file_coll       = require('../db/file')
 var todo_coll       = require('../db/todo')
 var upload_route    = require('./upload') 
+var log_coll        = require('../db/log')
 
 exports.new = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -121,7 +122,7 @@ exports.create = function(req, res) {
             res.send({ ok : 1 })
 
             task_coll.findById(req.params.task_id, function(err, task) {
-                routeApp.createLogItem({ todo_name : req.body.name, log_type : 11, }, operator, task)
+                routeApp.createLogItem({ log_type : log_coll.logType.addTodo, }, operator, task)
             })
         })
     })
@@ -141,7 +142,7 @@ exports.delete = function(req, res) {
                 })
 
                 upload_route.deleteTaskFiles(todo.files, function() {})
-                routeApp.createLogItem({log_type : 17, todo_id : req.params.id }, operator, task)
+                routeApp.createLogItem({log_type : log_coll.logType.deleteTodo }, operator, task)
             })
         })
     })
@@ -218,7 +219,7 @@ exports.update = function(req, res) {
                 res.send({ ok : 1 })
 
                 task_coll.findById(req.params.task_id, function(err, task) {
-                    routeApp.createLogItem({log_type : log_type, todo_id : result._id }, operator, task)
+                    routeApp.createLogItem({log_type : log_coll.logType.updateTodo}, operator, task)
                 })
                 
             })
@@ -237,7 +238,7 @@ exports.editTodoFiles = function(req, res) {
             task_coll.findById(req.params.task_id, function(err, task) {
                 todo_coll.removeTodoFile(req.params.id, req.body.file_id, function(err) {
                     res.send({ ok : 1 })
-                    routeApp.createLogItem({log_type : 16, todo_id : req.params.id }, operator, task)
+                    routeApp.createLogItem({log_type : log_coll.logType.updateTodo }, operator, task)
                 }) 
             })
         }

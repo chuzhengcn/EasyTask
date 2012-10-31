@@ -3,6 +3,7 @@ var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
 var milestone_coll  = require('../db/milestone')
 var time            = require('../helper/time')
+var log_coll        = require('../db/log')
 
 exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -49,7 +50,7 @@ exports.create = function(req, res) {
                         res.send({ ok : 0, msg : '数据库错误' })
                         return
                     }
-                    routeApp.createLogItem({ log_type : 7 }, operator, task)
+                    routeApp.createLogItem({ log_type : log_coll.logType.addMilestone }, operator, task)
                     res.send({ ok : 1 })
                 }
             )
@@ -66,7 +67,7 @@ exports.delete = function(req, res) {
         milestone_coll.findById(req.params.id, function(err, result) {
             milestone_coll.removeById(req.params.id, function(err) {
                 task_coll.findById(result.task_id, function(err, task) {
-                    routeApp.createLogItem({ log_type : 8 }, operator, task)
+                    routeApp.createLogItem({ log_type : log_coll.logType.deleteMilestone }, operator, task)
                 })
 
                 res.send({ ok : 1 })
@@ -91,7 +92,7 @@ exports.update = function(req, res) {
         milestone_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
             //write log
             task_coll.findById(req.params.task_id, function(err, task) {
-                routeApp.createLogItem({ log_type : 9 }, operator, task)
+                routeApp.createLogItem({ log_type : log_coll.logType.editMilestone }, operator, task)
             })
             res.send({ ok : 1 })
         })

@@ -8,6 +8,7 @@ var file_coll       = require('../db/file')
 var todo_coll       = require('../db/todo')
 var time            = require('../helper/time')
 var upload_route    = require('./upload') 
+var log_coll        = require('../db/log')
 
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -162,7 +163,7 @@ exports.create = function(req, res) {
                             operator_id     : operator._id,
                             created_time    : new Date(),
                         }, function(err, statusResult) {
-                            routeApp.createLogItem({ log_type : 1 }, operator, result[0])
+                            routeApp.createLogItem({ log_type : log_coll.logType.createTask }, operator, result[0])
                             res.send({ ok : 1, id : result[0]._id})
                         })
                     }
@@ -205,7 +206,7 @@ exports.delete = function(req, res) {
                 file_coll.findByTaskId(req.params.id, function(err,fileResults) {
                     upload_route.deleteTaskFiles(fileResults, function() {})
                 })
-                routeApp.createLogItem({log_type : 2 }, operator, result)
+                routeApp.createLogItem({log_type : log_coll.logType.deleteTask }, operator, result)
             }) 
         })
     })
@@ -219,16 +220,17 @@ exports.update = function(req, res) {
         }
 
         var updateDoc = {}
-        var log_type  = 5
+        var log_type
 
         if (req.body.name) {
             updateDoc = { name : req.body.name }
+            log_type  = log_coll.logType.editTaskName
             startUpdateTask()
             return
         }
 
         if (req.body.task_users) {
-            log_type  = 6
+            log_type  = log_coll.logType.editTaskUsers
             generateTaskUsers(req, res, function(taskUsers) {
                 updateDoc = {users : taskUsers}
                 startUpdateTask()
@@ -239,7 +241,7 @@ exports.update = function(req, res) {
 
         if (req.body.branch) {
             updateDoc = { branch : req.body.branch}
-            log_type  = 10
+            log_type  = log_coll.logType.setTaskBranch
             var custom_id = req.body.branch.split('/')[1]
             if (custom_id && !isNaN(custom_id)) {
                 updateDoc.custom_id = custom_id
@@ -286,6 +288,10 @@ exports.newCustomId = function(req, res) {
 function generateTaskUsers(req, res, cb) {
     var generateResult  = []
     if (req.body.task_users) {
+        if (!Array.isArray(req.body.task_users)) {
+            req.body.task_users = [req.body.task_users]
+        }
+
         var allBlank = true
         req.body.task_users.forEach(function(item, index, array) {
             if (item) {

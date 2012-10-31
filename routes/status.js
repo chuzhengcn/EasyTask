@@ -4,7 +4,8 @@ var task_coll       = require('../db/task')
 var status_coll     = require('../db/status')
 var time            = require('../helper/time')
 var view            = require('../helper/view')
-var taskFile        = require('./upload')          
+var taskFile        = require('./upload') 
+var log_coll        = require('../db/log')         
 
 exports.listByTask = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -42,7 +43,7 @@ exports.create = function(req, res) {
                 return
             }
             task_coll.findAndModifyById(req.params.task_id, { status : req.body.task_status_name}, function(err, task) {
-                routeApp.createLogItem({ status_name : req.body.task_status_name, log_type : 11, }, operator, task)
+                routeApp.createLogItem({ log_type : log_coll.logType.setTaskStatus, }, operator, task)
                 res.send({ ok : 1 })
             })
         })
@@ -67,7 +68,7 @@ exports.delete = function(req, res) {
             }
 
             task_coll.findById(req.params.task_id, function(err, task) {
-                routeApp.createLogItem({ status_name : statusResult.name, log_type : 19, }, operator, task)
+                routeApp.createLogItem({ log_type : log_coll.logType.deleteStatus, }, operator, task)
             })
         })
     })

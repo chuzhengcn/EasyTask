@@ -67,3 +67,15 @@ block content
                                     h4 #{user.name}
                                     p #{user.role}
                                     p #{user.ip}
+                            .user-operate-log
+                                - if (logs)
+                                    .user-operate-log-title 最近操作记录
+                                    - each log in logs
+                                        .log-item
+                                            h5 #{log.date}
+                                            ul
+                                                - each log_content in log.content
+                                                    li
+                                                        | #{log_content.log_type}  
+                                                        a(href='/tasks/#{log_content.task_id}') ##{log_content.task_custom_id} #{log_content.task_name}
+                                                        span #{log_content.created_time}
