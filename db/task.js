@@ -4,6 +4,7 @@ var milestone_model = require('./milestone')
 var milestone_coll  = db.collection('milestone')
 var user_model      = require('./user')
 var user_coll       = db.collection('user')
+var db_coll         = require('../framework/collection')
 
 exports.create = function(task, cb) {
     task_coll.insert(task, {safe:true}, cb)
@@ -71,3 +72,5 @@ exports.removeById = function(id, cb) {
 exports.findAndModifyById = function(id, taskDoc, cb) {
     task_coll.findAndModify({ _id : task_coll.id(id) }, {}, { $set : taskDoc}, {new : true}, cb)
 }
+
+exports.task = new db_coll.mongo_coll(task_coll)
