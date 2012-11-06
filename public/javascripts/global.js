@@ -163,6 +163,9 @@ app.viewhelper = {
                 case '开发已完成' :
                     $(this).addClass('label-info')
                     break
+                case '已提交Release' :
+                    $(this).addClass('label-inverse')
+                    break
                 case '已提交Master' :
                     $(this).addClass('label-inverse')
                     break
