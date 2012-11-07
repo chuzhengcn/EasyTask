@@ -1,5 +1,6 @@
 var db              = require('./config').db
 var milestone_coll  = db.collection('milestone')
+var time            = require('../helper/time')
 
 exports.create = function(milestone, cb) {
     milestone_coll.insert(milestone, {safe:true}, cb)
@@ -34,5 +35,5 @@ exports.findByTaskId = function(taskId, cb) {
 }
 
 exports.findNotExpiredByTaskId = function(taskId, cb) {
-    milestone_coll.find({ task_id : taskId, event_time : { $gt : new Date()}}).sort({ event_time : 1 }).toArray(cb)
+    milestone_coll.find({ task_id : taskId, event_time : { $gte : time.beginning_of_day(new Date()) }}).sort({ event_time : 1 }).toArray(cb)
 }
