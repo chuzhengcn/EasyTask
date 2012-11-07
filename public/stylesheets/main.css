@@ -243,6 +243,9 @@ body {
 #content .content-layout .list .list-header header a.task-name:hover {
   text-decoration: underline;
 }
+#content .content-layout .list .list-header header a.task-name i {
+  margin-right: 10px;
+}
 #content .content-layout .list .list-header .operate-wrapper {
   float: right;
   padding-top: 13px;
@@ -429,6 +432,9 @@ input[name='task_users'] {
 }
 .list-body .task-list li .name:hover {
   text-decoration: underline;
+}
+.list-body .task-list li .name i {
+  margin-right: 10px;
 }
 .list-body .task-list li .status {
   float: right;

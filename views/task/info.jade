@@ -75,7 +75,10 @@ block content
                     .list
                         .list-header.clearfix
                             header(data-id='#{task._id}') 
-                                a.task-name(href='/tasks/#{task._id}') #{task.custom_id} - #{task.name}
+                                a.task-name(href='/tasks/#{task._id}') 
+                                    - if (!task.active)
+                                        i.icon-lock(title='该任务已存档')
+                                    | #{task.custom_id} - #{task.name}
                             .operate-wrapper
                                 a.btn.btn-small(href='/tasks') 
                                     i.icon-chevron-left

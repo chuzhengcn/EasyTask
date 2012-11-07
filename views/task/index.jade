@@ -88,7 +88,10 @@ block content
                                 - each task in tasks
                                     li 
                                         .task-custom-id #{task.custom_id}
-                                        a.name(href='/tasks/#{task._id}') #{task.name}
+                                        a.name(href='/tasks/#{task._id}') 
+                                            - if (!task.active)
+                                                i.icon-lock(title='该任务已存档')
+                                            | #{task.name}
                                         .branch #{task.branch}
                                         .status
                                             span.label #{task.status}                                            
