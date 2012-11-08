@@ -152,19 +152,22 @@ block content
                                             span.label #{task.status}
                                     .last-action.clearfix
                                         span.title 最新：
-                                        .action-content
-                                            .popstripe
-                                            a.status-name.clearfix(href='/tasks/#{task._id}/status')
-                                                span #{taskStatus.name} 
-                                                - if (taskStatus.content !== '')
-                                                    span.status-history-des #{taskStatus.content}
-                                                .states-date #{taskStatus.created_time} by #{taskStatus.operator.name}
-                                            - if (taskStatus.files)
-                                                .status-files.clearfix
-                                                    - each file in taskStatus.files
-                                                        .file-item
-                                                            i.icon-file
-                                                            a(href='#{file.url}') #{file.name}
+                                        - if (taskStatus)
+                                            .action-content
+                                                .popstripe
+                                                a.status-name.clearfix(href='/tasks/#{task._id}/status')
+                                                    span #{taskStatus.name} 
+                                                    - if (taskStatus.content !== '')
+                                                        span.status-history-des #{taskStatus.content}
+                                                    .states-date #{taskStatus.created_time} by #{taskStatus.operator.name}
+                                                - if (taskStatus.files)
+                                                    .status-files.clearfix
+                                                        - each file in taskStatus.files
+                                                            .file-item
+                                                                i.icon-file
+                                                                a(href='#{file.url}') #{file.name}
+                                        - else
+                                            | 暂无
                                 .task-summary-file.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/uploads', title='查看全部附件') 最新附件
