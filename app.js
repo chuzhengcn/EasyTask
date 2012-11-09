@@ -77,6 +77,7 @@ app.put('/upload-avatar/:file_name',        upload.updateAvatar)
 app.delete('/upload-avatar/:file_name',     upload.deleteAvatar)
 app.get('/tasks/:task_id/uploads',          upload.list)
 app.post('/tasks/:task_id/upload-files',    upload.createTaskFiles)
+app.delete('/tasks/:task_id/uploads/:id',   upload.deleteFileRecord) //keep file in disk because some item used it
 
 //---------------------------------------------------------------
 http.createServer(app).listen(app.get('port'), function(){

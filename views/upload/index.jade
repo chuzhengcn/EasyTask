@@ -43,4 +43,5 @@ block content
                                             .file-item(data-type='#{file.type}')
                                                 img.type(src='')
                                                 a.name(href='#{file.url}') #{file.name}
-                                                .log #{file.operator.name} 上传于 #{file.created_time}                                                             
+                                                .log #{file.operator.name} 上传于 #{file.created_time}
+                                                i(data-id='#{file._id}').icon-remove.remove                                                             

@@ -150,6 +150,28 @@ exports.createTaskFiles = function(req, res) {
     })  
 }
 
+exports.deleteFileRecord = function(req, res) {
+    routeApp.ownAuthority(req, function(isOwn, operator) {
+        if (!isOwn) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        file_coll.removeById(req.params.id, function(err) {
+            if (err) {
+                cb(false)
+                return
+            }
+
+            res.send({ ok : 1 })
+            
+            task_coll.findById(req.params.task_id, function(err, taskResult) {
+                routeApp.createLogItem({ log_type : log_coll.logType.deleteTaskFile }, operator, taskResult)
+            })
+        })
+    })
+}
+
 exports.deleteTaskFiles = function (files, cb) {
     if (!files || typeof files !== 'object') {
         cb(false)

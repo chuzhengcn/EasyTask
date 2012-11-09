@@ -873,6 +873,12 @@ input[name='task_users'] {
   left: 80px;
   top: 40px;
 }
+.files-list-wrapper .file-item-wrapper .file-item .remove {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+}
 #upload_task_files_form legend {
   padding: 0 20px 3px 20px;
 }

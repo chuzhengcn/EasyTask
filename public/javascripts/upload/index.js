@@ -36,6 +36,10 @@
             
         })
 
+        $('.remove').click(function() {
+            removeFile.call(this)
+        })
+
     }
 
     function checkPaneNeedOpen() {
@@ -92,6 +96,34 @@
                 }
             } 
         })
+    }
+
+    function removeFile() {
+        var sure = confirm('确认删除此附件？')
+        if(!sure) {
+            return
+        }
+
+        var self = this
+
+        $.ajax({
+            type        : 'delete',
+            url         : '/tasks/' + getTaskId() + '/uploads/' + $(self).data('id'),
+            beforeSend  : function() {
+                $(self).removeClass('icon-remove').addClass('.text-error').html('正在删除')
+            },
+            success     : function(data) {
+                if (data.ok !== 1) {
+                    alert('上传失败')
+                }
+
+                location.href = location.href
+            } 
+        })
+    }
+
+    function getTaskId() {
+        return $('.list-header header').data('id')
     }
 
 })()
