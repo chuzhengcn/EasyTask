@@ -347,6 +347,9 @@ body {
   color: #666;
   margin-left: 20px;
 }
+.user-operate-log ul li a {
+  margin-right: 10px;
+}
 #edit_user_btn {
   margin-top: 20px;
 }

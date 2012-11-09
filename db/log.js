@@ -13,7 +13,7 @@ exports.logType = {
     deleteMilestone : '删除任务时间点',
     editMilestone   : '编辑任务时间点',
     setTaskBranch   : '编辑任务分支',
-    setTaskStatus   : '修改任务状态',
+    setTaskStatus   : '把任务状态修改为',
     uploadTaskFile  : '上传文件',
     addTodo         : '添加待办事项', 
     completeTodo    : '标记待办事项已完成',
@@ -21,7 +21,7 @@ exports.logType = {
     updateTodo      : '编辑待办事项内容',
     deleteTodo      : '删除了待办事项',
     addTodoComment  : '添加了待办事项评论',
-    deleteStatus    : '删除了一条任务状态历史',
+    deleteStatus    : '任务状态历史被删除',
     deleteTaskFile  : '删除了文件',
 }
 

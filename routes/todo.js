@@ -122,7 +122,7 @@ exports.create = function(req, res) {
             res.send({ ok : 1 })
 
             task_coll.findById(req.params.task_id, function(err, task) {
-                routeApp.createLogItem({ log_type : log_coll.logType.addTodo, }, operator, task)
+                routeApp.createLogItem({ log_type : log_coll.logType.addTodo + '：' + req.body.name, }, operator, task)
             })
         })
     })
@@ -142,7 +142,7 @@ exports.delete = function(req, res) {
                 })
 
                 upload_route.deleteTaskFiles(todo.files, function() {})
-                routeApp.createLogItem({log_type : log_coll.logType.deleteTodo }, operator, task)
+                routeApp.createLogItem({log_type : log_coll.logType.deleteTodo + '：' +  todo.name}, operator, task)
             })
         })
     })
@@ -221,7 +221,7 @@ exports.update = function(req, res) {
                 res.send({ ok : 1 })
 
                 task_coll.findById(req.params.task_id, function(err, task) {
-                    routeApp.createLogItem({log_type : log_type}, operator, task)
+                    routeApp.createLogItem({log_type : log_type + '：' + result.name}, operator, task)
                 })
                 
             })
@@ -237,12 +237,12 @@ exports.editTodoFiles = function(req, res) {
         }
 
         if (req.body.file_id) {
-            task_coll.findById(req.params.task_id, function(err, task) {
+            // task_coll.findById(req.params.task_id, function(err, task) {
                 todo_coll.removeTodoFile(req.params.id, req.body.file_id, function(err) {
                     res.send({ ok : 1 })
-                    routeApp.createLogItem({log_type : log_coll.logType.updateTodo }, operator, task)
+                    // routeApp.createLogItem({log_type : log_coll.logType.updateTodo }, operator, task)
                 }) 
-            })
+            // })
         }
     })
 }

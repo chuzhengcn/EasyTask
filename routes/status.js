@@ -43,7 +43,7 @@ exports.create = function(req, res) {
                 return
             }
             task_coll.findAndModifyById(req.params.task_id, { status : req.body.task_status_name}, function(err, task) {
-                routeApp.createLogItem({ log_type : log_coll.logType.setTaskStatus, }, operator, task)
+                routeApp.createLogItem({ log_type : log_coll.logType.setTaskStatus + req.body.task_status_name, }, operator, task)
                 res.send({ ok : 1 })
             })
         })
@@ -68,7 +68,7 @@ exports.delete = function(req, res) {
             }
 
             task_coll.findById(req.params.task_id, function(err, task) {
-                routeApp.createLogItem({ log_type : log_coll.logType.deleteStatus, }, operator, task)
+                routeApp.createLogItem({ log_type : statusResult.name + log_coll.logType.deleteStatus, }, operator, task)
             })
         })
     })

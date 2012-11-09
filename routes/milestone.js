@@ -50,7 +50,7 @@ exports.create = function(req, res) {
                         res.send({ ok : 0, msg : '数据库错误' })
                         return
                     }
-                    routeApp.createLogItem({ log_type : log_coll.logType.addMilestone }, operator, task)
+                    routeApp.createLogItem({ log_type : log_coll.logType.addMilestone + '：' + getMilestoneName(req)}, operator, task)
                     res.send({ ok : 1 })
                 }
             )
@@ -67,7 +67,7 @@ exports.delete = function(req, res) {
         milestone_coll.findById(req.params.id, function(err, result) {
             milestone_coll.removeById(req.params.id, function(err) {
                 task_coll.findById(result.task_id, function(err, task) {
-                    routeApp.createLogItem({ log_type : log_coll.logType.deleteMilestone }, operator, task)
+                    routeApp.createLogItem({ log_type : log_coll.logType.deleteMilestone + '：' + result.name}, operator, task)
                 })
 
                 res.send({ ok : 1 })
@@ -92,7 +92,7 @@ exports.update = function(req, res) {
         milestone_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
             //write log
             task_coll.findById(req.params.task_id, function(err, task) {
-                routeApp.createLogItem({ log_type : log_coll.logType.editMilestone }, operator, task)
+                routeApp.createLogItem({ log_type : log_coll.logType.editMilestone + '：' + result.name }, operator, task)
             })
             res.send({ ok : 1 })
         })

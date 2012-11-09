@@ -76,6 +76,6 @@ block content
                                             ul
                                                 - each log_content in log.content
                                                     li
-                                                        | #{log_content.log_type}  
                                                         a(href='/tasks/#{log_content.task_id}') ##{log_content.task_custom_id} #{log_content.task_name}
+                                                        | #{log_content.log_type}  
                                                         span #{log_content.created_time}
