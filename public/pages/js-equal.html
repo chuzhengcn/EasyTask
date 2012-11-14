@@ -21,6 +21,7 @@
     <script type="text/javascript">
     function eq() {
         var arr = [NaN, undefined, null, false, 0, "", [], {}, ![], !{}]
+        var arr2 = [NaN, undefined, null, false, 0, "", [], {}, ![], !{}]
         var info = ["NAN", "undefined", "null", "false", "0", "\"\"", "[]", "{}", "![]", "!{}"]
         var len = arr.length;
         var code = "<table border='0' id='eq' cellspacing='1'><caption>js关于‘==’的统计<caption>"
@@ -37,7 +38,7 @@
                     if(j == -1) {
                         code += "<td class='hd'>" + info[i] + "</td>"
                     } else {
-                        if(arr[i] == arr[j]) {
+                        if(arr[i] == arr2[j]) {
                             code += "<td class='true'>true</td>"
                         } else {
                             code += "<td class='false'>false</td>"
@@ -69,6 +70,7 @@
 
     function eq2() {
         var arr = [NaN, undefined, null, false, 0, "", [], {}, ![], !{}]
+        var arr2 = [NaN, undefined, null, false, 0, "", [], {}, ![], !{}]
         var info = ["NAN", "undefined", "null", "false", "0", "\"\"", "[]", "{}", "![]", "!{}"]
         var len = arr.length;
         var code = "<table border='0' id='eq2' cellspacing='1'><caption>js关于‘===’的统计<caption>"
@@ -85,7 +87,7 @@
                     if(j == -1) {
                         code += "<td class='hd'>" + info[i] + "</td>"
                     } else {
-                        if(arr[i] === arr[j]) {
+                        if(arr[i] === arr2[j]) {
                             code += "<td class='true'>true</td>"
                         } else {
                             code += "<td class='false'>false</td>"
@@ -123,5 +125,6 @@
         }
     })
     </script>
+
 </body>
 </html>
