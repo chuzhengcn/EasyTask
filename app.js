@@ -79,6 +79,10 @@ app.get('/tasks/:task_id/uploads',          upload.list)
 app.post('/tasks/:task_id/upload-files',    upload.createTaskFiles)
 app.delete('/tasks/:task_id/uploads/:id',   upload.deleteFileRecord) //keep file in disk because some item used it
 
+//---------wiki--------------------------------------------------
+var wiki = require('./routes/wiki')
+
+app.get('/wikis', wiki.list)
 //---------------------------------------------------------------
 http.createServer(app).listen(app.get('port'), function(){
     console.log("EasyTask server listening on port " + app.get('port'))

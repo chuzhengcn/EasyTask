@@ -1105,6 +1105,9 @@ input[name='task_users'] {
   font-size: 12px;
   color: #999;
 }
+.wiki-list {
+  padding: 20px;
+}
 .err-404 {
   text-align: center;
   color: #fff;

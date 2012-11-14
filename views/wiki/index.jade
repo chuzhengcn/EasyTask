@@ -1,0 +1,26 @@
+extends ../layout
+append head
+    script(src='/javascripts/wiki/index.js')
+block content
+    .app-layout
+        include ../include/app-header
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header Wiki
+                            .operate-wrapper
+                        .wiki-list.scrollable
+                            ul
+                                li
+                                    a(href='/pages/js-equal.html', target='_blank') JavaScript 相等判断速查表
+                                    |  -- 火柴 2012-11-14
