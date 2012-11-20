@@ -22,7 +22,7 @@ block content
                             .operate-wrapper
                                 a.btn.btn-small(href='/tasks/#{task._id}/todos') 
                                     i.icon-chevron-left
-                                    |  返回待办列表
+                                    |  返回文档列表
                         .main-body.scrollable
                             .todo-info-wrapper.clearfix
                                 include ../include/task-nav
@@ -48,7 +48,7 @@ block content
                                     - if (todo.content)
                                         .content !{todo.content}
                                 .todo-discussion
-                                    h5 关于该事项的讨论
+                                    h5 关于该文档的讨论
                                     form#add_comment_form.add-comment(action='/tasks/#{task._id}/todos/#{todo._id}')
                                         img.img-rounded.my-avatar(src='#{me.avatar_url}')
                                         textarea(placeholder='这里添加留言',rows='3', required='true', name='comment')

@@ -23,12 +23,12 @@ block content
                             .operate-wrapper
                                 a.btn.btn-small(href='/tasks/#{task._id}/todos') 
                                     i.icon-chevron-left
-                                    |  返回待办列表
+                                    |  返回文档列表
                         .main-body.scrollable
                             .todo-new-wrapper.clearfix
                                 include ../include/task-nav
                                 form#create_task_todo_form.form-horizontal(action='/tasks/#{task._id}/todos')
-                                    legend 添加待办项
+                                    legend 添加文档
                                     .control-group
                                         label.control-label(for='name') 名称和类别
                                         .controls

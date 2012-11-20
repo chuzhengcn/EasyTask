@@ -118,10 +118,10 @@ block content
                                                 span #{milestone.event_time.substring(5)}
                                 .task-summary-todo.clearfix
                                     header 
-                                        a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新待办事项
+                                        a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档
                                         a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 
                                             i.icon-plus-sign
-                                            | 添加待办事项
+                                            | 添加文档
                                     ul.unstyled
                                         - each todo in taskTodos
                                             li(data-id='#{todo._id}')
