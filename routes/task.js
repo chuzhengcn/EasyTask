@@ -107,7 +107,7 @@ exports.show = function(req, res) {
                 user_coll.findAll(function(err, usersArray) {
                     milestone_coll.findByTaskId(req.params.id, function(err, milestones) {
                         file_coll.findByTaskIdInSummary(req.params.id, function(err, taskFileResult) {
-                            todo_coll.findByTask({task_id : req.params.id}, 4, function(err, taskTodoResult) {
+                            todo_coll.findByTask({task_id : req.params.id}, 0, function(err, taskTodoResult) {
                                 status_coll.findLastStatusByTask(req.params.id, function(err, statusResults) {
                                     res.render('task/info', 
                                         { 
