@@ -50,9 +50,9 @@ block content
                                     - each todo in todos
                                         li(data-id='#{todo._id}')
                                             - if (todo.complete == 1)
-                                                span.complete(title='标记事项未完成')
+                                                span.complete(title='标记文档未完成')
                                             - else
-                                                span.un-complete(title='标记事项已完成')
+                                                span.un-complete(title='标记文档已完成')
                                             a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
                                             .comment-count
                                                 - if (todo.comments.length !== 0)
