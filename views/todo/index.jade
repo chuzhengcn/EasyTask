@@ -54,12 +54,12 @@ block content
                                             - else
                                                 span.un-complete(title='标记文档已完成')
                                             a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
-                                            .comment-count
-                                                - if (todo.comments.length !== 0)
-                                                    span.badge.badge-inverse #{todo.comments.length}留言
                                             span.time #{todo.operator.name} 创建于 #{todo.created_time}  
                                             .category
                                                 span.label #{todo.category}
+                                            .comment-count
+                                                - if (todo.comments.length !== 0)
+                                                    span.badge.badge-inverse #{todo.comments.length}留言
 
 
 
