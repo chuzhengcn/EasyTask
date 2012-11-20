@@ -677,9 +677,8 @@ input[name='task_users'] {
 }
 .task-summary .task-summary-wrapper .task-summary-todo ul li .category {
   float: right;
-  margin-left: 20px;
   line-height: 20px;
-  width: 90px;
+  width: 70px;
 }
 .task-summary .task-summary-wrapper .task-summary-todo ul li .time {
   float: right;
@@ -702,7 +701,7 @@ input[name='task_users'] {
 .task-summary .task-summary-wrapper .task-summary-todo ul li .comment-count {
   float: right;
   margin-top: 1px;
-  width: 60px;
+  width: 80px;
 }
 .task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper {
   clear: both;
@@ -925,7 +924,7 @@ input[name='task_users'] {
 .todo-list-wrapper .todo-list li .category {
   float: right;
   line-height: 20px;
-  width: 90px;
+  width: 70px;
 }
 .todo-list-wrapper .todo-list li .time {
   float: right;
@@ -948,7 +947,7 @@ input[name='task_users'] {
 .todo-list-wrapper .todo-list li .comment-count {
   float: right;
   margin-top: 1px;
-  width: 60px;
+  width: 80px;
 }
 .todo-new-wrapper .task-nav {
   padding: 10px 20px 10px 20px;

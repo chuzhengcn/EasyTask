@@ -5,7 +5,7 @@
     
     $(function() {
         // app.utility.highlightCurrentPage('任务')
-        app.utility.highlightTaskNav('文档')
+        app.utility.highlightTaskNav('文档列表')
         eventBind()
         setEditor()
     })

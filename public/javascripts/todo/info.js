@@ -4,7 +4,7 @@
     
     $(function() {
         // app.utility.highlightCurrentPage('任务')
-        app.utility.highlightTaskNav('文档')
+        app.utility.highlightTaskNav('文档列表')
         app.viewhelper.markDifferentColorToTodoCategory($('.todo-info h3 span.label'))
         eventBind()
     })
