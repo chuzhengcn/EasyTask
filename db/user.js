@@ -9,6 +9,9 @@ exports.findAll = function(cb) {
     user_coll.find().sort({ role : -1 }).toArray(cb)
 }
 
+exports.find_all_open = function(cb) {
+    user_coll.find({active : { $nin : ['close']}}).sort({ role : -1 }).toArray(cb)
+}
 exports.findById = function(id, cb) {
     user_coll.findById(id, cb)
 }

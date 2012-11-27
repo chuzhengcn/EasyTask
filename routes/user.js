@@ -99,6 +99,19 @@ exports.update = function(req, res) {
     ) 
 }
 
+exports.active = function(req, res) {
+    var active_option = {}
+    if (req.body.active == 'open') {
+        active_option = {active : 'open'}
+    } else {
+        active_option = {active : 'close'}
+    }
+
+    user_coll.updateById(req.params.id, active_option, function(err, userInfoResult) {
+        res.send({ok : 1})
+    })
+}
+
 exports.delete = function(req, res) {
     //delete avatar
     user_coll.findById(req.params.id, function(err, result) {

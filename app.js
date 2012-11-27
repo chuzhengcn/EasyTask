@@ -58,6 +58,7 @@ app.get('/users',           user.list)
 app.post('/users',          user.create)
 app.get('/users/:id',       user.show)
 app.put('/users/:id',       user.update)
+app.put('/users/:id/active',user.active)
 app.delete('/users/:id',    user.delete)
 //---------todo------------------------------------------------------
 var todo    = require('./routes/todo')

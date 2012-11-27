@@ -57,6 +57,10 @@ block content
                                     li.active #{user.name}
                             .operate-wrapper
                                 button.btn.btn-primary.btn-small 编辑
+                                - if (user.active == 'close')
+                                    button#fobid_user.btn.btn-small(data-active='open') 激活
+                                - else
+                                    button#fobid_user.btn.btn-small(data-active='close') 禁用
                                 button.btn.btn-danger.btn-small 删除
                         .user-list.scrollable
                             .user-info-wrapper.clearfix

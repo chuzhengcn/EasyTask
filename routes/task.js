@@ -12,7 +12,7 @@ var log_coll        = require('../db/log')
 
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
-        user_coll.findAll(function(err, users) {
+        user_coll.find_all_open(function(err, users) {
             var filter      = {
                 active : true,
                 status : { '$nin' : ['需求提交']},
@@ -104,7 +104,7 @@ exports.show = function(req, res) {
             }
 
             user_coll.findTaskUsers(task.users, function(err, usersResult) {
-                user_coll.findAll(function(err, usersArray) {
+                user_coll.find_all_open(function(err, usersArray) {
                     milestone_coll.findByTaskId(req.params.id, function(err, milestones) {
                         file_coll.findByTaskIdInSummary(req.params.id, function(err, taskFileResult) {
                             todo_coll.findByTask({task_id : req.params.id}, 0, function(err, taskTodoResult) {

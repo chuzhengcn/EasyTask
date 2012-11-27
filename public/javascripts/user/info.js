@@ -22,6 +22,10 @@
             deleteUser()
         })
 
+        $('#fobid_user').click(function(event) {
+            forbid_user($(this))
+        })
+
         $('.button-close-pane').click(function() {
             app.utility.hideRightSideBar()
         })
@@ -55,6 +59,20 @@
                         }
                     }
                 })
+            }
+        })
+    }
+
+    function forbid_user($btn) {
+        $.ajax({
+            type        : 'put',
+            url         : '/users/' + $('#edit_user_form input[name="id"]').val() + '/active',
+            data        : {active : $btn.data('active')}, 
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
+            success     : function(data) {
+                location.href = location.href
             }
         })
     }
