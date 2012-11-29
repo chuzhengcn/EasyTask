@@ -40,7 +40,7 @@ exports.list = function(req, res) {
 
                 if(req.query.keyword) {
                     filter = {
-                        '$or' : [{ 'custom_id' : req.query.keyword}, {'name' : new RegExp(req.query.keyword,'i')}]
+                        '$or' : [{ 'custom_id' : parseInt(req.query.keyword, 10) }, {'name' : new RegExp(req.query.keyword,'i')}]
                     }
                 }
 
