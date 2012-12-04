@@ -248,7 +248,7 @@ exports.update = function(req, res) {
             log_type  = log_coll.logType.setTaskBranch
             var custom_id = req.body.branch.split('/')[1]
             if (custom_id && !isNaN(custom_id)) {
-                updateDoc.custom_id = custom_id
+                updateDoc.custom_id = parseInt(custom_id, 10)
             }
 
             task_coll.findById(req.params.id, function(err, taskResult) {
