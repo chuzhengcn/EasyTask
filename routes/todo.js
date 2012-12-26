@@ -57,7 +57,6 @@ exports.show = function(req, res) {
                 routeApp.err404(req, res)
                 return
             }
-
             todo_coll.findByIdIncludeUser(req.params.id, function(err, todo) {
                 todo.comments = time.format_specify_field(todo.comments, { created_time : 'readable_time'})
                 res.render('todo/info',

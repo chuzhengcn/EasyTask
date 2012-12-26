@@ -49,10 +49,11 @@ block content
                                         .content !{todo.content}
                                 .todo-discussion
                                     h5 关于该文档的讨论
-                                    form#add_comment_form.add-comment(action='/tasks/#{task._id}/todos/#{todo._id}')
-                                        img.img-rounded.my-avatar(src='#{me.avatar_url}')
-                                        textarea(placeholder='这里添加留言',rows='3', required='true', name='comment')
-                                        button#add_comment_btn.btn.btn-small.btn-primary 留言
+                                    - if (me !== null)
+                                        form#add_comment_form.add-comment(action='/tasks/#{task._id}/todos/#{todo._id}')
+                                            img.img-rounded.my-avatar(src='#{me.avatar_url}')
+                                            textarea(placeholder='这里添加留言',rows='3', required='true', name='comment')
+                                            button#add_comment_btn.btn.btn-small.btn-primary 留言
                                     - each comment in todo.comments
                                         .comment-item
                                             img.img-rounded.operate-avatar(src='#{comment.operator.avatar_url}')
