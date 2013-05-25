@@ -5,14 +5,21 @@
         app.utility.highlightCurrentPage('成员')
         eventBind()
         emptyFileUploader()
+        showActiveFalseUsers()
     })
 
     function emptyFileUploader() {
         $('#upload_avatar_input').val('')
     }
 
+    function showActiveFalseUsers() {
+        $('#show_active_false_user').click(function () {
+            $('a.user-item').removeClass('disnone')
+        })
+    }
+
     function eventBind() {
-        $('.operate-wrapper button').click(function() {
+        $('#add_user').click(function() {
             app.utility.showRightSideBar()
         })
 

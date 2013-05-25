@@ -49,14 +49,24 @@ block content
                         .list-header.clearfix
                             header 成员
                             .operate-wrapper
-                                button.btn.btn-primary 添加成员
+                                button#show_active_false_user.btn 显示未激活的成员
+                                button#add_user.btn.btn-primary 添加成员
                         .user-list.scrollable
                             .user-list-wrapper.clearfix
                                 - each user in users
-                                    a.user-item(href='/users/#{user._id}')
-                                        img.img-rounded.img-polaroid(src='#{user.avatar_url}')
-                                        .item-info
-                                            .name #{user.name}
-                                            small
-                                                em #{user.role}
-                                            .ip #{user.ip}
+                                    - if (!user.active || user.active === 'open')
+                                        a.user-item(href='/users/#{user._id}')
+                                            img.img-rounded.img-polaroid(src='#{user.avatar_url}')
+                                            .item-info
+                                                .name #{user.name}
+                                                small
+                                                    em #{user.role}
+                                                .ip #{user.ip}
+                                    - else
+                                        a.user-item.disnone(href='/users/#{user._id}')
+                                            img.img-rounded.img-polaroid(src='#{user.avatar_url}')
+                                            .item-info
+                                                .name #{user.name}
+                                                small
+                                                    em #{user.role}
+                                                .ip #{user.ip}

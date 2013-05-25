@@ -6,7 +6,7 @@ exports.create = function(user, cb) {
 }
 
 exports.findAll = function(cb) {
-    user_coll.find().sort({ role : -1 }).toArray(cb)
+    user_coll.find().sort({active : 1,role : -1}).toArray(cb)
 }
 
 exports.find_all_open = function(cb) {
