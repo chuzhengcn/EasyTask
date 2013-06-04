@@ -116,26 +116,6 @@ block content
                                             li
                                                 a(href='/tasks/#{task._id}/milestones/#{milestone._id}',title='单击修改时间点') #{milestone.name}
                                                 span #{milestone.event_time.substring(5)}
-                                .task-summary-todo.clearfix
-                                    header 
-                                        a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档
-                                        a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 
-                                            i.icon-plus-sign
-                                            | 添加文档
-                                    ul.unstyled
-                                        - each todo in taskTodos
-                                            li(data-id='#{todo._id}')
-                                                - if (todo.complete == 1)
-                                                    span.complete(title='标记事项未完成')
-                                                - else
-                                                    span.un-complete(title='标记事项已完成')
-                                                a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
-                                                span.time #{todo.operator.name} 创建于 #{todo.created_time}
-                                                .category  
-                                                    span.label #{todo.category}
-                                                .comment-count
-                                                    - if (todo.comments.length !== 0)
-                                                        span.badge.badge-inverse #{todo.comments.length}留言
                                 .task-summary-version.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/status', title='查看全部版本管理信息') 版本管理
@@ -168,6 +148,26 @@ block content
                                                                 a(href='#{file.url}') #{file.name}
                                         - else
                                             | 暂无
+                                .task-summary-todo.clearfix
+                                    header 
+                                        a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档
+                                        a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 
+                                            i.icon-plus-sign
+                                            | 添加文档
+                                    ul.unstyled
+                                        - each todo in taskTodos
+                                            li(data-id='#{todo._id}')
+                                                - if (todo.complete == 1)
+                                                    span.complete(title='标记事项未完成')
+                                                - else
+                                                    span.un-complete(title='标记事项已完成')
+                                                a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
+                                                span.time #{todo.operator.name} 创建于 #{todo.created_time}
+                                                .category  
+                                                    span.label #{todo.category}
+                                                .comment-count
+                                                    - if (todo.comments.length !== 0)
+                                                        span.badge.badge-inverse #{todo.comments.length}留言
                                 .task-summary-file.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/uploads', title='查看全部附件') 最新附件
