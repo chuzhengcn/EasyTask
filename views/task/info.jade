@@ -106,16 +106,6 @@ block content
                                                     .role 
                                                         small 
                                                             em #{taskuser.role}
-                                .task-summary-milestone.clearfix
-                                    header 时间点
-                                        button#add_milestone_in_taskinfo.btn.btn-small 
-                                            i.icon-plus-sign
-                                            | 添加时间点
-                                    ul.clearfix
-                                        - each milestone in milestones
-                                            li
-                                                a(href='/tasks/#{task._id}/milestones/#{milestone._id}',title='单击修改时间点') #{milestone.name}
-                                                span #{milestone.event_time.substring(5)}
                                 .task-summary-version.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/status', title='查看全部版本管理信息') 版本管理
@@ -148,6 +138,16 @@ block content
                                                                 a(href='#{file.url}') #{file.name}
                                         - else
                                             | 暂无
+                                .task-summary-milestone.clearfix
+                                    header 时间点
+                                        button#add_milestone_in_taskinfo.btn.btn-small 
+                                            i.icon-plus-sign
+                                            | 添加时间点
+                                    ul.clearfix
+                                        - each milestone in milestones
+                                            li
+                                                a(href='/tasks/#{task._id}/milestones/#{milestone._id}',title='单击修改时间点') #{milestone.name}
+                                                span #{milestone.event_time.substring(5)}
                                 .task-summary-todo.clearfix
                                     header 
                                         a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档
