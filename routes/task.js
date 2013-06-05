@@ -10,6 +10,30 @@ var time            = require('../helper/time')
 var upload_route    = require('./upload') 
 var log_coll        = require('../db/log')
 
+exports.index = function(req, res) {
+    var myTask      = [],
+        otherTask   = [];
+
+    routeApp.identifying(req, function(loginUser) {
+        task_coll.findAllDeveloping(function(err, tasks) {
+            return
+            
+            tasks.list.forEach(function(item, index, array) {
+                tasks.list[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
+            })
+            res.render('task/index', 
+                { 
+                    title   : '任务', 
+                    me      : loginUser, 
+                    users   : users,
+                    tasks   : tasks.list,
+                    total   : tasks.total,
+                } 
+            )
+        })
+    })
+}
+
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         user_coll.find_all_open(function(err, users) {

@@ -6,6 +6,17 @@ var user_model      = require('./user')
 var user_coll       = db.collection('user')
 var db_coll         = require('../framework/collection')
 
+function addUserInfoToTasks(tasks, users) {
+    tasks.forEach(function(task_item, task_key) {
+        users.forEach(function(user_item, user_key) {
+            var user_index = task_item.users.indexOf(String(user_item._id))
+            if (user_index > -1) {
+                task_item.users[user_index] = user_item
+            }
+        })
+    })
+}
+
 exports.create = function(task, cb) {
     task_coll.insert(task, {safe:true}, cb)
 }
@@ -71,6 +82,25 @@ exports.removeById = function(id, cb) {
 
 exports.findAndModifyById = function(id, taskDoc, cb) {
     task_coll.findAndModify({ _id : task_coll.id(id) }, {}, { $set : taskDoc}, {new : true}, cb)
+}
+
+exports.findAllDeveloping = function(cb) {
+    var filter = {
+        active : true,
+        status : {'$nin' : ['需求提交','已发外网']},
+    };
+    task_coll.find(filter).sort({status : -1, custom_id : -1, create_time : -1}).toArray(function(err, tasks) {
+        if (err) {
+            cb(err)
+            return
+        }
+
+        user_model.findAll(function(err, users) {
+
+            addUserInfoToTasks(tasks, users)
+            cb(err, tasks)
+        })
+    })
 }
 
 exports.task = new db_coll.mongo_coll(task_coll)
