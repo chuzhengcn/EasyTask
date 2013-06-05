@@ -96,6 +96,7 @@ exports.mine = function(req, res) {
 }
 
 exports.show = function(req, res) {
+    var isMyTask = false
     routeApp.identifying(req, function(loginUser) {
         task_coll.findById(req.params.id, function(err, task) {
             if (!task) {
@@ -109,6 +110,10 @@ exports.show = function(req, res) {
                         file_coll.findByTaskIdInSummary(req.params.id, function(err, taskFileResult) {
                             todo_coll.findByTask({task_id : req.params.id}, 0, function(err, taskTodoResult) {
                                 status_coll.findLastStatusByTask(req.params.id, function(err, statusResults) {
+                                    if (task.users.indexOf(loginUser._id) > -1) {
+                                        isMyTask = true
+                                    }
+
                                     res.render('task/info', 
                                         { 
                                             title       : task.name, 
@@ -120,6 +125,7 @@ exports.show = function(req, res) {
                                             taskTodos   : time.format_specify_field(taskTodoResult, {created_time : 'readable_time'}),
                                             taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'readable_time'}),
                                             milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
+                                            isMyTask    : isMyTask,
                                         } 
                                     )
                                 })

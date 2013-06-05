@@ -1,8 +1,18 @@
 (function() {
     var target_file
     var files_info = []
+
+    function highlightNav() {
+        var isMyTask = $('#content').data('isMyTask')
+        if (isMyTask) {
+            app.utility.highlightCurrentPage('我的任务')
+        } else {
+            app.utility.highlightCurrentPage('任务')
+        }
+    }
+
     $(function() {
-        // app.utility.highlightCurrentPage('任务')
+        highlightNav()
         app.utility.highlightTaskNav('版本管理')
         setOriginTaskStatus()
         checkPaneNeedOpen()

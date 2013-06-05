@@ -1,10 +1,11 @@
 //---------------img url ------------------------------
-$body-bg        = '/images/body-bg.png'
-$header-bg      = '/images/header-bg.png'
-$icon-search    = '/images/icon-search.png'
-$icon-action    = '/images/icon-action.png'
-$complete       = '/images/complete.png'
-$un-complete    = '/images/un-complete.png'
+$body-bg            = '/images/body-bg.png'
+$header-bg          = '/images/header-bg.png'
+$icon-search        = '/images/icon-search.png'
+$icon-action        = '/images/icon-action.png'
+$complete           = '/images/complete.png'
+$un-complete        = '/images/un-complete.png'
+$icon-search-dark   = '/images/search-mini-dark.png'
 //---------------basic-------------------------------------------
 .disnone
     display none
@@ -28,58 +29,74 @@ button
     overflow-x hidden
     overflow-y auto
 body
-    background #333 url($body-bg) 0 0 repeat
+    background #383a3b
     width 100%
     height 100%
     overflow hidden
     min-width 1000px
 //-----------------------------header---------------------------------
 #header
-    background url($header-bg) 0 0 repeat-x
-    border-bottom 1px solid #010101
-    box-shadow 0 1px 8px rgba(0, 0, 0, 0.66)
-    height 48px
-    width 100%
+    position relative
+    #logo
+        height 48px
+        line-height 48px
+        padding 0 10px
+        font-weight bold
+        background-image linear-gradient(#383838,#313131)
+        border-bottom 1px solid #010101
+        box-shadow 0 0px 1px rgba(0, 0, 0, 0.66)
+        a
+            display block
+            font-size 18px
+            color #cdcdcd
+            &:hover
+                color #eee
     .search
-        float left
-        padding 13px 20px 0 20px
-        input
-            width 292px
+        position absolute
+        left 140px
+        top 0
+        span
+            background url($icon-search-dark) 3px center no-repeat
+            display inline-block
+            width 35px
+            height 48px
+            cursor pointer
+        form
+            position absolute
+            top 0
+            left 40px
+            z-index 1000
+            height 48px
+            background #383a3b
             padding-right 20px
-            background rgba(0, 0, 0, 0.35) url($icon-search) 96% center no-repeat
+            display none
+        input
+            width 300px
             height 16px
+            margin-top 12px
             line-height 16px
     .user-avatar
-        float right
         padding 0 10px
         height 48px
-        color rgba(255, 255, 255, 0.66)
+        border-bottom 1px solid rgba(0,0,0,0.18)
+        a
+            display block
+            color rgba(255, 255, 255, 0.66)
         span
-            float right
+            float left
             line-height 48px
             padding 0 10px
         img
             vertical-align text-top
-            float right
+            float left
             margin-top 8px
             width 32px
             height 32px
             border-radius 3px
             box-shadow 0 1px 4px rgba(0, 0, 0, 0.45) inset, 0 1px 0 rgba(255, 255, 255, 0.33)
-#logo
-    cursor pointer
-    float left
-    height 48px
-    line-height 48px
-    padding 0 20px
-    font-size 24px
-    color #cdcdcd
-    font-weight bold
-    &:hover
-        color #eee
 #main
     position absolute
-    top 49px
+    top 0
     left 0
     right 0
     bottom 0
@@ -95,10 +112,11 @@ body
         bottom 48px
         overflow-y auto
         position absolute
-        top 0
+        top 98px
         width 100%
+        border-top solid 1px rgba(255, 255, 255, 0.1)
         ul
-            padding-top 30px
+            padding-top 15px
         a
             color rgba(255, 255, 255, 0.66)
             text-shadow 0 1px 1px rgba(0, 0, 0, 0.66)
@@ -187,12 +205,12 @@ body
                 background -webkit-linear-gradient(#F4F4F4, #EEEEEE) repeat 0 0
                 background -moz-linear-gradient(#F4F4F4, #EEEEEE) repeat 0 0
                 padding 0 12px
-                height 50px
+                height 48px
                 border-bottom 1px solid #DCDCDC
                 header
                     font-weight bold
                     color #515151
-                    line-height 50px
+                    line-height 48px
                     overflow hidden
                     text-overflow ellipsis
                     white-space nowrap
@@ -210,14 +228,14 @@ body
                             margin-right 10px
                 .operate-wrapper
                     float right
-                    padding-top 13px
+                    padding-top 11px
                     button
                         margin-left 10px
                     a
                         margin-left 10px
             .main-body
                 position absolute
-                top 51px
+                top 49px
                 left 0
                 bottom 0
                 right 0
@@ -306,7 +324,7 @@ input[name='task_users']
     bottom 0
     left 0
     right 0
-    top 51px
+    top 49px
     .task-list-filter
         background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
         background -webkit-linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0

@@ -62,7 +62,7 @@ app.utility = {
             }
         }
     }
-}
+};
 
 app.viewhelper = {
     setSelect : function(selectId) {
@@ -189,4 +189,23 @@ app.viewhelper = {
             $statusObj.removeClass('label-success label-warning label-important label-info label-inverse')
         }
     }
-}
+};
+
+(function() {
+    function toggleSearchForm() {
+        $('#header .search span').click(function (event) {
+            $(this).next().fadeToggle()
+        })
+    };
+
+    function hideSearchForm() {
+        $('#header .search input').blur(function (event) {
+            $(this).parent().fadeOut();
+        })
+    };
+
+    $(function() {
+        toggleSearchForm();
+        hideSearchForm();
+    })
+})();

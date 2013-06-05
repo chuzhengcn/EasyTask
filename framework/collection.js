@@ -15,7 +15,7 @@ exports.mongo_coll.prototype = {
         this.coll.updateById(id.toString(), {$set : doc}, cb)
     },
 
-    remove_by_id : function(id) {
+    remove_by_id : function(id, cb) {
         this.coll.removeById(id.toString(), cb)
     },
 }  

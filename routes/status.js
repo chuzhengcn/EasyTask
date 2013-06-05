@@ -8,15 +8,21 @@ var taskFile        = require('./upload')
 var log_coll        = require('../db/log')         
 
 exports.listByTask = function(req, res) {
+    var isMyTask = false
     routeApp.identifying(req, function(loginUser) {
         task_coll.findById(req.params.task_id, function(err, task) {
             status_coll.findByTask(req.params.task_id, function(err, statusHistory) {
+                if (task.users.indexOf(loginUser._id) > -1) {
+                    isMyTask = true
+                }
+
                 res.render('status/index', 
                     { 
                         title           : '版本管理 - ' + task.name, 
                         me              : loginUser, 
                         statusHistory   : view.keepLineBreak(time.format_specify_field(statusHistory, { created_time : 'readable_time'}), ['content']),
                         task            : task,
+                        isMyTask        : isMyTask,
                     } 
                 )
             })

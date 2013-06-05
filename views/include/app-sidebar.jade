@@ -1,4 +1,16 @@
 nav#sidebar
+    header#header
+        #logo
+            a(href='/') 项目进度表
+        - if (me !== null)
+            .user-avatar
+                a(href='/users/#{me._id}')
+                    img(src='#{me.avatar_url}')
+                    span  #{me.name}
+        .search
+            span
+            form(action='/')
+                input(type='search', name='keyword', autocomplete='off',placeholder="任务名或id")
     .sidebar-content
         ul
             li
