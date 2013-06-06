@@ -21,8 +21,7 @@ exports.index = function(req, res) {
 
         tasks.forEach(function(taskItem, taskIndex) {
             taskItem.milestones = time.format_specify_field(taskItem.milestones, {event_time : 'date'})
-            taskItem.milestones = []
-            console.log(taskItem)
+            
             var isMyTask = false
             taskItem.users.forEach(function(userItem, userIndex) {
                 if (req.ip === userItem.ip) {

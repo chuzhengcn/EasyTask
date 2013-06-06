@@ -96,11 +96,11 @@ block content
                                             span.label #{task.status}                                            
                                         .time
                                             - if (task.milestones.length > 0)
-                                                //- span(rel="popover", data-original-title="All Upcoming Events") #{task.milestones[0].name} #{task.milestones[0].event_time.substring(5)}
+                                                span(rel="popover", data-original-title="All Upcoming Events") #{task.milestones[0].name} #{task.milestones[0].event_time.substring(5)}
                                                 .event-time-content-in-popover
                                                     ul
                                                         - each milestone in task.milestones
-                                                            //- li #{milestone.name} #{milestone.event_time.substring(5)}
+                                                            li #{milestone.name} #{milestone.event_time.substring(5)}
                                         .users
                                             span(rel="popover", data-original-title="所有参与人员")
                                                 - each pop_user in task.users

@@ -72,7 +72,7 @@ function includeUser(tasks, cb) {
             users.forEach(function(userItem) {
                 var userIndex = usersIdGroup.indexOf(String(userItem._id))
                 if (userIndex > -1) {
-                    taskItem.users[userIndex] = userItem
+                    taskItem.users[userIndex] = userItem.toObject()
                 }
             })
         })
@@ -96,7 +96,7 @@ function includeMilestone(tasks, cb) {
         tasks.forEach(function(taskItem) {
             milestones.forEach(function(milestoneItem) {
                 if (String(taskItem._id) === milestoneItem.task_id) {
-                    taskItem.milestones.push(milestoneItem)
+                    taskItem.milestones.push(milestoneItem.toObject())
                 }
             })
         })
