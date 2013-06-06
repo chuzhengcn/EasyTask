@@ -1,6 +1,17 @@
 var user_coll       = require('../db/user')
 var log_coll        = require('../db/log')
 
+var userModel       = require('../model/user').user
+
+// use mongoose
+exports.getClientUser = function(ip, cb) {
+    userModel.findByIp(ip, function(err, user) {
+        cb(err, user)
+    }) 
+}
+
+// use monogo skin below -------------------------------------
+
 exports.identifying = function (req, cb) {
     var clientIp = req.connection.remoteAddress
     user_coll.findByIp(clientIp, function(err, user) {

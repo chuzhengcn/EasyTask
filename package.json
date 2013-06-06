@@ -8,7 +8,8 @@
         "jade"      : "*",
         "stylus"    : "*",
         "mongodb"   : "*",
-        "mongoskin" : "*"
+        "mongoskin" : "*",
+        "mongoose"  : "*",
     },
     "repository"    : "git@github.com:chuzhengcn/EasyTask.git",
     "engines"       : {

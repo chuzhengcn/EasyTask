@@ -127,7 +127,11 @@ exports.format_specify_field = function(collection, field) {
     return collection
 }
 // 2012/08/07 or 2012-08-07 or 2012/08/07 14:55:05 => Date Warning: Client must be in Eastern 8 timezone
-exports.parse_date = function (date_str) {
+exports.parse_date = function (date_str, connectors) {
+    if (!connectors) {
+        connectors = ' '
+    }
+    
     if (typeof date_str !== 'string') {
         return 'must be string'
     }
@@ -135,7 +139,7 @@ exports.parse_date = function (date_str) {
     date_str = date_str.replace(/-/g,'/')
 
 
-    var date_part = date_str.split(' ')[0]
+    var date_part = date_str.split(connectors)[0]
 
     var date_part_arr = date_part.split('/')
     if (!date_part_arr[0] || !date_part_arr[1] || !date_part_arr[2]) {
@@ -154,7 +158,7 @@ exports.parse_date = function (date_str) {
     var minute   = 0
     var second   = 0
     
-    var time_part = date_str.split(' ')[1]
+    var time_part = date_str.split(connectors)[1]
 
     if (time_part) {
         var time_arr = time_part.split(':')
@@ -194,16 +198,16 @@ exports.readable_time = function (date) {
     }
 
     if (distance_ms < one_minute_ms) {
-        return Math.ceil(distance_ms/one_second_ms) + '秒' + time_des_char
+        return Math.floor(distance_ms/one_second_ms) + '秒' + time_des_char
     }
 
     if (distance_ms < one_hour_ms) {
-        return Math.ceil(distance_ms/one_minute_ms) + '分钟' + time_des_char
+        return Math.floor(distance_ms/one_minute_ms) + '分钟' + time_des_char
     }
 
     if (exports.is_today(date)) {
         var hours   = Math.floor(distance_ms/one_hour_ms)
-        var minutes = Math.ceil((distance_ms-(hours*one_hour_ms))/one_minute_ms)
+        var minutes = Math.floor((distance_ms-(hours*one_hour_ms))/one_minute_ms)
         if (minutes == 0) {
             return hours + '小时' + time_des_char
         } else {

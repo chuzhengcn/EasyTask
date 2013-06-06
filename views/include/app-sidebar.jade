@@ -2,11 +2,14 @@ nav#sidebar
     header#header
         #logo
             a(href='/') 项目进度表
-        - if (me !== null)
-            .user-avatar
-                a(href='/users/#{me._id}')
-                    img(src='#{me.avatar_url}')
-                    span  #{me.name}
+        //- - if (me !== null)
+        .user-avatar
+            //- a(href='/users/#{me._id}')
+            //-     img(src='#{me.avatar_url}')
+            //-     span  #{me.name}
+            a(href='#')
+                img(src='#')
+                span  正正
         .search
             span
             form(action='/')

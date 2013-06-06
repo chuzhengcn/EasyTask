@@ -10,24 +10,40 @@ var time            = require('../helper/time')
 var upload_route    = require('./upload') 
 var log_coll        = require('../db/log')
 
-exports.index = function(req, res) {
-    var myTask      = [],
-        otherTask   = [];
+var taskModel       = require('../model/task').task,
+    userModel       = require('../model/user').user;
 
-    routeApp.identifying(req, function(loginUser) {
-        task_coll.findAllDeveloping(function(err, tasks) {
-            return
-            
-            tasks.list.forEach(function(item, index, array) {
-                tasks.list[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
+exports.index = function(req, res) {
+    var myTask       = [],
+        otherTask    = []; 
+
+    taskModel.findDevelopingIncludeUserAndMilestone(function(err, tasks) {
+
+        tasks.forEach(function(taskItem, taskIndex) {
+            taskItem.milestones = time.format_specify_field(taskItem.milestones, {event_time : 'date'})
+            taskItem.milestones = []
+            console.log(taskItem)
+            var isMyTask = false
+            taskItem.users.forEach(function(userItem, userIndex) {
+                if (req.ip === userItem.ip) {
+                    isMyTask = true
+                }
             })
-            res.render('task/index', 
+
+            if (isMyTask) {
+                myTask.push(taskItem)
+            } else {
+                otherTask.push(taskItem)
+            }
+        })
+
+        userModel.findActiveUsers(function(err, users) {
+            res.render('index', 
                 { 
-                    title   : '任务', 
-                    me      : loginUser, 
-                    users   : users,
-                    tasks   : tasks.list,
-                    total   : tasks.total,
+                    title           : '任务', 
+                    myTaskList      : myTask, 
+                    otherTaskList   : otherTask,
+                    users           : users,
                 } 
             )
         })
