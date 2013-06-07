@@ -2,7 +2,7 @@
     var target_file
     var files_info = []
     $(function() {
-        // app.utility.highlightCurrentPage('任务')
+        app.utility.highlightCurrentPage('任务')
         app.utility.highlightTaskNav('文档列表')
         app.viewhelper.markDifferentColorToTodoCategory($('.todo-list .category span.label'))
         fillTodoCategoryToFilter()
