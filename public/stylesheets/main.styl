@@ -325,6 +325,25 @@ input[name='task_users']
     left 0
     right 0
     top 49px
+    .list-gap
+        background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
+        height 32px
+        line-height 32px
+        padding 0 10px
+        span.amount
+            box-shadow rgba(0,0,0,0.18) 0 0 4px inset
+            border-radius 3px
+            text-shadow #fff 0 1px 1px
+            border 1px solid rgba(0,0,0,0.18)
+            color rgba(0,0,0,0.55)
+            display inline-block
+            font-size 12px
+            height 18px
+            line-height 18px
+            margin-left 10px
+            padding 2px 4px
+            text-align center
+            vertical-align middle
     .task-list-filter
         background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
         background -webkit-linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
@@ -358,13 +377,12 @@ input[name='task_users']
                 float right
                 font-size 12px
     .task-list
-        background-color #E9EEF7
         margin-bottom 0
+        background-color #E9EEF7
         li
             padding 15px 10px 15px 15px
             height 20px
-            border-bottom 1px solid #EBEBEB
-            border-top solid 1px #DAE2F2
+            border-bottom solid 1px #DAE2F2
             .task-custom-id
                 width 50px
                 float left
@@ -400,6 +418,8 @@ input[name='task_users']
             .time
                 span
                     border-bottom dashed 1px #999
+            &.mine
+                background-color rgb(247, 245, 236)
     .pager
         padding 0 10px
         display none

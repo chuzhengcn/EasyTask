@@ -204,7 +204,54 @@ app.viewhelper = {
         })
     };
 
+    function setClientInfo() {
+        var client = {
+            name        : localStorage.getItem("userName"),
+            ip          : localStorage.getItem("userIp"),
+            role        : localStorage.getItem("userRole"),
+            avatar_url  : localStorage.getItem("userAvatarUrl"),
+            _id         : localStorage.getItem("userId"),
+        };
+
+        function getClientInfo() {
+            $.ajax({
+                url     : '/userinfo',
+                success : function(data) {
+                    if (!data.ok) {
+                        return
+                    }
+
+                    saveClinetInfo(data.result)
+                }
+            })
+        };
+
+        function saveClinetInfo(user) {
+            localStorage.userName       = user.name
+            localStorage.userIp         = user.ip
+            localStorage.userRole       = user.role
+            localStorage.userAvatarUrl  = user.avatar_url
+            localStorage.userId         = user._id
+            showClientInfo()
+        }
+
+        function showClientInfo() {
+            $('#header .user-avatar a').attr("href", "/users/" + localStorage.userId)
+            $('#header .user-avatar a img').attr("src", localStorage.userAvatarUrl)
+            $('#header .user-avatar span').html(localStorage.userName)
+            $('#header .user-avatar a').data("role", localStorage.userRole)
+            $('#header .user-avatar a').data("ip", localStorage.userIp)
+        }
+
+        if (!client.name) {
+            getClientInfo()
+        } else {
+            showClientInfo()
+        }
+    }
+
     $(function() {
+        setClientInfo()
         toggleSearchForm();
         hideSearchForm();
     })

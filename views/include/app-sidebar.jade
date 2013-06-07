@@ -2,14 +2,10 @@ nav#sidebar
     header#header
         #logo
             a(href='/') 项目进度表
-        //- - if (me !== null)
         .user-avatar
-            //- a(href='/users/#{me._id}')
-            //-     img(src='#{me.avatar_url}')
-            //-     span  #{me.name}
             a(href='#')
                 img(src='#')
-                span  正正
+                span
         .search
             span
             form(action='/')
@@ -20,10 +16,6 @@ nav#sidebar
                 a(href='/')
                     i.icon-tasks
                     span 任务
-            li
-                a(href='/mine')
-                    i.icon-asterisk
-                    span 我的任务
             li
                 a(href='/tasks?status=需求提交')
                     i.icon-cog

@@ -393,6 +393,27 @@ input[name='task_users'] {
   right: 0;
   top: 49px;
 }
+.list-body .list-gap {
+  background: linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+}
+.list-body .list-gap span.amount {
+  box-shadow: rgba(0,0,0,0.18) 0 0 4px inset;
+  border-radius: 3px;
+  text-shadow: #fff 0 1px 1px;
+  border: 1px solid rgba(0,0,0,0.18);
+  color: rgba(0,0,0,0.55);
+  display: inline-block;
+  font-size: 12px;
+  height: 18px;
+  line-height: 18px;
+  margin-left: 10px;
+  padding: 2px 4px;
+  text-align: center;
+  vertical-align: middle;
+}
 .list-body .task-list-filter {
   background: linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
   background: -webkit-linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
@@ -436,14 +457,13 @@ input[name='task_users'] {
   font-size: 12px;
 }
 .list-body .task-list {
-  background-color: #e9eef7;
   margin-bottom: 0;
+  background-color: #e9eef7;
 }
 .list-body .task-list li {
   padding: 15px 10px 15px 15px;
   height: 20px;
-  border-bottom: 1px solid #ebebeb;
-  border-top: solid 1px #dae2f2;
+  border-bottom: solid 1px #dae2f2;
 }
 .list-body .task-list li .task-custom-id {
   width: 50px;
@@ -487,6 +507,9 @@ input[name='task_users'] {
 }
 .list-body .task-list li .time span {
   border-bottom: dashed 1px #999;
+}
+.list-body .task-list li.mine {
+  background-color: #f7f5ec;
 }
 .list-body .pager {
   padding: 0 10px;

@@ -83,9 +83,9 @@ block content
                                                     a.clearfix(href='/tasks?user=#{user._id}')
                                                         span.name(data-id='#{user._id}') #{user.name}
                                                         span.role #{user.role}
-                            ul.task-list.unstyled  
-                                - each task in otherTaskList
-                                    li 
+                            ul.task-list.unstyled
+                                - each task in taskList
+                                    li(class="#{task.belong}") 
                                         .task-custom-id #{task.custom_id}
                                         a.name(href='/tasks/#{task._id}') 
                                             - if (!task.active)

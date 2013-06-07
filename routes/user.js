@@ -6,6 +6,24 @@ var upload          = require('./upload')
 var routeApp        = require('./app')
 var time_helper     = require('../helper/time')
 
+var userModel       = require('../model/user').user;
+
+exports.info = function(req, res) {
+    userModel.findByIp(req.ip, function(err, user) {
+        if (err) {
+            res.send({ok : 0, msg : 'db error'})
+            return
+        }
+
+        if (!user) {
+            res.send({ok : 0, msg : 'no user'})
+            return
+        }
+
+        res.send({ok : 1, result : user})
+    })
+}
+
 
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {

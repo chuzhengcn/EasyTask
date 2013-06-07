@@ -21,7 +21,7 @@ exports.index = function(req, res) {
 
         tasks.forEach(function(taskItem, taskIndex) {
             taskItem.milestones = time.format_specify_field(taskItem.milestones, {event_time : 'date'})
-            
+
             var isMyTask = false
             taskItem.users.forEach(function(userItem, userIndex) {
                 if (req.ip === userItem.ip) {
@@ -31,8 +31,10 @@ exports.index = function(req, res) {
 
             if (isMyTask) {
                 myTask.push(taskItem)
+                taskItem.belong = 'mine'
             } else {
                 otherTask.push(taskItem)
+                taskItem.belong = 'others'
             }
         })
 
@@ -40,8 +42,7 @@ exports.index = function(req, res) {
             res.render('index', 
                 { 
                     title           : '任务', 
-                    myTaskList      : myTask, 
-                    otherTaskList   : otherTask,
+                    taskList        : myTask.concat(otherTask), 
                     users           : users,
                 } 
             )
@@ -106,33 +107,6 @@ exports.list = function(req, res) {
     })
 }
 
-exports.mine = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
-        var filter = {
-            active : true
-        }
-
-        var limitNum = 0
-
-        if (loginUser) {
-            filter.users  =  loginUser._id,
-            limitNum      =  20
-        }
-
-
-        task_coll.findAll(filter, 0, limitNum, function(err, tasks) {
-            tasks.list.forEach(function(item, index, array) {
-                tasks.list[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
-            })
-
-            res.render('task/mine',{
-                title : '我的任务',
-                me    : loginUser,
-                tasks : tasks.list,
-            })
-        })
-    })
-}
 
 exports.show = function(req, res) {
     var isMyTask = false
