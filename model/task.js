@@ -29,8 +29,7 @@ taskSchema.statics.findDeveloping = function (cb) {
 }
 
 taskSchema.statics.findDevelopingIncludeUserAndMilestone = function (cb) {
-    var emitter             = new Emitter(),
-        filter              = {active : true, status : {'$nin' : ['需求提交','已发外网']}},
+    var filter              = {active : true, status : {'$nin' : ['需求提交','已发外网']}},
         option              = {sort : {status : -1, custom_id : -1, create_time : -1}};   
 
     this.find(filter, {}, option, function(err, tasks) {
@@ -47,6 +46,40 @@ taskSchema.statics.findDevelopingIncludeUserAndMilestone = function (cb) {
         includeUser(tasks, function(err, tasks) {
             includeMilestone(tasks, function(err, tasks) {
                 cb(err, tasks)
+            })
+        })
+    });
+}
+
+taskSchema.statics.findArchivedIncludeUser = function (page, cb) {
+    if (!page) {
+        page = 1
+    }
+
+    var self                = this,
+        filter              = {active : false},
+        limit               = 20,
+        option              = {sort : {custom_id : -1}, limit : limit, skip : (page-1)*limit};   
+
+    this.find(filter, {}, option, function(err, tasks) {
+        if (err) {
+            cb(err)
+            return
+        }
+
+        self.count(filter, function(err, num) {
+            if (err) {
+                cb(err)
+                return
+            }
+
+            tasks = tasks.map(function(item, index) {
+                item = item.toObject()
+                return item
+            })
+
+            includeUser(tasks, function(err, tasks) {
+                cb(err, tasks, num)
             })
         })
     });

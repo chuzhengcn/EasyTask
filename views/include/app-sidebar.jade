@@ -8,7 +8,7 @@ nav#sidebar
                 span
         .search
             span
-            form(action='/')
+            form(action='/tasks')
                 input(type='search', name='keyword', autocomplete='off',placeholder="任务名或id")
     .sidebar-content
         ul
@@ -21,7 +21,7 @@ nav#sidebar
                     i.icon-cog
                     span 需求
             li
-                a(href='/tasks?active=false')
+                a(href='/tasks-archive')
                     i.icon-lock
                     span 已存档
             li

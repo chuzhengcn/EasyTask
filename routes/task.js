@@ -60,6 +60,24 @@ exports.index = function(req, res) {
     })
 }
 
+exports.archiveList = function(req, res) {
+    var page = 1
+
+    if (req.query.page && typeof parseInt(req.query.page, 10) === 'number') {
+        page = req.query.page
+    }
+    
+    taskModel.findArchivedIncludeUser(page, function(err, tasks, totalTask) {
+        res.render('task/archive', 
+            { 
+                title   : '已存档任务', 
+                tasks   : tasks,
+                total   : totalTask,
+            } 
+        )
+    })
+}
+
 exports.list = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
         user_coll.find_all_open(function(err, users) {
