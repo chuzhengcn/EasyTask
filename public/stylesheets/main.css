@@ -510,6 +510,7 @@ input[name='task_users'] {
 }
 .list-body .task-list li.mine {
   background-color: #f7f5ec;
+  border-bottom: solid 1px #ebe9e9;
 }
 .list-body .pager {
   padding: 0 10px;

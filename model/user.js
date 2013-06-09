@@ -21,7 +21,7 @@ userSchema.statics.findByIp = function (ip, cb) {
 }
 
 userSchema.statics.findActiveUsers = function (cb) {
-    this.find({active : {$nin : ['close']}}, function(err, users) {
+    this.find({active : {$nin : ['close']}}, {}, {sort : {role : 1}}, function(err, users) {
         cb(err, users)
     });
 }

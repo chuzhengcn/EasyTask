@@ -15,7 +15,8 @@ var taskModel       = require('../model/task').task,
 
 exports.index = function(req, res) {
     var myTask       = [],
-        otherTask    = []; 
+        otherTask    = [],
+        userGroup    = {}; 
 
     taskModel.findDevelopingIncludeUserAndMilestone(function(err, tasks) {
 
@@ -39,10 +40,19 @@ exports.index = function(req, res) {
         })
 
         userModel.findActiveUsers(function(err, users) {
+            users.forEach(function(item, index) {
+                if (!userGroup[item.role]) {
+                    userGroup[item.role] = [item]
+                } else {
+                    userGroup[item.role].push(item)
+                }
+            })
+
             res.render('index', 
                 { 
                     title           : '任务', 
                     taskList        : myTask.concat(otherTask), 
+                    userGroup       : userGroup,
                     users           : users,
                 } 
             )

@@ -178,8 +178,17 @@ app.viewhelper = {
                 case '测试打回' :
                     $(this).addClass('label-important')
                     break
-                case '测试通过' :
+                case 'Master测试通过' :
                     $(this).addClass('label-success')
+                    break
+                case 'Test测试通过' :
+                    $(this).addClass('label-success')
+                    break
+                case 'Dev测试通过' :
+                    $(this).addClass('label-success')
+                    break
+                case '已发布外网' :
+                    $(this).addClass('label-inverse')
                     break
                 default :
                     break
