@@ -3,6 +3,7 @@ var mongoose        = require('./config').mongoose,
     collectionName  = 'task',
     userModel       = require('./user').user,
     milestoneModel  = require('./milestone').milestone,
+    time            = require('../helper/time'),
     Emitter         = require('events').EventEmitter;
 
 var taskSchema = mongoose.Schema({
@@ -44,7 +45,7 @@ taskSchema.statics.findDevelopingIncludeUserAndMilestone = function (cb) {
         })
 
         includeUser(tasks, function(err, tasks) {
-            includeMilestone(tasks, function(err, tasks) {
+            includeNotExpireMilestone(tasks, function(err, tasks) {
                 cb(err, tasks)
             })
         })
@@ -121,6 +122,30 @@ function includeMilestone(tasks, cb) {
     })
 
     milestoneModel.find({task_id : {$in : developingTaskIdGroup}}, {}, {sort : {event_time : 1}}, function(err, milestones) {
+        if (err) {
+            cb(err)
+            return
+        }
+
+        tasks.forEach(function(taskItem) {
+            milestones.forEach(function(milestoneItem) {
+                if (String(taskItem._id) === milestoneItem.task_id) {
+                    taskItem.milestones.push(milestoneItem.toObject())
+                }
+            })
+        })
+
+        cb(null, tasks)
+    })
+}
+
+function includeNotExpireMilestone(tasks, cb) {
+    var developingTaskIdGroup = tasks.map(function(taskItem) {
+        taskItem.milestones = []
+        return String(taskItem._id)
+    })
+
+    milestoneModel.find({task_id : {$in : developingTaskIdGroup}, event_time : { $gte : time.beginning_of_day(new Date())}}, {}, {sort : {event_time : 1}}, function(err, milestones) {
         if (err) {
             cb(err)
             return
