@@ -9,7 +9,7 @@ var taskSchema = mongoose.Schema({
     name            : String,
     status          : String,
     branch          : String,
-    custom_id       : String,
+    custom_id       : Number,
     active          : Boolean,
     created_time    : Date,
     users           : [ObjectId],

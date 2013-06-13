@@ -86,6 +86,11 @@ app.delete('/tasks/:task_id/uploads/:id',   upload.deleteFileRecord)
 var wiki = require('./routes/wiki')
 
 app.get('/wikis', wiki.list)
+
+//---------change_db--------------------------------------------------
+var db_change = require('./routes/db')
+
+app.get('/db-change-custom-id', db_change.changeCustomId)
 //---------------------------------------------------------------
 http.createServer(app).listen(app.get('port'), function(){
     console.log("EasyTask server listening on port " + app.get('port'))

@@ -16,6 +16,7 @@ function addUserInfoToTasks(tasks, users) {
         })
     })
 }
+exports.find = task_coll.find
 
 exports.create = function(task, cb) {
     task_coll.insert(task, {safe:true}, cb)

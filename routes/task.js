@@ -188,6 +188,7 @@ exports.create = function(req, res) {
 
         generateTaskUsers(req, res, function(taskUsers) {
             counter_coll.saveTaskId(function(err, custom_id) {
+                console.log(typeof custom_id)
                 task_coll.create({
                         name            : req.body.name,
                         users           : taskUsers,
