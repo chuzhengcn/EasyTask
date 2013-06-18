@@ -18,6 +18,7 @@
         setOriginTaskStatus()
         checkPaneNeedOpen()
         eventBind()
+        app.viewhelper.markDifferentColorToTaskStatus($('.status-name span.label'))
     })
 
     function eventBind() {

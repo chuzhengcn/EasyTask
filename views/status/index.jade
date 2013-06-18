@@ -44,14 +44,16 @@ block content
                         .main-body.scrollable
                             .status-info-wrapper.clearfix
                                 include ../include/task-nav
-                                - each status in statusHistory
+                                - each status,index in statusHistory
                                     .status-history-item.clearfix
                                         img.img-rounded(src='#{status.operator.avatar_url}')
+                                        .delete-this-status(title='删除此记录', data-id='#{status._id}')
+                                            i.icon-remove
+                                        .states-date #{status.created_time} by #{status.operator.name}
+                                        .status-index ##{statusHistory.length - index}
                                         .status-history-content
-                                            .popstripe
-                                            .status-name #{status.name}
-                                                .delete-this-status(title='删除此记录', data-id='#{status._id}')
-                                                    i.icon-remove
+                                            .status-name
+                                                span.label #{status.name}
                                             - if (status.content !== '')
                                                 .status-history-des !{status.content}
                                             - if (status.files)
@@ -60,4 +62,4 @@ block content
                                                         .file-item
                                                             i.icon-file
                                                             a(href='#{file.url}') #{file.name}
-                                        .states-date #{status.created_time} by #{status.operator.name}
+                                        

@@ -817,40 +817,48 @@ input[name='task_users'] {
   margin-bottom: 0;
 }
 .status-info-wrapper .status-history-item {
-  padding: 20px 150px 20px 210px;
+  padding: 0 0 30px 0;
   position: relative;
+  border-bottom: solid 1px #dfdfdf;
 }
 .status-info-wrapper .status-history-item img {
   position: absolute;
   top: 20px;
-  left: 150px;
+  left: 20px;
   width: 50px;
   height: 50px;
   margin-right: 10px;
 }
-.status-info-wrapper .status-history-item .status-history-content {
-  border-radius: 6px;
-  border: solid 1px #dfdfdf;
-}
-.status-info-wrapper .status-history-item .status-history-content .popstripe {
-  height: 1px;
-  border-radius: 6px;
-}
-.status-info-wrapper .status-history-item .status-history-content .status-name {
-  padding: 10px 150px 10px 10px;
-  font-weight: bold;
-  position: relative;
-}
-.status-info-wrapper .status-history-item .status-history-content .status-name .delete-this-status {
+.status-info-wrapper .status-history-item .delete-this-status {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
 }
-.status-info-wrapper .status-history-item .status-history-content .status-history-des {
-  padding: 10px;
+.status-info-wrapper .status-history-item .states-date {
+  color: #999;
   font-size: 12px;
-  border-top: solid 1px #dfdfdf;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+.status-info-wrapper .status-history-item .status-index {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+}
+.status-info-wrapper .status-history-item .status-history-content {
+  padding: 20px 20px 0 100px;
+}
+.status-info-wrapper .status-history-item .status-history-content .status-name {
+  font-weight: bold;
+  padding-bottom: 20px;
+}
+.status-info-wrapper .status-history-item .status-history-content .status-name span {
+  padding: 4px 10px 5px;
+}
+.status-info-wrapper .status-history-item .status-history-content .status-history-des {
+  font-size: 12px;
 }
 .status-info-wrapper .status-history-item .status-history-content .status-files {
   background: #fdfdfd;
@@ -861,11 +869,6 @@ input[name='task_users'] {
 }
 .status-info-wrapper .status-history-item .status-history-content .status-files .file-item i {
   margin-right: 5px;
-}
-.status-info-wrapper .status-history-item .states-date {
-  color: #999;
-  font-size: 12px;
-  padding: 5px;
 }
 #mark_task_status_form legend {
   padding: 0 20px 3px 20px;
