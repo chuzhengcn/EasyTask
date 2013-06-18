@@ -817,7 +817,7 @@ input[name='task_users'] {
   margin-bottom: 0;
 }
 .status-info-wrapper .status-history-item {
-  padding: 0 0 30px 0;
+  padding: 0 0 20px 0;
   position: relative;
   border-bottom: solid 1px #dfdfdf;
 }
@@ -864,8 +864,7 @@ input[name='task_users'] {
   background: #fdfdfd;
 }
 .status-info-wrapper .status-history-item .status-history-content .status-files .file-item {
-  border-top: solid 1px #dfdfdf;
-  padding: 5px 10px;
+  padding: 5px 0;
 }
 .status-info-wrapper .status-history-item .status-history-content .status-files .file-item i {
   margin-right: 5px;
