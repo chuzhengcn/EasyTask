@@ -860,12 +860,6 @@ input[name='task_users'] {
 .status-info-wrapper .status-history-item .status-history-content .status-history-des {
   font-size: 12px;
 }
-.status-info-wrapper .status-history-item .status-history-content .status-files {
-  background: #fdfdfd;
-}
-.status-info-wrapper .status-history-item .status-history-content .status-files .file-item {
-  padding: 5px 0;
-}
 .status-info-wrapper .status-history-item .status-history-content .status-files .file-item i {
   margin-right: 5px;
 }
