@@ -10,8 +10,10 @@ var time            = require('../helper/time')
 var upload_route    = require('./upload') 
 var log_coll        = require('../db/log')
 
+
 var taskModel       = require('../model/task').task,
-    userModel       = require('../model/user').user;
+    userModel       = require('../model/user').user,
+    projectModel    = require('../model/data').project;
 
 exports.index = function(req, res) {
     var myTask       = [],
@@ -54,6 +56,7 @@ exports.index = function(req, res) {
                     taskList        : myTask.concat(otherTask), 
                     userGroup       : userGroup,
                     users           : users,
+                    projects        : projectModel,
                 } 
             )
         })

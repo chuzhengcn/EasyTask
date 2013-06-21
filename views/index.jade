@@ -14,31 +14,11 @@ block content
                                     button.button-close-pane
                                 .scrollable
                                     .inner
-                                        form#create_task_form.form-horizontal(action='/tasks')
-                                            .control-group
-                                                label.control-label(for='name') 任务名
-                                                .controls
-                                                    input(type='text', autocomplete='off', placeholder='任务名', name='name', required='true')
-                                            .control-group
-                                                label.control-label(for='task_users') 参与者
-                                                .controls
-                                                    input(type='text',name='task_users',list="task_users_option", autocomplete='off')
-                                                    input(type='text',name='task_users',list="task_users_option", autocomplete='off')
-                                                    input(type='text',name='task_users',list="task_users_option", autocomplete='off')
-                                                    a#add_more_task_user(href='#', tabindex='-1')
-                                                        i.icon-plus
-                                                        | 更多参与者 
-                                                    datalist#task_users_option
-                                                        - each user in users
-                                                            option(value='#{user.name}') 
-                                            .control-group
-                                                .controls
-                                                    button#create_task_btn.btn.btn-primary 添加
                     .list
                         .list-header.clearfix
                             header 任务
                             .operate-wrapper
-                                button.btn.btn-primary 添加任务
+                                button#createTaskBtn.btn.btn-primary 添加任务
                         .list-body.scrollable
                             .task-list-filter
                                 .task-custom-id id
@@ -105,3 +85,40 @@ block content
                                                     ul
                                                         - each pop_user in task.users
                                                             li #{pop_user.name}
+block modal
+    #createTaskModal.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+        .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3 添加任务
+        .modal-body
+            form#createTaskForm.form-horizontal(action='/tasks')
+                .control-group
+                    label.control-label(for='name') 任务名
+                    .controls
+                        input(type='text', autocomplete='off', placeholder='任务名', name='name', required='true')
+                .control-group
+                    label.control-label(for='taskUsers') 参与者
+                    .controls
+                        input(type='text',name='taskUsers')
+                        input(type='text',name='taskUsers')
+                        input(type='text',name='taskUsers')
+                        a#addMoreTaskUserBtn(href='#', tabindex='-1')
+                            i.icon-plus
+                            | 更多参与者 
+                        datalist#taskUsersOption
+                            - each user in users
+                                option(value='#{user.name}')
+                .control-group
+                    label.control-label(for='project') 站点
+                    .controls
+                        input(type='text', name='project', autocomplete="off")
+                        input(type='text', name='project', autocomplete="off")
+                        a#addMoreProjectBtn(href='#', tabindex="-1")
+                            i.icon-plus
+                            | 更多站点
+                    datalist#projectOption
+                        - each project in projects
+                            option(value='#{project.name}')
+        .modal-footer
+            button.btn(data-dismiss="modal", aria-hidden="true") 关闭
+            button#saveTask.btn.btn-primary 保存

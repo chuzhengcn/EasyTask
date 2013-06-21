@@ -1,50 +1,44 @@
 (function() {
-    function eventBind() {
-        $('.operate-wrapper button').click(function() {
-            app.utility.showRightSideBar()
-            resetCreateTaskForm()
+    function typeaheadUser() {
+        var users = [];
+
+        $('#taskUsersOption option').each(function() {
+            users.push($(this).val())
         })
 
-        $('.button-close-pane').click(function() {
-            app.utility.hideRightSideBar()
-        })
-
-        $('#add_more_task_user').click(function(event) {
-            addMoreTaskUserInput()
-            event.preventDefault()
-        })
-
-        $('#create_task_btn').click(function(event) {           
-            var self = this
-            readyToCreateTask.call(self, event)
+        $('input[name="taskUsers"]').typeahead({
+            source : users
         })
     }
 
-    function popoverTaskInfo() {
-        $('span[rel="popover"]').each(function() {
-            $(this).data('content',$(this).next().html())
-        })
-        $('span[rel="popover"]').popover({
-            trigger     : 'hover'
-        })
-    }
+    function typeaheadProject() {
+        var projects = [];
 
-    function addMoreTaskUserInput() {
-        $('input[name="task_users"]:first').clone().insertBefore($('#add_more_task_user')).val('').focus()
+        $('#projectOption option').each(function() {
+            projects.push($(this).val())
+        })
+
+        $('input[name="project"]').typeahead({
+            source : projects
+        })
     }
 
     function resetCreateTaskForm() {
-        $('#create_task_form input[type="text"]').val('')
+        $('#createTaskForm input[type="text"]').val('')
+    }
+
+    function addMoreTaskUserInput() {
+        $('input[name="taskUsers"]:first').clone().insertBefore($('#addMoreTaskUserBtn')).val('').focus()
     }
 
     function agreePossibleUnknowUser() {
         var userOptionArray = [] 
         var agree           = true
-        $('#task_users_option option').each(function() {
+        $('#taskUsersOption option').each(function() {
             userOptionArray.push($(this).val())
         })
 
-        $('input[name="task_users"]').each(function() {
+        $('input[name="taskUsers"]').each(function() {
             var userName = $(this).val()
             if (userName !== '') {
                 if (userOptionArray.indexOf(userName) == -1) {
@@ -53,11 +47,16 @@
                 }
             }
         })
+
         return agree
     }
-    
+
+    function createTaskIsWorking() {
+        $('#saveTask').html('提交中...').addClass('disabled').off()
+    }
+
     function readyToCreateTask(event) {
-        if (app.utility.isValidForm('create_task_form')) {
+        if (app.utility.isValidForm('createTaskForm')) {
             if (agreePossibleUnknowUser()) {
                 createTaskIsWorking()
                 satrtCreateTask()
@@ -66,15 +65,11 @@
         }
     }
 
-    function createTaskIsWorking() {
-        $('#create_task_btn').html('提交中...').addClass('disabled').off()
-    }
-
     function satrtCreateTask() {
         $.ajax({
             type        : 'post',
-            url         : $('#create_task_form').attr('action'),
-            data        : $('#create_task_form').serialize(),
+            url         : $('#createTaskForm').attr('action'),
+            data        : $('#createTaskForm').serialize(),
             success     : function(data) {
                 if (data.ok) {
                     location.href = '/tasks/' + data.id
@@ -87,11 +82,52 @@
     }
 
     function createTaskIsComplete() {
-        $('#create_task_btn').html('提交').removeClass('disabled').on('click', function(event) {
+        $('#saveTask').html('提交').removeClass('disabled').on('click', function(event) {
             var self = this
             readyToCreateTask.call(self, event)
         })
     }
+
+    function eventBind() {
+
+        $('#createTaskBtn').click(function(event) {
+            resetCreateTaskForm()
+            $('#createTaskModal').modal()
+            event.preventDefault()
+        })
+
+        $('#addMoreTaskUserBtn').click(function(event) {
+            addMoreTaskUserInput()
+            event.preventDefault()
+        })
+
+        $('#saveTask').click(function(event) {           
+            var self = this
+            readyToCreateTask.call(self, event)
+        })
+
+    }
+
+    function popoverTaskInfo() {
+        $('span[rel="popover"]').each(function() {
+            $(this).data('content',$(this).next().html())
+        })
+        $('span[rel="popover"]').popover({
+            trigger     : 'hover'
+        })
+    }
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
 
     function fillTaskStatusToFilter() {
         var taskBaseLink =  '/tasks'
@@ -129,6 +165,10 @@
     }
 
     $(function() {
+        typeaheadUser();
+
+        typeaheadProject();
+
         eventBind()
         app.utility.highlightCurrentPage('任务')
         fillTaskStatusToFilter()
