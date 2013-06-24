@@ -13,7 +13,86 @@ var log_coll        = require('../db/log')
 
 var taskModel       = require('../model/task').task,
     userModel       = require('../model/user').user,
-    projectModel    = require('../model/data').project;
+    counterModel    = require('../model/counter').counter,
+    projectModel    = require('../model/data').project,
+    statusModel     = require('../model/data').status,
+    branchModel     = require('../model/data').branch;
+
+function generateTaskUsers(userName, cb) {
+    var userNameGroup      = [],
+        userRef            = [];
+
+    if (!userName) {
+        cb('no user name')
+        return
+    }
+
+    if (typeof userName === 'string') {
+        userNameGroup.push(userName)
+    }
+
+    if (Array.isArray(userName)) {
+        userName.forEach(function(item, index, array) {
+            if (item && userNameGroup.indexOf(item) === -1) {
+                userNameGroup.push(item)
+            }
+        })
+    }
+
+    userModel.find({name : {$in : userNameGroup}}, {}, {}, function(err, userResults) {
+        userRef = userResults.map(function(item, index) {
+            return {
+                $ref : userModel.collection.name,
+                $id  : item._id,
+            }
+        })
+
+        cb(null, userRef)
+    })
+}
+
+function generateBranch(baseBranch, userNameEnglish, taskCustomId) {
+    // todo : auto generate programmer english name
+
+    if (!baseBranch) {
+        return ''
+    }
+
+    if (!taskCustomId) {
+        return ''
+    }
+
+    if (!userNameEnglish) {
+        return baseBranch + '-developer/' + taskCustomId
+    }
+
+    return baseBranch + '-' + userNameEnglish +'/' + taskCustomId
+}
+
+function filterProjects(projects) {
+    var result = []
+
+    if (!projects) {
+        return result
+    }
+
+    if (typeof projects === 'string') {
+        result.push(projects)
+        return result
+    }
+
+    if (Array.isArray(projects)) {
+        projects.forEach(function(item, index) {
+            if (item && result.indexOf(item) === -1) {
+                result.push(item)
+            }
+        })
+
+        return result
+    }
+
+    return result
+}
 
 exports.index = function(req, res) {
     var myTask       = [],
@@ -57,8 +136,74 @@ exports.index = function(req, res) {
                     userGroup       : userGroup,
                     users           : users,
                     projects        : projectModel,
+                    branches        : branchModel,
                 } 
             )
+        })
+    })
+}
+
+exports.create = function(req, res) {
+    var defaultStatus = statusModel[0],
+        users         = [],
+        newTask       = null,
+        branch        = '';
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        if (!req.body.name) {
+            res.send({ ok : 0, msg : '任务名必填'})
+            return
+        }
+
+        
+
+        generateTaskUsers(req.body.taskUsers, function(err, userRef) {
+            if (!err) {
+                users = userRef
+            }
+
+            counterModel.saveTaskId(function(err, custom_id) {
+                newTask = new taskModel({
+                    name            : req.body.name,
+                    users           : users,
+                    custom_id       : custom_id,
+                    active          : true,
+                    status          : defaultStatus,
+                    updated_time    : new Date(),
+                    created_time    : new Date(),
+                    branch          : generateBranch(req.body.branch, '', custom_id),
+                    projects        : filterProjects(req.body.project),
+                    score           : parseInt(req.body.score, 10) || 0,
+                })
+
+                newTask.save(function(err, newTaskResult) {
+                    if (err) {
+                        res.send({ok : 0, msg : JSON.stringify(err)})
+                        return
+                    }
+
+                    res.send({ok : 1, task : newTaskResult})
+
+                    //todo : refactor status 
+
+                    // status_coll.create({
+                    //     task_id         : result[0]._id.toString(),
+                    //     name            : '需求提交',
+                    //     content         : '',
+                    //     files           : [],
+                    //     operator_id     : operator._id,
+                    //     created_time    : new Date(),
+                    // }, function(err, statusResult) {
+                    //     routeApp.createLogItem({ log_type : log_coll.logType.createTask }, operator, result[0])
+                    //     res.send({ ok : 1, id : result[0]._id})
+                    // })
+                })
+            })
         })
     })
 }
@@ -182,47 +327,7 @@ exports.show = function(req, res) {
     })
 }
 
-exports.create = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
-            res.send({ ok : 0, msg : '没有权限'})
-            return
-        }
 
-        generateTaskUsers(req, res, function(taskUsers) {
-            counter_coll.saveTaskId(function(err, custom_id) {
-                console.log(typeof custom_id)
-                task_coll.create({
-                        name            : req.body.name,
-                        users           : taskUsers,
-                        custom_id       : custom_id,
-                        active          : true,
-                        branch          : '',
-                        status          : '需求提交',
-                        created_time    : new Date()
-                    },  
-                    function(err, result) {
-                        if (err) {
-                            res.send({ ok : 0, msg : '数据库错误' })
-                            return
-                        }
-                        status_coll.create({
-                            task_id         : result[0]._id.toString(),
-                            name            : '需求提交',
-                            content         : '',
-                            files           : [],
-                            operator_id     : operator._id,
-                            created_time    : new Date(),
-                        }, function(err, statusResult) {
-                            routeApp.createLogItem({ log_type : log_coll.logType.createTask }, operator, result[0])
-                            res.send({ ok : 1, id : result[0]._id})
-                        })
-                    }
-                )
-            }) 
-        })
-    })
-}
 
 exports.archive = function(req, res) {
     routeApp.ownAuthority(req, function(isOwn, operator) {
@@ -340,49 +445,3 @@ exports.newCustomId = function(req, res) {
     })
 }
 
-function generateTaskUsers(req, res, cb) {
-    var generateResult  = []
-    if (req.body.task_users) {
-        if (!Array.isArray(req.body.task_users)) {
-            req.body.task_users = [req.body.task_users]
-        }
-
-        var allBlank = true
-        req.body.task_users.forEach(function(item, index, array) {
-            if (item) {
-                allBlank = false
-            }
-        })
-
-        if (allBlank) {
-            res.send({ ok : 0, msg : '必须添加至少一个参与人员'})
-            return 
-        }
-    } else {
-        res.send({ ok : 0, msg : '必须添加至少一个参与人员'})
-        return 
-    }
-
-    var users           = req.body.task_users
-    var userNum         = 0
-    if (users && Array.isArray(users)) {
-
-        users.forEach(function(item, index, array) {
-            if (item) {
-                userNum++
-            }
-        })
-
-        users.forEach(function(item, index, array) {
-            if (item !== '') {
-                user_coll.findByName(item, function(err, user) {
-                    generateResult.push(user._id)
-                    userNum--
-                    if (userNum == 0) {
-                        cb(generateResult)
-                    }
-                })  
-            }
-        })
-    }
-}

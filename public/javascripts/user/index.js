@@ -1,22 +1,5 @@
 (function() {
-    var target_file
-
-    $(function() {
-        app.utility.highlightCurrentPage('成员')
-        eventBind()
-        emptyFileUploader()
-        showActiveFalseUsers()
-    })
-
-    function emptyFileUploader() {
-        $('#upload_avatar_input').val('')
-    }
-
-    function showActiveFalseUsers() {
-        $('#show_active_false_user').click(function () {
-            $('a.user-item').removeClass('disnone')
-        })
-    }
+    var target_file;
 
     function eventBind() {
         $('#add_user').click(function() {
@@ -51,11 +34,27 @@
             url         : $('#create_user_form').attr('action'),
             data        : $('#create_user_form').serialize(),
             success     : function(data) {
-                if (data.ok) {
-                    location.href = location.href
+                if (data.ok !== 1) {
+                    alert('不合法，请重试')
                 }
+
+                location.href = location.href
             }
         })
+    }
+
+    function emptyFileUploader() {
+        $('#upload_avatar_input').val('')
+    }
+
+    function showActiveFalseUsers() {
+        $('#show_active_false_user').click(function () {
+            $('a.user-item').removeClass('disnone')
+        })
+    }
+
+    function setDefaultAvatar() {
+        $('.avatar-preview input').val($('.avatar-preview img').attr('src'))
     }
 
     function createUserIsWorking() {
@@ -81,7 +80,6 @@
             $('#upload_avatar_input').val('')
         }
     }
-
 
     function satrtUpload(cb) {
         if (!target_file) {
@@ -109,7 +107,13 @@
         })
     }
 
-    function setDefaultAvatar() {
-        $('.avatar-preview input').val($('.avatar-preview img').attr('src'))
-    }
+    $(function() {
+        app.utility.highlightCurrentPage('成员')
+
+        eventBind()
+
+        emptyFileUploader()
+
+        showActiveFalseUsers()
+    })    
 })()

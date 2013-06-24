@@ -26,27 +26,43 @@ exports.info = function(req, res) {
 
 
 exports.list = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
-        user_coll.findAll(function(err, userListResult) {
-            res.render('user/index', 
-                { 
-                    title      : '用户列表' ,
-                    users      : userListResult,
-                    me         : loginUser
-                }
-            )
-        })
-    }) 
+    userModel.find({}, {}, {sort : {role : 1}}, function(err, userListResult) {
+        res.render('user/index', 
+            { 
+                title      : '用户列表' ,
+                users      : userListResult,
+            }
+        )
+    })
 }
 
 exports.create = function(req, res) {
-    user_coll.create({
-        name            : req.body.name,
-        ip              : req.body.ip,
-        role            : req.body.role,
+    var data = req.body,
+        role = [];
+
+    if (!data.name || !data.ip) {
+        res.send({ok : 0, msg: "不合法"})
+        return
+    }
+
+    if (data.role) {
+        if (Array.isArray(data.role)) {
+            role = data.role
+        } else {
+            role = [data.role]
+        }
+    }
+
+    var newUser = new userModel({
+        name            : data.name, 
+        ip              : data.ip,
+        role            : role,
         avatar_url      : req.body.avatar_url,
-        created_time    : new Date()
-    }, function(err, result) {
+        updated_time    : new Date(),
+        created_time    : new Date(),
+    })
+
+    newUser.save(function(err, userResult) {
         if (err) {
             res.send({ ok : 0, msg : '数据库错误' })
             return

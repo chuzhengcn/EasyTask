@@ -26,12 +26,21 @@ block content
                                             .control-group
                                                 label.control-label(for='role') 角色
                                                 .controls
-                                                    select(name='role')
-                                                        option(value='PM') PM
-                                                        option(value='Programmer') Programmer
-                                                        option(value='Tester') Tester
-                                                        option(value='Designer') Designer
-                                                        option(value='Customer') Customer
+                                                    .checkbox
+                                                        input(type="checkbox", value="PM", name="role")
+                                                        | PM
+                                                    .checkbox
+                                                        input(type="checkbox", value="Programmer", name="role")
+                                                        | Programmer
+                                                    .checkbox
+                                                        input(type="checkbox", value="Tester", name="role") 
+                                                        | Tester
+                                                    .checkbox
+                                                        input(type="checkbox", value="Designer", name="role") 
+                                                        | Designer
+                                                    .checkbox
+                                                        input(type="checkbox", value="Customer", name="role") 
+                                                        | Customer
                                             .control-group
                                                 label.control-label(for='avatar') 头像
                                                 .controls
@@ -68,4 +77,4 @@ block content
                                                 .name #{user.name}
                                                 small
                                                     em #{user.role}
-                                                .ip #{user.ip}
+                                                .ip #{user.ip}                                   

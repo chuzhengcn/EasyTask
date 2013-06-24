@@ -255,11 +255,14 @@ app.viewhelper = {
             $('#header .user-avatar a').data("ip", localStorage.userIp)
         }
 
-        if (!client.name) {
-            getClientInfo()
-        } else {
-            showClientInfo()
-        }
+        // if (!client.name) {
+        //     getClientInfo()
+        // } else {
+        //     showClientInfo()
+        // }
+
+        // todo : 避免每次请求服务器获取个人信息
+        getClientInfo()
     }
 
     $(function() {

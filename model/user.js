@@ -6,9 +6,10 @@ var mongoose        = require('./config').mongoose,
 var userSchema = mongoose.Schema({
     name            : String,
     ip              : String,
-    role            : String,
+    role            : Array,
     avatar_url      : String,
     active          : String,
+    updated_time    : Date,
     created_time    : Date,
 },{ 
     collection: collectionName, 

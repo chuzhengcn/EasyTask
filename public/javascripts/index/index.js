@@ -24,16 +24,23 @@
     }
 
     function resetCreateTaskForm() {
-        $('#createTaskForm input[type="text"]').val('')
+        $('#createTaskForm input').val('')
     }
 
     function addMoreTaskUserInput() {
         $('input[name="taskUsers"]:first').clone().insertBefore($('#addMoreTaskUserBtn')).val('').focus()
+        typeaheadUser()
     }
 
-    function agreePossibleUnknowUser() {
-        var userOptionArray = [] 
-        var agree           = true
+    function addMoreProjectInput() {
+        $('input[name="project"]:first').clone().insertBefore($('#addMoreProjectBtn')).val('').focus()
+        typeaheadProject()
+    }
+
+    function hasUnknowUser() {
+        var userOptionArray = [], 
+            has             = false;
+
         $('#taskUsersOption option').each(function() {
             userOptionArray.push($(this).val())
         })
@@ -43,12 +50,33 @@
             if (userName !== '') {
                 if (userOptionArray.indexOf(userName) == -1) {
                     alert('未知参与者\n\n' + userName + '\n\n不能包含该人员')
-                    agree = false
+                    has = true
                 }
             }
         })
 
-        return agree
+        return has
+    }
+
+    function hasUnknowProject() {
+        var projectOptionArray = [],
+            has                = false;
+
+        $('#projectOption option').each(function() {
+            projectOptionArray.push($(this).val())
+        })
+
+        $('input[name="project"]').each(function() {
+            var projectName = $(this).val()
+            if (projectName !== '') {
+                if (projectOptionArray.indexOf(projectName) == -1) {
+                    alert('未知站点\n\n' + projectName + '\n\n不能包含该站点')
+                    has = true
+                }
+            }
+        })
+
+        return has
     }
 
     function createTaskIsWorking() {
@@ -57,12 +85,13 @@
 
     function readyToCreateTask(event) {
         if (app.utility.isValidForm('createTaskForm')) {
-            if (agreePossibleUnknowUser()) {
+            if (!hasUnknowUser() && !hasUnknowProject()) {
                 createTaskIsWorking()
                 satrtCreateTask()
             } 
-            event.preventDefault() 
         }
+
+        event.preventDefault() 
     }
 
     function satrtCreateTask() {
@@ -72,7 +101,8 @@
             data        : $('#createTaskForm').serialize(),
             success     : function(data) {
                 if (data.ok) {
-                    location.href = '/tasks/' + data.id
+                    // location.href = '/tasks/' + data.id
+                    alert('ok')
                 } else {
                     createTaskIsComplete()
                     alert(data.msg)
@@ -101,6 +131,11 @@
             event.preventDefault()
         })
 
+        $('#addMoreProjectBtn').click(function(event) {
+            addMoreProjectInput()
+            event.preventDefault()
+        })
+
         $('#saveTask').click(function(event) {           
             var self = this
             readyToCreateTask.call(self, event)
@@ -116,18 +151,6 @@
             trigger     : 'hover'
         })
     }
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
 
     function fillTaskStatusToFilter() {
         var taskBaseLink =  '/tasks'
@@ -165,16 +188,22 @@
     }
 
     $(function() {
+        app.utility.highlightCurrentPage('任务')
+
         typeaheadUser();
 
         typeaheadProject();
 
         eventBind()
-        app.utility.highlightCurrentPage('任务')
+        
         fillTaskStatusToFilter()
+
         fillTaskBranchToFilter()
+
         fillTaskUserToFilter()
+
         popoverTaskInfo()
+
         app.viewhelper.markDifferentColorToTaskStatus($('.task-list li .status span.label'))
     })
 

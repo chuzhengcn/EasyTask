@@ -10,23 +10,23 @@ exports.getClientUser = function(ip, cb) {
     }) 
 }
 
+exports.ownAuthority = function(req, cb) {
+    var clientIp = req.ip
+    userModel.findByIp(clientIp, function(err, user) {
+        if (user) {
+            cb(true, user)
+        } else {
+            cb(false)
+        }
+    })
+}
+
 // use monogo skin below -------------------------------------
 
 exports.identifying = function (req, cb) {
     var clientIp = req.connection.remoteAddress
     user_coll.findByIp(clientIp, function(err, user) {
     	cb(user)
-    })
-}
-
-exports.ownAuthority = function(req, cb) {
-    var clientIp = req.ip
-    user_coll.findByIp(clientIp, function(err, user) {
-        if (user) {
-            cb(true, user)
-        } else {
-            cb(false)
-        }
     })
 }
 

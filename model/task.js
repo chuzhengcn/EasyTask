@@ -12,8 +12,11 @@ var taskSchema = mongoose.Schema({
     branch          : String,
     custom_id       : Number,
     active          : Boolean,
+    updated_time    : Date,
     created_time    : Date,
-    users           : [ObjectId],
+    users           : Array,
+    score           : Number,
+    projects        : Array,
 },{
     collection : collectionName,
 })
