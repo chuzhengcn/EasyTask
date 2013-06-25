@@ -7,8 +7,6 @@ var mongoose        = require('./config').mongoose,
     Emitter         = require('events').EventEmitter,
     statusNameModel = require('./data').statusNames;
 
-    console.log(require('./data'))
-
 var taskSchema = mongoose.Schema({
     name            : String,
     status          : String,
@@ -88,6 +86,21 @@ taskSchema.statics.findArchivedIncludeUser = function (page, cb) {
             includeUser(tasks, function(err, tasks) {
                 cb(err, tasks, num)
             })
+        })
+    });
+}
+
+taskSchema.statics.findOneTaskIncludeUser = function(conditions, fields, options, cb) {
+    this.findOne(conditions, fields, options, function(err, task) {
+        if (err) {
+            cb(err)
+            return
+        }
+
+        task = task.toObject()
+
+        includeUser([task], function(err, tasks) {
+            cb(err, tasks[0])
         })
     });
 }

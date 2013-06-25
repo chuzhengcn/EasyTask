@@ -1,14 +1,173 @@
 (function() {
-    $(function() {
-        app.utility.highlightCurrentPage('任务')
-        app.utility.highlightTaskNav('摘要')
-        app.viewhelper.setFileIcon()
-        app.viewhelper.markDifferentColorToTaskStatus($('.status span.label'))
-        app.viewhelper.markDifferentColorToTodoCategory($('.task-summary-todo .category span.label'))
-        eventBind()
-    })
+    function typeaheadUser() {
+        var users = [];
+
+        $('#taskUsersOption option').each(function() {
+            users.push($(this).val())
+        })
+
+        $('input[name="taskUsers"]').typeahead({
+            source : users
+        })
+    }
+
+    function typeaheadProject() {
+        var projects = [];
+
+        $('#projectOption option').each(function() {
+            projects.push($(this).val())
+        })
+
+        $('input[name="project"]').typeahead({
+            source : projects
+        })
+    }
+
+    function addMoreTaskUserInput() {
+        $('input[name="taskUsers"]:first').clone().insertBefore($('#addMoreTaskUserBtn')).val('').focus()
+        typeaheadUser()
+    }
+
+    function addMoreProjectInput() {
+        $('input[name="project"]:first').clone().insertBefore($('#addMoreProjectBtn')).val('').focus()
+        typeaheadProject()
+    }
+
+    function hasUnknowUser() {
+        var userOptionArray = [], 
+            has             = false;
+
+        $('#taskUsersOption option').each(function() {
+            userOptionArray.push($(this).val())
+        })
+
+        $('input[name="taskUsers"]').each(function() {
+            var userName = $(this).val()
+            if (userName !== '') {
+                if (userOptionArray.indexOf(userName) == -1) {
+                    alert('未知参与者\n\n' + userName + '\n\n不能包含该人员')
+                    has = true
+                }
+            }
+        })
+
+        return has
+    }
+
+    function hasUnknowProject() {
+        var projectOptionArray = [],
+            has                = false;
+
+        $('#projectOption option').each(function() {
+            projectOptionArray.push($(this).val())
+        })
+
+        $('input[name="project"]').each(function() {
+            var projectName = $(this).val()
+            if (projectName !== '') {
+                if (projectOptionArray.indexOf(projectName) == -1) {
+                    alert('未知站点\n\n' + projectName + '\n\n不能包含该站点')
+                    has = true
+                }
+            }
+        })
+
+        return has
+    }
+
+    function readyToEditTask(event) {
+        if (app.utility.isValidForm('editTaskModal')) {
+            if (!hasUnknowUser() && !hasUnknowProject()) {
+                editTaskIsWorking()
+                satrtEditTask()
+            } 
+        }
+
+        event.preventDefault() 
+    }
+
+    function editTaskIsWorking() {
+        $('#saveTask').html('提交中...').addClass('disabled').off()
+    }
+
+    function satrtEditTask() {
+        $.ajax({
+            type        : 'put',
+            url         : $('#editTaskForm').attr('action'),
+            data        : $('#editTaskForm').serialize(),
+            success     : function(data) {
+                if (data.ok) {
+                    location.href = '/tasks/' + data.custom_id
+                } else {
+                    editTaskIsComplete()
+                    alert(data.msg)
+                }
+            }
+        })
+    }
+
+    function editTaskIsComplete() {
+        $('#saveTask').html('提交').removeClass('disabled').on('click', function(event) {
+            var self = this
+            readyToEditTask.call(self, event)
+        })
+    }
+
+    function getNewCustomId() {
+        $('#getNewCustomId').html('正在获取')
+        $.ajax({
+            type        : 'put',
+            url         : '/get-new-custom-id',
+            success     : function(data) {
+                if (data.ok == 1) {
+                    $('#editTaskForm input[name="branch"]').hide().fadeIn()
+                    var originBranch = $('#editTaskForm input[name="branch"]').val()
+                    var newBranch
+                    if (originBranch.indexOf('/') > -1 && originBranch.indexOf('-') > -1) {
+                        var developer = originBranch.substring(originBranch.indexOf('-'), originBranch.indexOf('/'))
+                        newBranch = "master" + developer + "/" + data.id 
+                    } else {
+                        newBranch = "master-developer/" + data.id
+                    }
+                    $('#editTaskForm input[name="branch"]').val(newBranch)
+
+                    $('#getNewCustomId').html('再次获取')
+                } else {
+                    alert('获取出错，请重试')
+                    $('#getNewCustomId').html('再次获取')
+                }
+            }
+        })
+    }
 
     function eventBind() {
+        $('#addMoreTaskUserBtn').click(function(event) {
+            addMoreTaskUserInput()
+            event.preventDefault()
+        })
+
+        $('#addMoreProjectBtn').click(function(event) {
+            addMoreProjectInput()
+            event.preventDefault()
+        })
+
+        //edit task name btn
+        $('#editTaskBtn').click(function(event) {
+            $('#editTaskModal').modal()
+            event.preventDefault()
+        })
+
+        $('#saveTask').click(function(event) {           
+            var self = this
+            readyToEditTask.call(self, event)
+        })
+
+        //get the new task custom id
+        $('#getNewCustomId').click(function(event) {
+            getNewCustomId()
+            event.preventDefault()
+        })
+
         //delete task btn
         $('#delete_task_btn').click(function() {
             deleteTask($(this))
@@ -19,23 +178,11 @@
             archiveTask($(this))
         })
 
-        //edit task name btn
-        $('#edit_task_info').click(function() {
-            app.utility.showRightSideBar()
-            $('#edit_task_info_form_wrapper').show()
-        })
 
-        //edit task user btn
-        $('#edit_task_users').click(function() {
-            app.utility.showRightSideBar()
-            $('#edit_task_users_form_wrapper').show()
-        })
 
-        //close pane btn
-        $('.button-close-pane').click(function() {
-            app.utility.hideRightSideBar()
-            $('.inner .task-form-wrapper').fadeOut()
-        })
+        
+
+        
 
         //submit task name
         $('#edit_task_info_form_btn').click(function(event) {
@@ -45,12 +192,6 @@
         //submit task users
         $('#edit_task_users_form_btn').click(function(event) {
             readyToEditTaskUsers.call(this, event, $(this))
-        })
-
-        //add more task users btn-link
-        $('#add_more_task_user').click(function(event) {
-            addMoreTaskUserInput()
-            event.preventDefault()
         })
 
         //add task milestone btn
@@ -88,11 +229,7 @@
         $('#task_branch_form_btn').click(function(event) {
             readyToUpsertBranch.call(this, event, $(this))
         })
-        //get the new task custom id
-        $('#get_new_custom_id').click(function(event) {
-            getNewCustomId()
-            event.preventDefault()
-        })
+        
 
         // complete todo
         $('span.un-complete, span.complete').click(function(){
@@ -100,6 +237,25 @@
         }) 
 
     }
+
+    $(function() {
+        eventBind()
+
+        app.utility.highlightCurrentPage('任务')
+
+        typeaheadUser();
+
+        typeaheadProject();
+
+        app.utility.highlightTaskNav('摘要');
+
+        app.viewhelper.setFileIcon()
+        app.viewhelper.markDifferentColorToTaskStatus($('.status span.label'))
+        app.viewhelper.markDifferentColorToTodoCategory($('.task-summary-todo .category span.label'))
+        
+    })
+
+    
 
     function deleteTask($btn) {
         var sure = confirm('确认删除？')
@@ -139,78 +295,6 @@
         })
     }
 
-    function readyToEditTaskInfo(event, $btn) {
-        if (app.utility.isValidForm('edit_task_info_form')) {
-            startEditTaskInfo($btn)
-            event.preventDefault() 
-        }
-    }
-
-    function startEditTaskInfo($btn) {
-        $.ajax({
-            type        : 'put',
-            url         : $('#edit_task_info_form').attr('action'),
-            data        : $('#edit_task_info_form').serialize(),
-            beforeSend  : function() {
-                app.utility.isWorking($btn)
-            },
-            success     : function(data) {
-                if (!data.ok) {
-                    alert(data.msg)
-                }
-                location.href = location.href
-            }
-        })
-    }
-
-    function readyToEditTaskUsers(event, $btn) {
-        if (app.utility.isValidForm('edit_task_users_form')) {
-            if (agreePossibleUnknowUser()) {
-                startEditTaskUsers($btn)
-            }
-            event.preventDefault() 
-        }
-    }
-
-    function agreePossibleUnknowUser() {
-        var userOptionArray = [] 
-        var agree           = true
-        $('#task_users_option option').each(function() {
-            userOptionArray.push($(this).val())
-        })
-
-        $('input[name="task_users"]').each(function() {
-            var userName = $(this).val()
-            if (userName !== '') {
-                if (userOptionArray.indexOf(userName) == -1) {
-                    alert('未知参与者\n\n' + userName + '\n\n不能包含该人员')
-                    agree = false
-                }
-            }
-        })
-        return agree
-    }
-
-    function startEditTaskUsers($btn) {
-        $.ajax({
-            type        : 'put',
-            url         : $('#edit_task_users_form').attr('action'),
-            data        : $('#edit_task_users_form').serialize(),
-            beforeSend  : function() {
-                app.utility.isWorking($btn)
-            },
-            success     : function(data) {
-                if (!data.ok) {
-                    alert(data.msg)
-                }
-                location.href = location.href
-            }
-        })
-    }
-
-    function addMoreTaskUserInput() {
-        $('input[name="task_users"]:first').clone().insertBefore($('#add_more_task_user')).val('').focus()
-    }
     
     function getTaskId() {
         return $('.list-header header').data('id')
@@ -260,19 +344,7 @@
         }
     }
 
-    function getNewCustomId() {
-        $('#get_new_custom_id').html('正在获取')
-        $.ajax({
-            type        : 'put',
-            url         : '/get-new-custom-id',
-            success     : function(data) {
-                if (data.ok == 1) {
-                    $('#task_branch_form input[name="branch"]').val('/' + data.id)
-                    $('#get_new_custom_id').html('再次获取')
-                }
-            }
-        })
-    }
+    
 
     function changeCompleteStatus() {
         var status = 1

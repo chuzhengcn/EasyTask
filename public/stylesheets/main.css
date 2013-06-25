@@ -40,6 +40,9 @@ body {
   overflow: hidden;
   min-width: 1000px;
 }
+.modal-footer .btn-danger {
+  float: left;
+}
 #header {
   position: relative;
 }
@@ -245,6 +248,7 @@ body {
   padding: 0 12px;
   height: 48px;
   border-bottom: 1px solid #dcdcdc;
+  position: relative;
 }
 #content .content-layout .list .list-header header {
   font-weight: bold;
@@ -253,7 +257,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  float: left;
+  text-align: center;
   font-size: 16px;
 }
 #content .content-layout .list .list-header header .breadcrumb {
@@ -271,14 +275,26 @@ body {
   margin-right: 10px;
 }
 #content .content-layout .list .list-header .operate-wrapper {
-  float: right;
-  padding-top: 11px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 #content .content-layout .list .list-header .operate-wrapper button {
   margin-left: 10px;
 }
 #content .content-layout .list .list-header .operate-wrapper a {
   margin-left: 10px;
+}
+#content .content-layout .list .list-header .back {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+#content .content-layout .list .list-header .back button {
+  margin-right: 10px;
+}
+#content .content-layout .list .list-header .back a {
+  margin-right: 10px;
 }
 #content .content-layout .list .main-body {
   position: absolute;
@@ -800,7 +816,7 @@ input[name="project"] {
 #add_task_milestone_form_wrapper input[name='task_milestone_name'] {
   display: none;
 }
-#get_new_custom_id {
+#getNewCustomId {
   margin-left: 5px;
 }
 .milestone-info-wrapper {

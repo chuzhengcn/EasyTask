@@ -326,11 +326,20 @@ exports.show2 = function(req, res) {
 exports.show = function(req, res) {
     var custom_id = parseInt(req.params.id, 10)
 
-    taskModel.findOne({custom_id : custom_id}, function(err, taskResult) {
+    taskModel.findOneTaskIncludeUser({custom_id : custom_id}, {}, {}, function(err, taskResult) {
         if (!taskResult) {
             routeApp.err404(req, res)
             return
         }
+
+        userModel.findActiveUsers(function(err, usersResults) {
+            res.render('task/info',{
+                title           : taskResult.name,
+                task            : taskResult,
+                users           : usersResults,
+                projects        : projectModel,
+            })
+        })
     })
 }
 
@@ -380,31 +389,54 @@ exports.delete = function(req, res) {
 }
 
 exports.update = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var id          = req.params.id,
+        newCustomId = 0,
+        updateDoc   = {
+            name            : '',
+            users           : [],
+            custom_id       : '',
+            branch          : '',
+            projects        : [],
+            score           : 0,
+            updated_time    : new Date(),
+        };
+        
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
 
-        var updateDoc = {}
-        var log_type
-
-        if (req.body.name) {
-            updateDoc = { name : req.body.name }
-            log_type  = log_coll.logType.editTaskName
-            startUpdateTask()
+        if (!req.body.name) {
+            res.send({ ok : 0, msg : '任务名必填'})
             return
         }
 
-        if (req.body.task_users) {
-            log_type  = log_coll.logType.editTaskUsers
-            generateTaskUsers(req, res, function(taskUsers) {
-                updateDoc = {users : taskUsers}
-                startUpdateTask()
-            })
+        generateTaskUsers(req.body.taskUsers, function(err, userRef) {
+            if (!err) {
+                updateDoc.users = userRef
+            }
 
-            return
-        }
+            updateDoc.branch      = req.body.branch
+            updateDoc.score       = parseInt(req.body.score, 10)
+            updateDoc.projects    = filterProjects(req.body.project)
+
+            newCustomId = parseInt(branch.split('/')[1], 10))
+            if (!isNaN(newCustomId) {
+                updateDoc.custom_id = newCustomId
+            }
+
+            taskModel.findById(id, function(err, taskResult) {
+                taskModel.findByIdAndUpdate(id, updateDoc, function(err, updatedTask) {
+                    res.send({ok : 1, task : updatedTask})
+                })
+
+                
+            })          
+            
+        })
+
 
         if (req.body.branch) {
             updateDoc = { branch : req.body.branch}
@@ -447,8 +479,7 @@ exports.update = function(req, res) {
 }
 
 exports.newCustomId = function(req, res) {
-    counter_coll.saveTaskId(function(err, newId) {
+    counterModel.saveTaskId(function(err, newId) {
         res.send({ ok : 1, id : newId})
     })
 }
-

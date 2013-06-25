@@ -3,7 +3,6 @@ append head
     script(src='/javascripts/task/info.js')
 block content
     .app-layout
-        include ../include/app-header
         #main
             include ../include/app-sidebar
             #content
@@ -15,63 +14,63 @@ block content
                                     button.button-close-pane
                                 .scrollable
                                     .inner
-                                        #edit_task_info_form_wrapper.task-form-wrapper
-                                            form#edit_task_info_form.form-horizontal(action='/tasks/#{task._id}')
-                                                legend 编辑任务名称
-                                                .control-group
-                                                    label.control-label(for='name') 任务名称
-                                                    .controls
-                                                        input(type='text', value='#{task.name}', autocomplete='off', placeholder='名称', name='name', required='true')
-                                                .control-group
-                                                    .controls
-                                                        button#edit_task_info_form_btn.btn.btn-primary 更新
-                                        #edit_task_users_form_wrapper.task-form-wrapper
-                                            form#edit_task_users_form.form-horizontal(action='/tasks/#{task._id}')
-                                                legend 编辑参与者
-                                                .control-group
-                                                    label.control-label(for='task_users') 参与者
-                                                    .controls
-                                                        - each taskuser in taskUsers
-                                                            input(type='text',name='task_users',list="task_users_option", autocomplete='off', value='#{taskuser.name}')
-                                                        a#add_more_task_user(href='#', tabindex='-1')
-                                                            i.icon-plus
-                                                            | 更多参与者 
-                                                        datalist#task_users_option
-                                                            - each user in users
-                                                                option(value='#{user.name}')
-                                                .control-group
-                                                    .controls
-                                                        button#edit_task_users_form_btn.btn.btn-primary 更新
-                                        #add_task_milestone_form_wrapper.task-form-wrapper
-                                            form#add_task_milestone_form.form-horizontal(action='/tasks/#{task._id}/milestones')
-                                                legend 添加时间点
-                                                .control-group
-                                                    label.control-label(for='task_milestone_name') 名称
-                                                    .controls
-                                                            select(name='task_milestone_name')
-                                                                option(value='提交测试') 提交测试
-                                                                option(value='测试完成') 测试完成
-                                                                option(value='发外网') 发外网
-                                                            input#custom_milestone_name_input(type='text',name='task_milestone_name', autocomplete='off', placeholder='输入事件名称')
-                                                            button(tabindex='-1')#custom_milestone_name.btn.btn-link.btn-small 自定义事件名称
-                                                .control-group
-                                                    label.control-label(for='task_milestone_time') 时间
-                                                    .controls
-                                                        input(type='date',name='task_milestone_time', autocomplete='off', required='true', pattern='^[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))$')
-                                                .control-group
-                                                    .controls
-                                                        button#add_task_milestone_form_btn.btn.btn-primary 添加
-                                        #task_branch_form_wrapper.task-form-wrapper
-                                            form#task_branch_form.form-horizontal(action='/tasks/#{task._id}')
-                                                legend 编辑开发分支
-                                                .control-group
-                                                    label.control-label(for='branch') 分支名
-                                                    .controls
-                                                        input(type='text', value='#{task.branch}', autocomplete='off', placeholder='例如：master-zhengzheng/123', name='branch')
-                                                        button#get_new_custom_id.btn.btn-small(tabindex='-1') 获取新ID
-                                                .control-group
-                                                    .controls
-                                                        button#task_branch_form_btn.btn.btn-primary 更新
+                                        //- #edit_task_info_form_wrapper.task-form-wrapper
+                                        //-     form#edit_task_info_form.form-horizontal(action='/tasks/#{task._id}')
+                                        //-         legend 编辑任务名称
+                                        //-         .control-group
+                                        //-             label.control-label(for='name') 任务名称
+                                        //-             .controls
+                                        //-                 input(type='text', value='#{task.name}', autocomplete='off', placeholder='名称', name='name', required='true')
+                                        //-         .control-group
+                                        //-             .controls
+                                        //-                 button#edit_task_info_form_btn.btn.btn-primary 更新
+                                        //- #edit_task_users_form_wrapper.task-form-wrapper
+                                        //-     form#edit_task_users_form.form-horizontal(action='/tasks/#{task._id}')
+                                        //-         legend 编辑参与者
+                                        //-         .control-group
+                                        //-             label.control-label(for='task_users') 参与者
+                                        //-             .controls
+                                        //-                 - each taskuser in taskUsers
+                                        //-                     input(type='text',name='task_users',list="task_users_option", autocomplete='off', value='#{taskuser.name}')
+                                        //-                 a#add_more_task_user(href='#', tabindex='-1')
+                                        //-                     i.icon-plus
+                                        //-                     | 更多参与者 
+                                        //-                 datalist#task_users_option
+                                        //-                     - each user in users
+                                        //-                         option(value='#{user.name}')
+                                        //-         .control-group
+                                        //-             .controls
+                                        //-                 button#edit_task_users_form_btn.btn.btn-primary 更新
+                                        //- #add_task_milestone_form_wrapper.task-form-wrapper
+                                        //-     form#add_task_milestone_form.form-horizontal(action='/tasks/#{task._id}/milestones')
+                                        //-         legend 添加时间点
+                                        //-         .control-group
+                                        //-             label.control-label(for='task_milestone_name') 名称
+                                        //-             .controls
+                                        //-                     select(name='task_milestone_name')
+                                        //-                         option(value='提交测试') 提交测试
+                                        //-                         option(value='测试完成') 测试完成
+                                        //-                         option(value='发外网') 发外网
+                                        //-                     input#custom_milestone_name_input(type='text',name='task_milestone_name', autocomplete='off', placeholder='输入事件名称')
+                                        //-                     button(tabindex='-1')#custom_milestone_name.btn.btn-link.btn-small 自定义事件名称
+                                        //-         .control-group
+                                        //-             label.control-label(for='task_milestone_time') 时间
+                                        //-             .controls
+                                        //-                 input(type='date',name='task_milestone_time', autocomplete='off', required='true', pattern='^[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))$')
+                                        //-         .control-group
+                                        //-             .controls
+                                        //-                 button#add_task_milestone_form_btn.btn.btn-primary 添加
+                                        //- #task_branch_form_wrapper.task-form-wrapper
+                                        //-     form#task_branch_form.form-horizontal(action='/tasks/#{task._id}')
+                                        //-         legend 编辑开发分支
+                                        //-         .control-group
+                                        //-             label.control-label(for='branch') 分支名
+                                        //-             .controls
+                                        //-                 input(type='text', value='#{task.branch}', autocomplete='off', placeholder='例如：master-zhengzheng/123', name='branch')
+                                        //-                 button#get_new_custom_id.btn.btn-small(tabindex='-1') 获取新ID
+                                        //-         .control-group
+                                        //-             .controls
+                                        //-                 button#task_branch_form_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
                             header(data-id='#{task._id}') 
@@ -79,104 +78,151 @@ block content
                                     - if (!task.active)
                                         i.icon-lock(title='该任务已存档')
                                     | #{task.custom_id} - #{task.name}
-                            .operate-wrapper
+                            .back
                                 a.btn.btn-small(href='/tasks') 
                                     i.icon-chevron-left
                                     |  返回任务列表
-                                button#edit_task_info.btn.btn-primary.btn-small 编辑
+                            .operate-wrapper
+                                button#editTaskBtn.btn.btn-primary.btn-small 编辑任务
                                 - if (task.active)
                                     button#archive_task_btn.btn.btn-inverse.btn-small 存档
                                 - else
                                     button#archive_task_btn.btn.btn-inverse.btn-small 恢复
-                                button#delete_task_btn.btn.btn-danger.btn-small 删除
+                                
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
                                 include ../include/task-nav
-                                .task-users.clearfix
-                                    header 参与者
-                                        button#edit_task_users.btn.btn-small 
-                                            i.icon-edit
-                                            | 编辑参与人员   
-                                    .task-users-wrapper.clearfix
-                                        - each taskuser in taskUsers
-                                            a.user(href='/users/#{taskuser._id}')
-                                                img.img-polaroid.img-rounded(src='#{taskuser.avatar_url}')
-                                                .info 
-                                                    .name #{taskuser.name}
-                                                    .role 
-                                                        small 
-                                                            em #{taskuser.role}
-                                .task-summary-version.clearfix
-                                    header 
-                                        a.more(href='/tasks/#{task._id}/status', title='查看全部版本管理信息') 版本管理
-                                        a.btn.btn-small(href='/tasks/#{task._id}/status?change=true',title='修改任务状态') 
-                                            i.icon-wrench
-                                            | 修改任务状态 
-                                    .branch 分支：
-                                        - if (task.branch)
-                                            button#task_branch_btn.btn.btn-link(title='单击修改分支') #{task.branch}
-                                        - else
-                                            button#task_branch_btn.btn.btn-link 分支待添加
-                                    .status 状态：
-                                        a(href='/tasks/#{task._id}/status?change=true', title='单击修改状态') 
-                                            span.label #{task.status}
-                                    .last-action.clearfix
-                                        span.title 最新：
-                                        - if (taskStatus)
-                                            .action-content
-                                                .popstripe
-                                                a.status-name.clearfix(href='/tasks/#{task._id}/status')
-                                                    span #{taskStatus.name} 
-                                                    - if (taskStatus.content !== '')
-                                                        span.status-history-des #{taskStatus.content}
-                                                    .states-date #{taskStatus.created_time} by #{taskStatus.operator.name}
-                                                - if (taskStatus.files)
-                                                    .status-files.clearfix
-                                                        - each file in taskStatus.files
-                                                            .file-item
-                                                                i.icon-file
-                                                                a(href='#{file.url}') #{file.name}
-                                        - else
-                                            | 暂无
-                                .task-summary-milestone.clearfix
-                                    header 时间点
-                                        button#add_milestone_in_taskinfo.btn.btn-small 
-                                            i.icon-plus-sign
-                                            | 添加时间点
-                                    ul.clearfix
-                                        - each milestone in milestones
-                                            li
-                                                a(href='/tasks/#{task._id}/milestones/#{milestone._id}',title='单击修改时间点') #{milestone.name}
-                                                span #{milestone.event_time.substring(5)}
-                                .task-summary-todo.clearfix
-                                    header 
-                                        a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档
-                                        a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 
-                                            i.icon-plus-sign
-                                            | 添加文档
-                                    ul.unstyled
-                                        - each todo in taskTodos
-                                            li(data-id='#{todo._id}')
-                                                - if (todo.complete == 1)
-                                                    span.complete(title='标记事项未完成')
-                                                - else
-                                                    span.un-complete(title='标记事项已完成')
-                                                a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
-                                                span.time #{todo.operator.name} 创建于 #{todo.created_time}
-                                                .category  
-                                                    span.label #{todo.category}
-                                                .comment-count
-                                                    - if (todo.comments.length !== 0)
-                                                        span.badge.badge-inverse #{todo.comments.length}留言
-                                .task-summary-file.clearfix
-                                    header 
-                                        a.more(href='/tasks/#{task._id}/uploads', title='查看全部附件') 最新附件
-                                        a.btn.btn-small(href='/tasks/#{task._id}/uploads?create=true') 
-                                            i.icon-upload
-                                            | 上传
-                                    .file-item-wrapper.clearfix
-                                        - each file in taskFiles
-                                            .file-item(data-type='#{file.type}')
-                                                img.type(src='')
-                                                a.name(href='#{file.url}', target='_blank') #{file.name}
-                                                .log #{file.operator.name} 上传于 #{file.created_time}
+                                //- .task-users.clearfix
+                                //-     header 参与者
+                                //-         button#edit_task_users.btn.btn-small 
+                                //-             i.icon-edit
+                                //-             | 编辑参与人员   
+                                //-     .task-users-wrapper.clearfix
+                                //-         - each taskuser in taskUsers
+                                //-             a.user(href='/users/#{taskuser._id}')
+                                //-                 img.img-polaroid.img-rounded(src='#{taskuser.avatar_url}')
+                                //-                 .info 
+                                //-                     .name #{taskuser.name}
+                                //-                     .role 
+                                //-                         small 
+                                //-                             em #{taskuser.role}
+                                //- .task-summary-version.clearfix
+                                //-     header 
+                                //-         a.more(href='/tasks/#{task._id}/status', title='查看全部版本管理信息') 版本管理
+                                //-         a.btn.btn-small(href='/tasks/#{task._id}/status?change=true',title='修改任务状态') 
+                                //-             i.icon-wrench
+                                //-             | 修改任务状态 
+                                //-     .branch 分支：
+                                //-         - if (task.branch)
+                                //-             button#task_branch_btn.btn.btn-link(title='单击修改分支') #{task.branch}
+                                //-         - else
+                                //-             button#task_branch_btn.btn.btn-link 分支待添加
+                                //-     .status 状态：
+                                //-         a(href='/tasks/#{task._id}/status?change=true', title='单击修改状态') 
+                                //-             span.label #{task.status}
+                                //-     .last-action.clearfix
+                                //-         span.title 最新：
+                                //-         - if (taskStatus)
+                                //-             .action-content
+                                //-                 .popstripe
+                                //-                 a.status-name.clearfix(href='/tasks/#{task._id}/status')
+                                //-                     span #{taskStatus.name} 
+                                //-                     - if (taskStatus.content !== '')
+                                //-                         span.status-history-des #{taskStatus.content}
+                                //-                     .states-date #{taskStatus.created_time} by #{taskStatus.operator.name}
+                                //-                 - if (taskStatus.files)
+                                //-                     .status-files.clearfix
+                                //-                         - each file in taskStatus.files
+                                //-                             .file-item
+                                //-                                 i.icon-file
+                                //-                                 a(href='#{file.url}') #{file.name}
+                                //-         - else
+                                //-             | 暂无
+                                //- .task-summary-milestone.clearfix
+                                //-     header 时间点
+                                //-         button#add_milestone_in_taskinfo.btn.btn-small 
+                                //-             i.icon-plus-sign
+                                //-             | 添加时间点
+                                //-     ul.clearfix
+                                //-         - each milestone in milestones
+                                //-             li
+                                //-                 a(href='/tasks/#{task._id}/milestones/#{milestone._id}',title='单击修改时间点') #{milestone.name}
+                                //-                 span #{milestone.event_time.substring(5)}
+                                //- .task-summary-todo.clearfix
+                                //-     header 
+                                //-         a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档
+                                //-         a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 
+                                //-             i.icon-plus-sign
+                                //-             | 添加文档
+                                //-     ul.unstyled
+                                //-         - each todo in taskTodos
+                                //-             li(data-id='#{todo._id}')
+                                //-                 - if (todo.complete == 1)
+                                //-                     span.complete(title='标记事项未完成')
+                                //-                 - else
+                                //-                     span.un-complete(title='标记事项已完成')
+                                //-                 a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
+                                //-                 span.time #{todo.operator.name} 创建于 #{todo.created_time}
+                                //-                 .category  
+                                //-                     span.label #{todo.category}
+                                //-                 .comment-count
+                                //-                     - if (todo.comments.length !== 0)
+                                //-                         span.badge.badge-inverse #{todo.comments.length}留言
+                                //- .task-summary-file.clearfix
+                                //-     header 
+                                //-         a.more(href='/tasks/#{task._id}/uploads', title='查看全部附件') 最新附件
+                                //-         a.btn.btn-small(href='/tasks/#{task._id}/uploads?create=true') 
+                                //-             i.icon-upload
+                                //-             | 上传
+                                //-     .file-item-wrapper.clearfix
+                                //-         - each file in taskFiles
+                                //-             .file-item(data-type='#{file.type}')
+                                //-                 img.type(src='')
+                                //-                 a.name(href='#{file.url}', target='_blank') #{file.name}
+                                //-                 .log #{file.operator.name} 上传于 #{file.created_time}
+block modal
+    datalist#projectOption
+        - each project in projects
+            option(value='#{project.name}')
+    datalist#taskUsersOption
+        - each user in users
+            option(value='#{user.name}')
+    #editTaskModal.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+        .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3 编辑任务
+        .modal-body
+            form#editTaskForm.form-horizontal(action='/tasks/#{task._id}')
+                .control-group
+                    label.control-label(for='name') 任务名
+                    .controls
+                        input(type='text', value="#{task.name}", autocomplete='off', placeholder='任务名', name='name', required='true')
+                .control-group
+                    label.control-label(for='taskUsers') 参与者
+                    .controls
+                        - each taskuser in task.users
+                            input(type='text',name='taskUsers', value="#{taskuser.name}")
+                        a#addMoreTaskUserBtn(href='#', tabindex='-1')
+                            i.icon-plus
+                            | 更多参与者 
+                .control-group
+                    label.control-label(for='project') 站点
+                    .controls
+                        - each taskproject in task.projects
+                            input(type='text', name='project', autocomplete="off", value="#{taskproject}")
+                        a#addMoreProjectBtn(href='#', tabindex="-1")
+                            i.icon-plus
+                            | 更多站点
+                .control-group
+                    label.control-label(for="branch") 分支
+                    .controls
+                        input(type="text", name="branch", value="#{task.branch}")
+                        button#getNewCustomId.btn.btn-small(tabindex='-1') 获取新分支
+                .control-group
+                    label.control-label(for='score') 分值
+                    .controls
+                        input(type="number", name="score", autocomplete="off", step="5", value="#{task.score}")
+        .modal-footer
+            button#deleteTaskBtn.btn.btn-danger.btn-small 删除
+            button.btn(data-dismiss="modal", aria-hidden="true") 关闭
+            button#saveTask.btn.btn-primary 保存                            
