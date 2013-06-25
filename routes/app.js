@@ -1,7 +1,9 @@
 var user_coll       = require('../db/user')
 var log_coll        = require('../db/log')
 
-var userModel       = require('../model/user').user
+var userModel       = require('../model/user').user,
+    logTypeModel    = require('../model/data').logType,
+    logModel        = require('../model/log').log;
 
 // use mongoose
 exports.getClientUser = function(ip, cb) {
@@ -21,6 +23,35 @@ exports.ownAuthority = function(req, cb) {
     })
 }
 
+exports.createLogItem = function (operator_id, task_id, log_type, content, cb) {
+    if (typeof content === 'undefined') {
+        content = ''
+    }
+
+    if (typeof content === 'function') {
+        cb      = content
+        content = ''
+    }
+
+    var newLog = new logModel({
+        operator_id     : operator_id,
+        task_id         : task_id,
+        log_type        : logTypeModel[log_type],
+        content         : content,
+        created_time    : new Date(),
+    })
+    
+    newLog.save(function(err, logResult) {
+        if (cb) {
+            cb(err, logResult)
+        }
+    })
+}
+
+exports.err404 = function(req, res) {
+    res.status(404).render('404', {title : '404'})
+}
+
 // use monogo skin below -------------------------------------
 
 exports.identifying = function (req, cb) {
@@ -28,22 +59,4 @@ exports.identifying = function (req, cb) {
     user_coll.findByIp(clientIp, function(err, user) {
     	cb(user)
     })
-}
-
-exports.createLogItem = function (log, operator, task, cb) {
-    log.operator_id     = operator._id
-    log.task_id         = task._id
-    log.task_name       = task.name
-    log.task_custom_id  = task.custom_id
-    log.created_time    = new Date()
-    
-    log_coll.create(log, function(err, result) {
-        if (cb) {
-            cb()
-        }
-    })
-}
-
-exports.err404 = function(req, res) {
-    res.status(404).render('404', {title : '404'})
 }

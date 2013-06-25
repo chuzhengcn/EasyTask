@@ -4,7 +4,10 @@ var mongoose        = require('./config').mongoose,
     userModel       = require('./user').user,
     milestoneModel  = require('./milestone').milestone,
     time            = require('../helper/time'),
-    Emitter         = require('events').EventEmitter;
+    Emitter         = require('events').EventEmitter,
+    statusNameModel = require('./data').statusNames;
+
+    console.log(require('./data'))
 
 var taskSchema = mongoose.Schema({
     name            : String,
@@ -21,10 +24,10 @@ var taskSchema = mongoose.Schema({
     collection : collectionName,
 })
 
-taskSchema.statics.findDeveloping = function (cb) {
+taskSchema.statics.findDeveloping = function(cb) {
     var filter = {
         active : true,
-        status : {'$nin' : ['需求提交','已发外网']},
+        status : {'$nin' : [statusNameModel[0]]},
     }
 
     this.find(filter, function(err, tasks) {
@@ -32,8 +35,8 @@ taskSchema.statics.findDeveloping = function (cb) {
     });
 }
 
-taskSchema.statics.findDevelopingIncludeUserAndMilestone = function (cb) {
-    var filter              = {active : true, status : {'$nin' : ['需求提交','已发外网']}},
+taskSchema.statics.findDevelopingIncludeUserAndMilestone = function(cb) {
+    var filter              = {active : true, status : {'$nin' : [statusNameModel[0]]}},
         option              = {sort : {status : -1, custom_id : -1, create_time : -1}};   
 
     this.find(filter, {}, option, function(err, tasks) {
@@ -165,3 +168,5 @@ function includeNotExpireMilestone(tasks, cb) {
         cb(null, tasks)
     })
 }
+
+// test code

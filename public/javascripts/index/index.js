@@ -101,8 +101,7 @@
             data        : $('#createTaskForm').serialize(),
             success     : function(data) {
                 if (data.ok) {
-                    // location.href = '/tasks/' + data.id
-                    alert('ok')
+                    location.href = '/tasks/' + data.custom_id
                 } else {
                     createTaskIsComplete()
                     alert(data.msg)

@@ -1,4 +1,3 @@
-var routeApp        = require('./app')
 var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
 var counter_coll    = require('../db/counter')
@@ -11,11 +10,13 @@ var upload_route    = require('./upload')
 var log_coll        = require('../db/log')
 
 
-var taskModel       = require('../model/task').task,
+var routeApp        = require('./app'),
+    taskModel       = require('../model/task').task,
     userModel       = require('../model/user').user,
+    statusModel     = require('../model/status').status,
     counterModel    = require('../model/counter').counter,
     projectModel    = require('../model/data').project,
-    statusModel     = require('../model/data').status,
+    statusNameModel = require('../model/data').statusNames,
     branchModel     = require('../model/data').branch;
 
 function generateTaskUsers(userName, cb) {
@@ -41,10 +42,7 @@ function generateTaskUsers(userName, cb) {
 
     userModel.find({name : {$in : userNameGroup}}, {}, {}, function(err, userResults) {
         userRef = userResults.map(function(item, index) {
-            return {
-                $ref : userModel.collection.name,
-                $id  : item._id,
-            }
+            return String(item._id)
         })
 
         cb(null, userRef)
@@ -144,10 +142,11 @@ exports.index = function(req, res) {
 }
 
 exports.create = function(req, res) {
-    var defaultStatus = statusModel[0],
+    var defaultStatus = statusNameModel[0],
         users         = [],
         newTask       = null,
-        branch        = '';
+        branch        = '',
+        newStatus     = null;
 
     routeApp.ownAuthority(req, function(hasAuth, operator) {
         if (!hasAuth) {
@@ -159,8 +158,6 @@ exports.create = function(req, res) {
             res.send({ ok : 0, msg : '任务名必填'})
             return
         }
-
-        
 
         generateTaskUsers(req.body.taskUsers, function(err, userRef) {
             if (!err) {
@@ -187,21 +184,20 @@ exports.create = function(req, res) {
                         return
                     }
 
-                    res.send({ok : 1, task : newTaskResult})
+                    newStatus = new statusModel({
+                        task_id         : String(newTaskResult._id),
+                        name            : statusNameModel[0],
+                        content         : '',
+                        files           : [],
+                        operator_id     : String(operator._id),
+                        updated_time    : new Date(),
+                        created_time    : new Date(),
+                    })
 
-                    //todo : refactor status 
-
-                    // status_coll.create({
-                    //     task_id         : result[0]._id.toString(),
-                    //     name            : '需求提交',
-                    //     content         : '',
-                    //     files           : [],
-                    //     operator_id     : operator._id,
-                    //     created_time    : new Date(),
-                    // }, function(err, statusResult) {
-                    //     routeApp.createLogItem({ log_type : log_coll.logType.createTask }, operator, result[0])
-                    //     res.send({ ok : 1, id : result[0]._id})
-                    // })
+                    newStatus.save(function(err, statusResult) {
+                        res.send({ok : 1, task : newTaskResult})
+                        routeApp.createLogItem(String(operator._id), String(newTaskResult._id), '1')
+                    })
                 })
             })
         })
@@ -284,7 +280,7 @@ exports.list = function(req, res) {
 }
 
 
-exports.show = function(req, res) {
+exports.show2 = function(req, res) {
     var isMyTask = false
     routeApp.identifying(req, function(loginUser) {
         task_coll.findById(req.params.id, function(err, task) {
@@ -324,6 +320,17 @@ exports.show = function(req, res) {
                 })
             })
         }) 
+    })
+}
+
+exports.show = function(req, res) {
+    var custom_id = parseInt(req.params.id, 10)
+
+    taskModel.findOne({custom_id : custom_id}, function(err, taskResult) {
+        if (!taskResult) {
+            routeApp.err404(req, res)
+            return
+        }
     })
 }
 
