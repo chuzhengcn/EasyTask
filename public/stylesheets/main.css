@@ -40,8 +40,11 @@ body {
   overflow: hidden;
   min-width: 1000px;
 }
-.modal-footer .btn-danger {
+.modal-footer .modal-footer-btns {
   float: left;
+}
+.modal-footer .modal-footer-btns button {
+  margin-right: 10px;
 }
 #header {
   position: relative;

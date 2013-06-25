@@ -13,6 +13,7 @@ var taskSchema = mongoose.Schema({
     branch          : String,
     custom_id       : Number,
     active          : Boolean,
+    deleted         : Boolean,
     updated_time    : Date,
     created_time    : Date,
     users           : Array,
@@ -24,8 +25,9 @@ var taskSchema = mongoose.Schema({
 
 taskSchema.statics.findDeveloping = function(cb) {
     var filter = {
-        active : true,
-        status : {'$nin' : [statusNameModel[0]]},
+        active  : true,
+        deleted : false,
+        status  : {'$nin' : [statusNameModel[0]]},
     }
 
     this.find(filter, function(err, tasks) {
@@ -34,7 +36,7 @@ taskSchema.statics.findDeveloping = function(cb) {
 }
 
 taskSchema.statics.findDevelopingIncludeUserAndMilestone = function(cb) {
-    var filter              = {active : true, status : {'$nin' : [statusNameModel[0]]}},
+    var filter              = {active : true, deleted : false, status : {'$nin' : [statusNameModel[0]]}},
         option              = {sort : {status : -1, custom_id : -1, create_time : -1}};   
 
     this.find(filter, {}, option, function(err, tasks) {
@@ -62,7 +64,7 @@ taskSchema.statics.findArchivedIncludeUser = function (page, cb) {
     }
 
     var self                = this,
-        filter              = {active : false},
+        filter              = {active : false, deleted : false},
         limit               = 20,
         option              = {sort : {custom_id : -1}, limit : limit, skip : (page-1)*limit};   
 
@@ -94,6 +96,11 @@ taskSchema.statics.findOneTaskIncludeUser = function(conditions, fields, options
     this.findOne(conditions, fields, options, function(err, task) {
         if (err) {
             cb(err)
+            return
+        }
+
+        if (!task) {
+            cb('没有此任务')
             return
         }
 

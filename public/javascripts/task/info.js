@@ -76,7 +76,7 @@
     }
 
     function readyToEditTask(event) {
-        if (app.utility.isValidForm('editTaskModal')) {
+        if (app.utility.isValidForm('editTaskForm')) {
             if (!hasUnknowUser() && !hasUnknowProject()) {
                 editTaskIsWorking()
                 satrtEditTask()
@@ -97,7 +97,7 @@
             data        : $('#editTaskForm').serialize(),
             success     : function(data) {
                 if (data.ok) {
-                    location.href = '/tasks/' + data.custom_id
+                    location.href = '/tasks/' + data.task.custom_id
                 } else {
                     editTaskIsComplete()
                     alert(data.msg)
@@ -140,6 +140,48 @@
         })
     }
 
+    function getTaskId() {
+        return $('.list-header header').data('id')
+    }
+
+    function deleteTask($btn) {
+        var sure = confirm('确认删除？')
+        if (sure) {
+            $.ajax({
+                type        : 'delete',
+                url         : '/tasks/' + getTaskId(),
+                beforeSend  : function() {
+                    app.utility.isWorking($btn)
+                },
+                success     : function(data) {
+                    if (data.ok) {
+                        alert('删除成功')
+                        location.href = '/'
+                    } else {
+                        alert(data.msg)
+                    }
+                }
+            })
+        }
+    }
+
+    function archiveTask($btn) {
+        $.ajax({
+            type        : 'put',
+            url         : '/tasks/' + getTaskId() + '/archive',
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
+            success     : function(data) {
+                if (data.ok) {
+                    location.href = '/'
+                } else {
+                    alert(data.msg)
+                }
+            }
+        })
+    }
+
     function eventBind() {
         $('#addMoreTaskUserBtn').click(function(event) {
             addMoreTaskUserInput()
@@ -169,12 +211,12 @@
         })
 
         //delete task btn
-        $('#delete_task_btn').click(function() {
+        $('#deleteTaskBtn').click(function() {
             deleteTask($(this))
         })
 
         //archive task btn
-        $('#archive_task_btn').click(function() {
+        $('#archiveTaskBtn').click(function() {
             archiveTask($(this))
         })
 
@@ -184,15 +226,8 @@
 
         
 
-        //submit task name
-        $('#edit_task_info_form_btn').click(function(event) {
-            readyToEditTaskInfo.call(this, event, $(this))
-        })
 
-        //submit task users
-        $('#edit_task_users_form_btn').click(function(event) {
-            readyToEditTaskUsers.call(this, event, $(this))
-        })
+
 
         //add task milestone btn
         $('#add_milestone_in_taskinfo').click(function() {
@@ -225,12 +260,6 @@
             $('#task_branch_form_wrapper').show()
         })
 
-        //add or update task branch
-        $('#task_branch_form_btn').click(function(event) {
-            readyToUpsertBranch.call(this, event, $(this))
-        })
-        
-
         // complete todo
         $('span.un-complete, span.complete').click(function(){
             changeCompleteStatus.call(this)
@@ -255,51 +284,6 @@
         
     })
 
-    
-
-    function deleteTask($btn) {
-        var sure = confirm('确认删除？')
-        if (sure) {
-            $.ajax({
-                type        : 'delete',
-                url         : '/tasks/' + getTaskId(),
-                beforeSend  : function() {
-                    app.utility.isWorking($btn)
-                },
-                success     : function(data) {
-                    if (data.ok) {
-                        alert('删除成功')
-                        location.href = '/tasks'
-                    } else {
-                        alert(data.msg)
-                    }
-                }
-            })
-        }
-    }
-
-    function archiveTask($btn) {
-        $.ajax({
-            type        : 'put',
-            url         : '/tasks/' + getTaskId() + '/archive',
-            beforeSend  : function() {
-                app.utility.isWorking($btn)
-            },
-            success     : function(data) {
-                if (data.ok) {
-                    location.href = '/tasks'
-                } else {
-                    alert(data.msg)
-                }
-            }
-        })
-    }
-
-    
-    function getTaskId() {
-        return $('.list-header header').data('id')
-    }
-
     function readyToAddMilestone(event, $btn) {
         if (app.utility.isValidForm('add_task_milestone_form')) {
             startAddMilestone($btn)
@@ -322,26 +306,6 @@
                 location.href = location.href
             }
         })
-    }
-
-    function readyToUpsertBranch(event, $btn) {
-        if (app.utility.isValidForm('task_branch_form')) {
-            $.ajax({
-                type        : 'put',
-                url         : $('#task_branch_form').attr('action'),
-                data        : $('#task_branch_form').serialize(),
-                beforeSend  : function() {
-                    app.utility.isWorking($btn)
-                },
-                success     : function(data) {
-                    if (!data.ok) {
-                        alert(data.msg)
-                    }
-                    location.href = location.href
-                }
-            })
-            event.preventDefault() 
-        }
     }
 
     

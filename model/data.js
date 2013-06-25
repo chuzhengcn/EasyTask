@@ -9,4 +9,8 @@ exports.branch = ['master','test', 'dev', 'release']
 
 exports.logType = {
     '1' : '新建任务',
+    '2' : '编辑任务',
+    '3' : '删除任务',
+    '4' : '把任务存档',
+    '5' : '重新激活任务',
 } 

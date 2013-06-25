@@ -173,6 +173,7 @@ exports.create = function(req, res) {
                     status          : defaultStatus,
                     updated_time    : new Date(),
                     created_time    : new Date(),
+                    deleted         : false,
                     branch          : generateBranch(req.body.branch, '', custom_id),
                     projects        : filterProjects(req.body.project),
                     score           : parseInt(req.body.score, 10) || 0,
@@ -327,7 +328,7 @@ exports.show = function(req, res) {
     var custom_id = parseInt(req.params.id, 10)
 
     taskModel.findOneTaskIncludeUser({custom_id : custom_id}, {}, {}, function(err, taskResult) {
-        if (!taskResult) {
+        if (err || !taskResult) {
             routeApp.err404(req, res)
             return
         }
@@ -346,44 +347,44 @@ exports.show = function(req, res) {
 
 
 exports.archive = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var id      = req.params.id,
+        logType = '4';
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
 
-        task_coll.findById(req.params.id, function(err, task_result) {
-            var log_type_result = log_coll.logType.archiveTask
-            if (!task_result.active) {
-                log_type_result = log_coll.logType.activeTask
+        taskModel.findById(id, function(err, taskResult) {
+            if (taskResult.active === true) {
+                logType = '4'
+                taskResult.active = false
+            } else {
+                logType = '5'
+                taskResult.active = true
             }
-            task_coll.findAndModifyById(req.params.id, { active : !task_result.active }, function(err, result) {
-                res.send({ ok : 1 , active : !task_result.active})
-                routeApp.createLogItem({ log_type : log_type_result,}, operator, result)
+
+            taskResult.save(function(err, updatedTask) {
+                res.send({ok : 1})
+                routeApp.createLogItem(String(operator._id), String(updatedTask._id), logType)
             })
-        })   
+        }) 
     })
 }
-//todo : delete todo and status once task hasbeen deleted
+
 exports.delete = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var id = req.params.id
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
-        task_coll.findById(req.params.id, function(err, result) {
-            task_coll.removeById(req.params.id, function(err) {
-                res.send({ ok : 1 })
 
-                file_coll.findByTaskId(req.params.id, function(err,fileResults) {
-                    upload_route.deleteTaskFiles(fileResults, function() {})
-                })
-
-                milestone_coll.removeByTask(req.params.id, function(err) {})
-
-
-                routeApp.createLogItem({log_type : log_coll.logType.deleteTask }, operator, result)
-            }) 
+        taskModel.findByIdAndUpdate(id, {deleted : true}, function(err, taskResult) {
+            res.send({ok : 1})
+            routeApp.createLogItem(String(operator._id), String(taskResult._id), '3')
         })
     })
 }
@@ -391,6 +392,7 @@ exports.delete = function(req, res) {
 exports.update = function(req, res) {
     var id          = req.params.id,
         newCustomId = 0,
+        logContent  = '',
         updateDoc   = {
             name            : '',
             users           : [],
@@ -418,63 +420,61 @@ exports.update = function(req, res) {
                 updateDoc.users = userRef
             }
 
+            updateDoc.name        = req.body.name
             updateDoc.branch      = req.body.branch
             updateDoc.score       = parseInt(req.body.score, 10)
             updateDoc.projects    = filterProjects(req.body.project)
 
-            newCustomId = parseInt(branch.split('/')[1], 10))
-            if (!isNaN(newCustomId) {
+            newCustomId = parseInt(updateDoc.branch.split('/')[1], 10)
+            if (!isNaN(newCustomId)) {
                 updateDoc.custom_id = newCustomId
             }
 
             taskModel.findById(id, function(err, taskResult) {
                 taskModel.findByIdAndUpdate(id, updateDoc, function(err, updatedTask) {
                     res.send({ok : 1, task : updatedTask})
-                })
 
-                
+                    if (taskResult.name !== updatedTask.name) {
+                        logContent = logContent + '任务名由 ' + taskResult.name + ' 改为 ' + updatedTask.name + ';\n'
+                    }
+
+                    if (taskResult.branch !== updatedTask.branch) {
+                        logContent = logContent + '分支由 ' + taskResult.branch + ' 改为 ' + updatedTask.branch + ';\n'
+                    }
+
+                    if (taskResult.custom_id !== updatedTask.custom_id) {
+                        logContent = logContent + '任务id由 ' + taskResult.custom_id + ' 改为 ' + updatedTask.custom_id + ';\n'
+                    }
+
+                    if (taskResult.score !== updatedTask.score) {
+                        logContent = logContent + '分值由 ' + taskResult.score + ' 改为 ' + updatedTask.score + ';\n'
+                    }
+
+                    if (taskResult.projects.join() !== updatedTask.projects.join()) {
+                        logContent = logContent + '站点由 ' + taskResult.projects.join(',') + ' 改为 ' + updatedTask.projects.join(',') + ';\n'
+                    }
+
+                    if (taskResult.users.join() !== updatedTask.users.join()) {
+                        userModel.findUsersByIdGroup(taskResult.users, function(err, pastUsers) {
+                            userModel.findUsersByIdGroup(updatedTask.users, function(err, currentUsers) {
+                                pastUsers = pastUsers.map(function(item, index) {
+                                    return item.name
+                                })
+
+                                currentUsers = currentUsers.map(function(item, index) {
+                                    return item.name
+                                })
+
+                                logContent = logContent + '人员由 ' + pastUsers.join(',') + ' 改为 ' + currentUsers.join(',') + ';\n'
+                                routeApp.createLogItem(String(operator._id), String(updatedTask._id), '2', logContent)
+                            })
+                        })
+                    } else {
+                        routeApp.createLogItem(String(operator._id), String(updatedTask._id), '2', logContent)
+                    }
+                })
             })          
-            
         })
-
-
-        if (req.body.branch) {
-            updateDoc = { branch : req.body.branch}
-            log_type  = log_coll.logType.setTaskBranch
-            var custom_id = req.body.branch.split('/')[1]
-            if (custom_id && !isNaN(custom_id)) {
-                updateDoc.custom_id = parseInt(custom_id, 10)
-            }
-
-            task_coll.findById(req.params.id, function(err, taskResult) {
-                var branchInfoContent = '建立分支 ' + req.body.branch
-                if (taskResult.branch) {
-                    branchInfoContent = '分支由 ' + taskResult.branch + ' 变更为 ' + req.body.branch
-                }
-
-                status_coll.create({ 
-                    task_id         : req.params.id,
-                    name            : branchInfoContent,
-                    content         : '',
-                    files           : [],
-                    operator_id     : operator._id,
-                    created_time    : new Date(),
-                })
-
-                startUpdateTask()
-                
-            })
-            return
-        }
-
-        function startUpdateTask() {
-            task_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
-                
-                routeApp.createLogItem({log_type : log_type }, operator, result)
-
-                res.send({ ok : 1 })
-            })
-        }
     })
 }
 

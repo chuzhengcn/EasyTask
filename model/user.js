@@ -27,6 +27,21 @@ userSchema.statics.findActiveUsers = function (cb) {
     });
 }
 
+userSchema.statics.findUsersByIdGroup = function (ids, cb) {
+    ids = ids.map(function(item, index) {
+        return mongoose.Types.ObjectId(item)
+    })
+
+    this.find({_id : {$in : ids}}, {}, {}, function(err, users) {
+        if (err || users.length < 1) {
+            cb('no users')
+            return
+        }
+        
+        cb(err, users)
+    });
+}
+
 var User = mongoose.model(collectionName, userSchema)
 
 exports.user = User

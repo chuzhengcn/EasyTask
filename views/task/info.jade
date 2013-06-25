@@ -14,33 +14,6 @@ block content
                                     button.button-close-pane
                                 .scrollable
                                     .inner
-                                        //- #edit_task_info_form_wrapper.task-form-wrapper
-                                        //-     form#edit_task_info_form.form-horizontal(action='/tasks/#{task._id}')
-                                        //-         legend 编辑任务名称
-                                        //-         .control-group
-                                        //-             label.control-label(for='name') 任务名称
-                                        //-             .controls
-                                        //-                 input(type='text', value='#{task.name}', autocomplete='off', placeholder='名称', name='name', required='true')
-                                        //-         .control-group
-                                        //-             .controls
-                                        //-                 button#edit_task_info_form_btn.btn.btn-primary 更新
-                                        //- #edit_task_users_form_wrapper.task-form-wrapper
-                                        //-     form#edit_task_users_form.form-horizontal(action='/tasks/#{task._id}')
-                                        //-         legend 编辑参与者
-                                        //-         .control-group
-                                        //-             label.control-label(for='task_users') 参与者
-                                        //-             .controls
-                                        //-                 - each taskuser in taskUsers
-                                        //-                     input(type='text',name='task_users',list="task_users_option", autocomplete='off', value='#{taskuser.name}')
-                                        //-                 a#add_more_task_user(href='#', tabindex='-1')
-                                        //-                     i.icon-plus
-                                        //-                     | 更多参与者 
-                                        //-                 datalist#task_users_option
-                                        //-                     - each user in users
-                                        //-                         option(value='#{user.name}')
-                                        //-         .control-group
-                                        //-             .controls
-                                        //-                 button#edit_task_users_form_btn.btn.btn-primary 更新
                                         //- #add_task_milestone_form_wrapper.task-form-wrapper
                                         //-     form#add_task_milestone_form.form-horizontal(action='/tasks/#{task._id}/milestones')
                                         //-         legend 添加时间点
@@ -60,21 +33,10 @@ block content
                                         //-         .control-group
                                         //-             .controls
                                         //-                 button#add_task_milestone_form_btn.btn.btn-primary 添加
-                                        //- #task_branch_form_wrapper.task-form-wrapper
-                                        //-     form#task_branch_form.form-horizontal(action='/tasks/#{task._id}')
-                                        //-         legend 编辑开发分支
-                                        //-         .control-group
-                                        //-             label.control-label(for='branch') 分支名
-                                        //-             .controls
-                                        //-                 input(type='text', value='#{task.branch}', autocomplete='off', placeholder='例如：master-zhengzheng/123', name='branch')
-                                        //-                 button#get_new_custom_id.btn.btn-small(tabindex='-1') 获取新ID
-                                        //-         .control-group
-                                        //-             .controls
-                                        //-                 button#task_branch_form_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
                             header(data-id='#{task._id}') 
-                                a.task-name(href='/tasks/#{task._id}') 
+                                a.task-name(href='/tasks/#{task.custom_id}') 
                                     - if (!task.active)
                                         i.icon-lock(title='该任务已存档')
                                     | #{task.custom_id} - #{task.name}
@@ -84,11 +46,6 @@ block content
                                     |  返回任务列表
                             .operate-wrapper
                                 button#editTaskBtn.btn.btn-primary.btn-small 编辑任务
-                                - if (task.active)
-                                    button#archive_task_btn.btn.btn-inverse.btn-small 存档
-                                - else
-                                    button#archive_task_btn.btn.btn-inverse.btn-small 恢复
-                                
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
                                 include ../include/task-nav
@@ -223,6 +180,11 @@ block modal
                     .controls
                         input(type="number", name="score", autocomplete="off", step="5", value="#{task.score}")
         .modal-footer
-            button#deleteTaskBtn.btn.btn-danger.btn-small 删除
+            .modal-footer-btns
+                button#deleteTaskBtn.btn.btn-danger.btn-small 删除
+                - if (task.active)
+                    button#archiveTaskBtn.btn.btn-inverse.btn-small 存档
+                - else
+                    button#archiveTaskBtn.btn.btn-inverse.btn-small 恢复
             button.btn(data-dismiss="modal", aria-hidden="true") 关闭
             button#saveTask.btn.btn-primary 保存                            
