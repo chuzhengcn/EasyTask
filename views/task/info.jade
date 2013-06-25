@@ -60,15 +60,15 @@ block content
                                                         small 
                                                             em #{taskuser.role}
                                 .task-info.clearfix
-                                    ul.inline
+                                    ul
                                         li 
-                                            strong 分支
-                                            span.text-info #{task.branch}
+                                            strong [分支]
+                                            span #{task.branch}
                                         li 
-                                            strong 分值
-                                            span.text-success #{task.score}
+                                            strong [分值]
+                                            span #{task.score}
                                         li 
-                                            strong 站点
+                                            strong [站点]
                                             span #{task.projects.join(', ')}
                                 .task-milestone.clearfix
                                     header 时间点
