@@ -450,60 +450,82 @@ input[name='taskUsers'], input[name="project"]
     right 0
     .task-summary-wrapper
         padding-bottom 10px
+        position relative
         .task-nav
             padding 10px 20px 10px 20px
             border-bottom solid 1px #dfdfdf
             ul
                 margin-bottom 0
-        .task-users,
-        .task-summary-milestone,
-        .task-summary-todo,
-        .task-summary-file,
-        .task-summary-version,
-            padding 0 0 10px 0
-            header
-                background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
-                background -webkit-linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
-                height 32px
-                line-height 30px
-                padding 0 10px 0 20px
-                color #666
-                font-weight bold
-                font-size 12px
-                a.more
-                    float left
-                    color #666
-                    &:hover
-                        text-decoration underline
-                .btn
-                    float right
-                    font-weight normal
-                    margin 3px 0 0 0
-                    i
-                        margin-right 3px
-                        margin-top 1px
+        // .task-summary-todo,
+        // .task-summary-file,
+        // .task-summary-version,
+        //     padding 0 0 10px 0
+        //     header
+        //         background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
+        //         background -webkit-linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
+        //         height 32px
+        //         line-height 30px
+        //         padding 0 10px 0 20px
+        //         color #666
+        //         font-weight bold
+        //         font-size 12px
+        //         a.more
+        //             float left
+        //             color #666
+        //             &:hover
+        //                 text-decoration underline
+        //         .btn
+        //             float right
+        //             font-weight normal
+        //             margin 3px 0 0 0
+        //             i
+        //                 margin-right 3px
+        //                 margin-top 1px
         .task-users
+            border-bottom solid 1px #dfdfdf
             .task-users-wrapper
                 clear both
-                padding 20px 220px 0 20px
+                padding 20px 250px 10px 20px
             .user
                 float left
                 margin-bottom 10px
                 width 180px
-                height 60px
+                height 50px
                 color #666
+                overflow hidden
                 img
-                    max-width 50px
-                    max-height 50px
+                    max-width 40px
+                    max-height 40px
                     float left
                     margin-right 10px
                 .info
                     float left
-                    padding-top 5px
+                    padding-top 2px
                     font-weight bold
                     .name
                         margin-bottom 5px
-        .task-summary-milestone
+        .task-info
+            padding 20px 250px 10px 20px
+            border-bottom solid 1px #dfdfdf
+            li
+                margin-right 25px
+                strong
+                    margin-right 5px
+        .task-milestone
+            position absolute
+            right 20px
+            top 70px
+            width 200px
+            background-color #fffbe4
+            border 1px solid #ece9d9
+            box-shadow 0 5px 5px rgba(0,0,0,0.2)
+            header
+                padding 10px
+                color #a5a396
+                font-size 16px
+                i
+                    float right
+                    cursor pointer
             ul
                 padding 0 20px 0 20px
                 li

@@ -13,6 +13,7 @@ var log_coll        = require('../db/log')
 var routeApp        = require('./app'),
     taskModel       = require('../model/task').task,
     userModel       = require('../model/user').user,
+    milestoneModel  = require('../model/milestone').milestone,
     statusModel     = require('../model/status').status,
     counterModel    = require('../model/counter').counter,
     projectModel    = require('../model/data').project,

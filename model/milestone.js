@@ -6,7 +6,9 @@ var milestoneSchema = mongoose.Schema({
     name            : String,
     task_id         : String,
     event_time      : Date,
+    updated_time    : Date,
     created_time    : Date,
+    content         : String,
 },{ 
     collection: collectionName, 
 })

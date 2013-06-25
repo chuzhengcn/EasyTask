@@ -41,10 +41,9 @@ app.get('/tasks-archive',       task.archiveList)
 
 //--------milestone-------------------------------------------------
 var milestone = require('./routes/milestone')
-app.post('/tasks/:task_id/milestones',          milestone.create)
-app.get('/tasks/:task_id/milestones/:id',       milestone.show)
-app.put('/tasks/:task_id/milestones/:id',       milestone.update)
-app.delete('/milestones/:id',                   milestone.delete)
+app.post('/tasks/:taskId/milestones',          milestone.create)
+app.put('/tasks/:taskId/milestones/:id',       milestone.update)
+app.delete('/milestones/:id',                  milestone.delete)
 
 //--------status-------------------------------------------------
 var status = require('./routes/status')

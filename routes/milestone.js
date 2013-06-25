@@ -1,9 +1,12 @@
-var routeApp        = require('./app')
 var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
 var milestone_coll  = require('../db/milestone')
-var time            = require('../helper/time')
 var log_coll        = require('../db/log')
+
+var routeApp        = require('./app'),
+    time            = require('../helper/time'),
+    taskModel       = require('../model/task').task,
+    milestoneModel  = require('../model/milestone').milestone;
 
 exports.show = function(req, res) {
     routeApp.identifying(req, function(loginUser) {
@@ -27,16 +30,51 @@ exports.show = function(req, res) {
 }
 
 exports.create = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var taskId          = req.params.taskId,
+        eventTime       = null,
+        newMilestone    = null;
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
 
-        if (!getMilestoneName(req) || !req.body.task_milestone_time || !req.params.task_id) {
-            res.send({ ok : 0, msg : '名称或时间不能为空' })
+        if (!req.body.name) {
+            res.send({ ok : 0, msg : '时间点名称不能为空'})
             return
         }
+
+        if (!req.body.eventTime) {
+            res.send({ ok : 0, msg : '时间不能为空'})
+            return
+        }
+
+        eventTime = time.parse_date(req.body.eventTime)
+
+        if (!(eventTime instanceof Date)) {
+            res.send({ ok : 0, msg : '时间不合法'})
+            return
+        }
+
+        taskModel.findById(taskId, function(err, taskResult) {
+            if (!taskResult) {
+                res.send({ ok : 0, msg : '任务不存在'})
+                return
+            }
+
+            newMilestone = new milestoneModel({
+                task_id         : taskId,
+                name            : getMilestoneName(req.body.name),
+                event_time      : eventTime,
+                updated_time    : new Date(),
+                created_time    : new Date(),
+                content         : req.body.content || '',
+            })
+
+
+            
+        })
 
         task_coll.findById(req.params.task_id, function(err, task) {
             milestone_coll.create({
