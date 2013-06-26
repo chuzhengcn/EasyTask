@@ -186,21 +186,31 @@
         $('.modal-footer-btns').hide()
         $('#upsertMilestoneModal h3').html('添加时间点')
         $('#customMilestoneNameInput').val('')
-        $('#upsertMilestoneForm input[type="eventTime"]').val('')
+        $('#upsertMilestoneForm input[name="eventTime"]').val('')
         $('#upsertMilestoneForm textarea').html('')
+        $('#upsertMilestoneForm').data('id', '')
     }
 
-    function readyToAddMilestone(event, $btn) {
+    function readyToUpsertMilestone(event, $btn) {
         if (app.utility.isValidForm('upsertMilestoneForm')) {
-            startAddMilestone($btn)
+            startUpsertMilestone($btn)
             event.preventDefault() 
         }
     }
 
-    function startAddMilestone($btn) {
+    function startUpsertMilestone($btn) {
+        var url             = $('#upsertMilestoneForm').attr('action'),
+            type            = 'post',
+            milestoneId     = $('#upsertMilestoneForm').data('id');
+
+        if (milestoneId) {
+            url     = url + '/' + milestoneId
+            type    = 'put'
+        }
+
         $.ajax({
-            type        : 'post',
-            url         : $('#upsertMilestoneForm').attr('action'),
+            type        : type,
+            url         : url,
             data        : $('#upsertMilestoneForm').serialize(),
             beforeSend  : function() {
                 app.utility.isWorking($btn)
@@ -212,6 +222,52 @@
                 location.href = location.href
             }
         })
+    }
+
+    function readyToEditMilestone($milestoneName) {
+        $('.modal-footer-btns').show()
+        $('#upsertMilestoneModal h3').html('编辑时间点')
+        $('#customMilestoneNameInput').val($milestoneName.html())
+        $('#upsertMilestoneForm input[name="eventTime"]').val($milestoneName.data('time'))
+        $('#upsertMilestoneForm textarea').val($milestoneName.data('original-title'))
+        $('#upsertMilestoneForm select').hide()
+        $('#customMilestoneNameInput').show()
+        $('#customMilestoneNameBtn').html('选择常用事件')
+        $('#upsertMilestoneForm').data('id', $milestoneName.data('id'))
+        $('#upsertMilestoneModal').modal()
+    }
+
+    function showCustomEvent() {
+        $('#customMilestoneNameInput').show()
+        $('#upsertMilestoneForm select').hide().val('')
+        $('#customMilestoneNameBtn').html('选择常用事件')
+    }
+
+    function showCommEvent() {
+        $('#customMilestoneNameInput').hide().val('')
+        $('#upsertMilestoneForm select').show()
+        $('#customMilestoneNameBtn').html('自定义事件名称')
+    }
+
+    function deleteMilestone($btn) {
+        var sure = confirm('确认删除？')
+        if (sure) {
+            $.ajax({
+                type        : 'delete',
+                url         : '/milestones/' + $('#upsertMilestoneForm').data('id'),
+                beforeSend  : function() {
+                    app.utility.isWorking($btn)
+                },
+                success     : function(data) {
+                    if (data.ok) {
+                        alert('删除成功')
+                        location.href = location.href
+                    } else {
+                        alert(data.msg)
+                    }
+                }
+            })
+        }
     }
 
     function eventBind() {
@@ -260,24 +316,30 @@
 
         //submit task milestone btn
         $('#saveMilestoneBtn').click(function(event) {
-            readyToAddMilestone.call(this, event, $(this))
+            readyToUpsertMilestone.call(this, event, $(this))
         })
 
         //custome milestone name btn
-        $('#customMilestoneNameBtn').toggle(
-            function() {
-                $('#customMilestoneNameInput').show()
-                $('#upsertMilestoneForm select').hide().val('')
-                $(this).html('选择常用事件')
-            },
-            function() {
-                $('#customMilestoneNameInput').hide().val('')
-                $('#upsertMilestoneForm select').show()
-                $(this).html('自定义事件名称')
+        $('#customMilestoneNameBtn').click(function(event) {
+            if ($('#customMilestoneNameInput:visible').length > 0) {
+                showCommEvent()
+            } else {
+                showCustomEvent()
             }
-        )
 
-        
+            event.preventDefault()
+        })
+
+        $('.milestone-name').click(function(event) {
+            readyToEditMilestone($(this))
+            event.preventDefault()
+        })
+
+        //delete milestone
+        $('#deleteMilestoneBtn').click(function(event) {
+            deleteMilestone($(this))
+            event.preventDefault()
+        })
 
         // complete todo
         $('span.un-complete, span.complete').click(function(){
@@ -294,6 +356,8 @@
         typeaheadUser();
 
         typeaheadProject();
+
+        $('.milestone-name').tooltip()
 
         app.utility.highlightTaskNav('摘要');
 

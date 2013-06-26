@@ -335,11 +335,20 @@ exports.show = function(req, res) {
         }
 
         userModel.findActiveUsers(function(err, usersResults) {
-            res.render('task/info',{
-                title           : taskResult.name,
-                task            : taskResult,
-                users           : usersResults,
-                projects        : projectModel,
+            milestoneModel.find({task_id : String(taskResult._id)}, {}, {sort : {event_time : 1}}, function(err, milestoneResults) {
+                milestoneResults = milestoneResults.map(function(item, index) {
+                    item            = item.toObject()
+                    item.event_time = time.format_to_date(item.event_time,'-')
+                    return item 
+                })
+
+                res.render('task/info',{
+                    title           : taskResult.name,
+                    task            : taskResult,
+                    users           : usersResults,
+                    projects        : projectModel,
+                    milestones      : milestoneResults,
+                })
             })
         })
     })

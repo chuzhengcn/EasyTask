@@ -73,11 +73,11 @@ block content
                                 .task-milestone.clearfix
                                     header 时间点
                                         i#addMilestoneBtn.icon-plus-sign
-                                    ul.clearfix
-                                    //    - each milestone in milestones
-                                    //        li
-                                    //            a(href='/tasks/#{task._id}/milestones/#{milestone._id}',title='单击修改时间点') #{milestone.name}
-                                    //            span #{milestone.event_time.substring(5)}
+                                    ul
+                                        - each milestone in milestones
+                                            li
+                                                span #{milestone.event_time.substring(5)}
+                                                a.milestone-name(href='#', data-id="#{milestone._id}", data-time="#{milestone.event_time}", data-toggle="tooltip", data-original-title="#{milestone.content}") #{milestone.name}
                                 //- .task-summary-version.clearfix
                                 //-     header 
                                 //-         a.more(href='/tasks/#{task._id}/status', title='查看全部版本管理信息') 版本管理

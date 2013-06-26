@@ -8,27 +8,6 @@ var routeApp        = require('./app'),
     taskModel       = require('../model/task').task,
     milestoneModel  = require('../model/milestone').milestone;
 
-exports.show = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
-        milestone_coll.findById(req.params.id, function(err, milestone) {
-            if (!milestone) {
-                routeApp.err404(req, res)
-                return
-            }
-            task_coll.findById(milestone.task_id, function(err, task) {
-               res.render('milestone/info', 
-                   { 
-                       title       : task.name + '-时间点-' + milestone.name, 
-                       me          : loginUser, 
-                       task        : task,
-                       milestone   : time.format_specify_field(milestone, {event_time : 'date:-'}) 
-                   } 
-               ) 
-            })
-        }) 
-    })
-}
-
 exports.create = function(req, res) {
     var taskId          = req.params.taskId,
         eventTime       = null,
@@ -56,13 +35,11 @@ exports.create = function(req, res) {
             res.send({ ok : 0, msg : '时间不合法'})
             return
         }
-
         taskModel.findById(taskId, function(err, taskResult) {
             if (!taskResult) {
                 res.send({ ok : 0, msg : '任务不存在'})
                 return
             }
-
             newMilestone = new milestoneModel({
                 task_id         : taskId,
                 name            : getMilestoneName(req.body.name),
@@ -74,51 +51,82 @@ exports.create = function(req, res) {
 
             newMilestone.save(function(err, milestoneResult) {
                 res.send({ok : 1})
-
-                routeApp.createLogItem(String(operator._id), taskId, '6', req.body.eventTime + ':' + milestoneResult.name)
+                routeApp.createLogItem(String(operator._id), taskId, '6', req.body.eventTime + ' : ' + milestoneResult.name)
             })
         })  
     })
 }
 
 exports.delete = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var id = req.params.id
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
-        milestone_coll.findById(req.params.id, function(err, result) {
-            milestone_coll.removeById(req.params.id, function(err) {
-                task_coll.findById(result.task_id, function(err, task) {
-                    routeApp.createLogItem({ log_type : log_coll.logType.deleteMilestone + '：' + result.name}, operator, task)
-                })
-
-                res.send({ ok : 1 })
-            }) 
+        milestoneModel.findById(id, function(err, milestoneResult) {
+            if (err || !milestoneResult) {
+                res.send({ok : 0, msg : '删除失败'})
+                return
+            }
+            milestoneModel.findByIdAndRemove(id, function(err) {
+                if (err) {
+                    res.send({ok : 0, msg : '删除失败'})
+                    return
+                }
+                res.send({ok : 1})
+                routeApp.createLogItem(String(operator._id), milestoneResult.task_id, '8', milestoneResult.name)
+            })
         })
     })
 }
 
 exports.update = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var id              = req.params.id,
+        eventTime       = null,
+        updateMilestone = null;
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
 
-        var updateDoc = {
-            name            : getMilestoneName(req),
-            event_time      : time.parse_date(req.body.task_milestone_time),
-            modify_time     : new Date()
+        if (!req.body.name) {
+            res.send({ ok : 0, msg : '时间点名称不能为空'})
+            return
         }
 
-        milestone_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
-            //write log
-            task_coll.findById(req.params.task_id, function(err, task) {
-                routeApp.createLogItem({ log_type : log_coll.logType.editMilestone + '：' + result.name }, operator, task)
-            })
-            res.send({ ok : 1 })
-        })
+        if (!req.body.eventTime) {
+            res.send({ ok : 0, msg : '时间不能为空'})
+            return
+        }
+
+        eventTime = time.parse_date(req.body.eventTime)
+
+        if (!(eventTime instanceof Date)) {
+            res.send({ ok : 0, msg : '时间不合法'})
+            return
+        }
+
+        updateMilestone = {
+            name            : getMilestoneName(req.body.name),
+            event_time      : eventTime,
+            updated_time    : new Date(),
+            content         : req.body.content || '',
+        }
+
+        milestoneModel.findByIdAndUpdate(id, updateMilestone, function(err, milestoneResult) {
+            if (!milestoneResult) {
+                res.send({ ok : 0, msg : '时间点不存在'})
+                return
+            }
+
+            res.send({ok : 1})
+
+            routeApp.createLogItem(String(operator._id), milestoneResult.task_id, '7', req.body.eventTime + " : " + milestoneResult.name)
+        })  
     })
 }
 
@@ -135,3 +143,24 @@ function getMilestoneName(names) {
 
     return name
 }
+
+// exports.show = function(req, res) {
+//     routeApp.identifying(req, function(loginUser) {
+//         milestone_coll.findById(req.params.id, function(err, milestone) {
+//             if (!milestone) {
+//                 routeApp.err404(req, res)
+//                 return
+//             }
+//             task_coll.findById(milestone.task_id, function(err, task) {
+//                res.render('milestone/info', 
+//                    { 
+//                        title       : task.name + '-时间点-' + milestone.name, 
+//                        me          : loginUser, 
+//                        task        : task,
+//                        milestone   : time.format_specify_field(milestone, {event_time : 'date:-'}) 
+//                    } 
+//                ) 
+//             })
+//         }) 
+//     })
+// }

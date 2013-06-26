@@ -618,17 +618,11 @@ input[name="project"] {
   float: right;
   cursor: pointer;
 }
-.task-summary .task-summary-wrapper .task-milestone ul {
-  padding: 0 20px 0 20px;
-}
 .task-summary .task-summary-wrapper .task-milestone ul li {
-  height: 20px;
-  margin: 20px 40px 0 0;
-  float: left;
+  margin-bottom: 3px;
 }
 .task-summary .task-summary-wrapper .task-milestone ul li span {
-  margin-left: 10px;
-  padding-right: 30px;
+  margin-right: 10px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .branch {
   float: left;
