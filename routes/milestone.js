@@ -72,26 +72,11 @@ exports.create = function(req, res) {
                 content         : req.body.content || '',
             })
 
+            newMilestone.save(function(err, milestoneResult) {
+                res.send({ok : 1})
 
-            
-        })
-
-        task_coll.findById(req.params.task_id, function(err, task) {
-            milestone_coll.create({
-                    name            : getMilestoneName(req),
-                    task_id         : req.params.task_id,
-                    event_time      : time.parse_date(req.body.task_milestone_time),
-                    created_time    : new Date()
-                },  
-                function(err, result) {
-                    if (err) {
-                        res.send({ ok : 0, msg : '数据库错误' })
-                        return
-                    }
-                    routeApp.createLogItem({ log_type : log_coll.logType.addMilestone + '：' + getMilestoneName(req)}, operator, task)
-                    res.send({ ok : 1 })
-                }
-            )
+                routeApp.createLogItem(String(operator._id), taskId, '6', req.body.eventTime + ':' + milestoneResult.name)
+            })
         })  
     })
 }
@@ -137,9 +122,9 @@ exports.update = function(req, res) {
     })
 }
 
-function getMilestoneName(req) {
-    var name  = ''
-    var names = req.body.task_milestone_name
+function getMilestoneName(names) {
+    var name  = '';
+
     if (names && Array.isArray(names)) {
         if (names[1]) {
             name = names[1]
@@ -147,5 +132,6 @@ function getMilestoneName(req) {
             name = names[0]
         }
     }
+
     return name
 }

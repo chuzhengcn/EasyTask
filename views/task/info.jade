@@ -17,22 +17,22 @@ block content
                                         //- #add_task_milestone_form_wrapper.task-form-wrapper
                                         //-     form#add_task_milestone_form.form-horizontal(action='/tasks/#{task._id}/milestones')
                                         //-         legend 添加时间点
-                                                .control-group
-                                                    label.control-label(for='task_milestone_name') 名称
-                                                    .controls
-                                                            select(name='task_milestone_name')
-                                                                option(value='提交测试') 提交测试
-                                                                option(value='测试完成') 测试完成
-                                                                option(value='发外网') 发外网
-                                                            input#custom_milestone_name_input(type='text',name='task_milestone_name', autocomplete='off', placeholder='输入事件名称')
-                                                            button(tabindex='-1')#custom_milestone_name.btn.btn-link.btn-small 自定义事件名称
-                                                .control-group
-                                                    label.control-label(for='task_milestone_time') 时间
-                                                    .controls
-                                                        input(type='date',name='task_milestone_time', autocomplete='off', required='true', pattern='^[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))$')
-                                                .control-group
-                                                    .controls
-                                                        button#add_task_milestone_form_btn.btn.btn-primary 添加
+                                                //- .control-group
+                                                //-     label.control-label(for='task_milestone_name') 名称
+                                                //-     .controls
+                                                //-             select(name='task_milestone_name')
+                                                //-                 option(value='提交测试') 提交测试
+                                                //-                 option(value='测试完成') 测试完成
+                                                //-                 option(value='发外网') 发外网
+                                                //-             input#custom_milestone_name_input(type='text',name='task_milestone_name', autocomplete='off', placeholder='输入事件名称')
+                                                //-             button(tabindex='-1')#custom_milestone_name.btn.btn-link.btn-small 自定义事件名称
+                                                //- .control-group
+                                                //-     label.control-label(for='task_milestone_time') 时间
+                                                //-     .controls
+                                                //-         input(type='date',name='task_milestone_time', autocomplete='off', required='true', pattern='^[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))$')
+                                                //- .control-group
+                                                //-     .controls
+                                                //-         button#add_task_milestone_form_btn.btn.btn-primary 添加
                     .list
                         .list-header.clearfix
                             header(data-id='#{task._id}') 
@@ -72,7 +72,7 @@ block content
                                             span #{task.projects.join(', ')}
                                 .task-milestone.clearfix
                                     header 时间点
-                                        i#add_milestone_in_taskinfo.icon-plus-sign
+                                        i#addMilestoneBtn.icon-plus-sign
                                     ul.clearfix
                                     //    - each milestone in milestones
                                     //        li
@@ -200,8 +200,7 @@ block modal
             button.close(type="button", data-dismiss="modal", aria-hidden="true") x
             h3 添加时间点
         .modal-body
-            form#upsertMilestoneForm.form-horizontal(action='/tasks/#{task._id}')
-                input(type="hidden", name="task_id", value="#{task._id}")
+            form#upsertMilestoneForm.form-horizontal(action='/tasks/#{task._id}/milestones')
                 .control-group
                     label.control-label(for='name') 名称
                     .controls
@@ -209,17 +208,18 @@ block modal
                                 option(value='提交测试') 提交测试
                                 option(value='测试完成') 测试完成
                                 option(value='发外网') 发外网
-                            input#custom_milestone_name_input(type='text',name='task_milestone_name', autocomplete='off', placeholder='输入事件名称')
-                            button#custom_milestone_name.btn.btn-link.btn-small(tabindex='-1') 自定义事件名称
+                            input#customMilestoneNameInput(type='text',name='name', autocomplete='off', placeholder='输入事件名称')
+                            button#customMilestoneNameBtn.btn.btn-link.btn-small(tabindex='-1') 自定义事件名称
                 .control-group
                     label.control-label(for='eventTime') 时间
                     .controls
                         input(type='date',name='eventTime', autocomplete='off', required='true', pattern='^[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))$')
                 .control-group
+                    label.control-label(for='content') 说明
                     .controls
                         textarea(name="content")
         .modal-footer
             .modal-footer-btns
                 button#deleteMilestoneBtn.btn.btn-danger.btn-small 删除
             button.btn(data-dismiss="modal", aria-hidden="true") 关闭
-            button#add_task_milestone_form_btn.btn.btn-primary 保存
+            button#saveMilestoneBtn.btn.btn-primary 保存

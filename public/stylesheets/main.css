@@ -791,7 +791,7 @@ input[name="project"] {
 #task_branch_form_wrapper form legend {
   padding: 0 20px 3px 20px;
 }
-#add_task_milestone_form_wrapper input[name='task_milestone_name'] {
+#customMilestoneNameInput {
   display: none;
 }
 #getNewCustomId {

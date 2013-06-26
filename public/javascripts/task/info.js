@@ -182,6 +182,38 @@
         })
     }
 
+    function resetMilestoneForm() {
+        $('.modal-footer-btns').hide()
+        $('#upsertMilestoneModal h3').html('添加时间点')
+        $('#customMilestoneNameInput').val('')
+        $('#upsertMilestoneForm input[type="eventTime"]').val('')
+        $('#upsertMilestoneForm textarea').html('')
+    }
+
+    function readyToAddMilestone(event, $btn) {
+        if (app.utility.isValidForm('upsertMilestoneForm')) {
+            startAddMilestone($btn)
+            event.preventDefault() 
+        }
+    }
+
+    function startAddMilestone($btn) {
+        $.ajax({
+            type        : 'post',
+            url         : $('#upsertMilestoneForm').attr('action'),
+            data        : $('#upsertMilestoneForm').serialize(),
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
+            success     : function(data) {
+                if (!data.ok) {
+                    alert(data.msg)
+                }
+                location.href = location.href
+            }
+        })
+    }
+
     function eventBind() {
         $('#addMoreTaskUserBtn').click(function(event) {
             addMoreTaskUserInput()
@@ -220,45 +252,32 @@
             archiveTask($(this))
         })
 
-
-
-        
-
-        
-
-
-
-
         //add task milestone btn
-        $('#add_milestone_in_taskinfo').click(function() {
-            app.utility.showRightSideBar()
-            $('#add_task_milestone_form_wrapper').show()
+        $('#addMilestoneBtn').click(function() {
+            resetMilestoneForm()
+            $('#upsertMilestoneModal').modal()
         })
 
         //submit task milestone btn
-        $('#add_task_milestone_form_btn').click(function(event) {
+        $('#saveMilestoneBtn').click(function(event) {
             readyToAddMilestone.call(this, event, $(this))
         })
 
         //custome milestone name btn
-        $('#custom_milestone_name').toggle(
+        $('#customMilestoneNameBtn').toggle(
             function() {
-                $('#custom_milestone_name_input').show()
-                $('#add_task_milestone_form select').hide().val('')
+                $('#customMilestoneNameInput').show()
+                $('#upsertMilestoneForm select').hide().val('')
                 $(this).html('选择常用事件')
             },
             function() {
-                $('#custom_milestone_name_input').hide().val('')
-                $('#add_task_milestone_form select').show()
+                $('#customMilestoneNameInput').hide().val('')
+                $('#upsertMilestoneForm select').show()
                 $(this).html('自定义事件名称')
             }
         )
 
-        //add task milestone btn
-        $('#task_branch_btn').click(function() {
-            app.utility.showRightSideBar()
-            $('#task_branch_form_wrapper').show()
-        })
+        
 
         // complete todo
         $('span.un-complete, span.complete').click(function(){
@@ -284,29 +303,9 @@
         
     })
 
-    function readyToAddMilestone(event, $btn) {
-        if (app.utility.isValidForm('add_task_milestone_form')) {
-            startAddMilestone($btn)
-            event.preventDefault() 
-        }
-    }
+    
 
-    function startAddMilestone($btn) {
-        $.ajax({
-            type        : 'post',
-            url         : $('#add_task_milestone_form').attr('action'),
-            data        : $('#add_task_milestone_form').serialize(),
-            beforeSend  : function() {
-                app.utility.isWorking($btn)
-            },
-            success     : function(data) {
-                if (!data.ok) {
-                    alert(data.msg)
-                }
-                location.href = location.href
-            }
-        })
-    }
+    
 
     
 
