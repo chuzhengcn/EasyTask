@@ -63,7 +63,7 @@ block content
                                 - each task in taskList
                                     li(class="#{task.belong}") 
                                         .task-custom-id #{task.custom_id}
-                                        a.name(href='/tasks/#{task._id}') 
+                                        a.name(href='/tasks/#{task.custom_id}') 
                                             - if (!task.active)
                                                 i.icon-lock(title='该任务已存档')
                                             | #{task.name}

@@ -78,39 +78,28 @@ block content
                                             li
                                                 span #{milestone.event_time.substring(5)}
                                                 a.milestone-name(href='#', data-id="#{milestone._id}", data-time="#{milestone.event_time}", data-toggle="tooltip", data-original-title="#{milestone.content}") #{milestone.name}
-                                //- .task-summary-version.clearfix
-                                //-     header 
-                                //-         a.more(href='/tasks/#{task._id}/status', title='查看全部版本管理信息') 版本管理
-                                //-         a.btn.btn-small(href='/tasks/#{task._id}/status?change=true',title='修改任务状态') 
-                                //-             i.icon-wrench
-                                //-             | 修改任务状态 
-                                //-     .branch 分支：
-                                //-         - if (task.branch)
-                                //-             button#task_branch_btn.btn.btn-link(title='单击修改分支') #{task.branch}
-                                //-         - else
-                                //-             button#task_branch_btn.btn.btn-link 分支待添加
-                                //-     .status 状态：
-                                //-         a(href='/tasks/#{task._id}/status?change=true', title='单击修改状态') 
-                                //-             span.label #{task.status}
-                                //-     .last-action.clearfix
-                                //-         span.title 最新：
-                                //-         - if (taskStatus)
-                                //-             .action-content
-                                //-                 .popstripe
-                                //-                 a.status-name.clearfix(href='/tasks/#{task._id}/status')
-                                //-                     span #{taskStatus.name} 
-                                //-                     - if (taskStatus.content !== '')
-                                //-                         span.status-history-des #{taskStatus.content}
-                                //-                     .states-date #{taskStatus.created_time} by #{taskStatus.operator.name}
-                                //-                 - if (taskStatus.files)
-                                //-                     .status-files.clearfix
-                                //-                         - each file in taskStatus.files
-                                //-                             .file-item
-                                //-                                 i.icon-file
-                                //-                                 a(href='#{file.url}') #{file.name}
-                                //-         - else
-                                //-             | 暂无
-                                
+                                - if (latestStauts)
+                                    .task-summary-version.clearfix
+                                        img.img-polaroid.img-rounded(src='#{latestStauts.operator.avatar_url}')
+                                        .change-status-btn-group
+                                            .btn-group
+                                                a.btn.btn-small.dropdown-toggle(data-toggle="dropdown", href="#") 修改状态
+                                                    span.caret
+                                                ul.dropdown-menu.pull-right
+                                        .delete-this-status(title='删除此记录', data-id='#{latestStauts._id}')
+                                            i.icon-remove
+                                        .states-date #{latestStauts.created_time} by #{latestStauts.operator.name}
+                                        .status-history-content
+                                            .status-name
+                                                span.label #{latestStauts.name}
+                                            - if (latestStauts.content !== '')
+                                                .status-history-des !{latestStauts.content}
+                                            - if (latestStauts.files)
+                                                .status-files
+                                                    - each file in latestStauts.files
+                                                        .file-item
+                                                            i.icon-file
+                                                            a(href='#{file.url}') #{file.name}
                                 //- .task-summary-todo.clearfix
                                 //-     header 
                                 //-         a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档
@@ -223,3 +212,15 @@ block modal
                 button#deleteMilestoneBtn.btn.btn-danger.btn-small 删除
             button.btn(data-dismiss="modal", aria-hidden="true") 关闭
             button#saveMilestoneBtn.btn.btn-primary 保存
+    #createStatusModal.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+        .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3
+        .modal-body
+            form#createStatusForm.form-horizontal(action='/tasks/#{task._id}/status')
+                input(type="hidden", name="name")
+                textarea(name='content', autocomplete='off', rows="15", placeholder='可选描述')
+                input#uploadStatusFilesInput(type='file', name='task_files', multiple="multiple")
+        .modal-footer
+            button.btn(data-dismiss="modal", aria-hidden="true") 关闭
+            button#saveStatusBtn.btn.btn-primary 保存

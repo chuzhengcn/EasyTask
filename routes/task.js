@@ -5,12 +5,13 @@ var milestone_coll  = require('../db/milestone')
 var status_coll     = require('../db/status')
 var file_coll       = require('../db/file')
 var todo_coll       = require('../db/todo')
-var time            = require('../helper/time')
 var upload_route    = require('./upload') 
 var log_coll        = require('../db/log')
 
 
 var routeApp        = require('./app'),
+    time            = require('../helper/time'),
+    view            = require('../helper/view'),
     taskModel       = require('../model/task').task,
     userModel       = require('../model/user').user,
     milestoneModel  = require('../model/milestone').milestone,
@@ -334,20 +335,29 @@ exports.show = function(req, res) {
             return
         }
 
+        // get all user
         userModel.findActiveUsers(function(err, usersResults) {
-            milestoneModel.find({task_id : String(taskResult._id)}, {}, {sort : {event_time : 1}}, function(err, milestoneResults) {
-                milestoneResults = milestoneResults.map(function(item, index) {
-                    item            = item.toObject()
-                    item.event_time = time.format_to_date(item.event_time,'-')
-                    return item 
-                })
 
-                res.render('task/info',{
-                    title           : taskResult.name,
-                    task            : taskResult,
-                    users           : usersResults,
-                    projects        : projectModel,
-                    milestones      : milestoneResults,
+            // get latest status
+            statusModel.findLatestStatusIncludeUserByTaskId(String(taskResult._id), function(err, statusResult) {
+                statusResult = view.keepLineBreak(time.format_specify_field(statusResult, { created_time : 'readable_time'}), ['content']),
+
+                // get all milestones
+                milestoneModel.find({task_id : String(taskResult._id)}, {}, {sort : {event_time : 1}}, function(err, milestoneResults) {
+                    milestoneResults = milestoneResults.map(function(item, index) {
+                        item            = item.toObject()
+                        item.event_time = time.format_to_date(item.event_time,'-')
+                        return item 
+                    })
+
+                    res.render('task/info',{
+                        title           : taskResult.name,
+                        task            : taskResult,
+                        users           : usersResults,
+                        projects        : projectModel,
+                        milestones      : milestoneResults,
+                        latestStauts    : statusResult,
+                    })
                 })
             })
         })

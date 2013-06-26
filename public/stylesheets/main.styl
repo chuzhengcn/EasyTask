@@ -533,61 +533,43 @@ input[name='taskUsers'], input[name="project"]
                     span
                         margin-right 10px                        
         .task-summary-version
-            .branch
-                float left
-                padding 20px 50px 10px 20px
-                button
-                    padding 0
-                    &:hover
-                        text-decoration underline
-            .status
-                float left
-                padding 20px 50px 10px 20px
-            .last-action
-                clear both
-                padding 10px 30px 10px 60px
-                position relative
-                .title
-                    position absolute
-                    top 10px
-                    left 20px
-                    float left
-                .action-content
-                    border-radius 6px
-                    border solid 1px #dfdfdf
-                    .popstripe
-                        height 1px                    
-                    .status-name
-                        padding 10px
-                        font-weight bold
-                        font-size 12px
-                        display block
-                        color rgba(0, 0, 0, 0.85)
-                        span
-                            float left
-                            margin-right 10px
-                        .states-date
-                            color #999
-                            font-size 12px
-                            float right
-                            margin-left 10px
-                            position relative
-                        .status-history-des
-                            float left
-                            font-weight normal
-                            max-width 800px
-                            white-space nowrap
-                            overflow hidden
-                            text-overflow ellipsis
-                            font-size 12px
-                    .status-files
-                        background #fdfdfd
-                        border-top solid 1px #dfdfdf
-                        .file-item
-                            float left
-                            padding 5px 10px
-                            i
-                                margin-right 5px
+            position relative
+            padding 15px 250px 20px 20px
+            border-bottom solid 1px #dfdfdf
+            img
+                position absolute
+                top 20px
+                left 20px
+                max-width 40px
+                max-height 40px
+            .change-status-btn-group
+                position absolute
+                top 17px
+                right 50px
+            .delete-this-status
+                position absolute
+                top 20px
+                right 20px
+                cursor pointer
+            .states-date
+                position absolute
+                bottom 15px
+                right 20px
+                font-size 12px
+            .status-history-content
+                padding 10px 20px 0 65px
+                .status-name
+                    font-weight bold
+                    padding-bottom 10px
+                    span
+                        padding 4px 10px 5px
+                .status-history-des
+                    font-size 12px
+                    padding-bottom 5px
+                .status-files
+                    .file-item
+                        i
+                            margin-right 5px
         .task-summary-todo
             ul
                 clear both
@@ -659,6 +641,12 @@ input[name='taskUsers'], input[name="project"]
     form
         legend
             padding 0 20px 3px 20px
+#createStatusForm
+    margin-bottom 0
+    textarea
+        width 510px 
+        display block
+        margin-bottom 10px
 #customMilestoneNameInput
     display none
 #getNewCustomId

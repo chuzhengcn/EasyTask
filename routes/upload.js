@@ -1,9 +1,12 @@
 var fs              = require('fs')
 var file_coll       = require('../db/file')
 var task_coll       = require('../db/task')
-var routeApp        = require('./app')
 var time            = require('../helper/time')
 var log_coll        = require('../db/log')
+
+var routeApp        = require('./app'),
+    fileModel       = require('../model/file').file,
+    taskModel       = require('../model/task').task;
 
 
 var avatarLocalDir  = __dirname + '/../public/attachments/avatar/'
@@ -61,8 +64,8 @@ exports.list = function(req, res) {
 }
 
 exports.createTaskFiles = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
@@ -108,13 +111,15 @@ exports.createTaskFiles = function(req, res) {
                 var type = file.type
                 var name = file.name
                 var size = file.size
+                var newFile = null
+
                 fs.exists(taskFileLocalDir + name , function(exists) {
                     if(exists) {
                         name = Date.now() + '-' + name 
                     }
 
                     fs.rename(file.path, taskFileLocalDir + name, function() {
-                        file_coll.create({
+                        newFile = new fileModel({
                             name            : name,
                             type            : type,
                             size            : size,
@@ -122,8 +127,10 @@ exports.createTaskFiles = function(req, res) {
                             task_id         : taskId,
                             operator_id     : operator._id,
                             created_time    : new Date(),
-                        }, function(err, fileResult) {
-                            savedFiles.push(fileResult[0])
+                        })
+
+                        newFile.save(function(err, fileResult) {
+                            savedFiles.push(fileResult)
                             filesNum = filesNum - 1
                             if (filesNum == 0) {
                                 if (err) {
@@ -138,9 +145,7 @@ exports.createTaskFiles = function(req, res) {
                                     res.send({ ok : 1, files : savedFiles})
                                 }
 
-                                task_coll.findById(taskId, function(err, taskResult) {
-                                    routeApp.createLogItem({ log_type : log_coll.logType.uploadTaskFile }, operator, taskResult)
-                                })
+                                routeApp.createLogItem(String(operator._id), taskId, '10')
                             }
                         })
                     })

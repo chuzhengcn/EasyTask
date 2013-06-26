@@ -1,4 +1,7 @@
 (function() {
+    var statusTargetFile,
+        statusFilesInfo = [];
+
     function typeaheadUser() {
         var users = [];
 
@@ -270,6 +273,136 @@
         }
     }
 
+    function setChangeStatusBtnGroup() {
+        var role        = '',
+            btnGroup    = [];
+
+        function insertStatusBtn(name) {
+            if (btnGroup.indexOf(name) > -1) {
+                return
+            }
+
+            btnGroup.push(name)
+        }
+
+        $.ajax({
+            url     : '/userinfo',
+            success : function(data) {
+                if (!data.ok) {
+                    return
+                }
+
+                role = data.result.role
+
+                if (role.indexOf('PM') > -1) {
+                    insertStatusBtn('需求提交')
+                    insertStatusBtn('任务已分配')
+                    insertStatusBtn('已提交Master')
+                    insertStatusBtn('已提交Test')
+                    insertStatusBtn('已提交Dev')
+                    insertStatusBtn('已发布外网')
+                    insertStatusBtn('验收通过')
+                }
+
+                if (role.indexOf('Programmer') > -1) {
+                    insertStatusBtn('开发已完成')
+                }
+
+                if (role.indexOf('Tester') > -1) {
+                    insertStatusBtn('Master测试通过')
+                    insertStatusBtn('Test测试通过')
+                    insertStatusBtn('Dev测试通过')
+                    insertStatusBtn('测试拒绝')
+                }
+
+                btnGroup.forEach(function(item, index) {
+                    $('.change-status-btn-group .btn-group .dropdown-menu').append('<li><a href="#">' + item + '</a></li>')
+                })
+
+                $('.change-status-btn-group .btn-group .dropdown-menu a').click(function(event) {
+                    showStatusForm($(this).html())
+                    event.preventDefault()
+                })
+            }
+        })
+    }
+
+    function showStatusForm(statusName) {
+        $('#createStatusForm input[name="name"]').val(statusName)
+        $('#createStatusModal h3').html(statusName)
+        $('#createStatusModal').modal()
+    }
+
+    function readyToAddStatus(event, $btn) {
+        if (app.utility.isValidForm('createStatusForm')) {
+            event.preventDefault() 
+            if (needStatusFiles()) {
+                satrtUploadStatusFile($btn, function() {
+                    startAddStatus($btn)
+                })
+            } else {
+                startAddStatus($btn)
+            }
+        }
+    }
+
+    function needStatusFiles() {
+        if (statusTargetFile) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function startAddStatus($btn) {
+        var sendToServerData =  {}
+        $('#createStatusForm').serializeArray().forEach(function(item, index, array) {
+            sendToServerData[item.name] = item.value
+        })
+        sendToServerData.taskfiles = statusFilesInfo
+        $.ajax({
+            type        : 'post',
+            url         : $('#createStatusForm').attr('action'),
+            data        : sendToServerData,
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
+            success     : function(data) {
+                if (!data.ok) {
+                    alert(data.msg)
+                }
+                location.href = location.href
+            }
+        })
+    }
+
+    function satrtUploadStatusFile($btn, cb) {
+        var file_form = new FormData()
+        var file_attr = $('#uploadStatusFilesInput').attr('name')
+        for (var i = 0; i < statusTargetFile.length; i++) {
+            file_form.append(file_attr, statusTargetFile[i])
+        }
+        $.ajax({
+            type        : 'post',
+            url         : '/tasks/' + getTaskId() + '/upload-files',
+            processData : false,
+            contentType : false,
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
+            data        : file_form,
+            success     : function(data) {
+                if (data.ok == 1) {
+                    statusFilesInfo = data.files
+                    // $('#upload_status_files_input').remove()
+                    cb()
+                } else {
+                    alert('上传失败')
+                }
+            } 
+        })
+    }
+
     function eventBind() {
         $('#addMoreTaskUserBtn').click(function(event) {
             addMoreTaskUserInput()
@@ -341,6 +474,22 @@
             event.preventDefault()
         })
 
+        //save status
+        $('#saveStatusBtn').click(function(event) {
+            readyToAddStatus.call(this, event, $(this))
+            event.preventDefault()
+        })
+
+        //upload status files
+        //ready to upload
+        $('#uploadStatusFilesInput').change(function(event) {
+            if (event.currentTarget.files) {
+                statusTargetFile = event.currentTarget.files
+            } else {
+                statusTargetFile = null
+            }
+        })
+
         // complete todo
         $('span.un-complete, span.complete').click(function(){
             changeCompleteStatus.call(this)
@@ -358,6 +507,10 @@
         typeaheadProject();
 
         $('.milestone-name').tooltip()
+
+        app.viewhelper.markDifferentColorToTaskStatus($('.task-summary-version .status-name span.label'))
+
+        setChangeStatusBtnGroup()
 
         app.utility.highlightTaskNav('摘要');
 

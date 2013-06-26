@@ -1,11 +1,14 @@
-var routeApp        = require('./app')
 var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
 var status_coll     = require('../db/status')
 var time            = require('../helper/time')
 var view            = require('../helper/view')
 var taskFile        = require('./upload') 
-var log_coll        = require('../db/log')         
+var log_coll        = require('../db/log')  
+
+var routeApp        = require('./app'),
+    taskModel       = require('../model/task').task,
+    statusModel     = require('../model/status').status;
 
 exports.listByTask = function(req, res) {
     var isMyTask = false
@@ -31,27 +34,31 @@ exports.listByTask = function(req, res) {
 }
 
 exports.create = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var taskId      = req.params.task_id,
+        newStatus   = null;
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
-        status_coll.create({ 
-            task_id         : req.params.task_id,
-            name            : req.body.task_status_name,
-            content         : req.body.description,
+
+        newStatus = new statusModel({
+            task_id         : taskId,
+            name            : req.body.name,
+            content         : req.body.content,
             files           : req.body.taskfiles,
-            operator_id     : operator._id,
+            operator_id     : String(operator._id),
+            updated_time    : new Date(),
             created_time    : new Date(),
-        }, function(err, status) {
-            if (err) {
-                res.send({ ok : 0, msg : '数据库错误' })
-                return
-            }
-            task_coll.findAndModifyById(req.params.task_id, { status : req.body.task_status_name}, function(err, task) {
-                routeApp.createLogItem({ log_type : log_coll.logType.setTaskStatus + req.body.task_status_name, }, operator, task)
-                res.send({ ok : 1 })
-            })
+        })
+
+        newStatus.save(function(err, statusResult) {
+            res.send({ok : 1})
+
+            routeApp.createLogItem(String(operator._id), taskId, '9', req.body.name)
+
+            taskModel.findByIdAndUpdate(taskId, {status : req.body.name}, function(err, taskResult) {})
         })
     })
 }
