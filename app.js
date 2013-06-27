@@ -71,6 +71,12 @@ app.get('/tasks/:task_id/todo/new',        todo.new)
 app.get('/tasks/:task_id/todo/:id/edit',   todo.edit)
 app.put('/tasks/:task_id/todo/:id/files',  todo.editTodoFiles)
 
+//---------bug------------------------------------------------------
+var bug    = require('./routes/bug')
+app.post('/tasks/:task_id/bugs',           bug.create)
+app.get('/tasks/:task_id/bugs-new',        bug.new)
+app.get('/tasks/:task_id/bugs',            bug.list)
+
 //---------upload----------------------------------------------
 var upload    = require('./routes/upload')
 app.post('/upload-avatar',                  upload.createAvatar)

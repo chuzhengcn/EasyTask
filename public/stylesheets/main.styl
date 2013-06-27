@@ -515,7 +515,7 @@ input[name='taskUsers'], input[name="project"]
         .task-milestone
             position absolute
             right 20px
-            top 70px
+            top 20px
             width 200px
             background-color #fffbe4
             border 1px solid #ece9d9
@@ -523,7 +523,6 @@ input[name='taskUsers'], input[name="project"]
             header
                 padding 10px
                 color #a5a396
-                font-size 16px
                 i
                     float right
                     cursor pointer
@@ -536,6 +535,7 @@ input[name='taskUsers'], input[name="project"]
             position relative
             padding 15px 200px 30px 20px
             border-bottom solid 1px #dfdfdf
+            // background #EFEDDF
             img
                 position absolute
                 top 20px
@@ -553,8 +553,8 @@ input[name='taskUsers'], input[name="project"]
                 cursor pointer
             .states-date
                 position absolute
-                bottom 10px
-                left 85px
+                bottom 15px
+                right 70px
                 font-size 12px
             .status-history-content
                 padding 10px 20px 0 65px
@@ -570,6 +570,38 @@ input[name='taskUsers'], input[name="project"]
                     .file-item
                         i
                             margin-right 5px
+        .task-summary-bug
+            position relative
+            border-bottom solid 1px #dfdfdf
+            padding 65px 20px 20px 20px
+            #addBugLink
+                position absolute
+                right 20px
+                top 20px
+            #bugFilter
+                position absolute
+                left 20px
+                top 20px
+                button
+                    strong
+                        font-weight bold
+                        margin-left 5px
+            #fetchBugProgress
+                width 60%
+                margin 0 auto
+            #bugList
+                display none
+                background #EFEDDF
+                border solid 1px #dfdfdf
+                border-bottom none
+                border-radius 5px
+                li
+                    padding 7px 20px 7px 10px
+                    font-size 12px
+                    border-bottom solid 1px #dfdfdf
+                    span.index
+                        width 30px
+                        display inline-block
         .task-summary-todo
             ul
                 clear both
@@ -689,7 +721,7 @@ input[name='taskUsers'], input[name="project"]
             bottom 10px
         .status-index
             position absolute
-            right 30px
+            right 10px
             top 10px
         .status-history-content
             padding 20px 20px 0 100px
@@ -824,6 +856,19 @@ input[name='taskUsers'], input[name="project"]
         select
             margin-left 5px
         #create_task_todo_form_btn
+            margin-top 20px
+//----------------------bug-new----------------------------------------------------
+.bug-new-wrapper
+    .task-nav
+        padding 10px 20px 10px 20px
+        border-bottom solid 1px #dfdfdf
+        ul
+            margin-bottom 0
+    #createBugForm
+        padding 10px 20px
+        select
+            margin-left 5px
+        #saveBug
             margin-top 20px
 //----------------------todo-edit----------------------------------------------------
 .todo-edit-wrapper

@@ -198,16 +198,16 @@ exports.readable_time = function (date) {
     }
 
     if (distance_ms < one_minute_ms) {
-        return Math.floor(distance_ms/one_second_ms) + '秒' + time_des_char
+        return Math.ceil(distance_ms/one_second_ms) + '秒' + time_des_char
     }
 
     if (distance_ms < one_hour_ms) {
-        return Math.floor(distance_ms/one_minute_ms) + '分钟' + time_des_char
+        return Math.ceil(distance_ms/one_minute_ms) + '分钟' + time_des_char
     }
 
     if (exports.is_today(date)) {
         var hours   = Math.floor(distance_ms/one_hour_ms)
-        var minutes = Math.floor((distance_ms-(hours*one_hour_ms))/one_minute_ms)
+        var minutes = Math.ceil((distance_ms-(hours*one_hour_ms))/one_minute_ms)
         if (minutes == 0) {
             return hours + '小时' + time_des_char
         } else {
@@ -242,3 +242,4 @@ function time_zero_completion (time_number) {
         return time_number
     }
 }
+

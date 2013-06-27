@@ -1,10 +1,10 @@
 .task-nav#task_inside_nav
     ul.nav.nav-pills
         li
-            a(href='/tasks/#{task.custom_id}') 摘要
+            a(href='/tasks/#{task.custom_id}') 任务主页
         li
-            a(href='/tasks/#{task._id}/status') 版本管理
+            a(href='/tasks/#{task.custom_id}/status') 版本历史
         li
-            a(href='/tasks/#{task._id}/todos') 文档列表
+            a(href='/tasks/#{task.custom_id}/bugs') Bug
         //- li
         //-     a(href='/tasks/#{task._id}/uploads') 附件

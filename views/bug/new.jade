@@ -1,0 +1,66 @@
+extends ../layout
+append head
+    script(src='/framework/kindeditor-4.1.3/kindeditor.js')
+    script(src='/javascripts/bug/new.js')
+block content
+    .app-layout
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header(data-id='#{task._id}', data-custom-id="#{task.custom_id}")
+                                a.task-name(href='/tasks/#{task._id}') #{task.custom_id} - #{task.name}
+                            .back
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
+                                    i.icon-chevron-left
+                                    |  返回任务主页
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}/bugs') 
+                                    i.icon-chevron-left
+                                    |  返回Bug列表
+                            .operate-wrapper
+                        .main-body.scrollable
+                            .bug-new-wrapper.clearfix
+                                include ../include/task-nav
+                                form#createBugForm.form-horizontal(action='/tasks/#{task._id}/bugs')
+                                    legend 添加Bug
+                                    .control-group
+                                        label.control-label(for='name', placeholder="bug名称") 名称
+                                        .controls
+                                            input.span6(type='text', autocomplete='off', name='name', required='true') 
+                                    .control-group
+                                        label.control-label 分值、级别和类别
+                                        .controls
+                                            input(type='number', autocomplete='off', name='score', required='true') 
+                                            select#bugLevel(name="level")
+                                                - each level in bugLevels
+                                                    option(value="#{level}") #{level}
+                                            select#bugTypeSelector(name='type')
+                                                - each type in bugTypes
+                                                    option(value="#{type}") #{type}
+                                    .control-group
+                                        label.control-label(for='assign_to') 指派给
+                                        .controls
+                                            select#programmerSelector(name='assign_to')
+                                                option(value="") 不指定
+                                                - each programmer in programmers
+                                                    option(value="#{programmer._id}") #{programmer.name}
+                                    .control-group
+                                        label.control-label(for='content') 描述
+                                        .controls
+                                            textarea#bugContent.span9(name='content', autocomplete='off', rows="15")
+                                    .controls-group
+                                        label.control-label(for='task_files') 附件
+                                        .controls
+                                            input#upload_todo_files_input(type='file', name='task_files',multiple="multiple")
+                                    .control-group
+                                        .controls
+                                            button#saveBug.btn.btn-primary 添 加

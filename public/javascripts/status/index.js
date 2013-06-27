@@ -2,21 +2,11 @@
     var target_file
     var files_info = []
 
-    function highlightNav() {
-        var isMyTask = $('#content').data('isMyTask')
-        if (isMyTask) {
-            app.utility.highlightCurrentPage('我的任务')
-        } else {
-            app.utility.highlightCurrentPage('任务')
-        }
-    }
-
     $(function() {
-        // highlightNav()
         app.utility.highlightCurrentPage('任务')
-        app.utility.highlightTaskNav('版本管理')
-        setOriginTaskStatus()
-        checkPaneNeedOpen()
+        app.utility.highlightTaskNav('版本历史')
+        // setOriginTaskStatus()
+        // checkPaneNeedOpen()
         eventBind()
         app.viewhelper.markDifferentColorToTaskStatus($('.status-name span.label'))
     })

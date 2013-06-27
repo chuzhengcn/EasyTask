@@ -1,6 +1,10 @@
 (function() {
-    var statusTargetFile,
-        statusFilesInfo = [];
+    var statusTargetFile        = null,
+        statusFilesInfo         = [],
+        statusContetTemplate    = {
+            'developer' : '【版本说明】：\n\n【脚本说明】：\n\n【关联站点】：\n\n【关联数据库】： \n\n【更新步骤】： \n\n【测试地址】： \n\n【特殊情况说明】：\n\n'
+
+        };
 
     function typeaheadUser() {
         var users = [];
@@ -328,6 +332,12 @@
     }
 
     function showStatusForm(statusName) {
+        var $textarea = $('#createStatusForm textarea')
+
+        if (statusName.indexOf('开发') > -1) {
+            $textarea.val(statusContetTemplate.developer)
+        }
+
         $('#createStatusForm input[name="name"]').val(statusName)
         $('#createStatusModal h3').html(statusName)
         $('#createStatusModal').modal()
@@ -428,6 +438,88 @@
         })
     }
 
+    function fetchOpenBugList() {
+        $.ajax({
+            url         : '/tasks/' + getTaskId() + '/bugs',
+            data        : { closed : false },
+            beforeSend  : function() {
+                $('#bugList').hide()
+                $('#fetchBugProgress').show()
+            },
+            success : function(data) {
+                if (data.ok !== 1) {
+                    $('#fetchBugProgress').hide()
+                    alert(data.msg)
+                    return
+                }
+
+                displayBugs(data.bugs)
+            }
+        })
+    }
+
+    function displayBugs(bugs) {
+        var bugCount = {}
+
+        $('#bugFilter button').each(function() {
+            $(this).find('strong').remove()
+            bugCount[$(this).text()] = 0
+        })
+
+        bugCount['全部'] = bugs.length
+
+        $('#bugList').empty()
+
+        bugs.forEach(function(item, index) {
+            bugCount[item.status]++
+            console.log(item)
+            $('#bugList').append('<li><span class="index">#' 
+                + (bugs.length - index)
+                + '</span><a href="/tasks/'
+                + item.task_id 
+                + '/bugs/'
+                + item._id
+                + '">'
+                + item.name +'</a><span class="time">'
+                + item.created_time.substring(5)
+                + ' by '
+                + item.operator.name
+                + '</span>'
+                +'</li>')
+
+            $('#bugList li:last').data(item)
+        })
+
+        $('#bugFilter button').each(function() {
+            var count = bugCount[$(this).text()]
+            $(this).append('<strong>' + count + '</strong>')
+        })        
+
+        $('#bugList').show()
+        $('#fetchBugProgress').hide()
+    }
+
+    function filterBugs($btn) {
+        var statusName = $btn.find('span').text()
+
+        if ($btn.hasClass('active')) {
+            return
+        }
+
+        if ($btn.html() ===  $('#bugFilter button:first').html()) {
+            fetchOpenBugList()
+            return
+        }
+
+        $('#bugList li').each(function() {
+            if (statusName === $(this).data('status')) {
+                $(this).slideDown()
+            } else {
+                $(this).slideUp()
+            }
+        })
+    }
+
     function eventBind() {
         $('#addMoreTaskUserBtn').click(function(event) {
             addMoreTaskUserInput()
@@ -523,6 +615,10 @@
             changeCompleteStatus.call(this)
         }) 
 
+        $('#bugFilter button').click(function() {
+            filterBugs($(this))
+        })
+
     }
 
     $(function() {
@@ -540,9 +636,10 @@
 
         setChangeStatusBtnGroup()
 
-        app.utility.highlightTaskNav('摘要');
+        app.utility.highlightTaskNav('任务主页');
 
-        app.viewhelper.setFileIcon()
+        fetchOpenBugList()
+
         app.viewhelper.markDifferentColorToTaskStatus($('.status span.label'))
         app.viewhelper.markDifferentColorToTodoCategory($('.task-summary-todo .category span.label'))
         

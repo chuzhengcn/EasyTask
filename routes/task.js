@@ -19,7 +19,8 @@ var routeApp        = require('./app'),
     counterModel    = require('../model/counter').counter,
     projectModel    = require('../model/data').project,
     statusNameModel = require('../model/data').statusNames,
-    branchModel     = require('../model/data').branch;
+    branchModel     = require('../model/data').branch,
+    bugStatusModel  = require('../model/data').bugStatus;
 
 function generateTaskUsers(userName, cb) {
     var userNameGroup      = [],
@@ -357,6 +358,7 @@ exports.show = function(req, res) {
                         projects        : projectModel,
                         milestones      : milestoneResults,
                         latestStauts    : statusResult,
+                        bugStatusList   : bugStatusModel,
                     })
                 })
             })

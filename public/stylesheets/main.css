@@ -603,7 +603,7 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-milestone {
   position: absolute;
   right: 20px;
-  top: 70px;
+  top: 20px;
   width: 200px;
   background-color: #fffbe4;
   border: 1px solid #ece9d9;
@@ -612,7 +612,6 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-milestone header {
   padding: 10px;
   color: #a5a396;
-  font-size: 16px;
 }
 .task-summary .task-summary-wrapper .task-milestone header i {
   float: right;
@@ -649,8 +648,8 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-summary-version .states-date {
   position: absolute;
-  bottom: 10px;
-  left: 85px;
+  bottom: 15px;
+  right: 70px;
   font-size: 12px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .status-history-content {
@@ -669,6 +668,45 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-summary-version .status-history-content .status-files .file-item i {
   margin-right: 5px;
+}
+.task-summary .task-summary-wrapper .task-summary-bug {
+  position: relative;
+  border-bottom: solid 1px #dfdfdf;
+  padding: 65px 20px 20px 20px;
+}
+.task-summary .task-summary-wrapper .task-summary-bug #addBugLink {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+.task-summary .task-summary-wrapper .task-summary-bug #bugFilter {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+.task-summary .task-summary-wrapper .task-summary-bug #bugFilter button strong {
+  font-weight: bold;
+  margin-left: 5px;
+}
+.task-summary .task-summary-wrapper .task-summary-bug #fetchBugProgress {
+  width: 60%;
+  margin: 0 auto;
+}
+.task-summary .task-summary-wrapper .task-summary-bug #bugList {
+  display: none;
+  background: #efeddf;
+  border: solid 1px #dfdfdf;
+  border-bottom: none;
+  border-radius: 5px;
+}
+.task-summary .task-summary-wrapper .task-summary-bug #bugList li {
+  padding: 7px 20px 7px 10px;
+  font-size: 12px;
+  border-bottom: solid 1px #dfdfdf;
+}
+.task-summary .task-summary-wrapper .task-summary-bug #bugList li span.index {
+  width: 30px;
+  display: inline-block;
 }
 .task-summary .task-summary-wrapper .task-summary-todo ul {
   clear: both;
@@ -819,7 +857,7 @@ input[name="project"] {
 }
 .status-info-wrapper .status-history-item .status-index {
   position: absolute;
-  right: 30px;
+  right: 10px;
   top: 10px;
 }
 .status-info-wrapper .status-history-item .status-history-content {
@@ -982,6 +1020,22 @@ input[name="project"] {
   margin-left: 5px;
 }
 .todo-new-wrapper #create_task_todo_form #create_task_todo_form_btn {
+  margin-top: 20px;
+}
+.bug-new-wrapper .task-nav {
+  padding: 10px 20px 10px 20px;
+  border-bottom: solid 1px #dfdfdf;
+}
+.bug-new-wrapper .task-nav ul {
+  margin-bottom: 0;
+}
+.bug-new-wrapper #createBugForm {
+  padding: 10px 20px;
+}
+.bug-new-wrapper #createBugForm select {
+  margin-left: 5px;
+}
+.bug-new-wrapper #createBugForm #saveBug {
   margin-top: 20px;
 }
 .todo-edit-wrapper .task-nav {

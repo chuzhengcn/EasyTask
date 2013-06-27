@@ -11,26 +11,19 @@ var routeApp        = require('./app'),
     statusModel     = require('../model/status').status;
 
 exports.listByTask = function(req, res) {
-    var isMyTask = false
-    routeApp.identifying(req, function(loginUser) {
-        task_coll.findById(req.params.task_id, function(err, task) {
-            status_coll.findByTask(req.params.task_id, function(err, statusHistory) {
-                if (task.users.indexOf(loginUser._id) > -1) {
-                    isMyTask = true
-                }
+    var customId = req.params.task_id
 
-                res.render('status/index', 
-                    { 
-                        title           : '版本管理 - ' + task.name, 
-                        me              : loginUser, 
-                        statusHistory   : view.keepLineBreak(time.format_specify_field(statusHistory, { created_time : 'readable_time'}), ['content']),
-                        task            : task,
-                        isMyTask        : isMyTask,
-                    } 
-                )
-            })
-        }) 
-    })
+    taskModel.findOne({custom_id : customId}, function(err, taskResult) {
+        statusModel.findAllIncludeUserByTaskId(taskResult._id, function(err, statusHistory) {
+            res.render('status/index', 
+                { 
+                    title           : '版本历史 - ' + taskResult.name, 
+                    statusHistory   : view.keepLineBreak(time.format_specify_field(statusHistory, { created_time : 'readable_time'}), ['content']),
+                    task            : taskResult,
+                } 
+            )
+        })
+    }) 
 }
 
 exports.create = function(req, res) {
@@ -84,8 +77,6 @@ exports.delete = function(req, res) {
                 return
             }
 
-            console.log(statusResults[0])
-
             statusModel.findByIdAndRemove(id, function(err) {
                 if (err) {
                     res.send({ok : 0, msg : '数据库错误'})
@@ -99,20 +90,5 @@ exports.delete = function(req, res) {
                 }
             })
         })
-
-        // status_coll.findById(req.params.id, function(err, statusResult) {
-        //     var readyToDeleteFiles = statusResult.files
-        //     status_coll.removeById(req.params.id, function(err) {
-        //         res.send({ ok : 1 })
-        //     })
-
-        //     if (readyToDeleteFiles) {
-        //         taskFile.deleteTaskFiles(readyToDeleteFiles, function(){})
-        //     }
-
-        //     task_coll.findById(req.params.task_id, function(err, task) {
-        //         routeApp.createLogItem({ log_type : statusResult.name + log_coll.logType.deleteStatus, }, operator, task)
-        //     })
-        // })
     })
 }
