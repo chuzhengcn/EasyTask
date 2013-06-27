@@ -86,7 +86,7 @@ block content
                                                 a.btn.btn-small.dropdown-toggle(data-toggle="dropdown", href="#") 修改状态
                                                     span.caret
                                                 ul.dropdown-menu.pull-right
-                                        .delete-this-status(title='删除此记录', data-id='#{latestStauts._id}')
+                                        .delete-this-status(title='回退状态', data-id='#{latestStauts._id}')
                                             i.icon-remove
                                         .states-date #{latestStauts.created_time} by #{latestStauts.operator.name}
                                         .status-history-content

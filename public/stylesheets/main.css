@@ -626,7 +626,7 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-summary-version {
   position: relative;
-  padding: 15px 250px 20px 20px;
+  padding: 15px 200px 30px 20px;
   border-bottom: solid 1px #dfdfdf;
 }
 .task-summary .task-summary-wrapper .task-summary-version img {
@@ -638,19 +638,19 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-summary-version .change-status-btn-group {
   position: absolute;
-  top: 17px;
-  right: 50px;
+  top: 15px;
+  right: 20px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .delete-this-status {
   position: absolute;
-  top: 20px;
+  bottom: 15px;
   right: 20px;
   cursor: pointer;
 }
 .task-summary .task-summary-wrapper .task-summary-version .states-date {
   position: absolute;
-  bottom: 15px;
-  right: 20px;
+  bottom: 10px;
+  left: 85px;
   font-size: 12px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .status-history-content {

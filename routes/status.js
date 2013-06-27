@@ -64,25 +64,55 @@ exports.create = function(req, res) {
 }
 
 exports.delete = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var taskId = req.params.task_id,
+        id     = req.params.id;
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
 
-        status_coll.findById(req.params.id, function(err, statusResult) {
-            var readyToDeleteFiles = statusResult.files
-            status_coll.removeById(req.params.id, function(err) {
-                res.send({ ok : 1 })
-            })
-
-            if (readyToDeleteFiles) {
-                taskFile.deleteTaskFiles(readyToDeleteFiles, function(){})
+        statusModel.find({task_id : taskId}, {_id : 1, name : 1, files : 1}, {sort : {created_time : -1}}, function(err, statusResults) {
+            if (id !== String(statusResults[0]._id)) {
+                res.send({ok : 0, msg : '只能删除最新的状态'})
+                return
             }
 
-            task_coll.findById(req.params.task_id, function(err, task) {
-                routeApp.createLogItem({ log_type : statusResult.name + log_coll.logType.deleteStatus, }, operator, task)
+            if (statusResults.length === 1) {
+                res.send({ok : 0, msg : '初始状态不能删除'})
+                return
+            }
+
+            console.log(statusResults[0])
+
+            statusModel.findByIdAndRemove(id, function(err) {
+                if (err) {
+                    res.send({ok : 0, msg : '数据库错误'})
+                    return
+                }
+                res.send({ok : 1})
+                taskModel.findByIdAndUpdate(taskId, {status : statusResults[1].name}, function(){})
+                routeApp.createLogItem(String(operator._id), taskId, '11', '回退到' +  statusResults[1].name)
+                if (statusResults[0].files.length > 0) {
+                    taskFile.deleteTaskFiles(statusResults[0].files, function(){})
+                }
             })
         })
+
+        // status_coll.findById(req.params.id, function(err, statusResult) {
+        //     var readyToDeleteFiles = statusResult.files
+        //     status_coll.removeById(req.params.id, function(err) {
+        //         res.send({ ok : 1 })
+        //     })
+
+        //     if (readyToDeleteFiles) {
+        //         taskFile.deleteTaskFiles(readyToDeleteFiles, function(){})
+        //     }
+
+        //     task_coll.findById(req.params.task_id, function(err, task) {
+        //         routeApp.createLogItem({ log_type : statusResult.name + log_coll.logType.deleteStatus, }, operator, task)
+        //     })
+        // })
     })
 }

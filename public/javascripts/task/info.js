@@ -403,6 +403,31 @@
         })
     }
 
+    function deleteStatus() {
+        var sureToDelete = confirm('确认删除？')
+        if(!sureToDelete) {
+            return
+        }
+
+        var statusId            = $(this).data('id')
+        var currentDeleteBtn    = $(this)
+        $.ajax({
+            type        : 'delete',
+            url         : '/tasks/' + getTaskId() + '/status/' + statusId,
+            beforeSend  : function() {
+                currentDeleteBtn.html('<span class="text-error">删除中</span>')
+            },
+            success     : function(data) {
+                if (data.ok == 1) {
+                    currentDeleteBtn.html('<span class="text-success">已删除</span>')
+                } else {
+                    alert(data.msg)
+                }
+                location.href= location.href
+            } 
+        })
+    }
+
     function eventBind() {
         $('#addMoreTaskUserBtn').click(function(event) {
             addMoreTaskUserInput()
@@ -481,13 +506,16 @@
         })
 
         //upload status files
-        //ready to upload
         $('#uploadStatusFilesInput').change(function(event) {
             if (event.currentTarget.files) {
                 statusTargetFile = event.currentTarget.files
             } else {
                 statusTargetFile = null
             }
+        })
+
+        $('.delete-this-status').click(function() {
+            deleteStatus.call(this)
         })
 
         // complete todo
