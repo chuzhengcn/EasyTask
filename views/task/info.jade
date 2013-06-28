@@ -57,6 +57,8 @@ block content
                                         dd #{task.score}
                                         dt 站点
                                         dd #{task.projects.join(', ')}
+                                        dt 创建于
+                                        dd #{task.created_time}
                                 .task-users.clearfix
                                     .task-users-wrapper.clearfix
                                         - each taskuser in task.users

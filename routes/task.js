@@ -335,7 +335,7 @@ exports.show = function(req, res) {
             routeApp.err404(req, res)
             return
         }
-
+        taskResult.created_time   = time.readable_time(taskResult.created_time)
         // get all user
         userModel.findActiveUsers(function(err, usersResults) {
 
@@ -346,8 +346,9 @@ exports.show = function(req, res) {
                 // get all milestones
                 milestoneModel.find({task_id : String(taskResult._id)}, {}, {sort : {event_time : 1}}, function(err, milestoneResults) {
                     milestoneResults = milestoneResults.map(function(item, index) {
-                        item            = item.toObject()
-                        item.event_time = time.format_to_date(item.event_time,'-')
+                        item                = item.toObject()
+                        item.event_time     = time.format_to_date(item.event_time,'-')
+                        
                         return item 
                     })
 
