@@ -1,0 +1,67 @@
+extends ../layout
+append head
+    script(src='/javascripts/bug/index.js')
+block content
+    .app-layout
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header(data-id='#{task._id}', data-custom-id="#{task.custom_id}")
+                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
+                            .back
+                                a.btn.btn-small(href='/') 
+                                    i.icon-chevron-left
+                                    |  返回任务列表
+                            .operate-wrapper
+                                a.btn.btn-primary.btn-small(href='/tasks/#{task.custom_id}/bugs-new') 添加Bug
+                        .main-body.scrollable
+                            .bug-list-wrapper.clearfix
+                                include ../include/task-nav
+                                .bug-list-info
+                                    #bugFilter.btn-group(data-toggle="buttons-radio")
+                                        button.btn.btn-small.active 全部
+                                        - each bugStatus in bugStatusList
+                                            button.btn.btn-small
+                                                span #{bugStatus}
+                                    #fetchBugProgress.progress.progress-striped.active
+                                        .bar(style="width:100%")
+                                    table#bugList.table.table-hover.table-condensed
+                                        thead
+                                            tr
+                                                th #
+                                                th 名称
+                                                th 状态
+                                                th 分值
+                                                th 等级
+                                                th 指派给
+                                                th 最近更新
+                                                th 创建人
+                                                th 修改状态
+                                                th 留言
+                                                th 操作
+                                        tbody
+                                .bug-closed-list
+                                    h5 已关闭的Bug
+                                    ul.unstyled
+                                        - each closedBug,index in closedBugList
+                                            li
+                                                span.index ##{closedBugList.length - index}
+                                                a(href="/tasks/#{task.custom_id}/bugs/#{closedBug._id}") #{closedBug.name}
+block modal
+    #previewBugModal.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+        .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3
+        .modal-body
+        .modal-footer
+            button.btn(data-dismiss="modal", aria-hidden="true") 关闭

@@ -23,7 +23,7 @@ block content
                                 a.btn.btn-small(href='/') 
                                     i.icon-chevron-left
                                     |  返回任务列表
-                                a.btn.btn-small(href='/tasks/#{task.custom_id}/bugs') 
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}/bugs-list') 
                                     i.icon-chevron-left
                                     |  返回Bug列表
                         .main-body.scrollable
@@ -65,7 +65,7 @@ block content
                                             i.icon-file
                                             a(href='#{file.url}') #{file.name}
                                 .bug-discussion
-                                    h5 关于该bug的讨论和状态日志
+                                    h5 关于该bug的讨论
                                     - each comment in bug.comments
                                         .comment-item
                                             img.img-rounded.operate-avatar(src='#{comment.operator.avatar_url}')

@@ -49,6 +49,14 @@ block content
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
                                 include ../include/task-nav
+                                .task-info.clearfix
+                                    dl.dl-horizontal
+                                        dt 分支
+                                        dd #{task.branch}
+                                        dt 分值
+                                        dd #{task.score}
+                                        dt 站点
+                                        dd #{task.projects.join(', ')}
                                 .task-users.clearfix
                                     .task-users-wrapper.clearfix
                                         - each taskuser in task.users
@@ -59,17 +67,6 @@ block content
                                                     .role 
                                                         small 
                                                             em #{taskuser.role}
-                                .task-info.clearfix
-                                    ul
-                                        li 
-                                            strong [分支]
-                                            span #{task.branch}
-                                        li 
-                                            strong [分值]
-                                            span #{task.score}
-                                        li 
-                                            strong [站点]
-                                            span #{task.projects.join(', ')}
                                 .task-milestone.clearfix
                                     header 时间点
                                         i#addMilestoneBtn.icon-plus-sign

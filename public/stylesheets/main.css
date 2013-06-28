@@ -590,15 +590,11 @@ input[name="project"] {
   margin-bottom: 5px;
 }
 .task-summary .task-summary-wrapper .task-info {
-  padding: 20px 250px 10px 10px;
+  padding: 10px 250px 0 0;
   border-bottom: solid 1px #dfdfdf;
 }
-.task-summary .task-summary-wrapper .task-info li {
-  float: left;
-  padding: 0 40px 10px 0;
-}
-.task-summary .task-summary-wrapper .task-info li strong {
-  margin-right: 5px;
+.task-summary .task-summary-wrapper .task-info dd {
+  margin-bottom: 5px;
 }
 .task-summary .task-summary-wrapper .task-milestone {
   position: absolute;
@@ -672,7 +668,7 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-summary-bug {
   position: relative;
   border-bottom: solid 1px #dfdfdf;
-  padding: 65px 20px 20px 20px;
+  padding: 65px 20px 0 20px;
 }
 .task-summary .task-summary-wrapper .task-summary-bug #addBugLink {
   position: absolute;
@@ -999,6 +995,42 @@ input[name="project"] {
   margin-top: 1px;
   width: 80px;
 }
+.bug-list-wrapper .task-nav {
+  padding: 10px 20px 10px 20px;
+  border-bottom: 1px solid #dfdfdf;
+}
+.bug-list-wrapper .task-nav ul {
+  margin-bottom: 0;
+}
+.bug-list-wrapper .bug-list-info {
+  position: relative;
+  padding: 20px 20px 0 20px;
+  border-bottom: 1px solid #dfdfdf;
+}
+.bug-list-wrapper .bug-list-info #fetchBugProgress {
+  position: absolute;
+  left: 450px;
+  top: 22px;
+  width: 250px;
+}
+.bug-list-wrapper .bug-list-info #bugList {
+  margin-top: 10px;
+}
+.bug-list-wrapper .bug-list-info #bugList i {
+  cursor: pointer;
+  margin-left: 5px;
+}
+.bug-list-wrapper .bug-closed-list {
+  padding: 10px 20px 10px 20px;
+  border-bottom: 1px solid #dfdfdf;
+  background: #f5f5f5;
+}
+.bug-list-wrapper .bug-closed-list li {
+  margin-bottom: 5px;
+}
+.bug-list-wrapper .bug-closed-list .index {
+  margin-right: 10px;
+}
 .todo-new-wrapper .task-nav {
   padding: 10px 20px 10px 20px;
   border-bottom: solid 1px #dfdfdf;
@@ -1254,7 +1286,7 @@ input[name="project"] {
   height: 50px;
 }
 .bug-info-wrapper .bug-discussion .comment-item .comment-info {
-  border-radius: 6px;
+  border-radius: 5px;
   border: solid 1px #dfdfdf;
   background: #efeddf;
 }

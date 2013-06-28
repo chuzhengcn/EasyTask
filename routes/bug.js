@@ -89,6 +89,38 @@ exports.create = function(req, res) {
     })
 }
 
+exports.listPage = function(req, res) {
+    var taskId      = req.params.task_id,
+        key         = '',
+        filter      = {
+            task_id     : taskId,
+        };  
+
+    bugModel.findBugsIncludeUsersByTaskId(filter, function(err, bugResults) {
+        if (err) {
+            res.send({ ok : 0, msg : '数据库错误'})
+            return
+        }
+
+        bugResults = bugResults.map(function(item, index) {
+            item.updated_time = time.readable_time(item.updated_time)
+            return item
+        })
+
+        
+        taskModel.findOne({custom_id : taskId}, function(err, taskResult) {
+            bugModel.find({task_id : String(taskResult._id), closed : true},{},{sort : {created_time : -1}}, function(err, closedBugs) {
+                res.render('bug/index', {
+                    bugs            : bugResults,
+                    task            : taskResult,
+                    bugStatusList   : bugStatusModel,
+                    closedBugList   : closedBugs,
+                })
+            })
+        })
+    })
+}
+
 exports.list = function(req, res) {
     var taskId      = req.params.task_id,
         key         = '',
