@@ -1169,6 +1169,103 @@ input[name="project"] {
   font-size: 12px;
   color: #999;
 }
+.bug-info-wrapper .task-nav {
+  padding: 10px 20px 10px 20px;
+  border-bottom: solid 1px #dfdfdf;
+}
+.bug-info-wrapper .task-nav ul {
+  margin-bottom: 0;
+}
+.bug-info-wrapper .bug-info {
+  position: relative;
+  padding-bottom: 10px;
+  border-bottom: solid 1px #dedfe3;
+}
+.bug-info-wrapper .bug-info h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 10px 0 10px 20px;
+}
+.bug-info-wrapper .bug-info .edit-bug-btn-group {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.bug-info-wrapper .bug-info .edit-bug-btn-group button {
+  margin-left: 10px;
+}
+.bug-info-wrapper .bug-info .change-bug-status {
+  position: absolute;
+  right: 140px;
+  top: 20px;
+}
+.bug-info-wrapper .bug-info .bug-base {
+  margin: 10px 20px;
+  border: solid 1px #dedfe3;
+  border-radius: 5px;
+  background-color: #efeddf;
+}
+.bug-info-wrapper .bug-info .bug-base dd {
+  margin-bottom: 10px;
+}
+.bug-info-wrapper .bug-info .content {
+  padding: 20px 30px;
+  margin: 10px 20px;
+  border: solid 1px #dedfe3;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
+.bug-info-wrapper .bug-info .content img {
+  max-width: 1000px;
+  margin: 10px auto;
+}
+.bug-info-wrapper .bug-info .file-item {
+  margin: 10px 10px 0 20px;
+  font-size: 12px;
+  line-height: 20px;
+}
+.bug-info-wrapper .bug-discussion {
+  padding: 0 20px 10px 20px;
+}
+.bug-info-wrapper .bug-discussion .add-comment {
+  position: relative;
+  padding: 20px 140px 20px 210px;
+}
+.bug-info-wrapper .bug-discussion .add-comment .my-avatar {
+  position: absolute;
+  top: 22px;
+  left: 150px;
+  width: 50px;
+  height: 50px;
+}
+.bug-info-wrapper .bug-discussion .add-comment textarea {
+  width: 100%;
+  margin-bottom: 5px;
+}
+.bug-info-wrapper .bug-discussion .comment-item {
+  position: relative;
+  padding: 20px 0 10px 70px;
+}
+.bug-info-wrapper .bug-discussion .comment-item .operate-avatar {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 50px;
+  height: 50px;
+}
+.bug-info-wrapper .bug-discussion .comment-item .comment-info {
+  border-radius: 6px;
+  border: solid 1px #dfdfdf;
+  background: #efeddf;
+}
+.bug-info-wrapper .bug-discussion .comment-item .comment-info .comment-content {
+  padding: 10px;
+}
+.bug-info-wrapper .bug-discussion .comment-item .comment-time {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #999;
+}
 .wiki-list {
   padding: 20px;
 }

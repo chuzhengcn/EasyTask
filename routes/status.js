@@ -11,7 +11,7 @@ var routeApp        = require('./app'),
     statusModel     = require('../model/status').status;
 
 exports.listByTask = function(req, res) {
-    var customId = req.params.task_id
+    var customId = parseInt(req.params.task_id, 10)
 
     taskModel.findOne({custom_id : customId}, function(err, taskResult) {
         statusModel.findAllIncludeUserByTaskId(taskResult._id, function(err, statusHistory) {

@@ -35,7 +35,7 @@ block content
                                                 //-         button#add_task_milestone_form_btn.btn.btn-primary 添加
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}') 
+                            header(data-id='#{task._id}', data-custom-id="#{task.custom_id}") 
                                 a.task-name(href='/tasks/#{task.custom_id}') 
                                     - if (!task.active)
                                         i.icon-lock(title='该任务已存档')
@@ -83,7 +83,7 @@ block content
                                         img.img-polaroid.img-rounded(src='#{latestStauts.operator.avatar_url}')
                                         .change-status-btn-group
                                             .btn-group
-                                                a.btn.btn-small.btn-info.dropdown-toggle(data-toggle="dropdown", href="#") 修改状态
+                                                a.btn.btn-small.btn-primary.dropdown-toggle(data-toggle="dropdown", href="#") 修改状态
                                                     span.caret
                                                 ul.dropdown-menu.pull-right
                                         .delete-this-status(title='回退状态', data-id='#{latestStauts._id}')
@@ -101,7 +101,7 @@ block content
                                                             i.icon-file
                                                             a(href='#{file.url}') #{file.name}
                                 .task-summary-bug.clearfix
-                                    a#addBugLink.btn.btn-small.btn-info(href="/tasks/#{task.custom_id}/bugs-new") 添加Bug
+                                    a#addBugLink.btn.btn-small.btn-primary(href="/tasks/#{task.custom_id}/bugs-new") 添加Bug
                                     #bugFilter.btn-group(data-toggle="buttons-radio")
                                         button.btn.btn-small.active 全部
                                         - each bugStatus in bugStatusList
@@ -121,6 +121,7 @@ block content
                                                 th 最近更新
                                                 th 创建人
                                                 th 修改状态
+                                                th 留言
                                                 th 操作
                                         tbody
                                     //- header 

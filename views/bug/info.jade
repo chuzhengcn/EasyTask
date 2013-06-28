@@ -1,0 +1,78 @@
+extends ../layout
+append head
+    script(src='/javascripts/bug/info.js')
+block content
+    .app-layout
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header(data-id='#{task._id}')
+                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
+                            .operate-wrapper
+                            .back
+                                a.btn.btn-small(href='/') 
+                                    i.icon-chevron-left
+                                    |  返回任务列表
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}/bugs') 
+                                    i.icon-chevron-left
+                                    |  返回Bug列表
+                        .main-body.scrollable
+                            .bug-info-wrapper.clearfix
+                                include ../include/task-nav
+                                .bug-info(data-id='#{bug._id}')
+                                    h3.name.clearfix
+                                        span #{bug.name}
+                                    - if (bug.closed)
+                                            h3 (该Bug已关闭，有可能确认不是bug)
+                                    .edit-bug-btn-group
+                                        a.edit-bug.btn.btn-small.btn-primary(href='/tasks/#{task.custom_id}/bug/#{bug._id}/edit') 编辑
+                                        - if (bug.closed)
+                                            button#bugSwitcher.btn.btn-small.btn-inverse(title="重新开启这个bug") 开启
+                                        - else
+                                            button#bugSwitcher.btn.btn-small.btn-inverse(title="关闭这个bug, 不再出现在任务主页") 关闭
+                                    .btn-group.change-bug-status
+                                    .bug-base
+                                        dl.dl-horizontal
+                                            dt 状态
+                                            dd 
+                                                span.label #{bug.status}
+                                            dt 分值
+                                            dd #{bug.score}
+                                            dt 等级
+                                            dd #{bug.level}
+                                            dt 指派给
+                                            dd #{((bug.programmer&&bug.programmer.name) || '无')}
+                                            dt 类型
+                                            dd #{bug.type}
+                                            dt 最近更新
+                                            dd #{bug.updated_time}
+                                            dt 创建时间
+                                            dd #{bug.created_time} by #{bug.operator.name}
+                                    - if (bug.content)
+                                        .content !{bug.content}
+                                    - each file in bug.files
+                                        .file-item
+                                            i.icon-file
+                                            a(href='#{file.url}') #{file.name}
+                                .bug-discussion
+                                    h5 关于该bug的讨论和状态日志
+                                    - each comment in bug.comments
+                                        .comment-item
+                                            img.img-rounded.operate-avatar(src='#{comment.operator.avatar_url}')
+                                            .comment-info
+                                                .comment-content !{comment.content}
+                                            .comment-time #{comment.created_time} by #{comment.operator.name}
+                                    form#addCommentForm.add-comment(action='/tasks/#{task._id}/bugs/#{bug._id}/add-comment')
+                                        img.img-rounded.my-avatar(src='')
+                                        textarea(placeholder='这里添加留言',rows='3', required='true', name='content')
+                                        button#addCommentBtn.btn.btn-small.btn-primary 留言

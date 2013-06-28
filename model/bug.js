@@ -23,7 +23,7 @@ var bugSchema = mongoose.Schema({
     collection: collectionName, 
 })
 
-bugSchema.statics.findOpenBugsIncludeUsersByTaskId = function(filter, cb) {
+bugSchema.statics.findBugsIncludeUsersByTaskId = function(filter, cb) {
     var operators = []
 
     this.find(filter, {}, {sort : { created_time : -1}}, function(err, bugResults) {
@@ -68,6 +68,57 @@ bugSchema.statics.findOpenBugsIncludeUsersByTaskId = function(filter, cb) {
 
 
             cb(err, bugResults)
+        })
+    })
+}
+
+bugSchema.statics.findOneBugsIncludeUsersId = function(id, cb) {
+    var operators = []
+
+    this.findById(id, function(err, bugResult) {
+        if (err) {
+            cb('数据库错误')
+            return
+        }
+
+        bugResult = bugResult.toObject()
+
+        operators.push(bugResult.operator_id)
+
+        if (bugResult.assign_to) {
+            operators.push(bugResult.assign_to)
+        }
+
+        if (bugResult.comments.length > 0) {
+            bugResult.comments.forEach(function(item, index) {
+                operators.push(item.operator_id)
+            })
+        }
+
+        operators = operators.map(function(item, index) {
+            return mongoose.Types.ObjectId(item)
+        })
+
+        userModel.find({_id : {$in : operators}}, function(err, users) {
+            users.forEach(function(value, key) {
+                if (bugResult.operator_id === String(value._id)) {
+                    bugResult.operator = value
+                }
+
+                if (bugResult.assign_to === String(value._id)) {
+                    bugResult.programmer = value
+                }
+
+                if (bugResult.comments.length > 0) {
+                    bugResult.comments.forEach(function(item, index) {
+                        if (item.operator_id === String(value._id)) {
+                            item.operator = value
+                        }
+                    })
+                }
+            })
+
+            cb(err, bugResult)
         })
     })
 }

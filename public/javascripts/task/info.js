@@ -151,6 +151,10 @@
         return $('.list-header header').data('id')
     }
 
+    function getTaskCustomId() {
+        return $('.list-header header').data('custom-id')
+    }
+
     function deleteTask($btn) {
         var sure = confirm('确认删除？')
         if (sure) {
@@ -465,7 +469,7 @@
             $('#bugList tbody').append('<tr><td class="index">' 
                 + (bugs.length - index)
                 + '</td><td><a href="/tasks/'
-                + item.task_id 
+                + getTaskCustomId()
                 + '/bugs/'
                 + item._id
                 + '">'
@@ -484,7 +488,9 @@
                 + item.operator.name
                 + '</td><td>'
                 + showProperStatusBtn(item.status)
-                + '</td><td><i class="icon-picture" title="预览"></i><i class="icon-edit" title="编辑"></i>'
+                + '</td><td><span class="badge">'
+                + item.comments.length
+                + '</span></td><td><i class="icon-picture" title="预览"></i><i class="icon-edit" title="编辑"></i>'
                 + '</td></tr>')
             $('#bugList tbody tr:last').data(item)
         })   
@@ -496,7 +502,7 @@
         app.viewhelper.markDifferentColorToBugStatus($('.bug-status'))
     }
 
-    function showProperStatusBtn(statusName) {
+    function showProperStatusBtn() {
         var role    = localStorage.getItem("userRole");
             html    = ''            
 

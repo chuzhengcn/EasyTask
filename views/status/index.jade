@@ -37,9 +37,9 @@ block content
                             header(data-id='#{task._id}')
                                 a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
                             .back
-                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
+                                a.btn.btn-small(href='/') 
                                     i.icon-chevron-left
-                                    |  返回任务主页
+                                    |  返回任务列表
                             .operate-wrapper
                                 //- button#mark_task_status.btn.btn-primary.btn-small 修改状态
                         .main-body.scrollable

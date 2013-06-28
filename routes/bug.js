@@ -105,7 +105,7 @@ exports.list = function(req, res) {
         }
     }   
 
-    bugModel.findOpenBugsIncludeUsersByTaskId(filter, function(err, bugResults) {
+    bugModel.findBugsIncludeUsersByTaskId(filter, function(err, bugResults) {
         if (err) {
             res.send({ ok : 0, msg : '数据库错误'})
             return
@@ -121,9 +121,10 @@ exports.list = function(req, res) {
 }
 
 exports.changeStatus = function(req, res) {
-    var taskId = req.params.task_id,
-        id     = req.params.id,
-        status = req.body.status;
+    var taskId      = req.params.task_id,
+        id          = req.params.id,
+        status      = req.body.status,
+        updateDoc   = {};
 
     routeApp.ownAuthority(req, function(hasAuth, operator) {
         if (!hasAuth) {
@@ -136,7 +137,17 @@ exports.changeStatus = function(req, res) {
             return
         }
 
-        bugModel.findByIdAndUpdate(id, { status : status, updated_time : new Date()}, function(err, bugResult) {
+        updateDoc = { 
+            status          : status, 
+            updated_time    : new Date(),
+            $push           : {"comments" : {
+                                operator_id     : String(operator._id),
+                                content         : status,
+                                created_time    : new Date(),
+                            }}
+            }
+
+        bugModel.findByIdAndUpdate(id, updateDoc, function(err, bugResult) {
             if (!bugResult) {
                 res.send({ok : 0, msg : "没有找到要修改的bug"})
                 return
@@ -145,6 +156,119 @@ exports.changeStatus = function(req, res) {
             res.send({ok : 1})
 
             routeApp.createLogItem(String(operator._id), taskId, '13', bugResult.status)
+        })
+    })
+}
+
+exports.show = function(req, res) {
+    var id           = req.params.id;
+
+    bugModel.findOneBugsIncludeUsersId(id, function(err, bugResult) {
+        if (err || !bugResult) {
+            routeApp.err404(req, res)
+            return
+        }
+
+        bugResult.updated_time  = time.readable_time(bugResult.updated_time)
+        bugResult.created_time  = time.format_to_datetime(bugResult.created_time)
+        bugResult.comments      = time.format_specify_field(bugResult.comments,{ created_time : 'readable_time'})
+        bugResult.comments      = view.keepLineBreak(bugResult.comments, ['content'])
+
+        taskModel.findById(bugResult.task_id, function(err, taskResult) {
+            if (err || !taskResult) {
+                routeApp.err404(req, res)
+                return
+            }
+
+            res.render('bug/info', 
+                { 
+                    title       : 'Bug - ' + bugResult.name, 
+                    task        : taskResult,
+                    bug         : bugResult,
+                } 
+            )
+        }) 
+    })
+}
+
+exports.addComment = function(req, res) {
+    var taskId      = req.params.task_id,
+        id          = req.params.id,
+        content     = req.body.content,
+        updateDoc   = {};
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        if (!content) {
+            res.send({ok : 0, msg : '没有状态名称'})
+            return
+        }
+
+        updateDoc = {
+            $push : {"comments" : {operator_id : String(operator._id), content : content, created_time : new Date()}}
+        }
+
+        bugModel.findByIdAndUpdate(id, updateDoc, function(err, bugResult) {
+            if (!bugResult) {
+                res.send({ok : 0, msg : "没有找到要修改的bug"})
+                return
+            }
+
+            res.send({ok : 1})
+
+            routeApp.createLogItem(String(operator._id), taskId, '14', bugResult.name)
+        })
+    })
+}
+
+exports.openClose = function(req, res) {
+    var taskId      = req.params.task_id,
+        id          = req.params.id,
+        switcher    = req.body.switcher,
+        closed      = false,
+        content     = '',
+        updateDoc   = {};
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        if (!switcher) {
+            res.send({ok : 0, msg : '非法提交'})
+            return
+        }
+
+        if (switcher === '关闭') {
+            closed = true
+        } else {
+            closed = false
+        }
+
+        updateDoc = { 
+            closed          : closed,
+            updated_time    : new Date(),
+            $push           : {"comments" : {
+                                operator_id     : String(operator._id),
+                                content         : switcher + '了这个bug',
+                                created_time    : new Date(),
+                            }}
+            }
+
+        bugModel.findByIdAndUpdate(id, updateDoc, function(err, bugResult) {
+            if (!bugResult) {
+                res.send({ok : 0, msg : "没有找到要修改的bug"})
+                return
+            }
+
+            res.send({ok : 1})
+
+            routeApp.createLogItem(String(operator._id), taskId, '13', switcher + '了这个bug')
         })
     })
 }
