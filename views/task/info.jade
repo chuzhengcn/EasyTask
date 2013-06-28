@@ -109,7 +109,20 @@ block content
                                                 span #{bugStatus}
                                     #fetchBugProgress.progress.progress-striped.active
                                         .bar(style="width:100%")
-                                    ul#bugList.unstyled
+                                    table#bugList.table.table-hover.table-condensed
+                                        thead
+                                            tr
+                                                th #
+                                                th 名称
+                                                th 状态
+                                                th 分值
+                                                th 等级
+                                                th 指派给
+                                                th 最近更新
+                                                th 创建人
+                                                th 修改状态
+                                                th 操作
+                                        tbody
                                     //- header 
                                     //-     a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档
                                     //-     a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 
@@ -253,3 +266,10 @@ block modal
         .modal-footer
             button.btn(data-dismiss="modal", aria-hidden="true") 关闭
             button#saveStatusBtn.btn.btn-primary 保存
+    #previewBugModal.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+        .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3
+        .modal-body
+        .modal-footer
+            button.btn(data-dismiss="modal", aria-hidden="true") 关闭

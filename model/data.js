@@ -11,7 +11,7 @@ exports.branch = ['master','test', 'dev', 'release']
 
 exports.bugType = ['测试Bug', '现网Bug']
 
-exports.bugStatus = ['未解决', '已解决', '测试通过', '挂起']
+exports.bugStatus = ['未解决', '解决中', '已解决', '测试通过', '挂起']
 
 exports.bugLevel = ['C', 'B', 'A']
 
@@ -28,4 +28,5 @@ exports.logType = {
     '10': '添加了附件',
     '11': '回退了任务状态',
     '12': '添加了bug',
+    '13': '修改了bug状态',
 } 

@@ -200,6 +200,33 @@ app.viewhelper = {
         function removeOtherColor($statusObj) {
             $statusObj.removeClass('label-success label-warning label-important label-info label-inverse')
         }
+    },
+    markDifferentColorToBugStatus : function($statusObjGroup) {
+        $statusObjGroup.each(function() {
+            removeOtherColor($(this))
+            switch ($.trim($(this).text())) {
+                case '未解决' :
+                    $(this).addClass('label-important')
+                    break
+                case '解决中' :
+                    $(this).addClass('label-warning')
+                    break
+                case '已解决' :
+                    $(this).addClass('label-info')
+                    break
+                case '测试通过' :
+                    $(this).addClass('label-success')
+                    break
+                case '挂起' :
+                    $(this).addClass('label-inverse')
+                    break
+                default :
+                    break
+            }
+        })
+        function removeOtherColor($statusObj) {
+            $statusObj.removeClass('label-success label-warning label-important label-info label-inverse')
+        }
     }
 };
 

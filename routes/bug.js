@@ -112,10 +112,39 @@ exports.list = function(req, res) {
         }
 
         bugResults = bugResults.map(function(item, index) {
-            item.created_time = time.format_to_datetime(item.created_time)
+            item.updated_time = time.readable_time(item.updated_time)
             return item
         })
-        
+
         res.send({ok : 1, bugs : bugResults})
     })     
+}
+
+exports.changeStatus = function(req, res) {
+    var taskId = req.params.task_id,
+        id     = req.params.id,
+        status = req.body.status;
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        if (!status) {
+            res.send({ok : 0, msg : '没有状态名称'})
+            return
+        }
+
+        bugModel.findByIdAndUpdate(id, { status : status, updated_time : new Date()}, function(err, bugResult) {
+            if (!bugResult) {
+                res.send({ok : 0, msg : "没有找到要修改的bug"})
+                return
+            }
+
+            res.send({ok : 1})
+
+            routeApp.createLogItem(String(operator._id), taskId, '13', bugResult.status)
+        })
+    })
 }

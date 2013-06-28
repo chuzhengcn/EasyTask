@@ -689,24 +689,17 @@ input[name="project"] {
   margin-left: 5px;
 }
 .task-summary .task-summary-wrapper .task-summary-bug #fetchBugProgress {
-  width: 60%;
-  margin: 0 auto;
+  position: absolute;
+  left: 450px;
+  top: 22px;
+  width: 250px;
 }
 .task-summary .task-summary-wrapper .task-summary-bug #bugList {
   display: none;
-  background: #efeddf;
-  border: solid 1px #dfdfdf;
-  border-bottom: none;
-  border-radius: 5px;
 }
-.task-summary .task-summary-wrapper .task-summary-bug #bugList li {
-  padding: 7px 20px 7px 10px;
-  font-size: 12px;
-  border-bottom: solid 1px #dfdfdf;
-}
-.task-summary .task-summary-wrapper .task-summary-bug #bugList li span.index {
-  width: 30px;
-  display: inline-block;
+.task-summary .task-summary-wrapper .task-summary-bug #bugList i {
+  cursor: pointer;
+  margin-right: 5px;
 }
 .task-summary .task-summary-wrapper .task-summary-todo ul {
   clear: both;
