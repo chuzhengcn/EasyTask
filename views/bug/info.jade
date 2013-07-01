@@ -20,22 +20,21 @@ block content
                                 a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
                             .operate-wrapper
                             .back
-                                a.btn.btn-small(href='/') 
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
                                     i.icon-chevron-left
-                                    |  返回任务列表
+                                    |  任务主页
                                 a.btn.btn-small(href='/tasks/#{task.custom_id}/bugs-list') 
                                     i.icon-chevron-left
-                                    |  返回Bug列表
+                                    |  Bug列表
                         .main-body.scrollable
                             .bug-info-wrapper.clearfix
-                                include ../include/task-nav
                                 .bug-info(data-id='#{bug._id}')
                                     h3.name.clearfix
                                         span #{bug.name}
                                     - if (bug.closed)
                                             h3 (该Bug已关闭，有可能确认不是bug)
                                     .edit-bug-btn-group
-                                        a.edit-bug.btn.btn-small.btn-primary(href='/tasks/#{task.custom_id}/bug/#{bug._id}/edit') 编辑
+                                        a.edit-bug.btn.btn-small.btn-primary(href='/tasks/#{task.custom_id}/bugs/#{bug._id}/edit') 编辑
                                         - if (bug.closed)
                                             button#bugSwitcher.btn.btn-small.btn-inverse(title="重新开启这个bug") 开启
                                         - else

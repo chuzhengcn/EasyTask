@@ -67,7 +67,7 @@
 
     function satrtUpload($btn, cb) {
         var file_form = new FormData()
-        var file_attr = $('#upload_todo_files_input').attr('name')
+        var file_attr = $('#uploadBugFilesInput').attr('name')
         for (var i = 0; i < target_file.length; i++) {
             file_form.append(file_attr, target_file[i])
         }
@@ -99,7 +99,7 @@
         })
 
         //ready to upload
-        $('#upload_todo_files_input').change(function(event) {
+        $('#uploadBugFilesInput').change(function(event) {
             if (event.currentTarget.files) {
                 target_file = event.currentTarget.files
             } else {
@@ -112,7 +112,6 @@
     
     $(function() {
         app.utility.highlightCurrentPage('任务')
-        app.utility.highlightTaskNav('Bug')
         eventBind()
         setEditor()
     })

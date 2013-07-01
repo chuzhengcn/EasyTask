@@ -599,7 +599,7 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-milestone {
   position: absolute;
   right: 20px;
-  top: 20px;
+  top: 10px;
   width: 200px;
   background-color: #fffbe4;
   border: 1px solid #ece9d9;
@@ -634,18 +634,26 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-summary-version .change-status-btn-group {
   position: absolute;
   top: 15px;
-  right: 20px;
+  right: 185px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .delete-this-status {
   position: absolute;
-  bottom: 15px;
+  top: 15px;
+  right: 110px;
+  cursor: pointer;
+}
+.task-summary .task-summary-wrapper .task-summary-version .more-status {
+  position: absolute;
   right: 20px;
+  top: 15px;
+}
+.task-summary .task-summary-wrapper .task-summary-version .more-status i {
   cursor: pointer;
 }
 .task-summary .task-summary-wrapper .task-summary-version .states-date {
   position: absolute;
   bottom: 15px;
-  right: 70px;
+  right: 20px;
   font-size: 12px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .status-history-content {
@@ -672,7 +680,7 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-summary-bug #addBugLink {
   position: absolute;
-  right: 20px;
+  right: 105px;
   top: 20px;
 }
 .task-summary .task-summary-wrapper .task-summary-bug #bugFilter {
@@ -683,6 +691,11 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-summary-bug #bugFilter button strong {
   font-weight: bold;
   margin-left: 5px;
+}
+.task-summary .task-summary-wrapper .task-summary-bug .more-bug {
+  position: absolute;
+  right: 20px;
+  top: 20px;
 }
 .task-summary .task-summary-wrapper .task-summary-bug #fetchBugProgress {
   position: absolute;
@@ -1089,6 +1102,25 @@ input[name="project"] {
 .todo-edit-wrapper #edit_task_todo_form #edit_task_todo_form_btn {
   margin-top: 20px;
 }
+.bug-edit-wrapper #editBugForm {
+  padding: 10px 20px;
+}
+.bug-edit-wrapper #editBugForm select {
+  margin-left: 5px;
+}
+.bug-edit-wrapper #editBugForm .bug-origin-files {
+  padding-top: 5px;
+}
+.bug-edit-wrapper #editBugForm .bug-origin-files .origin-file-item {
+  float: left;
+}
+.bug-edit-wrapper #editBugForm .bug-origin-files i {
+  cursor: pointer;
+  margin: 2px 15px 0 5px;
+}
+.bug-edit-wrapper #editBugForm #saveBugBtn {
+  margin-top: 20px;
+}
 .todo-info-wrapper .task-nav {
   padding: 10px 20px 10px 20px;
   border-bottom: solid 1px #dfdfdf;
@@ -1200,13 +1232,6 @@ input[name="project"] {
   margin-top: 5px;
   font-size: 12px;
   color: #999;
-}
-.bug-info-wrapper .task-nav {
-  padding: 10px 20px 10px 20px;
-  border-bottom: solid 1px #dfdfdf;
-}
-.bug-info-wrapper .task-nav ul {
-  margin-bottom: 0;
 }
 .bug-info-wrapper .bug-info {
   position: relative;

@@ -195,7 +195,6 @@
 
     $(function() {
         app.utility.highlightCurrentPage('任务')
-        app.utility.highlightTaskNav('Bug')
         fetchOpenBugList()
         eventBind()
     })

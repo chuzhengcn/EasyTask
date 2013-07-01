@@ -81,6 +81,8 @@ app.put('/tasks/:task_id/bugs/:id/change-status',           bug.changeStatus)
 app.put('/tasks/:task_id/bugs/:id/add-comment',             bug.addComment)
 app.put('/tasks/:task_id/bugs/:id/open-close',              bug.openClose)
 app.get('/tasks/:task_custom_id/bugs/:id',                  bug.show)
+app.get('/tasks/:task_custom_id/bugs/:id/edit',             bug.edit)
+app.put('/tasks/:task_custom_id/bugs/:id',                  bug.update)
 
 //---------upload----------------------------------------------
 var upload    = require('./routes/upload')

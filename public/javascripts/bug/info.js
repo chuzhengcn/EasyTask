@@ -116,8 +116,6 @@
     $(function() {
         app.utility.highlightCurrentPage('任务')
 
-        app.utility.highlightTaskNav('Bug')
-
         app.viewhelper.markDifferentColorToBugStatus($('dd span.label'))
 
         eventBind()

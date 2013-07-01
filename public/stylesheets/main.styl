@@ -514,7 +514,7 @@ input[name='taskUsers'], input[name="project"]
         .task-milestone
             position absolute
             right 20px
-            top 20px
+            top 10px
             width 200px
             background-color #fffbe4
             border 1px solid #ece9d9
@@ -544,16 +544,22 @@ input[name='taskUsers'], input[name="project"]
             .change-status-btn-group
                 position absolute
                 top 15px
-                right 20px
+                right 185px
             .delete-this-status
                 position absolute
-                bottom 15px
-                right 20px
+                top 15px
+                right 110px
                 cursor pointer
+            .more-status
+                position absolute
+                right 20px
+                top 15px
+                i
+                    cursor pointer
             .states-date
                 position absolute
                 bottom 15px
-                right 70px
+                right 20px
                 font-size 12px
             .status-history-content
                 padding 10px 20px 0 65px
@@ -575,7 +581,7 @@ input[name='taskUsers'], input[name="project"]
             padding 65px 20px 0 20px
             #addBugLink
                 position absolute
-                right 20px
+                right 105px
                 top 20px
             #bugFilter
                 position absolute
@@ -585,6 +591,10 @@ input[name='taskUsers'], input[name="project"]
                     strong
                         font-weight bold
                         margin-left 5px
+            .more-bug
+                position absolute
+                right 20px
+                top 20px
             #fetchBugProgress
                 position absolute
                 left 450px
@@ -912,6 +922,21 @@ input[name='taskUsers'], input[name="project"]
                 margin 2px 15px 0 5px
         #edit_task_todo_form_btn
             margin-top 20px
+//----------------------bug-edit----------------------------------------------------
+.bug-edit-wrapper
+    #editBugForm
+        padding 10px 20px
+        select
+            margin-left 5px
+        .bug-origin-files
+            padding-top 5px
+            .origin-file-item
+                float left
+            i
+                cursor pointer
+                margin 2px 15px 0 5px
+        #saveBugBtn
+            margin-top 20px
 //------------------------todo-info--------------------------------------------------
 .todo-info-wrapper
     .task-nav
@@ -1003,11 +1028,6 @@ input[name='taskUsers'], input[name="project"]
                 color #999
 //------------------------bug-info--------------------------------------------------
 .bug-info-wrapper
-    .task-nav
-        padding 10px 20px 10px 20px
-        border-bottom solid 1px #dfdfdf
-        ul
-            margin-bottom 0
     .bug-info
         // background #F4F3F1
         position relative

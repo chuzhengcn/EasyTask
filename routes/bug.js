@@ -304,3 +304,44 @@ exports.openClose = function(req, res) {
         })
     })
 }
+
+exports.edit = function(req, res) {
+    var taskCustomId = req.params.task_custom_id,
+        id           = req.params.id,
+        programmers  = [];
+
+    taskModel.findOne({custom_id : taskCustomId}, function(err, taskResult) {
+        if (err || !taskResult) {
+            routeApp.err404(req, res)
+            return
+        }
+
+        bugModel.findById(id, function(err, bugResult) {
+            if (err || !bugResult) {
+                routeApp.err404(req, res)
+                return
+            }
+
+            userModel.findActiveUsers(function(err, users) {
+                users.forEach(function(item, index) {
+                    if (item.role.indexOf(roleModel[1]) > -1) {
+                        programmers.push(item)
+                    }
+                })
+
+                res.render('bug/edit', {
+                    title       : '编辑' + bugResult.name,
+                    task        : taskResult,
+                    bug         : bugResult,
+                    bugTypes    : bugtypeModel,
+                    bugLevels   : bugLevelModel,
+                    programmers : programmers,
+                })
+            })
+        })
+    })
+}
+
+exports.update = function(req, res) {
+    
+}

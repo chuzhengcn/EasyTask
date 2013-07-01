@@ -187,7 +187,6 @@
     }
 
     $(function() {
-        app.utility.highlightCurrentPage('任务')
 
         typeaheadUser();
 

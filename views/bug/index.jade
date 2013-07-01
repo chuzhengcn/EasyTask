@@ -17,16 +17,15 @@ block content
                     .list
                         .list-header.clearfix
                             header(data-id='#{task._id}', data-custom-id="#{task.custom_id}")
-                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
+                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name} - Bug列表
                             .back
-                                a.btn.btn-small(href='/') 
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
                                     i.icon-chevron-left
-                                    |  返回任务列表
+                                    |  任务主页
                             .operate-wrapper
                                 a.btn.btn-primary.btn-small(href='/tasks/#{task.custom_id}/bugs-new') 添加Bug
                         .main-body.scrollable
                             .bug-list-wrapper.clearfix
-                                include ../include/task-nav
                                 .bug-list-info
                                     #bugFilter.btn-group(data-toggle="buttons-radio")
                                         button.btn.btn-small.active 全部

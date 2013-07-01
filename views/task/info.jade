@@ -48,7 +48,7 @@ block content
                                 button#editTaskBtn.btn.btn-primary.btn-small 编辑任务
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
-                                include ../include/task-nav
+                                //- include ../include/task-nav
                                 .task-info.clearfix
                                     dl.dl-horizontal
                                         dt 分支
@@ -86,7 +86,11 @@ block content
                                                     span.caret
                                                 ul.dropdown-menu.pull-right
                                         .delete-this-status(title='回退状态', data-id='#{latestStauts._id}')
-                                            i.icon-remove
+                                            button.btn.btn-danger.btn-small 删除状态
+                                        .more-status
+                                            a.btn.btn-small(href="/tasks/#{task.custom_id}/status")
+                                                | 版本历史
+                                                i.icon-chevron-right
                                         .states-date #{latestStauts.created_time} by #{latestStauts.operator.name}
                                         .status-history-content
                                             .status-name
@@ -106,6 +110,9 @@ block content
                                         - each bugStatus in bugStatusList
                                             button.btn.btn-small
                                                 span #{bugStatus}
+                                    .more-bug
+                                        a.btn.btn-small(href="/tasks/#{task.custom_id}/bugs-list") bug列表
+                                            i.icon-chevron-right
                                     #fetchBugProgress.progress.progress-striped.active
                                         .bar(style="width:100%")
                                     table#bugList.table.table-hover.table-condensed

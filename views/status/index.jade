@@ -35,16 +35,15 @@ block content
                     .list
                         .list-header.clearfix
                             header(data-id='#{task._id}')
-                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
+                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name} - 版本历史
                             .back
-                                a.btn.btn-small(href='/') 
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
                                     i.icon-chevron-left
-                                    |  返回任务列表
+                                    |  任务主页
                             .operate-wrapper
                                 //- button#mark_task_status.btn.btn-primary.btn-small 修改状态
                         .main-body.scrollable
                             .status-info-wrapper.clearfix
-                                include ../include/task-nav
                                 - each status,index in statusHistory
                                     .status-history-item.clearfix
                                         img.img-rounded(src='#{status.operator.avatar_url}')
