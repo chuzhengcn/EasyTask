@@ -14,25 +14,6 @@ block content
                                     button.button-close-pane
                                 .scrollable
                                     .inner
-                                        //- #add_task_milestone_form_wrapper.task-form-wrapper
-                                        //-     form#add_task_milestone_form.form-horizontal(action='/tasks/#{task._id}/milestones')
-                                        //-         legend 添加时间点
-                                                //- .control-group
-                                                //-     label.control-label(for='task_milestone_name') 名称
-                                                //-     .controls
-                                                //-             select(name='task_milestone_name')
-                                                //-                 option(value='提交测试') 提交测试
-                                                //-                 option(value='测试完成') 测试完成
-                                                //-                 option(value='发外网') 发外网
-                                                //-             input#custom_milestone_name_input(type='text',name='task_milestone_name', autocomplete='off', placeholder='输入事件名称')
-                                                //-             button(tabindex='-1')#custom_milestone_name.btn.btn-link.btn-small 自定义事件名称
-                                                //- .control-group
-                                                //-     label.control-label(for='task_milestone_time') 时间
-                                                //-     .controls
-                                                //-         input(type='date',name='task_milestone_time', autocomplete='off', required='true', pattern='^[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))$')
-                                                //- .control-group
-                                                //-     .controls
-                                                //-         button#add_task_milestone_form_btn.btn.btn-primary 添加
                     .list
                         .list-header.clearfix
                             header(data-id='#{task._id}', data-custom-id="#{task.custom_id}") 
@@ -49,26 +30,6 @@ block content
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
                                 //- include ../include/task-nav
-                                .task-info.clearfix
-                                    dl.dl-horizontal
-                                        dt 分支
-                                        dd #{task.branch}
-                                        dt 分值
-                                        dd #{task.score}
-                                        dt 站点
-                                        dd #{task.projects.join(', ')}
-                                        dt 创建于
-                                        dd #{task.created_time}
-                                .task-users.clearfix
-                                    .task-users-wrapper.clearfix
-                                        - each taskuser in task.users
-                                            a.user(href='/users/#{taskuser._id}')
-                                                img.img-polaroid.img-rounded(src='#{taskuser.avatar_url}')
-                                                .info 
-                                                    .name #{taskuser.name}
-                                                    .role 
-                                                        small 
-                                                            em #{taskuser.role}
                                 .task-milestone.clearfix
                                     header 时间点
                                         i#addMilestoneBtn.icon-plus-sign
@@ -77,8 +38,35 @@ block content
                                             li
                                                 span #{milestone.event_time.substring(5)}
                                                 a.milestone-name(href='#', data-id="#{milestone._id}", data-time="#{milestone.event_time}", data-toggle="tooltip", data-original-title="#{milestone.content}") #{milestone.name}
+                                .task-users.clearfix
+                                    .task-users-wrapper.clearfix
+                                        h5 参与人员
+                                        - each taskuser in task.users
+                                            a.user(href='/users/#{taskuser._id}')
+                                                img.img-polaroid.img-rounded(src='#{taskuser.avatar_url}')
+                                                .info 
+                                                    .name #{taskuser.name}
+                                                    .role 
+                                                        small 
+                                                            em #{taskuser.role}
+                                .task-info.clearfix
+                                    h5 任务信息
+                                    dl.dl-horizontal
+                                        dt 分支
+                                        dd #{task.branch}
+                                        dt 分值
+                                        dd #{task.score}
+                                        dt 站点
+                                        dd.sites #{task.projects.join(', ')}
+                                        dt 创建于
+                                        dd #{task.created_time}
+                                .task-summary-todo
+                                    h5 文档
+                                    a#addTodo.btn.btn-small.btn-primary(href="/tasks/#{task.custom_id}/todo-new") 添加文档
+                                    ul
                                 - if (latestStauts)
                                     .task-summary-version.clearfix
+                                        h5 任务状态
                                         img.img-polaroid.img-rounded(src='#{latestStauts.operator.avatar_url}')
                                         .change-status-btn-group
                                             .btn-group
@@ -104,6 +92,7 @@ block content
                                                             i.icon-file
                                                             a(href='#{file.url}') #{file.name}
                                 .task-summary-bug.clearfix
+                                    h5 Bug
                                     a#addBugLink.btn.btn-small.btn-primary(href="/tasks/#{task.custom_id}/bugs-new") 添加Bug
                                     #bugFilter.btn-group(data-toggle="buttons-radio")
                                         button.btn.btn-small.active 全部
@@ -130,25 +119,6 @@ block content
                                                 th 留言
                                                 th 操作
                                         tbody
-                                    //- header 
-                                    //-     a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档
-                                    //-     a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 
-                                    //-         i.icon-plus-sign
-                                    //-         | 添加Bug
-                                    //- ul.unstyled
-                                    //-     - each todo in taskTodos
-                                    //-         li(data-id='#{todo._id}')
-                                    //-             - if (todo.complete == 1)
-                                    //-                 span.complete(title='标记事项未完成')
-                                    //-             - else
-                                    //-                 span.un-complete(title='标记事项已完成')
-                                    //-             a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
-                                    //-             span.time #{todo.operator.name} 创建于 #{todo.created_time}
-                                    //-             .category  
-                                    //-                 span.label #{todo.category}
-                                    //-             .comment-count
-                                    //-                 - if (todo.comments.length !== 0)
-                                    //-                     span.badge.badge-inverse #{todo.comments.length}留言
                                 //- .task-summary-todo.clearfix
                                 //-     header 
                                 //-         a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档

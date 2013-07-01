@@ -1,4 +1,5 @@
-var routeApp        = require('./app')
+var routeApp        = require('./app'),
+    
 var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
 var counter_coll    = require('../db/counter')

@@ -2,13 +2,6 @@
     var target_file
     var files_info = []
     var editor
-    
-    $(function() {
-        app.utility.highlightCurrentPage('任务')
-        app.viewhelper.setSelect('task_todo_category_selecter')
-        eventBind()
-        setEditor()
-    })
 
     function setEditor() {
         var editorOption = { 
@@ -16,60 +9,33 @@
             items      : ['source', 'justifyleft', 'justifycenter', 'justifyright', 'fontsize', 'forecolor', 'bold', 'underline', 'image', 'link', 'unlink']
         }
         KindEditor.ready(function(K) {
-                editor = K.create('#edit_todo_des', editorOption)
+                editor = K.create('#bugContent', editorOption)
         })
     }
 
-    function eventBind() {
-
-        //submit task todo btn
-        $('#edit_task_todo_form_btn').click(function(event) {
-            readyToEditTodo.call(this, event, $(this))
-        })
-
-        //ready to upload
-        $('#upload_todo_files_input').change(function(event) {
-            if (event.currentTarget.files) {
-                target_file = event.currentTarget.files
-            } else {
-                target_file = null
-            }
-            
-        })
-
-        $('#edit_task_todo_form .icon-remove').click(function(event) {
-            removeTodoFile.call(this, event)
-        })
-
-    }
-    
-    function getTaskId() {
-        return $('.list-header header').data('id')
-    }
-
-    function readyToEditTodo(event, $btn) {
-        if (app.utility.isValidForm('edit_task_todo_form')) {
+    function readyToEditBug(event, $btn) {
+        if (app.utility.isValidForm('editBugForm')) {
             event.preventDefault() 
             if (needFiles()) {
                 satrtUpload($btn, function() {
-                     startEditTodos($btn)
+                    startEditBug($btn)
                 })
             } else {
-                startEditTodos($btn)
+                startEditBug($btn)
             }
         }
     }
 
-    function startEditTodos($btn) {
+    function startEditBug($btn) {
         var sendToServerData =  {}
         editor.sync()
-        $('#edit_task_todo_form').serializeArray().forEach(function(item, index, array) {
+        $('#editBugForm').serializeArray().forEach(function(item, index, array) {
             sendToServerData[item.name] = item.value
         })
         sendToServerData.taskfiles = files_info
         $.ajax({
             type        : 'put',
-            url         : $('#edit_task_todo_form').attr('action'),
+            url         : $('#editBugForm').attr('action'),
             data        : sendToServerData,
             beforeSend  : function() {
                 app.utility.isWorking($btn)
@@ -78,9 +44,17 @@
                 if (!data.ok) {
                     alert(data.msg)
                 }
-                location.href = '/tasks/' + getTaskId() + '/todos/' + getTodoId()
+                location.href = '/tasks/' + getTaskCustomId() + '/bugs/' + getBugId()
             }
         })
+    }
+
+    function getTaskId() {
+        return $('.list-header header').data('id')
+    }
+
+    function getTaskCustomId() {
+        return $('.list-header header').data('custom-id')
     }
 
     function needFiles() {
@@ -93,7 +67,7 @@
 
     function satrtUpload($btn, cb) {
         var file_form = new FormData()
-        var file_attr = $('#upload_todo_files_input').attr('name')
+        var file_attr = $('#uploadBugFilesInput').attr('name')
         for (var i = 0; i < target_file.length; i++) {
             file_form.append(file_attr, target_file[i])
         }
@@ -117,15 +91,15 @@
         })
     }
 
-    function removeTodoFile(event) {
+    function removeBugFile(event) {
         var sure = confirm('确认删除？')
         if (!sure) {
             return
         }
         var $file_wrapper = $(this).parent()
         $.ajax({
-            type        : 'put',
-            url         : '/tasks/' + getTaskId() + '/todo/' + getTodoId() + '/files',
+            type        : 'delete',
+            url         : '/tasks/' + getTaskId() + '/bugs/' + getBugId() + '/file-delete',
             data        : { file_id : $(this).data('id') },
             beforeSend  : function() {
                 $file_wrapper.html('正在删除...')
@@ -140,8 +114,44 @@
         })
     }
 
-    function getTodoId() {
-        return $('#edit_task_todo_form').data('id')
+    function getBugId() {
+        return $('#editBugForm').data('id')
     }
 
+    function eventBind() {
+
+        //submit task bug btn
+        $('#saveBugBtn').click(function(event) {
+            readyToEditBug.call(this, event, $(this))
+        })
+
+        //ready to upload
+        $('#uploadBugFilesInput').change(function(event) {
+            if (event.currentTarget.files) {
+                target_file = event.currentTarget.files
+            } else {
+                target_file = null
+            }
+            
+        })
+
+        $('.origin-file-item .icon-remove').click(function(event) {
+            removeBugFile.call(this, event)
+        })
+
+    }
+    
+    $(function() {
+        app.utility.highlightCurrentPage('任务')
+
+        app.viewhelper.setSelect('bugLevel')
+
+        app.viewhelper.setSelect('bugTypeSelector')
+
+        app.viewhelper.setSelect('programmerSelector')
+
+        eventBind()
+
+        setEditor()
+    })
 })()

@@ -2,8 +2,9 @@
     var statusTargetFile        = null,
         statusFilesInfo         = [],
         statusContetTemplate    = {
-            'developer' : '【版本说明】：\n\n【脚本说明】：\n\n【关联站点】：\n\n【关联数据库】： \n\n【更新步骤】： \n\n【测试地址】： \n\n【特殊情况说明】：\n\n'
-
+            developer : function() {
+                return '【版本说明】：' + $('.list-header header a').text() +'\n\n【脚本说明】：\n\n【关联站点】：' + $('.task-info dd.sites').text() + '\n\n【关联数据库】： \n\n【更新步骤】： \n\n【测试地址】： \n\n【特殊情况说明】：\n\n'
+            } 
         };
 
     function typeaheadUser() {
@@ -339,7 +340,7 @@
         var $textarea = $('#createStatusForm textarea')
 
         if (statusName.indexOf('开发') > -1) {
-            $textarea.val(statusContetTemplate.developer)
+            $textarea.val(statusContetTemplate.developer())
         }
 
         $('#createStatusForm input[name="name"]').val(statusName)
@@ -490,7 +491,7 @@
                 + showProperStatusBtn(item.status)
                 + '</td><td><span class="badge">'
                 + item.comments.length
-                + '</span></td><td><i class="icon-picture" title="预览"></i><i class="icon-edit" title="编辑"></i>'
+                + '</span></td><td><i class="icon-picture" title="预览"></i><i class="edit-bug icon-edit" title="编辑"></i>'
                 + '</td></tr>')
             $('#bugList tbody tr:last').data(item)
         })   
@@ -713,6 +714,13 @@
         //change bug status
         $('#bugList tbody').delegate('.change-bug-status button', 'click', function(event) {
             startChangeBugStatus($(this))
+        })
+
+        //edit bug
+        $('#bugList tbody').delegate('.edit-bug', 'click', function(event) {
+            var bug = $(this).parent().parent().data()
+
+            location.href= '/tasks/' + getTaskCustomId() + '/bugs/' + bug._id + '/edit'
         })
 
         // complete todo

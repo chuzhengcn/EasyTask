@@ -451,11 +451,11 @@ input[name='taskUsers'], input[name="project"]
     .task-summary-wrapper
         padding-bottom 10px
         position relative
-        .task-nav
-            padding 10px 20px 10px 20px
-            border-bottom solid 1px #dfdfdf
-            ul
-                margin-bottom 0
+        // .task-nav
+        //     padding 10px 20px 10px 20px
+        //     border-bottom solid 1px #dfdfdf
+        //     ul
+        //         margin-bottom 0
         // .task-summary-todo,
         // .task-summary-file,
         // .task-summary-version,
@@ -486,7 +486,7 @@ input[name='taskUsers'], input[name="project"]
             // background #efeddf
             .task-users-wrapper
                 clear both
-                padding 20px 250px 10px 20px
+                padding 0 250px 10px 20px
             .user
                 float left
                 margin-bottom 10px
@@ -506,11 +506,16 @@ input[name='taskUsers'], input[name="project"]
                     .name
                         margin-bottom 5px
         .task-info
-            padding 10px 250px 0 0
+            padding 0 250px 0 20px
             border-bottom solid 1px #dfdfdf
             // background #efeddf
             dd
                 margin-bottom 5px
+            .doc
+                position relative
+                #addDoc
+                    position absolute
+                    right
         .task-milestone
             position absolute
             right 20px
@@ -532,12 +537,12 @@ input[name='taskUsers'], input[name="project"]
                         margin-right 10px                        
         .task-summary-version
             position relative
-            padding 15px 200px 30px 20px
+            padding 0 200px 30px 20px
             border-bottom solid 1px #dfdfdf
             // background #EFEDDF
             img
                 position absolute
-                top 20px
+                top 40px
                 left 20px
                 max-width 40px
                 max-height 40px
@@ -562,7 +567,7 @@ input[name='taskUsers'], input[name="project"]
                 right 20px
                 font-size 12px
             .status-history-content
-                padding 10px 20px 0 65px
+                padding 2px 20px 0 65px
                 .status-name
                     font-weight bold
                     padding-bottom 10px
@@ -578,15 +583,13 @@ input[name='taskUsers'], input[name="project"]
         .task-summary-bug
             position relative
             border-bottom solid 1px #dfdfdf
-            padding 65px 20px 0 20px
+            padding 0 20px 0 20px
             #addBugLink
                 position absolute
                 right 105px
-                top 20px
+                top 15px
             #bugFilter
-                position absolute
-                left 20px
-                top 20px
+                margin-bottom 10px
                 button
                     strong
                         font-weight bold
@@ -594,7 +597,7 @@ input[name='taskUsers'], input[name="project"]
             .more-bug
                 position absolute
                 right 20px
-                top 20px
+                top 15px
             #fetchBugProgress
                 position absolute
                 left 450px
@@ -606,44 +609,52 @@ input[name='taskUsers'], input[name="project"]
                     cursor pointer
                     margin-right 5px
         .task-summary-todo
-            ul
-                clear both
-                padding 10px 20px 0 20px
-                li
-                    padding 8px 0
-                    height 20px
-                    border-bottom solid 1px #dfdfdf
-                    a.name
-                        color rgba(0, 0, 0, 0.85)
-                        float left
-                        width 300px
-                        white-space nowrap
-                        overflow hidden
-                        text-overflow ellipsis
-                        &:hover
-                            text-decoration underline
-                    .category
-                        float right
-                        line-height 20px
-                        width 70px
-                    .time
-                        float right
-                        font-size 12px
-                        color #666
-                        width 180px
-                    .complete, .un-complete
-                        float left
-                        width 20px
-                        height 20px
-                        margin 0 20px 0 0
-                        background url($complete) 0 0 no-repeat
-                        cursor pointer
-                    .un-complete
-                        background url($un-complete) 0 0 no-repeat
-                    .comment-count
-                        float right
-                        margin-top 1px
-                        width 80px
+            position relative
+            padding 0 20px 10px 20px
+            border-bottom solid 1px #dfdfdf
+            #addTodo
+                position absolute
+                right 20px
+                top 0
+        // .task-summary-todo
+        //     ul
+        //         clear both
+        //         padding 10px 20px 0 20px
+        //         li
+        //             padding 8px 0
+        //             height 20px
+        //             border-bottom solid 1px #dfdfdf
+        //             a.name
+        //                 color rgba(0, 0, 0, 0.85)
+        //                 float left
+        //                 width 300px
+        //                 white-space nowrap
+        //                 overflow hidden
+        //                 text-overflow ellipsis
+        //                 &:hover
+        //                     text-decoration underline
+        //             .category
+        //                 float right
+        //                 line-height 20px
+        //                 width 70px
+        //             .time
+        //                 float right
+        //                 font-size 12px
+        //                 color #666
+        //                 width 180px
+        //             .complete, .un-complete
+        //                 float left
+        //                 width 20px
+        //                 height 20px
+        //                 margin 0 20px 0 0
+        //                 background url($complete) 0 0 no-repeat
+        //                 cursor pointer
+        //             .un-complete
+        //                 background url($un-complete) 0 0 no-repeat
+        //             .comment-count
+        //                 float right
+        //                 margin-top 1px
+        //                 width 80px
         .task-summary-file
             .file-item-wrapper
                 clear both
@@ -1064,9 +1075,10 @@ input[name='taskUsers'], input[name="project"]
                 max-width 1000px
                 margin 10px auto
         .file-item
-            margin 10px 10px 0 20px
+            margin 5px 10px 0 20px
             font-size 12px
             line-height 20px
+            float left
     .bug-discussion
         padding 0 20px 10px 20px
         .add-comment

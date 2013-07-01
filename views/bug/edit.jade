@@ -17,7 +17,7 @@ block content
                                     .inner
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}')
+                            header(data-id='#{task._id}', data-custom-id="#{task.custom_id}")
                                 a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
                             .back
                                 a.btn.btn-small(href='/tasks/#{task.custom_id}') 
@@ -42,23 +42,23 @@ block content
                                         label.control-label 分值、级别和类别
                                         .controls
                                             input(type='number', autocomplete='off', name='score', required='true', value="#{bug.score}") 
-                                            select#bugLevel(name="level")
+                                            select#bugLevel(name="level", data-origin-value="#{bug.level}")
                                                 - each level in bugLevels
                                                     option(value="#{level}") #{level}
-                                            select#bugTypeSelector(name='type')
+                                            select#bugTypeSelector(name='type', data-origin-value="#{bug.type}")
                                                 - each type in bugTypes
                                                     option(value="#{type}") #{type}
                                     .control-group
                                         label.control-label(for='assign_to') 指派给
                                         .controls
-                                            select#programmerSelector(name='assign_to')
+                                            select#programmerSelector(name='assign_to', data-origin-value="#{bug.assign_to}")
                                                 option(value="") 不指定
                                                 - each programmer in programmers
                                                     option(value="#{programmer._id}") #{programmer.name}
                                     .control-group
                                         label.control-label(for='content') 描述
                                         .controls
-                                            textarea#bugContent.span9(name='content', autocomplete='off', rows="15")
+                                            textarea#bugContent.span9(name='content', autocomplete='off', rows="15") !{bug.content}
                                     .control-group
                                         label.control-label(for='origin-files') 原附件
                                         .controls

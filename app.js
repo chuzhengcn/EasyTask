@@ -67,7 +67,7 @@ app.post('/tasks/:task_id/todos',          todo.create)
 app.get('/tasks/:task_id/todos/:id',       todo.show)
 app.put('/tasks/:task_id/todos/:id',       todo.update)
 app.delete('/tasks/:task_id/todos/:id',    todo.delete)
-app.get('/tasks/:task_id/todo/new',        todo.new)
+app.get('/tasks/:task_custom_id/todo-new', todo.new)
 app.get('/tasks/:task_id/todo/:id/edit',   todo.edit)
 app.put('/tasks/:task_id/todo/:id/files',  todo.editTodoFiles)
 
@@ -82,7 +82,8 @@ app.put('/tasks/:task_id/bugs/:id/add-comment',             bug.addComment)
 app.put('/tasks/:task_id/bugs/:id/open-close',              bug.openClose)
 app.get('/tasks/:task_custom_id/bugs/:id',                  bug.show)
 app.get('/tasks/:task_custom_id/bugs/:id/edit',             bug.edit)
-app.put('/tasks/:task_custom_id/bugs/:id',                  bug.update)
+app.put('/tasks/:task_id/bugs/:id',                         bug.update)
+app.delete('/tasks/:task_id/bugs/:id/file-delete',          bug.removeFile)
 
 //---------upload----------------------------------------------
 var upload    = require('./routes/upload')

@@ -49,20 +49,21 @@ block content
                                             dd #{bug.score}
                                             dt 等级
                                             dd #{bug.level}
-                                            dt 指派给
-                                            dd #{((bug.programmer&&bug.programmer.name) || '无')}
                                             dt 类型
                                             dd #{bug.type}
+                                            dt 指派给
+                                            dd #{((bug.programmer&&bug.programmer.name) || '无')}
                                             dt 最近更新
                                             dd #{bug.updated_time}
                                             dt 创建时间
                                             dd #{bug.created_time} by #{bug.operator.name}
                                     - if (bug.content)
                                         .content !{bug.content}
-                                    - each file in bug.files
-                                        .file-item
-                                            i.icon-file
-                                            a(href='#{file.url}') #{file.name}
+                                    .file-group.clearfix
+                                        - each file in bug.files
+                                            .file-item
+                                                i.icon-file
+                                                a(href='#{file.url}') #{file.name}
                                 .bug-discussion
                                     h5 关于该bug的讨论
                                     - each comment in bug.comments

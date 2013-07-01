@@ -126,16 +126,8 @@ exports.list = function(req, res) {
         key         = '',
         filter      = {
             task_id     : taskId,
-            status      : req.query.status || '',
             closed      : req.query.closed || false,
-            assign_to   : req.query.assign_to || '',
-        };
-        
-    for (key in filter) {
-        if (!filter[key]) {
-            delete filter[key]
-        }
-    }   
+        };   
 
     bugModel.findBugsIncludeUsersByTaskId(filter, function(err, bugResults) {
         if (err) {
@@ -343,5 +335,116 @@ exports.edit = function(req, res) {
 }
 
 exports.update = function(req, res) {
-    
+    var taskId      = req.params.task_id,
+        id          = req.params.id,
+        logContent  = '',
+        bugFiles    = [],
+        updateDoc   = {};
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        if (!req.body.name) {
+            res.send({ok : 0, msg : 'bug名称必填'})
+            return
+        }
+
+        if (!req.body.type) {
+            res.send({ok : 0, msg : 'bug类别必填'})
+            return
+        }
+
+        if (!req.body.level) {
+            res.send({ok : 0, msg : 'bug级别必填'})
+            return
+        }
+
+        bugModel.findById(id, function(err, originBug) {
+            if (req.body.taskfiles) {
+                bugFiles = originBug.files.concat(req.body.taskfiles)
+            } else {
+                bugFiles = originBug.files
+            }
+
+            updateDoc = {
+                name            : req.body.name,
+                content         : req.body.content || '',
+                type            : req.body.type,
+                files           : bugFiles,
+                operator_id     : String(operator._id),
+                level           : req.body.level,
+                score           : parseInt(req.body.score, 10) || 0,
+                assign_to       : req.body.assign_to || '',
+                updated_time    : new Date(),
+            }
+
+            bugModel.findByIdAndUpdate(id, updateDoc, function(err, bugResult) {
+                if (err) {
+                    res.send({ok : 0, msg : '数据库错误'})
+                    return
+                }
+
+                res.send({ok : 1, bug : bugResult})
+
+                if (originBug.name !== bugResult.name) {
+                    logContent = logContent + 'bug名由 ' + originBug.name + ' 改为 ' + bugResult.name + ';\n'
+                }
+
+                if (originBug.type !== bugResult.type) {
+                    logContent = logContent + '类别由 ' + originBug.type + ' 改为 ' + bugResult.type + ';\n'
+                }
+
+                if (originBug.level !== bugResult.level) {
+                    logContent = logContent + '等级由 ' + originBug.level + ' 改为 ' + bugResult.level + ';\n'
+                }
+
+                if (originBug.score !== bugResult.score) {
+                    logContent = logContent + '分值由 ' + originBug.score + ' 改为 ' + bugResult.score + ';\n'
+                }
+
+                if (originBug.content !== bugResult.content) {
+                    logContent = logContent + '更改了bug描述;\n'
+                }
+
+                if (originBug.assign_to !== bugResult.assign_to) {
+                    logContent = logContent + '重新指定了人员;\n'
+                }
+
+                routeApp.createLogItem(String(operator._id), taskId, '15', logContent)
+            })
+        })
+    })
+}
+
+exports.removeFile = function(req, res) {
+    var bugId   = req.params.id,
+        taskId  = req.params.task_id,
+        fileId  = req.body.file_id;
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        if (fileId) {
+            bugModel.findById(bugId, function(err, bugResult) {
+                bugResult.files.forEach(function(item, index) {
+                    if (item._id === fileId) {
+                        bugResult.files.splice(index, 1)
+                    }
+                })
+
+                bugModel.findByIdAndUpdate(bugId, {files : bugResult.files}, function(err, removedFileBugResult) {
+                    routeApp.createLogItem(String(operator._id), taskId, '15', '修改了bug附件')
+                    res.send({ok : 1})
+                })
+            })
+        } else {
+            res.send({ ok : 0})
+        }
+    })
 }

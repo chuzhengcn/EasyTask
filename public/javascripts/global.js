@@ -66,7 +66,7 @@ app.utility = {
 
 app.viewhelper = {
     setSelect : function(selectId) {
-        var defauleValue = $('#' + selectId).data('originName')
+        var defauleValue = $('#' + selectId).data('origin-value')
         $('#' + selectId + ' option').each(function() {
             if ($(this).val() == defauleValue) {
                $(this).attr('selected', 'selected')

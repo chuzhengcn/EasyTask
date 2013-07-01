@@ -35,11 +35,11 @@ bugSchema.statics.findBugsIncludeUsersByTaskId = function(filter, cb) {
         bugResults = bugResults.map(function(item, index) {
             item = item.toObject()
 
-            if (operators.indexOf(item.operator_id) === -1) {
+            if (operators.indexOf(item.operator_id) === -1 && item.operator_id) {
                 operators.push(item.operator_id)
             }
 
-            if (operators.indexOf(item.assign_to) === -1) {
+            if (operators.indexOf(item.assign_to) === -1 && item.assign_to) {
                 operators.push(item.assign_to)
             }
 

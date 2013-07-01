@@ -47,7 +47,7 @@
                 + showProperStatusBtn(item.status)
                 + '</td><td><span class="badge">'
                 + item.comments.length
-                + '</span></td><td><i class="icon-picture" title="预览"></i><i class="icon-edit" title="编辑"></i>'
+                + '</span></td><td><i class="icon-picture" title="预览"></i><i class="edit-bug icon-edit" title="编辑"></i>'
                 + '</td></tr>')
             $('#bugList tbody tr:last').data(item)
         })   
@@ -190,6 +190,13 @@
         //change bug status
         $('#bugList tbody').delegate('.change-bug-status button', 'click', function(event) {
             startChangeBugStatus($(this))
+        })
+
+        //edit bug
+        $('#bugList tbody').delegate('.edit-bug', 'click', function(event) {
+            var bug = $(this).parent().parent().data()
+
+            location.href= '/tasks/' + getTaskCustomId() + '/bugs/' + bug._id + '/edit'
         })
     }
 

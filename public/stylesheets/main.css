@@ -553,19 +553,12 @@ input[name="project"] {
   padding-bottom: 10px;
   position: relative;
 }
-.task-summary .task-summary-wrapper .task-nav {
-  padding: 10px 20px 10px 20px;
-  border-bottom: solid 1px #dfdfdf;
-}
-.task-summary .task-summary-wrapper .task-nav ul {
-  margin-bottom: 0;
-}
 .task-summary .task-summary-wrapper .task-users {
   border-bottom: solid 1px #dfdfdf;
 }
 .task-summary .task-summary-wrapper .task-users .task-users-wrapper {
   clear: both;
-  padding: 20px 250px 10px 20px;
+  padding: 0 250px 10px 20px;
 }
 .task-summary .task-summary-wrapper .task-users .user {
   float: left;
@@ -590,11 +583,18 @@ input[name="project"] {
   margin-bottom: 5px;
 }
 .task-summary .task-summary-wrapper .task-info {
-  padding: 10px 250px 0 0;
+  padding: 0 250px 0 20px;
   border-bottom: solid 1px #dfdfdf;
 }
 .task-summary .task-summary-wrapper .task-info dd {
   margin-bottom: 5px;
+}
+.task-summary .task-summary-wrapper .task-info .doc {
+  position: relative;
+}
+.task-summary .task-summary-wrapper .task-info .doc #addDoc {
+  position: absolute;
+right
 }
 .task-summary .task-summary-wrapper .task-milestone {
   position: absolute;
@@ -621,12 +621,12 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-summary-version {
   position: relative;
-  padding: 15px 200px 30px 20px;
+  padding: 0 200px 30px 20px;
   border-bottom: solid 1px #dfdfdf;
 }
 .task-summary .task-summary-wrapper .task-summary-version img {
   position: absolute;
-  top: 20px;
+  top: 40px;
   left: 20px;
   max-width: 40px;
   max-height: 40px;
@@ -657,7 +657,7 @@ input[name="project"] {
   font-size: 12px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .status-history-content {
-  padding: 10px 20px 0 65px;
+  padding: 2px 20px 0 65px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .status-history-content .status-name {
   font-weight: bold;
@@ -676,17 +676,15 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-summary-bug {
   position: relative;
   border-bottom: solid 1px #dfdfdf;
-  padding: 65px 20px 0 20px;
+  padding: 0 20px 0 20px;
 }
 .task-summary .task-summary-wrapper .task-summary-bug #addBugLink {
   position: absolute;
   right: 105px;
-  top: 20px;
+  top: 15px;
 }
 .task-summary .task-summary-wrapper .task-summary-bug #bugFilter {
-  position: absolute;
-  left: 20px;
-  top: 20px;
+  margin-bottom: 10px;
 }
 .task-summary .task-summary-wrapper .task-summary-bug #bugFilter button strong {
   font-weight: bold;
@@ -695,7 +693,7 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-summary-bug .more-bug {
   position: absolute;
   right: 20px;
-  top: 20px;
+  top: 15px;
 }
 .task-summary .task-summary-wrapper .task-summary-bug #fetchBugProgress {
   position: absolute;
@@ -710,53 +708,15 @@ input[name="project"] {
   cursor: pointer;
   margin-right: 5px;
 }
-.task-summary .task-summary-wrapper .task-summary-todo ul {
-  clear: both;
-  padding: 10px 20px 0 20px;
-}
-.task-summary .task-summary-wrapper .task-summary-todo ul li {
-  padding: 8px 0;
-  height: 20px;
+.task-summary .task-summary-wrapper .task-summary-todo {
+  position: relative;
+  padding: 0 20px 10px 20px;
   border-bottom: solid 1px #dfdfdf;
 }
-.task-summary .task-summary-wrapper .task-summary-todo ul li a.name {
-  color: rgba(0,0,0,0.85);
-  float: left;
-  width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.task-summary .task-summary-wrapper .task-summary-todo ul li a.name:hover {
-  text-decoration: underline;
-}
-.task-summary .task-summary-wrapper .task-summary-todo ul li .category {
-  float: right;
-  line-height: 20px;
-  width: 70px;
-}
-.task-summary .task-summary-wrapper .task-summary-todo ul li .time {
-  float: right;
-  font-size: 12px;
-  color: #666;
-  width: 180px;
-}
-.task-summary .task-summary-wrapper .task-summary-todo ul li .complete,
-.task-summary .task-summary-wrapper .task-summary-todo ul li .un-complete {
-  float: left;
-  width: 20px;
-  height: 20px;
-  margin: 0 20px 0 0;
-  background: url("/images/complete.png") 0 0 no-repeat;
-  cursor: pointer;
-}
-.task-summary .task-summary-wrapper .task-summary-todo ul li .un-complete {
-  background: url("/images/un-complete.png") 0 0 no-repeat;
-}
-.task-summary .task-summary-wrapper .task-summary-todo ul li .comment-count {
-  float: right;
-  margin-top: 1px;
-  width: 80px;
+.task-summary .task-summary-wrapper .task-summary-todo #addTodo {
+  position: absolute;
+  right: 20px;
+  top: 0;
 }
 .task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper {
   clear: both;
@@ -1277,9 +1237,10 @@ input[name="project"] {
   margin: 10px auto;
 }
 .bug-info-wrapper .bug-info .file-item {
-  margin: 10px 10px 0 20px;
+  margin: 5px 10px 0 20px;
   font-size: 12px;
   line-height: 20px;
+  float: left;
 }
 .bug-info-wrapper .bug-discussion {
   padding: 0 20px 10px 20px;
