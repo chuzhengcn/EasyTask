@@ -510,12 +510,11 @@ input[name="project"] {
 }
 .list-body .task-list {
   margin-bottom: 0;
-  background-color: #e9eef7;
 }
 .list-body .task-list li {
   padding: 15px 10px 15px 15px;
   height: 20px;
-  border-bottom: solid 1px #dae2f2;
+  border-bottom: solid 1px #dfdfdf;
 }
 .list-body .task-list li .task-custom-id {
   width: 50px;
@@ -561,8 +560,7 @@ input[name="project"] {
   border-bottom: dashed 1px #999;
 }
 .list-body .task-list li.mine {
-  background-color: #f7f5ec;
-  border-bottom: solid 1px #ebe9e9;
+  background-color: #e9eef7;
 }
 .list-body .pager {
   padding: 0 10px;
