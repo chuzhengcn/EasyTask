@@ -72,7 +72,7 @@ block content
                                             li
                                                 span.index ##{todos.length - index}
                                                 a(href="/tasks/#{task.custom_id}/todos/#{todo._id}") #{todo.name}
-                                                span.time #{todo.created_time} by #{todo.operator.name}
+                                                span.time #{todo.created_time} updated by #{todo.operator.name}
                                                 //- span.category 
                                                 //-     span.label #{todo.category}
                                                 - if (todo.comments.length > 0)
@@ -94,7 +94,7 @@ block content
                                         //-     a.btn.btn-small(href="/tasks/#{task.custom_id}/status")
                                         //-         | 版本历史
                                         //-         i.icon-chevron-right
-                                        .states-date #{latestStauts.created_time} by #{latestStauts.operator.name}
+                                        .states-date #{latestStauts.created_time} updated by #{latestStauts.operator.name}
                                         .status-history-content
                                             .status-name
                                                 span.label #{latestStauts.name}

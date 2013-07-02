@@ -311,7 +311,7 @@ exports.show = function(req, res) {
 
                     // get all todos
                     todoModel.findAllIncludeUserByTaskId(String(taskResult._id), function(err, todoResults) {
-                        todoResults = time.format_specify_field(todoResults, {created_time : 'readable_time'})
+                        todoResults = time.format_specify_field(todoResults, {updated_time : 'readable_time'})
                         res.render('task/info',{
                             title           : taskResult.name,
                             task            : taskResult,
