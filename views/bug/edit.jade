@@ -30,6 +30,7 @@ block content
                                     i.icon-chevron-left
                                     |  Bug详情
                             .operate-wrapper
+                                button#removeBugBtn.btn.btn-small.btn-danger(data-id="#{bug._id}") 删除
                         .main-body.scrollable
                             .bug-edit-wrapper.clearfix
                                 form#editBugForm.form-horizontal(action='/tasks/#{task._id}/bugs/#{bug._id}',data-id='#{bug._id}')

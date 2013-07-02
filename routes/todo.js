@@ -1,248 +1,323 @@
 var routeApp        = require('./app'),
-    
+    taskModel       = require('../model/task').task,
+    time            = require('../helper/time'),
+    view            = require('../helper/view'),
+    upload_route    = require('./upload'),
+    todoModel       = require('../model/todo').todo;
+
 var user_coll       = require('../db/user')
 var task_coll       = require('../db/task')
 var counter_coll    = require('../db/counter')
 var milestone_coll  = require('../db/milestone')
 var status_coll     = require('../db/status')
-var time            = require('../helper/time')
-var view            = require('../helper/view')
 var file_coll       = require('../db/file')
 var todo_coll       = require('../db/todo')
-var upload_route    = require('./upload') 
 var log_coll        = require('../db/log')
 
 exports.new = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
-        task_coll.findById(req.params.task_id, function(err, task) {
-            res.render('todo/new', 
+    var taskCustomId = req.params.task_custom_id;
+
+    taskModel.findOne({custom_id : taskCustomId}, function(err, taskResult) {
+        res.render('todo/new', 
+            { 
+                title   : '添加文档 - ' + taskResult.name, 
+                task    : taskResult
+            } 
+        )
+    })
+}
+
+exports.list = function(req, res) {
+    var taskCustomId = req.params.task_custom_id;
+
+    taskModel.findOne({custom_id : taskCustomId}, function(err, taskResult) {
+        if (!taskResult || err) {
+            routeApp.err404(req, res)
+            return
+        }
+
+        todoModel.find({task_id : String(taskResult._id)}, {}, {created_time : -1}, function(err, todoResults) {
+            todoResults = todoResults.map(function(item, index) {
+                item = item.toObject()
+                item.created_time = time.readable_time(item.created_time)
+                return item
+            })
+
+            res.render('todo/index', 
                 { 
-                    title   : '添加待办事项 - ' + task.name, 
-                    me      : loginUser,
-                    task    : task
+                    title   : '全部文档 - ' + taskResult.name, 
+                    todos   : todoResults, 
+                    task    : taskResult,
                 } 
             )
         })
     })
 }
 
-exports.list = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
-        task_coll.findById(req.params.task_id, function(err, task) {
-            var todoFilter = {}
-            // todo: check validate req query
-            if (req.query) {
-                todoFilter = req.query
+exports.show = function(req, res) {
+    var id = req.params.id;
+
+    todoModel.findOneTodoIncludeUser(id, function(err, todoResult) {
+        if (!todoResult || err) {
+            routeApp.err404(req, res)
+            return
+        }
+
+        todoResult.comments = time.format_specify_field(todoResult.comments, { created_time : 'readable_time'})
+
+        taskModel.findById(todoResult.task_id, function(err, taskResult) {
+            if (err || !taskResult) {
+                routeApp.err404(req, res)
+                return
             }
 
-            todoFilter.task_id = req.params.task_id
-
-            todo_coll.findByTask(todoFilter, 0, function(err, todos) {
-                res.render('todo/index', 
-                    { 
-                        title   : '待办事项 - ' + task.name, 
-                        me      : loginUser,
-                        todos   : time.format_specify_field(todos, { created_time : 'readable_time' }), 
-                        task    : task,
-                    } 
-                )
-            })
+            res.render('todo/info',
+                {
+                    title : todoResult.name + '-' + taskResult.name,
+                    todo  : time.format_specify_field(todoResult, {created_time : 'readable_time', updated_time : 'readable_time'}),
+                    task  : taskResult,
+                }
+            )
         })
     })
 }
 
-exports.show = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
-        task_coll.findById(req.params.task_id, function(err, task) {
-            if (!task) {
+exports.edit = function(req, res) {
+    var taskCustomId = req.params.task_custom_id,
+        id           = req.params.id;
+
+    taskModel.findOne({custom_id : taskCustomId}, function(err, taskResult) {
+        if (err || !taskResult) {
+            routeApp.err404(req, res)
+            return
+        }
+
+        todoModel.findById(id, function(err, todoResult) {
+            if (err || !todoResult) {
                 routeApp.err404(req, res)
                 return
             }
-            todo_coll.findByIdIncludeUser(req.params.id, function(err, todo) {
-                todo.comments = time.format_specify_field(todo.comments, { created_time : 'readable_time'})
-                res.render('todo/info',
-                    {
-                        title : todo.name + '-' + task.name,
-                        me    : loginUser,
-                        todo  : time.format_specify_field(todo, {created_time : 'readable_time', modify_time : 'readable_time'}),
-                        task  : task,
-                    }
-                )
-            })
-        }) 
-    })
-}
 
-exports.edit = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
-        task_coll.findById(req.params.task_id, function(err, task) {
-            if (!task) {
-                res.redirect('/404')
-                return
-            }
-
-            todo_coll.findById(req.params.id, function(err, todo) {
-                res.render('todo/edit',
-                    {
-                        title : todo.name + '-' + task.name,
-                        me    : loginUser,
-                        todo  : todo,
-                        task  : task,
-                    }
-                )
-            })
-        }) 
+            res.render('todo/edit',
+                {
+                    title : todoResult.name + '-' + taskResult.name,
+                    todo  : todoResult,
+                    task  : taskResult,
+                }
+            )
+        })
     })
 }
 
 exports.create = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var taskId  = req.params.task_id,
+        newTodo = null;
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
 
-        todo_coll.create({ 
-            task_id         : req.params.task_id,
+        if (!req.body.name) {
+            res.send({ok : 0, msg : '没有文档名'})
+            return
+        }
+
+        if (!req.body.description) {
+            res.send({ok : 0, msg : '没有文档内容'})
+            return
+        }
+
+        if (!req.body.category) {
+            res.send({ok : 0, msg : '没有文档类别'})
+            return
+        }
+
+        newTodo = new todoModel({
+            task_id         : taskId,
             name            : req.body.name,
             content         : req.body.description,
             category        : req.body.category,
             files           : req.body.taskfiles || [],
             operator_id     : operator._id,
             created_time    : new Date(),
-            modify_time     : new Date(),
-            complete        : '0',
+            updated_time    : new Date(),
+            complete        : false,
             comments        : [],
-        }, function(err, status) {
+        })
+
+        newTodo.save(function(err, todoResult) {
             if (err) {
-                res.send({ ok : 0, msg : '数据库错误' })
+                res.send({ok : 0, msg : '创建失败'})
                 return
             }
-            
-            res.send({ ok : 1 })
 
-            task_coll.findById(req.params.task_id, function(err, task) {
-                routeApp.createLogItem({ log_type : log_coll.logType.addTodo + '：' + req.body.name, }, operator, task)
-            })
+            res.send({ok : 1, todo : todoResult})
+
+            routeApp.createLogItem(String(operator._id), taskId, '16', todoResult.name)
         })
     })
 }
 
 
 exports.delete = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var taskId = req.params.task_id,
+        id     = req.params.id;
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
-        task_coll.findById(req.params.task_id, function(err, task) {
-            todo_coll.findById(req.params.id, function(err, todo) {
-                todo_coll.removeById(req.params.id, function(err) {
-                    res.send({ ok : 1 })
-                })
 
-                upload_route.deleteTaskFiles(todo.files, function() {})
-                routeApp.createLogItem({log_type : log_coll.logType.deleteTodo + '：' +  todo.name}, operator, task)
+        taskModel.findById(taskId, function(err, taskResult) {
+            if (err || !taskResult) {
+                res.send({ok : 0, msg : '没有找到任务'})
+                return
+            }
+
+            todoModel.findById(id, function(err, todoResult) {
+                todoModel.findByIdAndRemove(id, function(err) {
+                    res.send({ok : 1})
+                    upload_route.deleteTaskFiles(todoResult.files, function() {})
+                    routeApp.createLogItem(String(operator._id), taskId, '18', todoResult.name)
+                })
             })
         })
     })
 }
 
 exports.update = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+    var taskId      = req.params.task_id,
+        id          = req.params.id,
+        logContent  = '',
+        todoFiles   = [],
+        updateDoc   = {};
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
 
-        var updateDoc = {}
-        var log_type
+        if (!req.body.name) {
+            res.send({ok : 0, msg : '文档名称必填'})
+            return
+        }
 
-        if (req.body.complete !== undefined ) {
-            var content
-            if (req.body.complete == 1) {
-                content = '已完成'
-                log_type = log_coll.logType.completeTodo
+        if (!req.body.category) {
+            res.send({ok : 0, msg : '类别必填'})
+            return
+        }
+
+        if (!req.body.description) {
+            res.send({ok : 0, msg : '内容必填'})
+            return
+        }
+
+        todoModel.findById(id, function(err, originTodo) {
+            if (req.body.taskfiles) {
+                todoFiles = originTodo.files.concat(req.body.taskfiles)
             } else {
-                content = '还没有完成'
-                log_type = log_coll.logType.reopenTodo
+                todoFiles = originTodo.files
             }
-            updateDoc = { 
-                complete    : req.body.complete,
-                modify_time : new Date()
-            }
-            startUpdateTodo()
-            
-            return
-        }
 
-        if (req.body.comment) {
-            counter_coll.saveCommentId(function(err, comment_id) {
-                updateDoc  = {
-                    comment : {
-                        id              : comment_id,
-                        operator_id     : operator._id,
-                        content         : req.body.comment,
-                        created_time    : new Date(),
-                    }
-                }
-                log_type = log_coll.logType.addTodoComment
-                startUpdateTodo()
-            })
-            
-            return
-        }
-
-        if (req.body.name) {
             updateDoc = {
                 name            : req.body.name,
-                content         : req.body.description,
+                content         : req.body.description || '',
                 category        : req.body.category,
-                modify_time     : new Date(),
+                files           : todoFiles,
+                operator_id     : String(operator._id),
+                updated_time    : new Date(),
             }
 
-            log_type = log_coll.logType.updateTodo
-            startUpdateTodo()
-            //逐条插入数据，今天太累了，先实现再说，改天把这里改高效
-            if (req.body.taskfiles) {
-                req.body.taskfiles.forEach(function(item, index, array) {
-                    todo_coll.addTodoFile(req.params.id, item, function(err, todo) {
+            todoModel.findByIdAndUpdate(id, updateDoc, function(err, todoResult) {
+                if (err) {
+                    res.send({ok : 0, msg : '数据库错误'})
+                    return
+                }
 
-                    })
-                })
-            }
+                res.send({ok : 1, todo : todoResult})
 
-            return
+                if (originTodo.name !== todoResult.name) {
+                    logContent = logContent + '文档名由 ' + originTodo.name + ' 改为 ' + todoResult.name + ';\n'
+                }
 
-        }
+                if (originTodo.category !== todoResult.category) {
+                    logContent = logContent + '类别由 ' + originTodo.category + ' 改为 ' + todoResult.category + ';\n'
+                }
 
-        function startUpdateTodo() {
-            todo_coll.findAndModifyById(req.params.id, updateDoc, function(err, result) {
-                res.send({ ok : 1 })
+                if (originTodo.content !== todoResult.content) {
+                    logContent = logContent + '更改了文档内容;\n'
+                }
 
-                task_coll.findById(req.params.task_id, function(err, task) {
-                    routeApp.createLogItem({log_type : log_type + '：' + result.name}, operator, task)
-                })
-                
+                routeApp.createLogItem(String(operator._id), taskId, '20', logContent)
             })
-        }
+        })
     })
 }
 
-exports.editTodoFiles = function(req, res) {
-    routeApp.ownAuthority(req, function(isOwn, operator) {
-        if (!isOwn) {
+exports.addComment = function(req, res) {
+    var taskId      = req.params.task_id,
+        id          = req.params.id,
+        content     = req.body.content,
+        updateDoc   = {};
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
 
-        if (req.body.file_id) {
-            // task_coll.findById(req.params.task_id, function(err, task) {
-                todo_coll.removeTodoFile(req.params.id, req.body.file_id, function(err) {
-                    res.send({ ok : 1 })
-                    // routeApp.createLogItem({log_type : log_coll.logType.updateTodo }, operator, task)
-                }) 
-            // })
+        if (!content) {
+            res.send({ok : 0, msg : '没有评论内容'})
+            return
+        }
+
+        updateDoc = {
+            $push : {"comments" : {operator_id : String(operator._id), content : content, created_time : new Date()}}
+        }
+
+        todoModel.findByIdAndUpdate(id, updateDoc, function(err, todoResult) {
+            if (!todoResult) {
+                res.send({ok : 0, msg : "没有找到要修改的文档"})
+                return
+            }
+
+            res.send({ok : 1})
+
+            routeApp.createLogItem(String(operator._id), taskId, '17', todoResult.name)
+        })
+    })
+}
+
+exports.removeFile = function(req, res) {
+    var id      = req.params.id,
+        taskId  = req.params.task_id,
+        fileId  = req.body.file_id;
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        if (fileId) {
+            todoModel.findById(id, function(err, todoResult) {
+                todoResult.files.forEach(function(item, index) {
+                    if (item._id === fileId) {
+                        todoResult.files.splice(index, 1)
+                    }
+                })
+
+                todoModel.findByIdAndUpdate(id, {files : todoResult.files}, function(err, removedFileTodoResult) {
+                    routeApp.createLogItem(String(operator._id), taskId, '20', '修改了文档附件')
+                    res.send({ok : 1})
+                })
+            })
+        } else {
+            res.send({ ok : 0})
         }
     })
 }

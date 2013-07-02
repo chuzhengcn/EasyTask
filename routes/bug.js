@@ -8,7 +8,8 @@ var routeApp        = require('./app'),
     counterModel    = require('../model/counter').counter,
     bugtypeModel    = require('../model/data').bugType,
     bugStatusModel  = require('../model/data').bugStatus,
-    bugLevelModel   = require('../model/data').bugLevel;
+    bugLevelModel   = require('../model/data').bugLevel,
+    upload_route    = require('./upload');
 
 exports.new = function(req, res) {
     var customId    = req.params.task_id,
@@ -228,7 +229,7 @@ exports.addComment = function(req, res) {
         }
 
         if (!content) {
-            res.send({ok : 0, msg : '没有状态名称'})
+            res.send({ok : 0, msg : '没有评论内容'})
             return
         }
 
@@ -446,5 +447,32 @@ exports.removeFile = function(req, res) {
         } else {
             res.send({ ok : 0})
         }
+    })
+}
+
+exports.delete = function(req, res) {
+    var taskId = req.params.task_id,
+        id     = req.params.id;
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        taskModel.findById(taskId, function(err, taskResult) {
+            if (err || !taskResult) {
+                res.send({ok : 0, msg : '没有找到任务'})
+                return
+            }
+
+            bugModel.findById(id, function(err, bugResult) {
+                bugModel.findByIdAndRemove(id, function(err) {
+                    res.send({ok : 1})
+                    upload_route.deleteTaskFiles(bugResult.files, function() {})
+                    routeApp.createLogItem(String(operator._id), taskId, '19', bugResult.name)
+                })
+            })
+        })
     })
 }

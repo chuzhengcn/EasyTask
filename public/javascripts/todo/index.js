@@ -3,18 +3,17 @@
     var files_info = []
     $(function() {
         app.utility.highlightCurrentPage('任务')
-        app.utility.highlightTaskNav('文档列表')
         app.viewhelper.markDifferentColorToTodoCategory($('.todo-list .category span.label'))
-        fillTodoCategoryToFilter()
+        // fillTodoCategoryToFilter()
         eventBind()
     })
 
     function eventBind() {
 
         // complete todo
-        $('span.un-complete, span.complete').click(function(){
-            changeCompleteStatus.call(this)
-        })    
+        // $('span.un-complete, span.complete').click(function(){
+        //     changeCompleteStatus.call(this)
+        // })    
 
     }
 

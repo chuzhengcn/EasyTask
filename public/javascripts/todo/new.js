@@ -2,13 +2,6 @@
     var target_file
     var files_info = []
     var editor
-    
-    $(function() {
-        // app.utility.highlightCurrentPage('任务')
-        app.utility.highlightTaskNav('文档列表')
-        eventBind()
-        setEditor()
-    })
 
     function setEditor() {
         var editorOption = { 
@@ -34,11 +27,9 @@
             } else {
                 target_file = null
             }
-            
         })
-
     }
-    
+
     function getTaskId() {
         return $('.list-header header').data('id')
     }
@@ -74,7 +65,8 @@
                 if (!data.ok) {
                     alert(data.msg)
                 }
-                location.href = '/tasks/' + getTaskId() + '/todos'
+
+                location.href = '/tasks/' + getTaskCustomId() + '/todos/' + data.todo._id
             }
         })
     }
@@ -113,4 +105,13 @@
         })
     }
 
+    function getTaskCustomId() {
+        return $('.list-header header').data('custom-id')
+    }
+    
+    $(function() {
+        app.utility.highlightCurrentPage('任务')
+        eventBind()
+        setEditor()
+    })
 })()

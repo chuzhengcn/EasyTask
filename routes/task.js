@@ -17,6 +17,7 @@ var routeApp        = require('./app'),
     milestoneModel  = require('../model/milestone').milestone,
     statusModel     = require('../model/status').status,
     counterModel    = require('../model/counter').counter,
+    todoModel       = require('../model/todo').todo,
     projectModel    = require('../model/data').project,
     statusNameModel = require('../model/data').statusNames,
     branchModel     = require('../model/data').branch,
@@ -283,50 +284,6 @@ exports.list = function(req, res) {
     })
 }
 
-
-exports.show2 = function(req, res) {
-    var isMyTask = false
-    routeApp.identifying(req, function(loginUser) {
-        task_coll.findById(req.params.id, function(err, task) {
-            if (!task) {
-                routeApp.err404(req, res)
-                return
-            }
-
-            user_coll.findTaskUsers(task.users, function(err, usersResult) {
-                user_coll.find_all_open(function(err, usersArray) {
-                    milestone_coll.findByTaskId(req.params.id, function(err, milestones) {
-                        file_coll.findByTaskIdInSummary(req.params.id, function(err, taskFileResult) {
-                            todo_coll.findByTask({task_id : req.params.id}, 0, function(err, taskTodoResult) {
-                                status_coll.findLastStatusByTask(req.params.id, function(err, statusResults) {
-                                    if (task.users.indexOf(loginUser._id) > -1) {
-                                        isMyTask = true
-                                    }
-
-                                    res.render('task/info', 
-                                        { 
-                                            title       : task.name, 
-                                            me          : loginUser, 
-                                            task        : task,
-                                            taskUsers   : usersResult,
-                                            users       : usersArray,
-                                            taskStatus  : time.format_specify_field(statusResults, {created_time : 'readable_time'})[0],
-                                            taskTodos   : time.format_specify_field(taskTodoResult, {created_time : 'readable_time'}),
-                                            taskFiles   : time.format_specify_field(taskFileResult, {created_time : 'readable_time'}),
-                                            milestones  : time.format_specify_field(milestones, {event_time : 'date'}),
-                                            isMyTask    : isMyTask,
-                                        } 
-                                    )
-                                })
-                            })
-                        })
-                    })
-                })
-            })
-        }) 
-    })
-}
-
 exports.show = function(req, res) {
     var custom_id = parseInt(req.params.id, 10)
 
@@ -352,14 +309,18 @@ exports.show = function(req, res) {
                         return item 
                     })
 
-                    res.render('task/info',{
-                        title           : taskResult.name,
-                        task            : taskResult,
-                        users           : usersResults,
-                        projects        : projectModel,
-                        milestones      : milestoneResults,
-                        latestStauts    : statusResult,
-                        bugStatusList   : bugStatusModel,
+                    // get all todos
+                    todoModel.find({task_id : String(taskResult._id)}, {}, {created_time : -1}, function(err, todoResults) {
+                        res.render('task/info',{
+                            title           : taskResult.name,
+                            task            : taskResult,
+                            users           : usersResults,
+                            projects        : projectModel,
+                            milestones      : milestoneResults,
+                            latestStauts    : statusResult,
+                            bugStatusList   : bugStatusModel,
+                            todos           : todoResults,
+                        })
                     })
                 })
             })

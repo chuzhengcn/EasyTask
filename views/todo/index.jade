@@ -16,44 +16,41 @@ block content
                                     .inner
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}')
-                                a.task-name(href='/tasks/#{task._id}') #{task.custom_id} - #{task.name}
-                            .operate-wrapper
-                                a.btn.btn-small(href='/tasks/#{task._id}') 
+                            header(data-id='#{task._id}', data-custom-id="#{task.custom_id}")
+                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
+                            .back
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
                                     i.icon-chevron-left
-                                    |  返回任务摘要
-                                a.btn.btn-primary.btn-small(href='/tasks/#{task._id}/todo/new') 添加文档
+                                    |  任务主页
+                            .operate-wrapper
+                                a.btn.btn-primary.btn-small(href='/tasks/#{task.custom_id}/todo-new') 添加文档
                         .main-body.scrollable
                             .todo-list-wrapper.clearfix
-                                include ../include/task-nav
-                                .todo-filter
-                                    .btn-group
-                                        a.btn.btn-small.dropdown-toggle(data-toggle="dropdown", href="#") 完成状态
-                                            span.caret
-                                        ul.dropdown-menu
-                                            li
-                                                a(href='/tasks/#{task._id}/todos')  全部
-                                            li
-                                                a(href='/tasks/#{task._id}/todos?complete=0')  未完成
-                                            li
-                                                a(href='/tasks/#{task._id}/todos?complete=1')  已完成
-                                    .btn-group
-                                        a.btn.btn-small.dropdown-toggle(data-toggle="dropdown", href="#") 类别
-                                            span.caret
-                                        ul#todo_category_dropdown.dropdown-menu
-                                            li
-                                                a(href='/tasks/#{task._id}/todos')  全部
-                                    datalist#todo_category_datalist
-                                        include ../include/todo-category
+                                //- .todo-filter
+                                //-     .btn-group
+                                //-         a.btn.btn-small.dropdown-toggle(data-toggle="dropdown", href="#") 完成状态
+                                //-             span.caret
+                                //-         ul.dropdown-menu
+                                //-             li
+                                //-                 a(href='/tasks/#{task._id}/todos')  全部
+                                //-             li
+                                //-                 a(href='/tasks/#{task._id}/todos?complete=0')  未完成
+                                //-             li
+                                //-                 a(href='/tasks/#{task._id}/todos?complete=1')  已完成
+                                //-     .btn-group
+                                //-         a.btn.btn-small.dropdown-toggle(data-toggle="dropdown", href="#") 类别
+                                //-             span.caret
+                                //-         ul#todo_category_dropdown.dropdown-menu
+                                //-             li
+                                //-                 a(href='/tasks/#{task._id}/todos')  全部
+                                //-     datalist#todo_category_datalist
+                                //-         include ../include/todo-category
                                 ul.todo-list.unstyled
-                                    - each todo in todos
+                                    - each todo, index in todos
                                         li(data-id='#{todo._id}')
-                                            - if (todo.complete == 1)
-                                                span.complete(title='标记文档未完成')
-                                            - else
-                                                span.un-complete(title='标记文档已完成')
+                                            span.index ##{todos.length - index}
                                             a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
-                                            span.time #{todo.operator.name} 创建于 #{todo.created_time}  
+                                            span.time 创建于 #{todo.created_time}  
                                             .category
                                                 span.label #{todo.category}
                                             .comment-count

@@ -16,24 +16,22 @@ block content
                                     .inner
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}')
-                                a.task-name(href='/tasks/#{task._id}') #{task.custom_id} - #{task.name}
-                            .operate-wrapper
-                                a.btn.btn-small(href='/tasks/#{task._id}/todos') 
+                            header(data-id='#{task._id}', data-custom-id="#{task.custom_id}")
+                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
+                            .back
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
                                     i.icon-chevron-left
-                                    |  返回文档列表
+                                    |  任务主页
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}/todos') 
+                                    i.icon-chevron-left
+                                    |  文档列表
+                            .operate-wrapper
                         .main-body.scrollable
                             .todo-info-wrapper.clearfix
-                                include ../include/task-nav
                                 .todo-info(data-id='#{todo._id}')
                                     h3.name.clearfix
                                         button#delete_todo.btn.btn-small.btn-danger 删除
-                                        a.edit-todo.btn.btn-small.btn-primary(href='/tasks/#{task._id}/todo/#{todo._id}/edit') 编辑
-                                        - if (todo.complete == 1)
-                                            span.complete#complete_todo_btn(title='标记文档未完成')
-                                        - else
-                                            span.un-complete#complete_todo_btn(title='标记文档已完成')
-
+                                        a.edit-todo.btn.btn-small.btn-primary(href='/tasks/#{task.custom_id}/todo/#{todo._id}/edit') 编辑
                                         span #{todo.name}
                                         span.label #{todo.category}
                                         - if (todo.files)
@@ -43,22 +41,20 @@ block content
                                                     a(href='#{file.url}') #{file.name}
                                         .operator 
                                             span #{todo.operator.name} 创建于 #{todo.created_time} 
-                                            span 最新修改 ：#{todo.modify_time}  
+                                            span 最新修改 ：#{todo.updated_time}  
                                     - if (todo.content)
                                         .content !{todo.content}
                                 .todo-discussion
                                     h5 关于该文档的讨论
-                                    - if (me !== null)
-                                        form#add_comment_form.add-comment(action='/tasks/#{task._id}/todos/#{todo._id}')
-                                            img.img-rounded.my-avatar(src='#{me.avatar_url}')
-                                            textarea(placeholder='这里添加留言',rows='3', required='true', name='comment')
-                                            button#add_comment_btn.btn.btn-small.btn-primary 留言
                                     - each comment in todo.comments
                                         .comment-item
                                             img.img-rounded.operate-avatar(src='#{comment.operator.avatar_url}')
                                             .comment-info
-                                                .popstripe
                                                 .comment-content !{comment.content}
                                             .comment-time #{comment.created_time} by #{comment.operator.name}
+                                    form#add_comment_form.add-comment(action='/tasks/#{task._id}/todos/#{todo._id}/add-comment')
+                                        img.img-rounded.my-avatar(src='#')
+                                        textarea(placeholder='这里添加留言',rows='5', required='true', name='content')
+                                        button#add_comment_btn.btn.btn-small.btn-primary 留言
 
 

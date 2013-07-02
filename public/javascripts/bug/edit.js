@@ -118,6 +118,28 @@
         return $('#editBugForm').data('id')
     }
 
+    function deleteBug(event, $btn) {
+        var sure = confirm('确认删除？')
+        if (!sure) {
+            return
+        }
+
+        $.ajax({
+            type        : 'delete',
+            url         : '/tasks/' + getTaskId() + '/bugs/' + getBugId(),
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
+            success     : function(data) {
+                if (!data.ok) {
+                    alert(data.msg)
+                }
+
+                location.href = '/tasks/' + getTaskCustomId()
+            }
+        })
+    }
+
     function eventBind() {
 
         //submit task bug btn
@@ -137,6 +159,11 @@
 
         $('.origin-file-item .icon-remove').click(function(event) {
             removeBugFile.call(this, event)
+        })
+
+        // remove bug
+        $('#removeBugBtn').click(function(event) {
+            deleteBug.call(this, event, $(this))
         })
 
     }

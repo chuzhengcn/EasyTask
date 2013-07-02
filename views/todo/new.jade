@@ -17,15 +17,18 @@ block content
                                     .inner
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}')
-                                a.task-name(href='/tasks/#{task._id}') #{task.custom_id} - #{task.name}
-                            .operate-wrapper
-                                a.btn.btn-small(href='/tasks/#{task._id}/todos') 
+                            header(data-id='#{task._id}', data-custom-id="#{task.custom_id}")
+                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
+                            .back
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
                                     i.icon-chevron-left
-                                    |  返回文档列表
+                                    |  任务主页
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}/todos') 
+                                    i.icon-chevron-left
+                                    |  文档列表
+                            .operate-wrapper
                         .main-body.scrollable
                             .todo-new-wrapper.clearfix
-                                include ../include/task-nav
                                 form#create_task_todo_form.form-horizontal(action='/tasks/#{task._id}/todos')
                                     legend 添加文档
                                     .control-group

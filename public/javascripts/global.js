@@ -135,13 +135,10 @@ app.viewhelper = {
             removeOtherColor($(this))
 
             switch ($(this).text()) {
-                case '需求' :
+                case '需求文档' :
                     $(this).addClass('label-warning')
                     break
-                case 'bug' :
-                    $(this).addClass('label-important')
-                    break
-                case '功能点' :
+                case '开发文档' :
                     $(this).addClass('label-info')
                     break
                 default :

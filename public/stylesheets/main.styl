@@ -442,6 +442,10 @@ input[name='taskUsers'], input[name="project"]
 .event-time-content-in-popover,.task-users-content-in-popover
     display none
 //---------------------------task-info-----------------------------------------
+.task_section_more
+    color #333
+    display inline-block
+    padding-bottom 5px
 .task-summary
     position absolute
     top 51px
@@ -542,25 +546,25 @@ input[name='taskUsers'], input[name="project"]
             // background #EFEDDF
             img
                 position absolute
-                top 40px
+                top 45px
                 left 20px
                 max-width 40px
                 max-height 40px
             .change-status-btn-group
                 position absolute
                 top 15px
-                right 185px
+                right 95px
             .delete-this-status
                 position absolute
                 top 15px
-                right 110px
-                cursor pointer
-            .more-status
-                position absolute
                 right 20px
-                top 15px
-                i
-                    cursor pointer
+                cursor pointer
+            // .more-status
+            //     position absolute
+            //     right 20px
+            //     top 15px
+            //     i
+            //         cursor pointer
             .states-date
                 position absolute
                 bottom 15px
@@ -586,7 +590,7 @@ input[name='taskUsers'], input[name="project"]
             padding 0 20px 0 20px
             #addBugLink
                 position absolute
-                right 105px
+                right 20px
                 top 15px
             #bugFilter
                 margin-bottom 10px
@@ -612,10 +616,41 @@ input[name='taskUsers'], input[name="project"]
             position relative
             padding 0 20px 10px 20px
             border-bottom solid 1px #dfdfdf
-            #addTodo
+            .link-group
                 position absolute
                 right 20px
                 top 0
+                a
+                    margin-left 5px 
+            .todo-list
+                clear both
+                li
+                    border-bottom solid 1px #dfdfdf
+                    height 20px
+                    padding 8px 0
+                    &:last-child
+                        border-bottom none
+                    a.name
+                        color rgba(0, 0, 0, 0.85)
+                        float left
+                        width 300px
+                        white-space nowrap
+                        overflow hidden
+                        text-overflow ellipsis
+                        &:hover
+                            text-decoration underline
+                    .category
+                        float right
+                        line-height 20px
+                        width 70px
+                    .comment-count
+                        float right
+                        margin-top 1px
+                        width 80px
+                    .index
+                        float left
+                        width 35px
+                        padding-left 5px
         // .task-summary-todo
         //     ul
         //         clear both
@@ -807,28 +842,16 @@ input[name='taskUsers'], input[name="project"]
         padding 0 20px 3px 20px
 //----------------------todo-list-------------------------------------------------
 .todo-list-wrapper
-    .task-nav
-        padding 10px 20px 10px 20px
-        border-bottom 1px solid #dfdfdf
-        ul
-            margin-bottom 0
-    .todo-filter
-        background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
-        background -webkit-linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
-        height 32px
-        line-height 30px
-        padding 0 30px
-        .btn-group
-            float left
-            margin-right 30px
     .todo-list
-        background #E9EEF7
+        // background #E9EEF7
         li
-            border-bottom 1px solid #DAE2F2
+            border-bottom 1px solid #dfdfdf
             padding 10px 15px 10px 15px
             height 20px
+            .index
+                float left
+                width 40px
             a.name
-                color rgba(0, 0, 0, 0.85)
                 float left
                 width 300px
                 white-space nowrap
@@ -845,15 +868,6 @@ input[name='taskUsers'], input[name="project"]
                 font-size 12px
                 color #666
                 width 180px
-            .complete, .un-complete
-                float left
-                width 20px
-                height 20px
-                margin 0 20px 0 20px
-                background url($complete) 0 0 no-repeat
-                cursor pointer
-            .un-complete
-                background url($un-complete) 0 0 no-repeat
             .comment-count
                 float right
                 margin-top 1px
@@ -1003,7 +1017,7 @@ input[name='taskUsers'], input[name="project"]
                 max-width 1000px
                 margin 10px auto
     .todo-discussion
-        padding 20px
+        padding 0 20px 10px 20px
         .add-comment
             position relative
             padding 20px 140px 20px 210px
@@ -1018,19 +1032,17 @@ input[name='taskUsers'], input[name="project"]
                 margin-bottom 5px
         .comment-item
             position relative
-            padding 20px 140px 20px 210px
+            padding 20px 0 10px 70px
             .operate-avatar
                 position absolute
-                top 22px
-                left 150px
+                top 20px
+                left 0
                 width 50px
                 height 50px
             .comment-info
-                border-radius 6px
+                border-radius 5px
                 border solid 1px #dfdfdf
-                .popstripe
-                    height 1px
-                    border-radius 6px
+                background #EFEDDF
                 .comment-content
                     padding 10px    
             .comment-time

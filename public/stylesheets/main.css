@@ -542,6 +542,11 @@ input[name="project"] {
 .task-users-content-in-popover {
   display: none;
 }
+.task_section_more {
+  color: #333;
+  display: inline-block;
+  padding-bottom: 5px;
+}
 .task-summary {
   position: absolute;
   top: 51px;
@@ -626,7 +631,7 @@ right
 }
 .task-summary .task-summary-wrapper .task-summary-version img {
   position: absolute;
-  top: 40px;
+  top: 45px;
   left: 20px;
   max-width: 40px;
   max-height: 40px;
@@ -634,20 +639,12 @@ right
 .task-summary .task-summary-wrapper .task-summary-version .change-status-btn-group {
   position: absolute;
   top: 15px;
-  right: 185px;
+  right: 95px;
 }
 .task-summary .task-summary-wrapper .task-summary-version .delete-this-status {
   position: absolute;
   top: 15px;
-  right: 110px;
-  cursor: pointer;
-}
-.task-summary .task-summary-wrapper .task-summary-version .more-status {
-  position: absolute;
   right: 20px;
-  top: 15px;
-}
-.task-summary .task-summary-wrapper .task-summary-version .more-status i {
   cursor: pointer;
 }
 .task-summary .task-summary-wrapper .task-summary-version .states-date {
@@ -680,7 +677,7 @@ right
 }
 .task-summary .task-summary-wrapper .task-summary-bug #addBugLink {
   position: absolute;
-  right: 105px;
+  right: 20px;
   top: 15px;
 }
 .task-summary .task-summary-wrapper .task-summary-bug #bugFilter {
@@ -713,10 +710,50 @@ right
   padding: 0 20px 10px 20px;
   border-bottom: solid 1px #dfdfdf;
 }
-.task-summary .task-summary-wrapper .task-summary-todo #addTodo {
+.task-summary .task-summary-wrapper .task-summary-todo .link-group {
   position: absolute;
   right: 20px;
   top: 0;
+}
+.task-summary .task-summary-wrapper .task-summary-todo .link-group a {
+  margin-left: 5px;
+}
+.task-summary .task-summary-wrapper .task-summary-todo .todo-list {
+  clear: both;
+}
+.task-summary .task-summary-wrapper .task-summary-todo .todo-list li {
+  border-bottom: solid 1px #dfdfdf;
+  height: 20px;
+  padding: 8px 0;
+}
+.task-summary .task-summary-wrapper .task-summary-todo .todo-list li:last-child {
+  border-bottom: none;
+}
+.task-summary .task-summary-wrapper .task-summary-todo .todo-list li a.name {
+  color: rgba(0,0,0,0.85);
+  float: left;
+  width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.task-summary .task-summary-wrapper .task-summary-todo .todo-list li a.name:hover {
+  text-decoration: underline;
+}
+.task-summary .task-summary-wrapper .task-summary-todo .todo-list li .category {
+  float: right;
+  line-height: 20px;
+  width: 70px;
+}
+.task-summary .task-summary-wrapper .task-summary-todo .todo-list li .comment-count {
+  float: right;
+  margin-top: 1px;
+  width: 80px;
+}
+.task-summary .task-summary-wrapper .task-summary-todo .todo-list li .index {
+  float: left;
+  width: 35px;
+  padding-left: 5px;
 }
 .task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper {
   clear: both;
@@ -903,34 +940,16 @@ right
 #upload_task_files_form legend {
   padding: 0 20px 3px 20px;
 }
-.todo-list-wrapper .task-nav {
-  padding: 10px 20px 10px 20px;
-  border-bottom: 1px solid #dfdfdf;
-}
-.todo-list-wrapper .task-nav ul {
-  margin-bottom: 0;
-}
-.todo-list-wrapper .todo-filter {
-  background: linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
-  background: -webkit-linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
-  height: 32px;
-  line-height: 30px;
-  padding: 0 30px;
-}
-.todo-list-wrapper .todo-filter .btn-group {
-  float: left;
-  margin-right: 30px;
-}
-.todo-list-wrapper .todo-list {
-  background: #e9eef7;
-}
 .todo-list-wrapper .todo-list li {
-  border-bottom: 1px solid #dae2f2;
+  border-bottom: 1px solid #dfdfdf;
   padding: 10px 15px 10px 15px;
   height: 20px;
 }
+.todo-list-wrapper .todo-list li .index {
+  float: left;
+  width: 40px;
+}
 .todo-list-wrapper .todo-list li a.name {
-  color: rgba(0,0,0,0.85);
   float: left;
   width: 300px;
   white-space: nowrap;
@@ -950,18 +969,6 @@ right
   font-size: 12px;
   color: #666;
   width: 180px;
-}
-.todo-list-wrapper .todo-list li .complete,
-.todo-list-wrapper .todo-list li .un-complete {
-  float: left;
-  width: 20px;
-  height: 20px;
-  margin: 0 20px 0 20px;
-  background: url("/images/complete.png") 0 0 no-repeat;
-  cursor: pointer;
-}
-.todo-list-wrapper .todo-list li .un-complete {
-  background: url("/images/un-complete.png") 0 0 no-repeat;
 }
 .todo-list-wrapper .todo-list li .comment-count {
   float: right;
@@ -1149,7 +1156,7 @@ right
   margin: 10px auto;
 }
 .todo-info-wrapper .todo-discussion {
-  padding: 20px;
+  padding: 0 20px 10px 20px;
 }
 .todo-info-wrapper .todo-discussion .add-comment {
   position: relative;
@@ -1168,22 +1175,19 @@ right
 }
 .todo-info-wrapper .todo-discussion .comment-item {
   position: relative;
-  padding: 20px 140px 20px 210px;
+  padding: 20px 0 10px 70px;
 }
 .todo-info-wrapper .todo-discussion .comment-item .operate-avatar {
   position: absolute;
-  top: 22px;
-  left: 150px;
+  top: 20px;
+  left: 0;
   width: 50px;
   height: 50px;
 }
 .todo-info-wrapper .todo-discussion .comment-item .comment-info {
-  border-radius: 6px;
+  border-radius: 5px;
   border: solid 1px #dfdfdf;
-}
-.todo-info-wrapper .todo-discussion .comment-item .comment-info .popstripe {
-  height: 1px;
-  border-radius: 6px;
+  background: #efeddf;
 }
 .todo-info-wrapper .todo-discussion .comment-item .comment-info .comment-content {
   padding: 10px;

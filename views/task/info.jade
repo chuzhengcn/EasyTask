@@ -61,12 +61,26 @@ block content
                                         dt 创建于
                                         dd #{task.created_time}
                                 .task-summary-todo
-                                    h5 文档
-                                    a#addTodo.btn.btn-small.btn-primary(href="/tasks/#{task.custom_id}/todo-new") 添加文档
-                                    ul
+                                    h5
+                                        a.task_section_more(href="/tasks/#{task.custom_id}/todos") 文档 >>
+                                    .link-group
+                                        a#addTodo.btn.btn-small.btn-primary(href="/tasks/#{task.custom_id}/todo-new") 添加文档
+                                        //- a.btn.btn-small(href="/tasks/#{task.custom_id}/todos") 全部文档 
+                                        //-     i.icon-chevron-right
+                                    ul.todo-list.unstyled
+                                        - each todo,index in todos
+                                            li
+                                                span.index ##{todos.length - index}
+                                                a(href="/tasks/#{task.custom_id}/todos/#{todo._id}") #{todo.name}
+                                                span.category 
+                                                    span.label #{todo.category}
+                                                - if (todo.comments.length > 0)
+                                                    span.comment-count
+                                                        span.badge #{todo.comments.length} 留言
                                 - if (latestStauts)
                                     .task-summary-version.clearfix
-                                        h5 任务状态
+                                        h5
+                                            a.task_section_more(href="/tasks/#{task.custom_id}/status") 版本历史 >>
                                         img.img-polaroid.img-rounded(src='#{latestStauts.operator.avatar_url}')
                                         .change-status-btn-group
                                             .btn-group
@@ -75,10 +89,10 @@ block content
                                                 ul.dropdown-menu.pull-right
                                         .delete-this-status(title='回退状态', data-id='#{latestStauts._id}')
                                             button.btn.btn-danger.btn-small 删除状态
-                                        .more-status
-                                            a.btn.btn-small(href="/tasks/#{task.custom_id}/status")
-                                                | 版本历史
-                                                i.icon-chevron-right
+                                        //- .more-status
+                                        //-     a.btn.btn-small(href="/tasks/#{task.custom_id}/status")
+                                        //-         | 版本历史
+                                        //-         i.icon-chevron-right
                                         .states-date #{latestStauts.created_time} by #{latestStauts.operator.name}
                                         .status-history-content
                                             .status-name
@@ -92,16 +106,17 @@ block content
                                                             i.icon-file
                                                             a(href='#{file.url}') #{file.name}
                                 .task-summary-bug.clearfix
-                                    h5 Bug
+                                    h5
+                                        a.task_section_more(href="/tasks/#{task.custom_id}/bugs-list") Bug >>
                                     a#addBugLink.btn.btn-small.btn-primary(href="/tasks/#{task.custom_id}/bugs-new") 添加Bug
                                     #bugFilter.btn-group(data-toggle="buttons-radio")
                                         button.btn.btn-small.active 全部
                                         - each bugStatus in bugStatusList
                                             button.btn.btn-small
                                                 span #{bugStatus}
-                                    .more-bug
-                                        a.btn.btn-small(href="/tasks/#{task.custom_id}/bugs-list") bug列表
-                                            i.icon-chevron-right
+                                    //- .more-bug
+                                    //-     a.btn.btn-small(href="/tasks/#{task.custom_id}/bugs-list") bug列表
+                                    //-         i.icon-chevron-right
                                     #fetchBugProgress.progress.progress-striped.active
                                         .bar(style="width:100%")
                                     table#bugList.table.table-hover.table-condensed
@@ -119,26 +134,6 @@ block content
                                                 th 留言
                                                 th 操作
                                         tbody
-                                //- .task-summary-todo.clearfix
-                                //-     header 
-                                //-         a.more(href='/tasks/#{task._id}/todos', title='查看全部待办事项') 最新文档
-                                //-         a.btn.btn-small(href='/tasks/#{task._id}/todo/new') 
-                                //-             i.icon-plus-sign
-                                //-             | 添加文档
-                                //-     ul.unstyled
-                                //-         - each todo in taskTodos
-                                //-             li(data-id='#{todo._id}')
-                                //-                 - if (todo.complete == 1)
-                                //-                     span.complete(title='标记事项未完成')
-                                //-                 - else
-                                //-                     span.un-complete(title='标记事项已完成')
-                                //-                 a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
-                                //-                 span.time #{todo.operator.name} 创建于 #{todo.created_time}
-                                //-                 .category  
-                                //-                     span.label #{todo.category}
-                                //-                 .comment-count
-                                //-                     - if (todo.comments.length !== 0)
-                                //-                         span.badge.badge-inverse #{todo.comments.length}留言
                                 //- .task-summary-file.clearfix
                                 //-     header 
                                 //-         a.more(href='/tasks/#{task._id}/uploads', title='查看全部附件') 最新附件

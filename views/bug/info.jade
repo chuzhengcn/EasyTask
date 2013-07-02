@@ -74,5 +74,5 @@ block content
                                             .comment-time #{comment.created_time} by #{comment.operator.name}
                                     form#addCommentForm.add-comment(action='/tasks/#{task._id}/bugs/#{bug._id}/add-comment')
                                         img.img-rounded.my-avatar(src='')
-                                        textarea(placeholder='这里添加留言',rows='3', required='true', name='content')
+                                        textarea(placeholder='这里添加留言',rows='5', required='true', name='content')
                                         button#addCommentBtn.btn.btn-small.btn-primary 留言

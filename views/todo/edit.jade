@@ -18,21 +18,27 @@ block content
                     .list
                         .list-header.clearfix
                             header(data-id='#{task._id}')
-                                a.task-name(href='/tasks/#{task._id}') #{task.custom_id} - #{task.name}
+                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name}
+                            .back
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
+                                        i.icon-chevron-left
+                                        |  任务主页
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}/todos') 
+                                        i.icon-chevron-left
+                                        |  文档列表
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}/todos/#{todo._id}') 
+                                        i.icon-chevron-left
+                                        |  文档
                             .operate-wrapper
-                                a.btn.btn-small(href='/tasks/#{task._id}/todos') 
-                                    i.icon-chevron-left
-                                    |  返回文档列表
                         .main-body.scrollable
                             .todo-edit-wrapper.clearfix
-                                include ../include/task-nav
                                 form#edit_task_todo_form.form-horizontal(action='/tasks/#{task._id}/todos/#{todo._id}',data-id='#{todo._id}')
                                     legend 编辑文档
                                     .control-group
                                         label.control-label(for='name') 名称和类别
                                         .controls
                                             input.span6(type='text', autocomplete='off', name='name', required='true', value='#{todo.name}') 
-                                            select#task_todo_category_selecter(name='category',data-origin-name='#{todo.category}')
+                                            select#task_todo_category_selecter(name='category',data-origin-value='#{todo.category}')
                                                 include ../include/todo-category
                                     .control-group
                                         label.control-label(for='description') 描述

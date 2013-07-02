@@ -3,13 +3,7 @@
     var files_info = []
     var editor
     
-    $(function() {
-        // app.utility.highlightCurrentPage('任务')
-        app.utility.highlightTaskNav('文档列表')
-        app.viewhelper.setSelect('task_todo_category_selecter')
-        eventBind()
-        setEditor()
-    })
+    
 
     function setEditor() {
         var editorOption = { 
@@ -125,8 +119,8 @@
         }
         var $file_wrapper = $(this).parent()
         $.ajax({
-            type        : 'put',
-            url         : '/tasks/' + getTaskId() + '/todo/' + getTodoId() + '/files',
+            type        : 'delete',
+            url         : '/tasks/' + getTaskId() + '/todos/' + getTodoId() + '/files-delete',
             data        : { file_id : $(this).data('id') },
             beforeSend  : function() {
                 $file_wrapper.html('正在删除...')
@@ -144,5 +138,12 @@
     function getTodoId() {
         return $('#edit_task_todo_form').data('id')
     }
+
+    $(function() {
+        app.utility.highlightCurrentPage('任务')
+        app.viewhelper.setSelect('task_todo_category_selecter')
+        eventBind()
+        setEditor()
+    })
 
 })()
