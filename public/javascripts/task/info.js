@@ -241,7 +241,7 @@
         $('#upsertMilestoneModal h3').html('编辑时间点')
         $('#customMilestoneNameInput').val($milestoneName.html())
         $('#upsertMilestoneForm input[name="eventTime"]').val($milestoneName.data('time'))
-        $('#upsertMilestoneForm textarea').val($milestoneName.data('original-title'))
+        $('#upsertMilestoneForm textarea').val($milestoneName.data('content'))
         $('#upsertMilestoneForm select').hide()
         $('#customMilestoneNameInput').show()
         $('#customMilestoneNameBtn').html('选择常用事件')
@@ -723,11 +723,6 @@
             location.href= '/tasks/' + getTaskCustomId() + '/bugs/' + bug._id + '/edit'
         })
 
-        // complete todo
-        $('span.un-complete, span.complete').click(function(){
-            changeCompleteStatus.call(this)
-        }) 
-
     }
 
     $(function() {
@@ -739,7 +734,7 @@
 
         typeaheadProject();
 
-        $('.milestone-name').tooltip()
+        $('.milestone-name').popover({placement : 'bottom', trigger : 'hover'})
 
         app.viewhelper.markDifferentColorToTaskStatus($('.task-summary-version .status-name span.label'))
 
@@ -753,38 +748,4 @@
         app.viewhelper.markDifferentColorToTodoCategory($('.task-summary-todo .category span.label'))
         
     })
-
-    
-
-    
-
-    
-
-    function changeCompleteStatus() {
-        var status = 1
-        if ($(this).attr('class') == 'complete') {
-            $(this).attr({
-                'class' : 'un-complete',
-                'title' : '标记事项已完成'
-            })
-            status = 0
-        } else {
-            $(this).attr({
-                'class' : 'complete',
-                'title' : '标记事项未完成'
-            })
-        }
-
-        var todoId = $(this).parent().data('id')
-        $.ajax({
-            type        : 'put',
-            url         : '/tasks/' + getTaskId() + '/todos/' + todoId,
-            data        : { complete : status},
-            success     : function(data) {
-                if (!data.ok) {
-                    alert(data.msg)
-                } 
-            }
-        })
-    }
 })()

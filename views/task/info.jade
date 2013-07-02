@@ -37,7 +37,7 @@ block content
                                         - each milestone in milestones
                                             li
                                                 span #{milestone.event_time.substring(5)}
-                                                a.milestone-name(href='#', data-id="#{milestone._id}", data-time="#{milestone.event_time}", data-toggle="tooltip", data-original-title="#{milestone.content}") #{milestone.name}
+                                                a.milestone-name(href='#', data-id="#{milestone._id}", data-time="#{milestone.event_time}", title="#{milestone.name}",  data-content="#{milestone.content}") #{milestone.name}
                                 .task-users.clearfix
                                     .task-users-wrapper.clearfix
                                         h5 参与人员
