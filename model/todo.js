@@ -62,6 +62,43 @@ todoSchema.statics.findOneTodoIncludeUser = function(id, cb) {
     })
 }
 
+todoSchema.statics.findAllIncludeUserByTaskId = function(taskId, cb) {
+    var userList = []
+
+    this.find({task_id : String(taskId)}, {}, {sort : {created_time : -1}}, function(err, todoResults) {
+        if (err) {
+            cb(err)
+            return
+        }
+
+        todoResults = todoResults.map(function(item, index) {
+            if (userList.indexOf(item.operator_id) === -1) {
+                userList.push(item.operator_id)
+            }
+
+            return item.toObject()
+        })
+
+        userList = userList.map(function(item, index) {
+            return mongoose.Types.ObjectId(item)
+        })
+
+        userModel.find({_id : {$in : userList}}, function(err, userResults) {
+            todoResults = todoResults.map(function(item, index) {
+                userResults.forEach(function(value, key) {
+                    if (item.operator_id === String(value._id)) {
+                        item.operator = value
+                    }
+                })
+
+                return item
+            })
+
+            cb(err, todoResults)
+        })
+    });
+}
+
 var Todo = mongoose.model(collectionName, todoSchema)
 
 exports.todo = Todo

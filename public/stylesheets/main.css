@@ -743,17 +743,23 @@ right
 .task-summary .task-summary-wrapper .task-summary-todo .todo-list li .category {
   float: right;
   line-height: 20px;
-  width: 70px;
+  margin-right: 20px;
 }
 .task-summary .task-summary-wrapper .task-summary-todo .todo-list li .comment-count {
   float: right;
   margin-top: 1px;
-  width: 80px;
+  margin-right: 20px;
 }
 .task-summary .task-summary-wrapper .task-summary-todo .todo-list li .index {
   float: left;
   width: 35px;
   padding-left: 5px;
+}
+.task-summary .task-summary-wrapper .task-summary-todo .todo-list li .time {
+  float: right;
+  font-size: 12px;
+  color: #666;
+  overflow: hidden;
 }
 .task-summary .task-summary-wrapper .task-summary-file .file-item-wrapper {
   clear: both;

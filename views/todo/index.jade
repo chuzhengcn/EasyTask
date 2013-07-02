@@ -50,7 +50,7 @@ block content
                                         li(data-id='#{todo._id}')
                                             span.index ##{todos.length - index}
                                             a.name(href='/tasks/#{task._id}/todos/#{todo._id}') #{todo.name}
-                                            span.time 创建于 #{todo.created_time}  
+                                            span.time  #{todo.created_time} by #{todo.operator.name}
                                             .category
                                                 span.label #{todo.category}
                                             .comment-count

@@ -72,8 +72,9 @@ block content
                                             li
                                                 span.index ##{todos.length - index}
                                                 a(href="/tasks/#{task.custom_id}/todos/#{todo._id}") #{todo.name}
-                                                span.category 
-                                                    span.label #{todo.category}
+                                                span.time #{todo.created_time} by #{todo.operator.name}
+                                                //- span.category 
+                                                //-     span.label #{todo.category}
                                                 - if (todo.comments.length > 0)
                                                     span.comment-count
                                                         span.badge #{todo.comments.length} 留言

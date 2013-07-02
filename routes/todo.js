@@ -36,9 +36,8 @@ exports.list = function(req, res) {
             return
         }
 
-        todoModel.find({task_id : String(taskResult._id)}, {}, {created_time : -1}, function(err, todoResults) {
+        todoModel.findAllIncludeUserByTaskId(String(taskResult._id), function(err, todoResults) {
             todoResults = todoResults.map(function(item, index) {
-                item = item.toObject()
                 item.created_time = time.readable_time(item.created_time)
                 return item
             })
