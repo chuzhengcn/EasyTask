@@ -1,0 +1,37 @@
+extends ../layout
+append head
+block content
+    .app-layout
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header(data-id='#{task._id}')
+                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name} - 版本历史
+                            .back
+                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
+                                    i.icon-chevron-left
+                                    |  任务主页
+                            .operate-wrapper
+                        .main-body.scrollable
+                            .log-info-wrapper.clearfix
+                                - for (var date in logs)
+                                    .log-group-date
+                                        h5 #{date}
+                                        ul
+                                            - each item in logs[date]
+                                                li 
+                                                    span #{item.log_type}
+                                                    span #{item.operator.name}
+                                                    span #{item.created_time}
+                                                    .content !{item.content}
+                                        

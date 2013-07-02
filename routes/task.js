@@ -17,6 +17,7 @@ var routeApp        = require('./app'),
     milestoneModel  = require('../model/milestone').milestone,
     statusModel     = require('../model/status').status,
     counterModel    = require('../model/counter').counter,
+    logModel        = require('../model/log').log,
     todoModel       = require('../model/todo').todo,
     projectModel    = require('../model/data').project,
     statusNameModel = require('../model/data').statusNames,
@@ -312,15 +313,22 @@ exports.show = function(req, res) {
                     // get all todos
                     todoModel.findAllIncludeUserByTaskId(String(taskResult._id), function(err, todoResults) {
                         todoResults = time.format_specify_field(todoResults, {updated_time : 'readable_time'})
-                        res.render('task/info',{
-                            title           : taskResult.name,
-                            task            : taskResult,
-                            users           : usersResults,
-                            projects        : projectModel,
-                            milestones      : milestoneResults,
-                            latestStauts    : statusResult,
-                            bugStatusList   : bugStatusModel,
-                            todos           : todoResults,
+
+                        // get log
+                        logModel.findLogIncludeUserByTaskId(String(taskResult._id), 5, function(err, logResults) {
+                            logResults = time.format_specify_field(logResults, {created_time : 'readable_time'})
+
+                            res.render('task/info',{
+                                title           : taskResult.name,
+                                task            : taskResult,
+                                users           : usersResults,
+                                projects        : projectModel,
+                                milestones      : milestoneResults,
+                                latestStauts    : statusResult,
+                                bugStatusList   : bugStatusModel,
+                                todos           : todoResults,
+                                logs            : logResults,
+                            })
                         })
                     })
                 })

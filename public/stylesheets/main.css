@@ -396,6 +396,36 @@ body {
 #edit_user_btn {
   margin-top: 20px;
 }
+.log-info-wrapper {
+  padding: 20px;
+}
+.log-info-wrapper .log-group-date {
+  background-color: #fdfdfd;
+  padding: 10px;
+  margin: 20px;
+  border: solid 1px #dfdfdf;
+  border-radius: 6px;
+}
+.log-info-wrapper h5 {
+  padding: 0px 10px 0 10px;
+}
+.log-info-wrapper ul {
+  margin-left: 60px;
+}
+.log-info-wrapper ul li {
+  margin-bottom: 20px;
+}
+.log-info-wrapper ul li span {
+  margin-right: 20px;
+}
+.log-info-wrapper ul li .content {
+  color: #666;
+  padding-top: 5px;
+  font-size: 12px;
+}
+#edit_user_btn {
+  margin-top: 20px;
+}
 #addMoreTaskUserBtn,
 #addMoreProjectBtn {
   display: block;
@@ -563,7 +593,7 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-users .task-users-wrapper {
   clear: both;
-  padding: 0 250px 10px 20px;
+  padding: 0 470px 10px 20px;
 }
 .task-summary .task-summary-wrapper .task-users .user {
   float: left;
@@ -588,7 +618,7 @@ input[name="project"] {
   margin-bottom: 5px;
 }
 .task-summary .task-summary-wrapper .task-info {
-  padding: 0 250px 0 20px;
+  padding: 0 470px 0 20px;
   border-bottom: solid 1px #dfdfdf;
 }
 .task-summary .task-summary-wrapper .task-info dd {
@@ -603,7 +633,7 @@ right
 }
 .task-summary .task-summary-wrapper .task-milestone {
   position: absolute;
-  right: 20px;
+  right: 260px;
   top: 10px;
   width: 200px;
   background-color: #fffbe4;
@@ -622,6 +652,34 @@ right
   margin-bottom: 3px;
 }
 .task-summary .task-summary-wrapper .task-milestone ul li span {
+  margin-right: 10px;
+}
+.task-summary .task-summary-wrapper .task-summary-log {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  width: 230px;
+  background-color: #f5f5f5;
+  border: 1px solid #dfdfdf;
+  box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+}
+.task-summary .task-summary-wrapper .task-summary-log .title {
+  color: #a5a396;
+  padding: 10px 10px 5px 10px;
+  display: inline-block;
+}
+.task-summary .task-summary-wrapper .task-summary-log .title:hover {
+  color: #005580;
+}
+.task-summary .task-summary-wrapper .task-summary-log ul li {
+  padding: 3px 10px 2px 10px;
+  font-size: 12px;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.task-summary .task-summary-wrapper .task-summary-log ul li span {
   margin-right: 10px;
 }
 .task-summary .task-summary-wrapper .task-summary-version {

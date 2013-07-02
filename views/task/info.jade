@@ -38,6 +38,11 @@ block content
                                             li
                                                 span #{milestone.event_time.substring(5)}
                                                 a.milestone-name(href='#', data-id="#{milestone._id}", data-time="#{milestone.event_time}", title="#{milestone.name}",  data-content="#{milestone.content}") #{milestone.name}
+                                .task-summary-log
+                                    a.title(href="/tasks/#{task.custom_id}/logs") 任务日志 >>
+                                    ul.unstyled
+                                        - each log in logs
+                                            li [#{log.log_type}] #{log.operator.name} #{log.created_time.length > 16?log.created_time.substring(6) : log.created_time}   
                                 .task-users.clearfix
                                     .task-users-wrapper.clearfix
                                         h5 参与人员
@@ -72,7 +77,7 @@ block content
                                             li
                                                 span.index ##{todos.length - index}
                                                 a(href="/tasks/#{task.custom_id}/todos/#{todo._id}") #{todo.name}
-                                                span.time #{todo.created_time} updated by #{todo.operator.name}
+                                                span.time #{todo.updated_time} updated by #{todo.operator.name}
                                                 //- span.category 
                                                 //-     span.label #{todo.category}
                                                 - if (todo.comments.length > 0)
