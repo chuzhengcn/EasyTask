@@ -46,7 +46,7 @@ block content
                                                     |  #{pop_user.name}
                                             .task-users-content-in-popover
                                                 - each pop_user in task.users
-                                                    | #{pop_user.name},
+                                                    | #{pop_user.name}, 
                             - if (total > 0)
                                 ul.pager(data-count='#{total}')
                                     li.previous

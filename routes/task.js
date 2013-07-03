@@ -1,13 +1,3 @@
-var user_coll       = require('../db/user')
-var task_coll       = require('../db/task')
-var counter_coll    = require('../db/counter')
-var milestone_coll  = require('../db/milestone')
-var status_coll     = require('../db/status')
-var file_coll       = require('../db/file')
-var todo_coll       = require('../db/todo')
-var log_coll        = require('../db/log')
-
-
 var routeApp        = require('./app'),
     time            = require('../helper/time'),
     view            = require('../helper/view'),
@@ -222,13 +212,14 @@ exports.create = function(req, res) {
 }
 
 exports.archiveList = function(req, res) {
-    var page = 1
-
-    if (req.query.page && typeof parseInt(req.query.page, 10) === 'number') {
-        page = req.query.page
-    }
+    var page = isNaN(parseInt(req.query.page, 10))? 1 : parseInt(req.query.page, 10);
     
     taskModel.findArchivedIncludeUser(page, function(err, tasks, totalTask) {
+        if (err) {
+            routeApp.err404(req, res)
+            return
+        }
+
         res.render('task/archive', 
             { 
                 title   : '已存档任务', 
@@ -242,6 +233,10 @@ exports.archiveList = function(req, res) {
 exports.requirement = function(req, res) {
 
     taskModel.findRequireMentIncludeUserAndMilestone(function(err, tasks) {
+        if (err) {
+            routeApp.err404(req, res)
+            return
+        }
 
         tasks.forEach(function(taskItem, taskIndex) {
             taskItem.milestones = time.format_specify_field(taskItem.milestones, {event_time : 'date'})
@@ -256,60 +251,111 @@ exports.requirement = function(req, res) {
     })
 }
 
-exports.list = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
-        user_coll.find_all_open(function(err, users) {
-            var filter      = {
-                active : true,
-                status : { '$nin' : ['需求提交']},
-            }
-            var page = 1
-            var perpageNum = 20
-            if (req.query) {
-                if (req.query.active !== undefined) {
-                    filter.active = false
-                    delete filter.status
-                }
+// exports.list = function(req, res) {
+//     routeApp.identifying(req, function(loginUser) {
+//         user_coll.find_all_open(function(err, users) {
+//             var filter      = {
+//                 active : true,
+//                 status : { '$nin' : ['需求提交']},
+//             }
+//             var page = 1
+//             var perpageNum = 20
+//             if (req.query) {
+//                 if (req.query.active !== undefined) {
+//                     filter.active = false
+//                     delete filter.status
+//                 }
 
-                if (req.query.status) {
-                    filter.status = req.query.status
-                }
+//                 if (req.query.status) {
+//                     filter.status = req.query.status
+//                 }
 
-                if (req.query.user) {
-                    filter.users = req.query.user
-                    delete filter.status
-                }
+//                 if (req.query.user) {
+//                     filter.users = req.query.user
+//                     delete filter.status
+//                 }
 
-                if (req.query.branch) {
-                    filter.branch = req.query.branch
-                }
+//                 if (req.query.branch) {
+//                     filter.branch = req.query.branch
+//                 }
 
-                if(req.query.keyword) {
-                    filter = {
-                        '$or' : [{ 'custom_id' : parseInt(req.query.keyword, 10) }, {'name' : new RegExp(req.query.keyword,'i')}]
-                    }
-                }
+//                 if(req.query.keyword) {
+//                     filter = {
+//                         '$or' : [{ 'custom_id' : parseInt(req.query.keyword, 10) }, {'name' : new RegExp(req.query.keyword,'i')}]
+//                     }
+//                 }
 
-                if(req.query.page && typeof parseInt(req.query.page, 10) == 'number') {
-                    page = req.query.page
-                }
-            }
+//                 if(req.query.page && typeof parseInt(req.query.page, 10) == 'number') {
+//                     page = req.query.page
+//                 }
+//             }
             
-            task_coll.findAll(filter, (page-1)*perpageNum, perpageNum, function(err, tasks) {
-                tasks.list.forEach(function(item, index, array) {
-                    tasks.list[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
-                })
-                res.render('task/index', 
-                    { 
-                        title   : '任务', 
-                        me      : loginUser, 
-                        users   : users,
-                        tasks   : tasks.list,
-                        total   : tasks.total,
-                    } 
-                )
+//             task_coll.findAll(filter, (page-1)*perpageNum, perpageNum, function(err, tasks) {
+//                 tasks.list.forEach(function(item, index, array) {
+//                     tasks.list[index].milestones = time.format_specify_field(item.milestones, { event_time : 'date'})
+//                 })
+//                 res.render('task/index', 
+//                     { 
+//                         title   : '任务', 
+//                         me      : loginUser, 
+//                         users   : users,
+//                         tasks   : tasks.list,
+//                         total   : tasks.total,
+//                     } 
+//                 )
+//             })
+//         }) 
+//     })
+// }
+
+exports.search = function(req, res) {
+    var page        = isNaN(parseInt(req.query.page, 10))? 1 : parseInt(req.query.page, 10),
+        keyword     = req.query.keyword.trim(),
+        filter      = {},
+        operator_id = '';
+
+    if (!req.query.keyword) {
+        routeApp.redirect('/')
+        return
+    }
+
+    userModel.find(function(err, userResults) {
+        if (!isNaN(parseInt(keyword, 10))) {
+            filter = {
+                'custom_id' : parseInt(keyword, 10)
+            } 
+        } else {
+            userResults.forEach(function(item, index) {
+                if (item.name === keyword) {
+                    operator_id = String(item._id)
+                }
             })
-        }) 
+
+            if (operator_id) {
+                filter = {
+                    'users' : operator_id
+                }
+            } else {
+                filter = {
+                    'name' : new RegExp(keyword,'i')    
+                }
+            }
+        }
+
+        taskModel.findSearchIncludeUser(filter, page, function(err, tasks, totalTask) {
+            if (err) {
+                routeApp.err404(req, res)
+                return
+            }
+
+            res.render('task/search', 
+                { 
+                    title   : '已存档任务', 
+                    tasks   : tasks,
+                    total   : totalTask,
+                } 
+            )
+        })
     })
 }
 

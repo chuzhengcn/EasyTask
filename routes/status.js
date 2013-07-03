@@ -1,13 +1,8 @@
-var user_coll       = require('../db/user')
-var task_coll       = require('../db/task')
-var status_coll     = require('../db/status')
-var time            = require('../helper/time')
-var view            = require('../helper/view')
-var taskFile        = require('./upload') 
-var log_coll        = require('../db/log')  
-
 var routeApp        = require('./app'),
     taskModel       = require('../model/task').task,
+    time            = require('../helper/time'),
+    view            = require('../helper/view'),
+    taskFile        = require('./upload'),
     statusModel     = require('../model/status').status;
 
 exports.listByTask = function(req, res) {

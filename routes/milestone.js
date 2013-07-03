@@ -1,8 +1,3 @@
-var user_coll       = require('../db/user')
-var task_coll       = require('../db/task')
-var milestone_coll  = require('../db/milestone')
-var log_coll        = require('../db/log')
-
 var routeApp        = require('./app'),
     time            = require('../helper/time'),
     taskModel       = require('../model/task').task,

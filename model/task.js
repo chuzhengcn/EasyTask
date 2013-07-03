@@ -92,6 +92,39 @@ taskSchema.statics.findArchivedIncludeUser = function (page, cb) {
     });
 }
 
+taskSchema.statics.findSearchIncludeUser = function (filter, page, cb) {
+    if (!page) {
+        page = 1
+    }
+
+    var self                = this,
+        limit               = 20,
+        option              = {sort : {custom_id : -1}, limit : limit, skip : (page-1)*limit};   
+
+    this.find(filter, {}, option, function(err, tasks) {
+        if (err) {
+            cb(err)
+            return
+        }
+
+        self.count(filter, function(err, num) {
+            if (err) {
+                cb(err)
+                return
+            }
+
+            tasks = tasks.map(function(item, index) {
+                item = item.toObject()
+                return item
+            })
+
+            includeUser(tasks, function(err, tasks) {
+                cb(err, tasks, num)
+            })
+        })
+    });
+}
+
 taskSchema.statics.findOneTaskIncludeUser = function(conditions, fields, options, cb) {
     this.findOne(conditions, fields, options, function(err, task) {
         if (err) {

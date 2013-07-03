@@ -5,15 +5,6 @@ var routeApp        = require('./app'),
     upload_route    = require('./upload'),
     todoModel       = require('../model/todo').todo;
 
-var user_coll       = require('../db/user')
-var task_coll       = require('../db/task')
-var counter_coll    = require('../db/counter')
-var milestone_coll  = require('../db/milestone')
-var status_coll     = require('../db/status')
-var file_coll       = require('../db/file')
-var todo_coll       = require('../db/todo')
-var log_coll        = require('../db/log')
-
 exports.new = function(req, res) {
     var taskCustomId = req.params.task_custom_id;
 

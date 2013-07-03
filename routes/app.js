@@ -1,5 +1,4 @@
 var user_coll       = require('../db/user')
-var log_coll        = require('../db/log')
 
 var userModel       = require('../model/user').user,
     logTypeModel    = require('../model/data').logType,
