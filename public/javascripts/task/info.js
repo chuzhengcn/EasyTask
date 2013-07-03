@@ -310,7 +310,7 @@
                     insertStatusBtn('已提交Test')
                     insertStatusBtn('已提交Dev')
                     insertStatusBtn('已发布外网')
-                    insertStatusBtn('验收通过')
+                    insertStatusBtn('已验收通过')
                 }
 
                 if (role.indexOf('Programmer') > -1) {
@@ -325,13 +325,15 @@
                 }
 
                 btnGroup.forEach(function(item, index) {
-                    $('.change-status-btn-group .btn-group .dropdown-menu').append('<li><a href="#">' + item + '</a></li>')
+                    $('.change-status-btn-group .btn-group .dropdown-menu').append('<li><a href="#"><span class="label">' + item + '</span></a></li>')
                 })
 
                 $('.change-status-btn-group .btn-group .dropdown-menu a').click(function(event) {
-                    showStatusForm($(this).html())
+                    showStatusForm($(this).text())
                     event.preventDefault()
                 })
+
+                app.viewhelper.markDifferentColorToTaskStatus($('.change-status-btn-group .btn-group .dropdown-menu span.label'))
             }
         })
     }
@@ -745,6 +747,7 @@
         fetchOpenBugList()
 
         app.viewhelper.markDifferentColorToTaskStatus($('.status span.label'))
+
         app.viewhelper.markDifferentColorToTodoCategory($('.task-summary-todo .category span.label'))
         
     })

@@ -42,7 +42,7 @@ block content
                                     a.title(href="/tasks/#{task.custom_id}/logs") 任务日志 >>
                                     ul.unstyled
                                         - each log in logs
-                                            li [#{log.log_type}] #{log.operator.name} #{log.created_time.length > 16?log.created_time.substring(6) : log.created_time}   
+                                            li [#{log.log_type}] #{log.operator.name} #{log.created_time.length > 16?log.created_time.substring(5) : log.created_time}   
                                 .task-users.clearfix
                                     .task-users-wrapper.clearfix
                                         h5 参与人员

@@ -16,33 +16,44 @@ block content
                                     .inner
                     .list
                         .list-header.clearfix
-                            header 任务
+                            header 开发中任务
+                            .back
+                                a.btn.btn-small(href="/tasks-requirement") 
+                                    i.icon-chevron-left
+                                    |  需求 
+                                a.btn.btn-small(href="#") 
+                                    i.icon-chevron-left
+                                    |  已存档 
                             .operate-wrapper
-                                button#createTaskBtn.btn.btn-primary 添加任务
+                                button#createTaskBtn.btn.btn-small.btn-primary 添加任务
                         .list-body.scrollable
                             .task-list-filter
                                 .task-custom-id id
                                 .name 任务名
                                 .branch
-                                    .btn-group#task_branch_filter
+                                    .btn-group#taskBranchFilter
                                         button.btn.btn-small 分支
                                         button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
                                             span.caret
                                         ul.dropdown-menu
                                             li
-                                                a(href='/tasks?branch=master')  master
-                                            li
-                                                a(href='/tasks?branch=test') test
-                                            li
-                                                a(href='/tasks?branch=dev') dev
+                                                a(href="#") 全部
+                                            - each branch in branches
+                                                li
+                                                    a(href="#") #{branch}
                                 .status
-                                    .btn-group#task_status_filter
+                                    .btn-group#taskStatusFilter
                                         button.btn.btn-small 状态
                                         button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
                                             span.caret
                                         ul.dropdown-menu
-                                    datalist#datalist_status_selecter
-                                        include ./include/task-status
+                                            li
+                                                a(href="#") 全部
+                                            - each status,index in statusList
+                                                - if (index !== 0)
+                                                    li
+                                                        a(href="#") 
+                                                            span.label #{status}
                                 .time  下一个时间点
                                 .users 人员
                                     //- .btn-group#task_user_filter
@@ -74,17 +85,15 @@ block content
                                             - if (task.milestones.length > 0)
                                                 span(rel="popover", data-original-title="All Upcoming Events") #{task.milestones[0].name} #{task.milestones[0].event_time.substring(5)}
                                                 .event-time-content-in-popover
-                                                    ul
-                                                        - each milestone in task.milestones
-                                                            li #{milestone.name} #{milestone.event_time.substring(5)}
+                                                    - each milestone in task.milestones
+                                                        | #{milestone.name} #{milestone.event_time.substring(5)} 
                                         .users
                                             span(rel="popover", data-original-title="所有参与人员")
                                                 - each pop_user in task.users
                                                     |  #{pop_user.name}
                                             .task-users-content-in-popover
-                                                    ul
-                                                        - each pop_user in task.users
-                                                            li #{pop_user.name}
+                                                - each pop_user in task.users
+                                                    | #{pop_user.name} 
 block modal
     datalist#projectOption
         - each project in projects
@@ -129,6 +138,7 @@ block modal
                     label.control-label(for='score') 分值
                     .controls
                         input(type="number", name="score", autocomplete="off", step="5")
+                
         .modal-footer
             button.btn(data-dismiss="modal", aria-hidden="true") 关闭
             button#saveTask.btn.btn-primary 保存

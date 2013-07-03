@@ -154,11 +154,11 @@ app.viewhelper = {
         $statusObjGroup.each(function() {
             removeOtherColor($(this))
             switch ($.trim($(this).text())) {
-                case '需求提交' :
-                    $(this).addClass('label-warning')
+                case '任务已分配' :
+                    $(this).addClass('label-info')
                     break
                 case '开发已完成' :
-                    $(this).addClass('label-info')
+                    $(this).addClass('label-warning')
                     break
                 case '已提交Release' :
                     $(this).addClass('label-inverse')
@@ -172,7 +172,7 @@ app.viewhelper = {
                 case '已提交Dev' :
                     $(this).addClass('label-inverse')
                     break
-                case '测试打回' :
+                case '测试拒绝' :
                     $(this).addClass('label-important')
                     break
                 case '测试通过' :
@@ -188,7 +188,10 @@ app.viewhelper = {
                     $(this).addClass('label-success')
                     break
                 case '已发布外网' :
-                    $(this).addClass('label-inverse')
+                    $(this).addClass('label-success')
+                    break
+                case '已验收通过' :
+                    $(this).addClass('label-success')
                     break
                 default :
                     break

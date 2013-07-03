@@ -39,6 +39,7 @@
 
     function hasUnknowUser() {
         var userOptionArray = [], 
+            validNum        = 0,
             has             = false;
 
         $('#taskUsersOption option').each(function() {
@@ -48,6 +49,7 @@
         $('input[name="taskUsers"]').each(function() {
             var userName = $(this).val()
             if (userName !== '') {
+                validNum++
                 if (userOptionArray.indexOf(userName) == -1) {
                     alert('未知参与者\n\n' + userName + '\n\n不能包含该人员')
                     has = true
@@ -55,11 +57,17 @@
             }
         })
 
+        if (validNum === 0) {
+            has = true
+            alert('至少选择一个人员')
+        }
+
         return has
     }
 
     function hasUnknowProject() {
         var projectOptionArray = [],
+            validNum           = 0,
             has                = false;
 
         $('#projectOption option').each(function() {
@@ -69,12 +77,18 @@
         $('input[name="project"]').each(function() {
             var projectName = $(this).val()
             if (projectName !== '') {
+                validNum++
                 if (projectOptionArray.indexOf(projectName) == -1) {
                     alert('未知站点\n\n' + projectName + '\n\n不能包含该站点')
                     has = true
                 }
             }
         })
+
+        if (validNum === 0) {
+            has = true
+            alert('至少选择一个站点，不知道的话写 unknown')
+        }
 
         return has
     }
@@ -84,11 +98,14 @@
     }
 
     function readyToCreateTask(event) {
+        // todo: 更好的提示
         if (app.utility.isValidForm('createTaskForm')) {
             if (!hasUnknowUser() && !hasUnknowProject()) {
                 createTaskIsWorking()
                 satrtCreateTask()
             } 
+        } else {
+            alert('表单不合法')
         }
 
         event.preventDefault() 
@@ -117,6 +134,49 @@
         })
     }
 
+    function showAllTask() {
+        $('.task-list li').slideDown()
+    }
+
+    function filterTaskByStatus($btn) {
+        var statusName = $.trim($btn.text())
+
+        if (statusName === '全部') {
+            showAllTask()
+            return
+        }
+
+
+        $('.task-list li').each(function() {
+
+            var thisStatus = $.trim($(this).find('.status span').text())
+            if (thisStatus === statusName) {
+                $(this).slideDown()
+            } else {
+                $(this).slideUp()
+            }
+        })
+        
+    }
+
+    function filterTaskByBranch($btn) {
+        var branchName = $.trim($btn.text())
+
+        if (branchName === '全部') {
+            showAllTask()
+            return
+        }
+
+        $('.task-list li').each(function() {
+            var thisBranch = $.trim($(this).find('.branch').text())
+            if (thisBranch.indexOf(branchName) > -1) {
+                $(this).slideDown()
+            } else {
+                $(this).slideUp()
+            }
+        })
+    }
+
     function eventBind() {
 
         $('#createTaskBtn').click(function(event) {
@@ -140,6 +200,16 @@
             readyToCreateTask.call(self, event)
         })
 
+        $('#taskStatusFilter ul a').click(function(event) {
+            filterTaskByStatus($(this))
+            event.preventDefault()
+        })
+
+        $('#taskBranchFilter ul a').click(function(event) {
+            filterTaskByBranch($(this))
+            event.preventDefault()
+        })
+
     }
 
     function popoverTaskInfo() {
@@ -151,58 +221,24 @@
         })
     }
 
-    function fillTaskStatusToFilter() {
-        var taskBaseLink =  '/tasks'
-        //mark current status
+    
 
-        $('#datalist_status_selecter option').each(function(index, value) {
-            if (index == 0) {
-                return
-            }
-
-            $('#task_status_filter .dropdown-menu').append('<li><a href="'
-                + taskBaseLink + '?status=' + $(this).val()
-                + '">'
-                + $(this).val()
-                + '</a></li>')
-        })
-    }
-
-    function fillTaskBranchToFilter() {
-        var currentBranch = app.utility.get_query_value('branch')
-        if (currentBranch) {
-            $('#task_branch_filter button:first').html(decodeURIComponent(currentBranch))
-        }
-    }
-
-    function fillTaskUserToFilter() {
-        var currentUserId = app.utility.get_query_value('user')
-        if (currentUserId) {
-            $('#task_user_filter span.name').each(function() {
-                if ($(this).data('id') == currentUserId) {
-                    $('#task_user_filter button:first').html($(this).text())
-                }
-            })
-        }
-    }
+    
 
     $(function() {
+        app.utility.highlightCurrentPage('任务')
 
         typeaheadUser();
 
         typeaheadProject();
 
         eventBind()
-        
-        fillTaskStatusToFilter()
-
-        fillTaskBranchToFilter()
-
-        fillTaskUserToFilter()
 
         popoverTaskInfo()
 
         app.viewhelper.markDifferentColorToTaskStatus($('.task-list li .status span.label'))
+
+        app.viewhelper.markDifferentColorToTaskStatus($('#taskStatusFilter span.label'))
     })
 
 })()

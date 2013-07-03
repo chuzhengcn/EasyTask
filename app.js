@@ -30,7 +30,7 @@ app.configure('production', function(){
 //---------task--------------------------------------------------
 var task = require('./routes/task')
 app.get('/',                    task.index)
-app.get('/tasks',               task.list)
+app.get('/tasks-requirement',   task.requirement)
 app.post('/tasks',              task.create)
 app.get('/tasks/:id',           task.show)
 app.put('/tasks/:id',           task.update)

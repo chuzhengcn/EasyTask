@@ -37,7 +37,7 @@ taskSchema.statics.findDeveloping = function(cb) {
 
 taskSchema.statics.findDevelopingIncludeUserAndMilestone = function(cb) {
     var filter              = {active : true, deleted : false, status : {'$nin' : [statusNameModel[0]]}},
-        option              = {sort : {status : -1, custom_id : -1, create_time : -1}};   
+        option              = {sort : {custom_id : -1}};   
 
     this.find(filter, {}, option, function(err, tasks) {
         if (err) {
@@ -108,6 +108,29 @@ taskSchema.statics.findOneTaskIncludeUser = function(conditions, fields, options
 
         includeUser([task], function(err, tasks) {
             cb(err, tasks[0])
+        })
+    });
+}
+
+taskSchema.statics.findRequireMentIncludeUserAndMilestone = function(cb) {
+    var filter              = {active : true, deleted : false, status : {'$in' : [statusNameModel[0]]}},
+        option              = {sort : {custom_id : -1}};   
+
+    this.find(filter, {}, option, function(err, tasks) {
+        if (err) {
+            cb(err)
+            return
+        }
+
+        tasks = tasks.map(function(item, index) {
+            item = item.toObject()
+            return item
+        })
+
+        includeUser(tasks, function(err, tasks) {
+            includeNotExpireMilestone(tasks, function(err, tasks) {
+                cb(err, tasks)
+            })
         })
     });
 }

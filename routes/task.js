@@ -140,6 +140,7 @@ exports.index = function(req, res) {
                     users           : users,
                     projects        : projectModel,
                     branches        : branchModel,
+                    statusList      : statusNameModel,
                 } 
             )
         })
@@ -161,6 +162,16 @@ exports.create = function(req, res) {
 
         if (!req.body.name) {
             res.send({ ok : 0, msg : '任务名必填'})
+            return
+        }
+
+        if (!req.body.taskUsers) {
+            res.send({ ok : 0, msg : '至少有一名参与者'})
+            return
+        }
+
+        if (!req.body.project) {
+            res.send({ ok : 0, msg : '至少有一个站点，不知道的话就写unknown'})
             return
         }
 
@@ -223,6 +234,23 @@ exports.archiveList = function(req, res) {
                 title   : '已存档任务', 
                 tasks   : tasks,
                 total   : totalTask,
+            } 
+        )
+    })
+}
+
+exports.requirement = function(req, res) {
+
+    taskModel.findRequireMentIncludeUserAndMilestone(function(err, tasks) {
+
+        tasks.forEach(function(taskItem, taskIndex) {
+            taskItem.milestones = time.format_specify_field(taskItem.milestones, {event_time : 'date'})
+        })
+
+        res.render('task/requirement', 
+            { 
+                title           : '需求', 
+                taskList        : tasks, 
             } 
         )
     })

@@ -1,9 +1,9 @@
 exports.project = [{name : 'nycs.syyx.com'}, {name : 'adminnycs.syyx.com'}, {name : 'events.syyx.com'},
                    {name : 'user.syyx.com'}, {name : 'r.syyx.com'}, {name : 'party.syyx.com'},
-                   {name : 'adminparty.syyx.com'}]
+                   {name : 'adminparty.syyx.com'},{name : 'others'},{name : 'unknown'}]
 
 exports.statusNames = ['需求提交','任务已分配','开发已完成','已提交Dev','已提交Test','已提交Master',
-                       '测试拒绝','Dev测试通过','Test测试通过','Master测试通过','已发布外网','验收通过']
+                       '测试拒绝','Dev测试通过','Test测试通过','Master测试通过','已发布外网','已验收通过']
 
 exports.role = ['PM','Programmer','Tester','Designer', 'Customer']
 
