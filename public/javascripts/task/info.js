@@ -614,6 +614,56 @@
         })
     }
 
+    function showAddRatingForm() {
+        $('#upsertRatingModal input[type="radio"]').removeAttr('checked')
+        $('#upsertRatingModal').modal()
+    }
+
+    function saveRating($btn) {
+
+        if ($('#upsertRatingForm input[type="radio"]:checked').length === 0) {
+            alert('没有选择评价')
+            return
+        }
+
+        $.ajax({
+            type        : 'put',
+            url         : $('#upsertRatingForm').attr('action'),
+            data        : $('#upsertRatingForm').serialize(),
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
+            success     : function(data) {
+                if (!data.ok) {
+                    alert(data.msg)
+                }
+
+                location.href = location.href
+            }
+        })
+    }
+
+    function deleteRating($btn) {
+        var sure = confirm('确认删除？')
+        if (sure) {
+            $.ajax({
+                type        : 'delete',
+                url         : '/tasks/' + getTaskId() + '/rating-delete',
+                beforeSend  : function() {
+                    app.utility.isWorking($btn)
+                },
+                success     : function(data) {
+                    if (data.ok) {
+                        alert('删除成功')
+                        location.href = location.href
+                    } else {
+                        alert(data.msg)
+                    }
+                }
+            })
+        }
+    }
+
     function eventBind() {
         $('#addMoreTaskUserBtn').click(function(event) {
             addMoreTaskUserInput()
@@ -723,6 +773,21 @@
             var bug = $(this).parent().parent().data()
 
             location.href= '/tasks/' + getTaskCustomId() + '/bugs/' + bug._id + '/edit'
+        })
+
+        // add rating
+        $('#addRatingBtn').click(function() {
+            showAddRatingForm()
+        })
+
+        //save rating
+        $('#saveRatingBtn').click(function() {
+            saveRating($(this))
+        })
+
+        // delete rating
+        $('#deleteRatingBtn').click(function() {
+            deleteRating($(this))
         })
 
     }

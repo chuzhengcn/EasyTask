@@ -631,6 +631,16 @@ input[name="project"] {
   position: absolute;
 right
 }
+.task-summary .task-summary-wrapper .task-rating {
+  position: relative;
+  border-bottom: solid 1px #dfdfdf;
+  padding: 0 20px 10px 20px;
+}
+.task-summary .task-summary-wrapper .task-rating #addRatingBtn {
+  position: absolute;
+  right: 20px;
+  top: 0;
+}
 .task-summary .task-summary-wrapper .task-milestone {
   position: absolute;
   right: 260px;

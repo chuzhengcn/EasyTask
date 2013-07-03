@@ -12,6 +12,7 @@ var routeApp        = require('./app'),
     statusNameModel = require('../model/data').statusNames,
     branchModel     = require('../model/data').branch,
     bugStatusModel  = require('../model/data').bugStatus,
+    ratingModel     = require('../model/data').rating,
     upload_route    = require('./upload');
 
 function generateTaskUsers(userName, cb) {
@@ -183,6 +184,7 @@ exports.create = function(req, res) {
                     branch          : generateBranch(req.body.branch, '', custom_id),
                     projects        : filterProjects(req.body.project),
                     score           : parseInt(req.body.score, 10) || 0,
+                    rating          : [],
                 })
 
                 newTask.save(function(err, newTaskResult) {
@@ -391,7 +393,6 @@ exports.show = function(req, res) {
                         // get log
                         logModel.findLogIncludeUserByTaskId(String(taskResult._id), 5, function(err, logResults) {
                             logResults = time.format_specify_field(logResults, {created_time : 'readable_time'})
-
                             res.render('task/info',{
                                 title           : taskResult.name,
                                 task            : taskResult,
@@ -402,6 +403,8 @@ exports.show = function(req, res) {
                                 bugStatusList   : bugStatusModel,
                                 todos           : todoResults,
                                 logs            : logResults,
+                                ratings         : ratingModel,
+                                allStatus       : statusNameModel,
                             })
                         })
                     })
@@ -541,6 +544,79 @@ exports.update = function(req, res) {
                     }
                 })
             })          
+        })
+    })
+}
+
+exports.rating = function(req, res) {
+    var id              = req.params.id,
+        ratingContent   = {},
+        hasRating       = false,
+        logType         = '21';
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        if (!req.body.rating) {
+            res.send({ok : 1, msg : '没有评价'})
+            return
+        }
+
+        ratingContent = {
+            operator_id     : String(operator._id),
+            updated_time    : new Date(),
+            rating          : parseInt(req.body.rating, 10) || 0,
+            content         : req.body.content,
+        }
+
+        taskModel.findById(id, function(err, taskResult) {
+            taskResult = taskResult.toObject()
+
+            taskResult.rating.forEach(function(item, index) {
+                if (item.operator_id === String(operator._id)) {
+                    taskResult.rating[index] = ratingContent
+                    hasRating = true
+                    logType = '22'
+                }   
+            })
+
+            if (!hasRating) {
+                taskResult.rating.push(ratingContent)
+            }
+
+            taskModel.findByIdAndUpdate(id, {rating : taskResult.rating}, function(err, updatedTask) {
+                res.send({ok : 1})
+                routeApp.createLogItem(String(operator._id), String(taskResult._id), logType)
+            })
+        })
+    })
+}
+
+exports.ratingDelete = function(req, res) {
+    var id              = req.params.id
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        taskModel.findById(id, function(err, taskResult) {
+            taskResult = taskResult.toObject()
+
+            taskResult.rating.forEach(function(item, index) {
+                if (item.operator_id === String(operator._id)) {
+                    taskResult.rating.splice(index, 1)
+                }   
+            })
+
+            taskModel.findByIdAndUpdate(id, {rating : taskResult.rating}, function(err, updatedTask) {
+                res.send({ok : 1})
+                routeApp.createLogItem(String(operator._id), String(taskResult._id), '23')
+            })
         })
     })
 }

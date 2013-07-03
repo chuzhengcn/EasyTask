@@ -15,6 +15,8 @@ exports.bugStatus = ['未解决', '解决中', '已解决', '测试通过', '挂
 
 exports.bugLevel = ['C', 'B', 'A']
 
+exports.rating = [{name : '满意', score : 50}, {name : '一般', score : 30}, {name : '不满意', score : 10}]
+
 exports.logType = {
     '1' : '新建任务',
     '2' : '编辑任务',
@@ -36,4 +38,7 @@ exports.logType = {
     '18': '删除了文档',
     '19': '删除了Bug',
     '20': '修改了文档',
+    '21': '评价了该任务',
+    '22': '修改了任务评价',
+    '23': '删除了任务评价',
 } 

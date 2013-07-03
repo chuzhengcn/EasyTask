@@ -19,6 +19,7 @@ var taskSchema = mongoose.Schema({
     users           : Array,
     score           : Number,
     projects        : Array,
+    rating          : Array,
 },{
     collection : collectionName,
 })
@@ -185,11 +186,21 @@ function includeUser(tasks, cb) {
                 return String(userObjectIdItem)
             })
 
+            var ratingUserIdGroup = taskItem.rating.map(function(rating) {
+                return rating.operator_id
+            })
+
             users.forEach(function(userItem) {
                 var userIndex = usersIdGroup.indexOf(String(userItem._id))
                 if (userIndex > -1) {
                     taskItem.users[userIndex] = userItem.toObject()
                 }
+
+                var ratingIndex = ratingUserIdGroup.indexOf(String(userItem._id))
+                if (ratingIndex > -1) {
+                    taskItem.rating[ratingIndex].operator = userItem.toObject()
+                }
+
             })
         })
 

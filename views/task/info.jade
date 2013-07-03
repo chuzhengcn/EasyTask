@@ -29,7 +29,6 @@ block content
                                 button#editTaskBtn.btn.btn-primary.btn-small 编辑任务
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
-                                //- include ../include/task-nav
                                 .task-milestone.clearfix
                                     header 时间点
                                         i#addMilestoneBtn.icon-plus-sign
@@ -65,6 +64,13 @@ block content
                                         dd.sites #{task.projects.join(', ')}
                                         dt 创建于
                                         dd #{task.created_time}
+                                - if (task.status === allStatus[allStatus.length-1])
+                                    .task-rating
+                                        h5 用户评价
+                                        button#addRatingBtn.btn.btn-small.btn-primary 评价
+                                        ul#ratingList
+                                            - each rating in task.rating
+                                                li #{rating.operator.name} 评价了该任务
                                 .task-summary-todo
                                     h5
                                         a.task_section_more(href="/tasks/#{task.custom_id}/todos") 文档 >>
@@ -250,4 +256,26 @@ block modal
             h3
         .modal-body
         .modal-footer
+            button.btn(data-dismiss="modal", aria-hidden="true") 关闭
+    #upsertRatingModal.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+        .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3 评价任务 多次评价以最后一条为准
+        .modal-body
+            form#upsertRatingForm.form-horizontal(action='/tasks/#{task._id}/rating')
+                .control-group
+                    label.control-label(for="rating") 评价
+                    .controls
+                        - each rating in ratings
+                            label.radio.inline
+                                input(type="radio", name="rating", value="#{rating.score}")
+                                | #{rating.name} 
+                .control-group
+                    label.control-label(for="content") 说明
+                    .controls
+                        textarea(name='content', autocomplete='off', rows="5", placeholder='可选补充说明')
+        .modal-footer
+            .modal-footer-btns
+                button#deleteRatingBtn.btn.btn-danger.btn-small 删除
+            button#saveRatingBtn.btn.btn-primary 保存
             button.btn(data-dismiss="modal", aria-hidden="true") 关闭
