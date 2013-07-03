@@ -49,7 +49,7 @@
 
     function showActiveFalseUsers() {
         $('#show_active_false_user').click(function () {
-            $('a.user-item').removeClass('disnone')
+            $('a.user-item').show()
         })
     }
 

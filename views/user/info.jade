@@ -27,12 +27,15 @@ block content
                                             .control-group
                                                 label.control-label(for='role') 角色
                                                 .controls
-                                                    select#role_select(name='role', data-origin-name='#{user.role}')
-                                                        option(value='PM') PM
-                                                        option(value='Programmer') Programmer
-                                                        option(value='Tester') Tester
-                                                        option(value='Designer') Designer
-                                                        option(value='Customer') Customer
+                                                    - each role in roles
+                                                        - if (user.role.indexOf(role) > -1)
+                                                            .checkbox
+                                                                input(type="checkbox", name="role", checked="checked", value="#{role}") 
+                                                                | #{role}
+                                                        - else
+                                                            .checkbox
+                                                                input(type="checkbox", name="role", value="#{role}") 
+                                                                | #{role}
                                             .control-group
                                                 label.control-label(for='avatar_url') 头像
                                                 .controls
@@ -48,12 +51,11 @@ block content
                                                     button#edit_user_btn.btn.btn-primary 更新
                     .list
                         .list-header.clearfix
-                            header
-                                ul.breadcrumb
-                                    li
-                                        a(href='/users') 成员
-                                        span.divider /
-                                    li.active #{user.name}
+                            header #{user.name}
+                            .back
+                                a.btn.btn-small(href="/users") 
+                                    i.icon-chevron-left
+                                    |  成员列表
                             .operate-wrapper
                                 button.btn.btn-primary.btn-small 编辑
                                 - if (user.active == 'close')
@@ -71,14 +73,15 @@ block content
                                     p #{user.role}
                                     p #{user.ip}
                             .user-operate-log
-                                - if (logs)
-                                    .user-operate-log-title 最近操作记录
-                                    - each log in logs
-                                        .log-item
-                                            h5 #{log.date}
-                                            ul
-                                                - each log_content in log.content
-                                                    li
-                                                        a(href='/tasks/#{log_content.task_id}') ##{log_content.task_custom_id} #{log_content.task_name}
-                                                        | #{log_content.log_type}  
-                                                        span #{log_content.created_time}
+                                .user-operate-log-title 最近操作记录
+                                - for (var date in logs)
+                                    .log-group-date
+                                        h5 #{date}
+                                        ul.unstyled
+                                            - each item in logs[date]
+                                                li
+                                                    span.id ##{item.task.custom_id}
+                                                    a(href="/tasks/#{item.task.custom_id}") #{item.task.name} 
+                                                    span #{item.log_type}
+                                                    span.content #{item.content}
+                                                    span #{item.created_time}

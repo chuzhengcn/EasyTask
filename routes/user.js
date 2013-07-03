@@ -1,36 +1,49 @@
 var user_coll       = require('../db/user')
 var log_coll        = require('../db/log')
-var fs              = require('fs')
-var avatarLocalDir  = __dirname + '/../public/attachments/avatar/'
-var upload          = require('./upload')
-var routeApp        = require('./app')
-var time_helper     = require('../helper/time')
 
-var userModel       = require('../model/user').user;
+var fs              = require('fs'),
+    avatarLocalDir  = __dirname + '/../public/attachments/avatar/',
+    upload          = require('./upload'),
+    routeApp        = require('./app'),
+    userModel       = require('../model/user').user,
+    time            = require('../helper/time'),
+    userRole        = require('../model/data').role,
+    logModel        = require('../model/log').log,
+    taskModel       = require('../model/task').task,
+    view            = require('../helper/view');
 
 exports.info = function(req, res) {
-    userModel.findByIp(req.ip, function(err, user) {
-        if (err) {
-            res.send({ok : 0, msg : 'db error'})
-            return
-        }
-
-        if (!user) {
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
             res.send({ok : 0, msg : 'no user'})
             return
         }
 
-        res.send({ok : 1, result : user})
+        userModel.findByIp(req.ip, function(err, user) {
+            if (err) {
+                res.send({ok : 0, msg : 'db error'})
+                return
+            }
+
+            if (!user) {
+                res.send({ok : 0, msg : 'no user'})
+                return
+            }
+
+            res.send({ok : 1, result : user})
+        })
     })
+    
 }
 
 
 exports.list = function(req, res) {
-    userModel.find({}, {}, {sort : {role : 1}}, function(err, userListResult) {
+    userModel.find({}, {}, {sort : {active : 1, role : 1, created_time : 1}}, function(err, userListResult) {
         res.render('user/index', 
             { 
                 title      : '用户列表' ,
                 users      : userListResult,
+                roles      : userRole,
             }
         )
     })
@@ -57,6 +70,7 @@ exports.create = function(req, res) {
         name            : data.name, 
         ip              : data.ip,
         role            : role,
+        password        : req.body.password || '1234554321',
         avatar_url      : req.body.avatar_url,
         updated_time    : new Date(),
         created_time    : new Date(),
@@ -73,83 +87,99 @@ exports.create = function(req, res) {
 }
 
 exports.show = function(req, res) {
-    routeApp.identifying(req, function(loginUser) {
-        var user_id = req.params.id
+    var id          = req.params.id,
+        logGroup    = {};
 
-        user_coll.findById(user_id, function(err, userInfoResult) {
-            if (!userInfoResult) {
-                routeApp.err404(req, res)
-                return
-            }
+    userModel.findById(id, function(err, userResult) {
+        if (!userResult) {
+            routeApp.err404(req, res)
+            return
+        }
 
-            log_coll.findByOperatorIdIncludeTask(user_id, 0, 50, function(err, logResults) {
-                var log_grouped_arry = []
-                var date_arry        = []
-                if (logResults) {
-                    logResults.forEach(function(item, index, array) {
-                        var log_date 
+        logModel.findLogIncludeTaskByUserId(id, 20, function(err, logResults) {
 
-                        if (time_helper.is_today(item.created_time)) {
-                            log_date = '今天'
-                        } else {
-                            log_date = time_helper.format_to_date(item.created_time)
-                        }
-
-                        var date_index = date_arry.indexOf(log_date)
-
-                        if (date_index == -1) {
-                            date_arry.push(log_date)
-                            log_grouped_arry.push({ date : log_date, content : [time_helper.format_specify_field(item, {created_time : 'time'})]})
-                        } else {
-                            log_grouped_arry[date_index].content.push(time_helper.format_specify_field(item, {created_time : 'time'}))
-                        }
-                    })
+            logResults.forEach(function(item, index) {
+                var date = time.format_to_date(item.created_time).split(' ')[0]
+                item.created_time = time.format_to_time(item.created_time)
+                if (date in logGroup) {
+                    logGroup[date].push(item)
+                } else {
+                    logGroup[date] = [item]
                 }
-                res.render('user/info', 
-                    { 
-                        title   : userInfoResult.name,
-                        user    : userInfoResult,
-                        me      : loginUser,
-                        logs    : log_grouped_arry,
-                    }
-                )
             })
+
+            res.render('user/info', 
+                { 
+                    title   : userResult.name,
+                    user    : userResult,
+                    logs    : logGroup,
+                    roles   : userRole,
+                }
+            )
         })
     })
 }
 
 exports.update = function(req, res) {
-    user_coll.updateById(req.params.id, 
-        {
+    var id          = req.params.id,
+        updateDoc   = {},
+        role        = [];
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ok : 0, msg : 'no user'})
+            return
+        }
+
+        if (!req.body.name || !req.body.ip) {
+            res.send({ok : 0, msg: "不合法"})
+            return
+        }
+
+        if (req.body.role) {
+            if (Array.isArray(req.body.role)) {
+                role = req.body.role
+            } else {
+                role = [req.body.role]
+            }
+        }
+
+        updateDoc = {
             name            : req.body.name,
             ip              : req.body.ip,
-            role            : req.body.role,
+            role            : role,
             avatar_url      : req.body.avatar_url,
-            modify_time     : new Date()
-        },
-        function(err, userInfoResult) {
-            res.send({ ok : 1 })
+            updated_time    : new Date(),
         }
-    ) 
+
+        userModel.findByIdAndUpdate(id, updateDoc, function(err, userResult) {
+            res.send({ ok : 1 , user : userResult})
+        })
+    })
 }
 
 exports.active = function(req, res) {
-    var active_option = {}
+    var id          = req.params.id,
+        updateDoc   = {};
+
     if (req.body.active == 'open') {
-        active_option = {active : 'open'}
+        updateDoc = {active : 'open'}
     } else {
-        active_option = {active : 'close'}
+        updateDoc = {active : 'close'}
     }
 
-    user_coll.updateById(req.params.id, active_option, function(err, userInfoResult) {
-        res.send({ok : 1})
+    userModel.findByIdAndUpdate(id, updateDoc, function(err, userResult) {
+        res.send({ok : 1, user : userResult})
     })
 }
 
 exports.delete = function(req, res) {
-    //delete avatar
-    user_coll.findById(req.params.id, function(err, result) {
-        var fileName = result.avatar_url.split('/')[result.avatar_url.split('/').length - 1]
+    var id          = req.params.id
+        fileName    = ''
+
+    userModel.findById(id, function(err, userResult) {
+        fileName = userResult.avatar_url.split('/')[userResult.avatar_url.split('/').length - 1]
+
         fs.exists(avatarLocalDir + fileName, function(exists) {
             if (exists) {
                 fs.unlink(avatarLocalDir + fileName, function() {
@@ -160,7 +190,7 @@ exports.delete = function(req, res) {
             }
             // delete user-info
             function deleteUserInfo(req, res) {
-                user_coll.removeById(req.params.id, function(err, result) {
+                userModel.findByIdAndRemove(id, function(err) {
                     res.send({ ok : 1 })
                 })
             }

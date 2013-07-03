@@ -4,7 +4,6 @@
 
     $(function() {
         app.utility.highlightCurrentPage('成员')
-        app.viewhelper.setSelect('role_select')
         eventBind()
         emptyFileUploader()
     })

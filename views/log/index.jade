@@ -1,5 +1,6 @@
 extends ../layout
 append head
+    script(src='/javascripts/log/index.js')
 block content
     .app-layout
         #main
@@ -31,7 +32,7 @@ block content
                                             - each item in logs[date]
                                                 li 
                                                     span #{item.log_type}
+                                                    span.content #{item.content}
                                                     span #{item.operator.name}
                                                     span #{item.created_time}
-                                                    .content !{item.content}
                                         

@@ -15,9 +15,9 @@ exports.listByTask = function(req, res) {
                 var date = time.format_to_date(item.created_time).split(' ')[0]
                 item.created_time = time.format_to_time(item.created_time)
                 if (date in logGroup) {
-                    logGroup[date].push(view.keepLineBreak(item, ['content']))
+                    logGroup[date].push(item)
                 } else {
-                    logGroup[date] = [view.keepLineBreak(item, ['content'])]
+                    logGroup[date] = [item]
                 }
             })
 

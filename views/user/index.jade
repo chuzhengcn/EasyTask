@@ -20,27 +20,20 @@ block content
                                                 .controls
                                                     input(type='text', autocomplete='off', placeholder='名称', name='name', required='true')
                                             .control-group
+                                                label.control-label(for='password') 密码
+                                                .controls
+                                                    input(type='password', autocomplete='off', name='password')
+                                            .control-group
                                                 label.control-label(for='ip') IP
                                                 .controls
                                                     input(type='text', autocomplete='off', placeholder='IP', name='ip', required='true')
                                             .control-group
                                                 label.control-label(for='role') 角色
                                                 .controls
-                                                    .checkbox
-                                                        input(type="checkbox", value="PM", name="role")
-                                                        | PM
-                                                    .checkbox
-                                                        input(type="checkbox", value="Programmer", name="role")
-                                                        | Programmer
-                                                    .checkbox
-                                                        input(type="checkbox", value="Tester", name="role") 
-                                                        | Tester
-                                                    .checkbox
-                                                        input(type="checkbox", value="Designer", name="role") 
-                                                        | Designer
-                                                    .checkbox
-                                                        input(type="checkbox", value="Customer", name="role") 
-                                                        | Customer
+                                                    - each role in roles
+                                                        .checkbox
+                                                            input(type="checkbox", value="#{role}", name="role")
+                                                            | #{role}
                                             .control-group
                                                 label.control-label(for='avatar') 头像
                                                 .controls
@@ -57,24 +50,20 @@ block content
                         .list-header.clearfix
                             header 成员
                             .operate-wrapper
-                                button#show_active_false_user.btn 显示未激活的成员
-                                button#add_user.btn.btn-primary 添加成员
+                                button#show_active_false_user.btn.btn-small 显示未激活的成员
+                                button#add_user.btn.btn-primary.btn-small 添加成员
                         .user-list.scrollable
                             .user-list-wrapper.clearfix
+                                mixin userTemplate(user, userClass)
+                                    a.user-item(href='/users/#{user._id}', style="display: #{userClass}")
+                                        img.img-rounded.img-polaroid(src='#{user.avatar_url}')
+                                        .item-info
+                                            .name #{user.name}
+                                            small
+                                                em #{user.role}
+                                            .ip #{user.ip}  
                                 - each user in users
                                     - if (!user.active || user.active === 'open')
-                                        a.user-item(href='/users/#{user._id}')
-                                            img.img-rounded.img-polaroid(src='#{user.avatar_url}')
-                                            .item-info
-                                                .name #{user.name}
-                                                small
-                                                    em #{user.role}
-                                                .ip #{user.ip}
+                                        mixin userTemplate(user, 'block')
                                     - else
-                                        a.user-item.disnone(href='/users/#{user._id}')
-                                            img.img-rounded.img-polaroid(src='#{user.avatar_url}')
-                                            .item-info
-                                                .name #{user.name}
-                                                small
-                                                    em #{user.role}
-                                                .ip #{user.ip}                                   
+                                        mixin userTemplate(user, 'none')                              

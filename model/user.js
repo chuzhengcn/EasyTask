@@ -10,6 +10,7 @@ var userSchema = mongoose.Schema({
     avatar_url      : String,
     active          : String,
     updated_time    : Date,
+    password        : String,
     created_time    : Date,
 },{ 
     collection: collectionName, 

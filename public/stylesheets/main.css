@@ -362,6 +362,9 @@ body {
   max-height: 90px;
   margin-right: 20px;
 }
+.user-operate-log {
+  padding-bottom: 20px;
+}
 .user-operate-log .user-operate-log-title {
   background: linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
   background: -webkit-linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
@@ -369,7 +372,7 @@ body {
   line-height: 30px;
   padding: 0 10px;
 }
-.user-operate-log .log-item {
+.user-operate-log .log-group-date {
   background-color: #fdfdfd;
   padding: 10px;
   margin: 20px;
@@ -380,18 +383,18 @@ body {
   padding: 0px 10px 0 10px;
 }
 .user-operate-log ul {
-  margin-left: 60px;
+  margin-left: 40px;
 }
 .user-operate-log ul li {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
-.user-operate-log ul li span {
-  font-size: 12px;
-  color: #666;
-  margin-left: 20px;
-}
+.user-operate-log ul li span,
 .user-operate-log ul li a {
-  margin-right: 10px;
+  margin-right: 20px;
+}
+.user-operate-log ul li .content {
+  color: #666;
+  font-size: 12px;
 }
 #edit_user_btn {
   margin-top: 20px;
@@ -413,14 +416,13 @@ body {
   margin-left: 60px;
 }
 .log-info-wrapper ul li {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .log-info-wrapper ul li span {
   margin-right: 20px;
 }
 .log-info-wrapper ul li .content {
   color: #666;
-  padding-top: 5px;
   font-size: 12px;
 }
 #edit_user_btn {
