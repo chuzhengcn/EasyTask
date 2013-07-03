@@ -29,19 +29,6 @@ block content
                                 button#editTaskBtn.btn.btn-primary.btn-small 编辑任务
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
-                                .task-milestone.clearfix
-                                    header 时间点
-                                        i#addMilestoneBtn.icon-plus-sign
-                                    ul
-                                        - each milestone in milestones
-                                            li
-                                                span #{milestone.event_time.substring(5)}
-                                                a.milestone-name(href='#', data-id="#{milestone._id}", data-time="#{milestone.event_time}", title="#{milestone.name}",  data-content="#{milestone.content}") #{milestone.name}
-                                .task-summary-log
-                                    a.title(href="/tasks/#{task.custom_id}/logs") 任务日志 >>
-                                    ul.unstyled
-                                        - each log in logs
-                                            li [#{log.log_type}] #{log.operator.name} #{log.created_time.length > 16?log.created_time.substring(5) : log.created_time}   
                                 .task-users.clearfix
                                     .task-users-wrapper.clearfix
                                         h5 参与人员
@@ -53,24 +40,48 @@ block content
                                                     .role 
                                                         small 
                                                             em #{taskuser.role}
-                                .task-info.clearfix
-                                    h5 任务信息
-                                    dl.dl-horizontal
-                                        dt 分支
-                                        dd #{task.branch}
-                                        dt 分值
-                                        dd #{task.score}
-                                        dt 站点
-                                        dd.sites #{task.projects.join(', ')}
-                                        dt 创建于
-                                        dd #{task.created_time}
-                                - if (task.status === allStatus[allStatus.length-1])
-                                    .task-rating
-                                        h5 用户评价
-                                        button#addRatingBtn.btn.btn-small.btn-primary 评价
-                                        ul#ratingList
-                                            - each rating in task.rating
-                                                li #{rating.operator.name} 评价了该任务
+                                .task-info-all.clearfix
+                                    .task-info.clearfix
+                                        h5 任务信息
+                                        ul
+                                            li 
+                                                span.title 分支
+                                                span #{task.branch}
+                                            li
+                                                span.title 分值
+                                                span #{task.score}
+                                            li 
+                                                span.title 站点
+                                                span.sites #{task.projects.join(', ')}
+                                            li 
+                                                span.title 创建于
+                                                span #{task.created_time}
+                                            li 
+                                                span.title 更新于
+                                                span #{task.updated_time}
+                                    .task-milestone.clearfix
+                                        h5 
+                                            i#addMilestoneBtn.icon-plus-sign
+                                            |  时间点
+                                        ul
+                                            - each milestone in milestones
+                                                li
+                                                    span #{milestone.event_time.substring(5)}
+                                                    a.milestone-name(href='#', data-id="#{milestone._id}", data-time="#{milestone.event_time}", title="#{milestone.name}",  data-content="#{milestone.content}") #{milestone.name}
+                                    - if (task.status === allStatus[allStatus.length-1])
+                                        .task-rating.clearfix
+                                            h5 
+                                                i#addRatingBtn.icon-plus-sign
+                                                |  用户评价
+                                            ul#ratingList
+                                                - each rating in task.rating
+                                                    li.text-success #{rating.operator.name} 评价了该任务
+                                    .task-summary-log
+                                        h5
+                                            a.task_section_more(href="/tasks/#{task.custom_id}/logs") 任务日志 >>
+                                        ul
+                                            - each log in logs
+                                                li [#{log.log_type}] #{log.operator.name} #{log.created_time.length > 16?log.created_time.substring(5) : log.created_time} 
                                 .task-summary-todo
                                     h5
                                         a.task_section_more(href="/tasks/#{task.custom_id}/todos") 文档 >>

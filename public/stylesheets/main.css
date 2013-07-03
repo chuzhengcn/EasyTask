@@ -617,80 +617,53 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-users .user .info .name {
   margin-bottom: 5px;
 }
-.task-summary .task-summary-wrapper .task-info {
-  padding: 0 470px 0 20px;
+.task-summary .task-summary-wrapper .task-info-all {
   border-bottom: solid 1px #dfdfdf;
+  padding-bottom: 10px;
 }
-.task-summary .task-summary-wrapper .task-info dd {
+.task-summary .task-summary-wrapper .task-info-all .task-info {
+  float: left;
+  padding: 0 80px 0 20px;
+}
+.task-summary .task-summary-wrapper .task-info-all .task-info li {
   margin-bottom: 5px;
 }
-.task-summary .task-summary-wrapper .task-info .doc {
-  position: relative;
-}
-.task-summary .task-summary-wrapper .task-info .doc #addDoc {
-  position: absolute;
-right
-}
-.task-summary .task-summary-wrapper .task-rating {
-  position: relative;
-  border-bottom: solid 1px #dfdfdf;
-  padding: 0 20px 10px 20px;
-}
-.task-summary .task-summary-wrapper .task-rating #addRatingBtn {
-  position: absolute;
-  right: 20px;
-  top: 0;
-}
-.task-summary .task-summary-wrapper .task-milestone {
-  position: absolute;
-  right: 260px;
-  top: 10px;
-  width: 200px;
-  background-color: #fffbe4;
-  border: 1px solid #ece9d9;
-  box-shadow: 0 5px 5px rgba(0,0,0,0.2);
-}
-.task-summary .task-summary-wrapper .task-milestone header {
-  padding: 10px;
-  color: #a5a396;
-}
-.task-summary .task-summary-wrapper .task-milestone header i {
-  float: right;
-  cursor: pointer;
-}
-.task-summary .task-summary-wrapper .task-milestone ul li {
-  margin-bottom: 3px;
-}
-.task-summary .task-summary-wrapper .task-milestone ul li span {
-  margin-right: 10px;
-}
-.task-summary .task-summary-wrapper .task-summary-log {
-  position: absolute;
-  right: 20px;
-  top: 10px;
-  width: 230px;
-  background-color: #f5f5f5;
-  border: 1px solid #dfdfdf;
-  box-shadow: 0 5px 5px rgba(0,0,0,0.2);
-}
-.task-summary .task-summary-wrapper .task-summary-log .title {
-  color: #a5a396;
-  padding: 10px 10px 5px 10px;
+.task-summary .task-summary-wrapper .task-info-all .task-info li span.title {
+  font-weight: bold;
+  width: 70px;
   display: inline-block;
 }
-.task-summary .task-summary-wrapper .task-summary-log .title:hover {
-  color: #005580;
+.task-summary .task-summary-wrapper .task-info-all .task-milestone {
+  padding-right: 80px;
+  float: left;
 }
-.task-summary .task-summary-wrapper .task-summary-log ul li {
-  padding: 3px 10px 2px 10px;
-  font-size: 12px;
-  margin-bottom: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.task-summary .task-summary-wrapper .task-info-all .task-milestone h5 i {
+  cursor: pointer;
 }
-.task-summary .task-summary-wrapper .task-summary-log ul li span {
+.task-summary .task-summary-wrapper .task-info-all .task-milestone ul li {
+  margin-bottom: 5px;
+}
+.task-summary .task-summary-wrapper .task-info-all .task-milestone ul li span {
   margin-right: 10px;
+}
+.task-summary .task-summary-wrapper .task-info-all .task-summary-log {
+  float: left;
+  padding-right: 20px;
+  overflow: hidden;
+}
+.task-summary .task-summary-wrapper .task-info-all .task-summary-log ul li {
+  margin-bottom: 5px;
+}
+.task-summary .task-summary-wrapper .task-info-all .task-summary-log ul li span {
+  margin-right: 10px;
+}
+.task-summary .task-summary-wrapper .task-info-all .task-rating {
+  float: left;
+  padding-right: 80px;
+  position: relative;
+}
+.task-summary .task-summary-wrapper .task-info-all .task-rating #addRatingBtn {
+  cursor: pointer;
 }
 .task-summary .task-summary-wrapper .task-summary-version {
   position: relative;

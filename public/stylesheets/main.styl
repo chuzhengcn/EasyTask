@@ -500,68 +500,44 @@ input[name='taskUsers'], input[name="project"]
                     font-weight bold
                     .name
                         margin-bottom 5px
-        .task-info
-            padding 0 470px 0 20px
+        .task-info-all
             border-bottom solid 1px #dfdfdf
-            // background #efeddf
-            dd
-                margin-bottom 5px
-            .doc
-                position relative
-                #addDoc
-                    position absolute
-                    right
-        .task-rating
-            position relative
-            border-bottom solid 1px #dfdfdf
-            padding 0 20px 10px 20px
-            #addRatingBtn
-                position absolute
-                right 20px
-                top 0
-        .task-milestone
-            position absolute
-            right 260px
-            top 10px
-            width 200px
-            background-color #fffbe4
-            border 1px solid #ece9d9
-            box-shadow 0 5px 5px rgba(0,0,0,0.2)
-            header
-                padding 10px
-                color #a5a396
-                i
-                    float right
+            padding-bottom 10px
+            .task-info
+                float left
+                padding 0 80px 0 20px
+                li
+                    margin-bottom 5px
+                    span.title
+                        font-weight bold
+                        width 70px
+                        display inline-block
+            .task-milestone
+                padding-right 80px
+                float left
+                h5
+                    i
+                        cursor pointer
+                ul
+                    li
+                        margin-bottom 5px                    
+                        span
+                            margin-right 10px
+            .task-summary-log                        
+                float left
+                padding-right 20px
+                overflow hidden
+                ul
+                    li
+                        margin-bottom 5px                  
+                        span
+                            margin-right 10px
+            .task-rating
+                float left
+                padding-right 80px
+                position relative   
+                #addRatingBtn
                     cursor pointer
-            ul
-                li
-                    margin-bottom 3px                    
-                    span
-                        margin-right 10px
-        .task-summary-log                        
-            position absolute
-            right 20px
-            top 10px
-            width 230px
-            background-color #f5f5f5
-            border 1px solid #dfdfdf
-            box-shadow 0 5px 5px rgba(0,0,0,0.2)
-            .title
-                color #a5a396
-                padding 10px 10px 5px 10px
-                display inline-block
-                &:hover
-                    color #005580
-            ul
-                li
-                    padding 3px 10px 2px 10px
-                    font-size 12px
-                    margin-bottom 3px 
-                    white-space nowrap
-                    overflow hidden
-                    text-overflow ellipsis                   
-                    span
-                        margin-right 10px
         .task-summary-version
             position relative
             padding 0 200px 30px 20px

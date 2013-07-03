@@ -370,6 +370,7 @@ exports.show = function(req, res) {
             return
         }
         taskResult.created_time   = time.readable_time(taskResult.created_time)
+        taskResult.updated_time   = time.readable_time(taskResult.updated_time)
         // get all user
         userModel.findActiveUsers(function(err, usersResults) {
 

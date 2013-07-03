@@ -3,7 +3,7 @@
         statusFilesInfo         = [],
         statusContetTemplate    = {
             developer : function() {
-                return '【版本说明】：' + $('.list-header header a').text() +'\n\n【脚本说明】：\n\n【关联站点】：' + $('.task-info dd.sites').text() + '\n\n【关联数据库】： \n\n【更新步骤】： \n\n【测试地址】： \n\n【特殊情况说明】：\n\n'
+                return '【版本说明】：' + $('.list-header header a').text() +'\n\n【脚本说明】：\n\n【关联站点】：' + $('.task-info .sites').text() + '\n\n【关联数据库】： \n\n【更新步骤】： \n\n【测试地址】： \n\n【特殊情况说明】：\n\n'
             } 
         };
 
