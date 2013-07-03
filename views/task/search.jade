@@ -1,0 +1,55 @@
+extends ../layout
+append head
+    script(src='/javascripts/task/archive.js')
+block content
+    .app-layout
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header 搜索结果
+                            .back
+                                a.btn.btn-small(href="/") 
+                                    i.icon-chevron-left
+                                    |  任务列表 
+                            .operate-wrapper
+                        .list-body.scrollable
+                            .task-list-filter
+                                .task-custom-id id
+                                .name 任务名
+                                .branch 分支
+                                .status 状态
+                                .users 人员
+                            ul.task-list.unstyled  
+                                - each task in tasks
+                                    li 
+                                        .task-custom-id #{task.custom_id}
+                                        a.name(href='/tasks/#{task.custom_id}') 
+                                            - if (!task.active)
+                                                i.icon-lock(title='该任务已存档')
+                                            | #{task.name}
+                                        .branch #{task.branch}
+                                        .status
+                                            span.label #{task.status}                                            
+                                        .users
+                                            span(rel="popover", data-original-title="所有参与人员")
+                                                - each pop_user in task.users
+                                                    |  #{pop_user.name}
+                                            .task-users-content-in-popover
+                                                - each pop_user in task.users
+                                                    | #{pop_user.name},
+                            - if (total > 0)
+                                ul.pager(data-count='#{total}')
+                                    li.previous
+                                        a(href='#') &larr;前一页
+                                    li.next
+                                        a(href='#') 后一页&&rarr;
