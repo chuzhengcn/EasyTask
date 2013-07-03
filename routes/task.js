@@ -5,7 +5,6 @@ var milestone_coll  = require('../db/milestone')
 var status_coll     = require('../db/status')
 var file_coll       = require('../db/file')
 var todo_coll       = require('../db/todo')
-var upload_route    = require('./upload') 
 var log_coll        = require('../db/log')
 
 
@@ -22,7 +21,8 @@ var routeApp        = require('./app'),
     projectModel    = require('../model/data').project,
     statusNameModel = require('../model/data').statusNames,
     branchModel     = require('../model/data').branch,
-    bugStatusModel  = require('../model/data').bugStatus;
+    bugStatusModel  = require('../model/data').bugStatus,
+    upload_route    = require('./upload');
 
 function generateTaskUsers(userName, cb) {
     var userNameGroup      = [],

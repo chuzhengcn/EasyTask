@@ -1,7 +1,7 @@
 (function() {
 
     $(function() {
-        app.utility.highlightCurrentPage('已存档')
+        app.utility.highlightCurrentPage('任务')
         popoverTaskInfo()
         app.viewhelper.markDifferentColorToTaskStatus($('.task-list li .status span.label'))
         setPage()
@@ -16,7 +16,7 @@
         if (total <= perPageNum ) {
             return
         } else {
-             $('ul.pager').show()
+            $('ul.pager').show()
         }
 
         if (currentPage*perPageNum < total) {
