@@ -17,6 +17,30 @@ exports.bugLevel = ['C', 'B', 'A']
 
 exports.rating = [{name : '满意', score : 50}, {name : '一般', score : 30}, {name : '不满意', score : 10}]
 
+exports.review = {
+    'type1' : {
+        description : '周考评',
+        standards   : {
+            workflow        : {
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
+                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '流程规范',
+            },
+
+            code_standards   : {
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
+                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '编码规范',
+            },
+            clear_code   : {
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
+                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '清晰度与通用度',
+            },
+        }
+    }
+}
+
 exports.logType = {
     '1' : '新建任务',
     '2' : '编辑任务',

@@ -94,6 +94,11 @@ app.delete('/tasks/:task_id/bugs/:id',                      bug.delete)
 var log    = require('./routes/log')
 app.get('/tasks/:task_custom_id/logs',                 log.listByTask)
 
+//---------review------------------------------------------------------
+var review    = require('./routes/review')
+app.get('/review-index',                 review.index)
+app.get('/review/:user_id/new',          review.new)
+
 //---------upload----------------------------------------------
 var upload    = require('./routes/upload')
 app.post('/upload-avatar',                  upload.createAvatar)

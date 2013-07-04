@@ -368,6 +368,9 @@ body {
 .user-tab-content .working-num {
   padding-bottom: 10px;
 }
+.user-tab-content #scoreStat form input {
+  margin-right: 10px;
+}
 .user-operate-log .log-group-date {
   background-color: #fdfdfd;
   padding: 10px;
@@ -1334,6 +1337,12 @@ input[name="project"] {
   margin-top: 5px;
   font-size: 12px;
   color: #999;
+}
+.review-form-area {
+  padding: 20px;
+}
+.review-form-area .review-input-radio-content {
+  margin-right: 20px;
 }
 .wiki-list {
   padding: 20px;

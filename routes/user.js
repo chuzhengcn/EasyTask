@@ -70,6 +70,7 @@ exports.create = function(req, res) {
         name            : data.name, 
         ip              : data.ip,
         role            : role,
+        active          : 'open',
         password        : req.body.password || '1234554321',
         avatar_url      : req.body.avatar_url,
         updated_time    : new Date(),
