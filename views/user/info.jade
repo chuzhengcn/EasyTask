@@ -72,16 +72,55 @@ block content
                                     h4 #{user.name}
                                     p #{user.role}
                                     p #{user.ip}
-                            .user-operate-log
-                                .user-operate-log-title 最近操作记录
-                                - for (var date in logs)
-                                    .log-group-date
-                                        h5 #{date}
-                                        ul.unstyled
-                                            - each item in logs[date]
-                                                li
-                                                    span.id ##{item.task.custom_id}
-                                                    a(href="/tasks/#{item.task.custom_id}") #{item.task.name} 
-                                                    span #{item.log_type}
-                                                    span.content #{item.content}
-                                                    span #{item.created_time}
+                            .user-tab-content
+                                ul.nav.nav-tabs
+                                    li.active
+                                        a(href="#workingOn", data-toggle="tab") working on
+                                    li
+                                        a(href="#score", data-toggle="tab") 任务得分统计
+                                    li
+                                        a(href="#operateLog", data-toggle="tab") 操作日志
+                                .tab-content
+                                    #workingOn.tab-pane.active
+                                        .working-num
+                                            span.badge.badge-info #{tasks.length} 个任务
+                                        table.table
+                                            - each task in tasks
+                                                tr
+                                                    td ##{task.custom_id}
+                                                    td 
+                                                        a(href="/tasks/#{task.custom_id}") #{task.name}
+                                                    td
+                                                        span.label.task-status #{task.status}
+                                                    td
+                                                        span.branch #{task.branch}
+                                                    td #{task.score}
+                                                    td #{task.projects.join(", ")}
+                                        - if (bugs)
+                                            .working-num
+                                                span.badge.badge-important #{bugs.length} 个bug
+                                            table.table
+                                                - each bug,index in bugs
+                                                    tr
+                                                        td ##{bugs.length - index}
+                                                        td
+                                                            a(href="/tasks/#{bug.task.custom_id}/bugs/#{bug._id}") #{bug.name}
+                                                        td
+                                                            span.label.bug-status #{bug.status}
+                                                        td #{bug.type}
+                                                        td #{bug.level}
+                                                        td #{bug.score}
+                                    #scoreStat.tab-pane
+                                    #operateLog.tab-pane
+                                        .user-operate-log
+                                            - for (var date in logs)
+                                                .log-group-date
+                                                    h5 #{date}
+                                                    ul.unstyled
+                                                        - each item in logs[date]
+                                                            li
+                                                                span.id ##{item.task.custom_id}
+                                                                a(href="/tasks/#{item.task.custom_id}") #{item.task.name} 
+                                                                span #{item.log_type}
+                                                                span.content #{item.content}
+                                                                span #{item.created_time}

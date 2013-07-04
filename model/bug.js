@@ -1,7 +1,9 @@
 var mongoose        = require('./config').mongoose,
     ObjectId        = mongoose.Schema.Types.ObjectId,
     collectionName  = 'bug',
-    userModel       = require('./user').user;
+    userModel       = require('./user').user,
+    taskModel       = require('./task').task,
+    bugStatus       = require('./data').bugStatus;
     
 
 var bugSchema = mongoose.Schema({
@@ -66,6 +68,51 @@ bugSchema.statics.findBugsIncludeUsersByTaskId = function(filter, cb) {
                 return item
             })
 
+
+            cb(err, bugResults)
+        })
+    })
+}
+
+bugSchema.statics.findBugsIncludeTaskByAssignTo = function(bugFilter, cb) {
+    var tasks       = [];
+
+    if (!bugFilter) {
+        cb(null, null)
+        return
+    }
+
+    this.find(bugFilter, {}, {sort : { created_time : -1}}, function(err, bugResults) {
+        if (err) {
+            cb('数据库错误')
+            return
+        }
+
+        bugResults = bugResults.map(function(item, index) {
+            item = item.toObject()
+
+            if (tasks.indexOf(item.task_id) === -1 && item.task_id) {
+                tasks.push(item.task_id)
+            }
+
+            return item
+
+        })
+
+        tasks = tasks.map(function(item, index) {
+            return mongoose.Types.ObjectId(item)
+        })
+
+        taskModel.find({_id : {$in : tasks}}, function(err, taskResults) {
+            bugResults = bugResults.map(function (item, index) {
+                taskResults.forEach(function(value, key) {
+                    if (item.task_id === String(value._id)) {
+                        item.task = value
+                    }
+                })
+
+                return item
+            })
 
             cb(err, bugResults)
         })

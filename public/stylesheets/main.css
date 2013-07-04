@@ -362,20 +362,16 @@ body {
   max-height: 90px;
   margin-right: 20px;
 }
-.user-operate-log {
-  padding-bottom: 20px;
+.user-tab-content {
+  padding: 20px;
 }
-.user-operate-log .user-operate-log-title {
-  background: linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
-  background: -webkit-linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
-  height: 32px;
-  line-height: 30px;
-  padding: 0 10px;
+.user-tab-content .working-num {
+  padding-bottom: 10px;
 }
 .user-operate-log .log-group-date {
   background-color: #fdfdfd;
   padding: 10px;
-  margin: 20px;
+  margin: 20px 0;
   border: solid 1px #dfdfdf;
   border-radius: 6px;
 }
@@ -593,7 +589,7 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-users .task-users-wrapper {
   clear: both;
-  padding: 0 470px 10px 20px;
+  padding: 0 20px 10px 20px;
 }
 .task-summary .task-summary-wrapper .task-users .user {
   float: left;
@@ -624,6 +620,7 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-info-all .task-info {
   float: left;
   padding: 0 80px 0 20px;
+  min-height: 170px;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-info li {
   margin-bottom: 5px;
@@ -634,8 +631,9 @@ input[name="project"] {
   display: inline-block;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-milestone {
-  padding-right: 80px;
+  padding: 0 60px 0 20px;
   float: left;
+  min-height: 170px;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-milestone h5 i {
   cursor: pointer;
@@ -648,8 +646,9 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-info-all .task-summary-log {
   float: left;
-  padding-right: 20px;
+  padding: 0 20px;
   overflow: hidden;
+  min-height: 170px;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-summary-log ul li {
   margin-bottom: 5px;
@@ -659,7 +658,8 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-info-all .task-rating {
   float: left;
-  padding-right: 80px;
+  padding: 0 60px 0 20px;
+  min-height: 170px;
   position: relative;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-rating #addRatingBtn {

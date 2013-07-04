@@ -300,18 +300,15 @@ body
         max-width 90px
         max-height 90px
         margin-right 20px
+.user-tab-content
+    padding 20px
+    .working-num
+        padding-bottom 10px
 .user-operate-log
-    padding-bottom 20px
-    .user-operate-log-title
-        background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
-        background -webkit-linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
-        height 32px
-        line-height 30px
-        padding 0 10px
     .log-group-date
         background-color #fdfdfd
         padding 10px
-        margin 20px
+        margin 20px 0
         border solid 1px #dfdfdf
         border-radius 6px
     h5
@@ -506,6 +503,7 @@ input[name='taskUsers'], input[name="project"]
             .task-info
                 float left
                 padding 0 80px 0 20px
+                min-height 170px
                 li
                     margin-bottom 5px
                     span.title
@@ -513,8 +511,9 @@ input[name='taskUsers'], input[name="project"]
                         width 70px
                         display inline-block
             .task-milestone
-                padding-right 80px
+                padding 0 60px 0 20px
                 float left
+                min-height 170px
                 h5
                     i
                         cursor pointer
@@ -525,8 +524,9 @@ input[name='taskUsers'], input[name="project"]
                             margin-right 10px
             .task-summary-log                        
                 float left
-                padding-right 20px
+                padding 0 20px
                 overflow hidden
+                min-height 170px
                 ul
                     li
                         margin-bottom 5px                  
@@ -534,7 +534,8 @@ input[name='taskUsers'], input[name="project"]
                             margin-right 10px
             .task-rating
                 float left
-                padding-right 80px
+                padding 0 60px 0 20px
+                min-height 170px
                 position relative   
                 #addRatingBtn
                     cursor pointer

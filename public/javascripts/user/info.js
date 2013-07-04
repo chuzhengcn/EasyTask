@@ -4,8 +4,14 @@
 
     $(function() {
         app.utility.highlightCurrentPage('成员')
+
         eventBind()
+
         emptyFileUploader()
+
+        app.viewhelper.markDifferentColorToBugStatus($('span.bug-status'))
+
+        app.viewhelper.markDifferentColorToTaskStatus($('span.task-status'))
     })
 
     function emptyFileUploader() {

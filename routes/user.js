@@ -1,6 +1,3 @@
-var user_coll       = require('../db/user')
-var log_coll        = require('../db/log')
-
 var fs              = require('fs'),
     avatarLocalDir  = __dirname + '/../public/attachments/avatar/',
     upload          = require('./upload'),
@@ -8,8 +5,11 @@ var fs              = require('fs'),
     userModel       = require('../model/user').user,
     time            = require('../helper/time'),
     userRole        = require('../model/data').role,
+    statusModel     = require('../model/data').statusNames, 
+    bugStatus       = require('../model/data').bugStatus,   
     logModel        = require('../model/log').log,
     taskModel       = require('../model/task').task,
+    bugModel        = require('../model/bug').bug,
     view            = require('../helper/view');
 
 exports.info = function(req, res) {
@@ -88,7 +88,10 @@ exports.create = function(req, res) {
 
 exports.show = function(req, res) {
     var id          = req.params.id,
-        logGroup    = {};
+        logGroup    = {},
+        taskFilter  = {users : id, active : true, deleted : false, status : {$nin : [statusModel[0]]}},
+        taskField   = {name : 1, status : 1, branch : 1, custom_id : 1, score : 1, projects : 1},
+        bugFilter   = null;
 
     userModel.findById(id, function(err, userResult) {
         if (!userResult) {
@@ -96,26 +99,39 @@ exports.show = function(req, res) {
             return
         }
 
-        logModel.findLogIncludeTaskByUserId(id, 20, function(err, logResults) {
+        if (userResult.role.indexOf(userRole[1]) > -1) {
+            bugFilter   = {assign_to : id, status : {$in : [bugStatus[0], bugStatus[1]]}, closed : false};
+        }
 
-            logResults.forEach(function(item, index) {
-                var date = time.format_to_date(item.created_time).split(' ')[0]
-                item.created_time = time.format_to_time(item.created_time)
-                if (date in logGroup) {
-                    logGroup[date].push(item)
-                } else {
-                    logGroup[date] = [item]
-                }
+        if (userResult.role.indexOf(userRole[2]) > -1) {
+            bugFilter   = {operator_id : id, status : {$in : [bugStatus[0], bugStatus[1], bugStatus[2]]}, closed : false};
+        }
+
+        taskModel.find(taskFilter, taskField, {sort : {custom_id : -1}},function(err, taskResults) {
+            bugModel.findBugsIncludeTaskByAssignTo(bugFilter, function(err, bugResults) {
+                logModel.findLogIncludeTaskByUserId(id, 20, function(err, logResults) {
+                    logResults.forEach(function(item, index) {
+                        var date = time.format_to_date(item.created_time).split(' ')[0]
+                        item.created_time = time.format_to_time(item.created_time)
+                        if (date in logGroup) {
+                            logGroup[date].push(item)
+                        } else {
+                            logGroup[date] = [item]
+                        }
+                    })
+
+                    res.render('user/info', 
+                        { 
+                            title   : userResult.name,
+                            user    : userResult,
+                            logs    : logGroup,
+                            roles   : userRole,
+                            tasks   : taskResults,
+                            bugs    : bugResults,
+                        }
+                    )
+                })
             })
-
-            res.render('user/info', 
-                { 
-                    title   : userResult.name,
-                    user    : userResult,
-                    logs    : logGroup,
-                    roles   : userRole,
-                }
-            )
         })
     })
 }
