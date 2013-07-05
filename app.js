@@ -103,6 +103,10 @@ app.get('/review/:user_id/item/:id/edit',review.edit)
 app.put('/review/:user_id/item/:id',     review.update)
 app.delete('/review/:user_id/item/:id',  review.delete)
 
+//---------project------------------------------------------------------
+var project    = require('./routes/project')
+app.get('/projects',                 project.index)
+
 //---------upload----------------------------------------------
 var upload    = require('./routes/upload')
 app.post('/upload-avatar',                  upload.createAvatar)

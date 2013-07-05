@@ -123,17 +123,23 @@ exports.index = function(req, res) {
                 }
             })
 
-            res.render('index', 
-                { 
-                    title           : '任务', 
-                    taskList        : myTask.concat(otherTask), 
-                    userGroup       : userGroup,
-                    users           : users,
-                    projects        : projectModel,
-                    branches        : branchModel,
-                    statusList      : statusNameModel,
-                } 
-            )
+            taskModel.count({status : statusNameModel[0], active : true, deleted : false}, function(err, defaultStatusNum) {
+                taskModel.count({active : false, deleted : false}, function(err, archivedNum) {
+                    res.render('index', 
+                        { 
+                            title               : '任务', 
+                            taskList            : myTask.concat(otherTask), 
+                            userGroup           : userGroup,
+                            users               : users,
+                            projects            : projectModel,
+                            branches            : branchModel,
+                            statusList          : statusNameModel,
+                            defaultStatusNum    : defaultStatusNum,
+                            archivedNum         : archivedNum,
+                        } 
+                    )
+                })
+            })
         })
     })
 }

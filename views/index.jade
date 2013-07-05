@@ -17,13 +17,14 @@ block content
                     .list
                         .list-header.clearfix
                             header 开发中任务
+                                | (#{taskList.length})
                             .back
                                 a.btn.btn-small(href="/tasks-requirement") 
                                     i.icon-chevron-left
-                                    |  需求 
+                                    |  需求 (#{defaultStatusNum})
                                 a.btn.btn-small(href="/tasks-archive") 
                                     i.icon-chevron-left
-                                    |  已存档 
+                                    |  已存档 (#{archivedNum})
                             .operate-wrapper
                                 button#createTaskBtn.btn.btn-small.btn-primary 添加任务
                         .list-body.scrollable

@@ -31,7 +31,7 @@ taskSchema.statics.findDeveloping = function(cb) {
         status  : {'$nin' : [statusNameModel[0]]},
     }
 
-    this.find(filter, function(err, tasks) {
+    this.find(filter,{}, {sort : {created_time : -1}}, function(err, tasks) {
         cb(err, tasks)
     });
 }

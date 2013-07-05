@@ -1,0 +1,32 @@
+extends ../layout
+append head
+    script(src='/javascripts/project/index.js')
+block content
+    .app-layout
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header 站点
+                            .operate-wrapper
+                        .main-body.scrollable
+                            .projects-list
+                                - for (var key in projects)
+                                    .project-item
+                                        h4 #{key}
+                                        span.badge #{projects[key].length} 个任务
+                                        ul
+                                            - each task in projects[key]
+                                                li
+                                                    span.index ##{task.custom_id}
+                                                    a(href="/tasks/#{task.custom_id}") #{task.name} 
+                                                    span.status.label #{task.status}
