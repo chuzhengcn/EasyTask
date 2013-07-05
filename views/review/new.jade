@@ -1,0 +1,136 @@
+extends ../layout
+append head
+    script(src='/javascripts/review/new.js')
+block content
+    .app-layout
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header #{user.name}
+                            .back
+                                a.btn.btn-small(href="/review-index")
+                                    i.icon-chevron-left
+                                    | 选择成员
+                            .operate-wrapper
+                        .main-body.scrollable
+                            .review-form-area
+                                ul.nav.nav-tabs
+                                    li.active
+                                        a(href="#type1Tab", data-toggle="tab") 内部质量
+                                    li
+                                        a(href="#type2Tab", data-toggle="tab") 季度考评
+                                    li
+                                        a(href="#type3Tab", data-toggle="tab") 团队贡献
+                                .tab-content
+                                    #type1Tab.tab-pane.active
+                                        form#type1Form.form-horizontal(method="post", action="/review/#{user._id}")
+                                            input(type="hidden", value="type1", name="type")
+                                            - for (var key in type1Standards)
+                                                .control-group
+                                                    label.control-label(for='#{key}') #{type1Standards[key].name}
+                                                    .controls
+                                                        - each item,index in type1Standards[key].level
+                                                            label.radio.inline
+                                                                input.review-input-radio(type="radio", value="#{item.score}", name="#{key}")
+                                                                span.review-input-radio-content #{item.name}
+                                            .control-group
+                                                .controls
+                                                    button#saveType1Btn.btn.btn-primary 保存 
+                                        - if (reviews.type1)
+                                            h5 评价记录
+                                            table.table.table-striped.table-condensed
+                                                thead
+                                                    tr
+                                                        th #
+                                                        th 评价人
+                                                        th 时间
+                                                        th 操作
+                                                tbody
+                                                    - each review,index in reviews.type1
+                                                        tr 
+                                                            td #{reviews.type1.length - index}
+                                                            td #{review.operator.name}
+                                                            td #{review.updated_time}
+                                                            td.operate-review
+                                                                a.btn.btn-small(href="/review/#{user._id}/item/#{review._id}/edit", title="修改")
+                                                                    i.icon-edit
+                                                                a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}", title="删除")
+                                                                    i.icon-trash
+                                    #type2Tab.tab-pane          
+                                        form#type2Form.form-horizontal(method="post", action="/review/#{user._id}")
+                                            input(type="hidden", value="type2", name="type")
+                                            - for (var key in type2Standards)
+                                                .control-group
+                                                    label.control-label(for='#{key}') #{type2Standards[key].name}
+                                                    .controls
+                                                        - each item,index in type2Standards[key].level
+                                                            label.radio.inline
+                                                                input.review-input-radio(type="radio", value="#{item.score}", name="#{key}")
+                                                                span.review-input-radio-content #{item.name}
+                                            .control-group
+                                                .controls
+                                                    button#saveType2Btn.btn.btn-primary 保存 
+                                        - if (reviews.type2)
+                                            h5 评价记录
+                                            table.table.table-striped.table-condensed
+                                                thead
+                                                    tr
+                                                        th #
+                                                        th 评价人
+                                                        th 时间
+                                                        th 操作
+                                                tbody
+                                                    - each review,index in reviews.type2
+                                                        tr 
+                                                            td #{reviews.type2.length - index}
+                                                            td #{review.operator.name}
+                                                            td #{review.updated_time}
+                                                            td.operate-review
+                                                                a.btn.btn-small(href="/review/#{user._id}/item/#{review._id}/edit", title="修改")
+                                                                    i.icon-edit
+                                                                a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}", title="删除")
+                                                                    i.icon-trash
+                                    #type3Tab.tab-pane          
+                                        form#type3Form.form-horizontal(method="post", action="/review/#{user._id}")
+                                            input(type="hidden", value="type3", name="type")
+                                            - for (var key in type3Standards)
+                                                .control-group
+                                                    label.control-label(for='#{key}') #{type3Standards[key].name}
+                                                    .controls
+                                                        - each item,index in type3Standards[key].level
+                                                            label.radio.inline
+                                                                input.review-input-radio(type="radio", value="#{item.score}", name="#{key}")
+                                                                span.review-input-radio-content #{item.name}
+                                            .control-group
+                                                .controls
+                                                    button#saveType3Btn.btn.btn-primary 保存 
+                                        - if (reviews.type3)
+                                            h5 评价记录
+                                            table.table.table-striped.table-condensed
+                                                thead
+                                                    tr
+                                                        th #
+                                                        th 评价人
+                                                        th 时间
+                                                        th 操作
+                                                tbody
+                                                    - each review,index in reviews.type2
+                                                        tr 
+                                                            td #{reviews.type3.length - index}
+                                                            td #{review.operator.name}
+                                                            td #{review.updated_time}
+                                                            td.operate-review
+                                                                a.btn.btn-small(href="/review/#{user._id}/item/#{review._id}/edit", title="修改")
+                                                                    i.icon-edit
+                                                                a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}", title="删除")
+                                                                    i.icon-trash

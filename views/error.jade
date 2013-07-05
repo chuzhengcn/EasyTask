@@ -1,0 +1,12 @@
+extends layout
+append head
+    script(type='text/javascript')
+        $(function() {
+            setTimeout(function() {
+                location.href = '/'
+            }, 5000)
+        })
+block content
+    .err-404 #{msg}
+        .tip 即将跳转至
+            a(href='/') 首页

@@ -20,22 +20,68 @@ exports.rating = [{name : '满意', score : 50}, {name : '一般', score : 30}, 
 exports.review = {
     'type1' : {
         description : '周考评',
-        standards   : {
-            workflow        : {
+        standards : {
+            workflow : {
                 level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
                            {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
                 name    : '流程规范',
             },
 
-            code_standards   : {
+            code_standards : {
                 level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
                            {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
                 name    : '编码规范',
             },
-            clear_code   : {
+            clear_code : {
                 level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
                            {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
                 name    : '清晰度与通用度',
+            },
+        }
+    },
+    'type2' : {
+        description : '季度考评',
+        standards   : {
+            improvement : {
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
+                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '个人成长',
+            },
+
+            creative : {
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
+                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '创新',
+            },
+            focus_result : {
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
+                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '关注结果',
+            },
+            focus_user : {
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
+                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '关注用户',
+            },
+            communicate : {
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
+                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '沟通',
+            },
+            share : {
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
+                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '分享',
+            },
+        }
+    },
+    'type3' : {
+        description : '团队贡献',
+        standards   : {
+            contribution : {
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
+                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '团队贡献',
             },
         }
     }

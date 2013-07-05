@@ -51,6 +51,10 @@ exports.err404 = function(req, res) {
     res.status(404).render('404', {title : '404'})
 }
 
+exports.errPage = function(req, res, msg) {
+    res.render('error', {title : '出错了', msg : 'msg'})
+}
+
 // use monogo skin below -------------------------------------
 
 exports.identifying = function (req, cb) {

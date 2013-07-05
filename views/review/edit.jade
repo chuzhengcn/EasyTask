@@ -1,0 +1,44 @@
+extends ../layout
+append head
+    script(src='/javascripts/review/edit.js')
+block content
+    .app-layout
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header #{user.name}
+                            .back
+                                a.btn.btn-small(href="/review/#{user._id}/new")
+                                    i.icon-chevron-left
+                                    | 评价
+                            .operate-wrapper
+                        .main-body.scrollable
+                            .review-form-area
+                                form#reviewForm.form-horizontal(method="put", action="/review/#{user._id}/item/#{review._id}")
+                                    fieldset
+                                        legend 编辑评价
+                                        input(type="hidden", name="type", value="#{review.type}")
+                                        - for (var key in reviewTemplate[review.type].standards)
+                                            .control-group
+                                                label.control-label(for='#{key}') #{reviewTemplate[review.type].standards[key].name}
+                                                .controls
+                                                    - each item,index in reviewTemplate[review.type].standards[key].level
+                                                        label.radio.inline
+                                                            - if (item.score === review.content[key])
+                                                                input.review-input-radio(type="radio", value="#{item.score}", name="#{key}", checked="checked")
+                                                            - else
+                                                                input.review-input-radio(type="radio", value="#{item.score}", name="#{key}")
+                                                            span.review-input-radio-content #{item.name}
+                                        .control-group
+                                            .controls
+                                                button#saveReviewBtn.btn.btn-primary 保存

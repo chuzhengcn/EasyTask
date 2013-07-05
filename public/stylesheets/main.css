@@ -1344,6 +1344,9 @@ input[name="project"] {
 .review-form-area .review-input-radio-content {
   margin-right: 20px;
 }
+.review-form-area .operate-review a {
+  margin-right: 10px;
+}
 .wiki-list {
   padding: 20px;
 }
