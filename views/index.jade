@@ -126,16 +126,19 @@ block modal
                             i.icon-plus
                             | 更多站点
                 .control-group
+                    label.control-label(for='score') 分值
+                    .controls
+                        input(type="number", name="score", autocomplete="off", step="5")
+                        a#addMoreScoreBtn(href='#', tabindex="-1")
+                            i.icon-plus
+                            | 分配分值(按照开发者的顺序)
+                .control-group
                     label.control-label(for="branch") 分支
                     .controls
                         select(name="branch")
                             - each branch in branches
                                 option(value="#{branch}") #{branch}
                             option(value="") 不分配分支
-                .control-group
-                    label.control-label(for='score') 分值
-                    .controls
-                        input(type="number", name="score", autocomplete="off", step="5")
         .modal-footer
             button.btn(data-dismiss="modal", aria-hidden="true") 关闭
             button#saveTask.btn.btn-primary 保存

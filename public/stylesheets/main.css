@@ -428,15 +428,18 @@ body {
   margin-top: 20px;
 }
 #addMoreTaskUserBtn,
-#addMoreProjectBtn {
+#addMoreProjectBtn,
+#addMoreScoreBtn {
   display: block;
 }
 #addMoreTaskUserBtn i,
-#addMoreProjectBtn i {
+#addMoreProjectBtn i,
+#addMoreScoreBtn i {
   margin-right: 5px;
 }
 input[name='taskUsers'],
-input[name="project"] {
+input[name="project"],
+input[name="score"] {
   margin-bottom: 10px;
 }
 .list-body {

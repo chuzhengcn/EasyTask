@@ -203,14 +203,18 @@ block modal
                             i.icon-plus
                             | 更多站点
                 .control-group
+                    label.control-label(for='score') 分值
+                    .controls
+                        - each taskscore in task.score
+                            input(type="number", name="score", autocomplete="off", step="5", value="#{taskscore}")
+                        a#addMoreScoreBtn(href='#', tabindex="-1")
+                            i.icon-plus
+                            | 分配分值(按照开发者的顺序)
+                .control-group
                     label.control-label(for="branch") 分支
                     .controls
                         input(type="text", name="branch", value="#{task.branch}")
                         button#getNewCustomId.btn.btn-small(tabindex='-1') 获取新分支
-                .control-group
-                    label.control-label(for='score') 分值
-                    .controls
-                        input(type="number", name="score", autocomplete="off", step="5", value="#{task.score}")
         .modal-footer
             .modal-footer-btns
                 button#deleteTaskBtn.btn.btn-danger.btn-small 删除

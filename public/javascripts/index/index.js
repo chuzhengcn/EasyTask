@@ -37,6 +37,10 @@
         typeaheadProject()
     }
 
+    function addMoreSocerInput() {
+        $('input[name="score"]:first').clone().insertBefore($('#addMoreScoreBtn')).val('').focus()
+    }
+
     function hasUnknowUser() {
         var userOptionArray = [], 
             validNum        = 0,
@@ -192,6 +196,11 @@
 
         $('#addMoreProjectBtn').click(function(event) {
             addMoreProjectInput()
+            event.preventDefault()
+        })
+
+        $('#addMoreScoreBtn').click(function(event) {
+            addMoreSocerInput()
             event.preventDefault()
         })
 

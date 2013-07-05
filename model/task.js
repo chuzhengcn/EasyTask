@@ -17,7 +17,7 @@ var taskSchema = mongoose.Schema({
     updated_time    : Date,
     created_time    : Date,
     users           : Array,
-    score           : Number,
+    score           : [Number],
     projects        : Array,
     rating          : Array,
 },{

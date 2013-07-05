@@ -88,6 +88,31 @@ function filterProjects(projects) {
     return result
 }
 
+function filterScore(socer) {
+    var result = []
+
+    if (!socer) {
+        return result
+    }
+
+    if (typeof socer === 'string') {
+        result.push(socer)
+        return result
+    }
+
+    if (Array.isArray(socer)) {
+        socer.forEach(function(item, index) {
+            if (item && (result.indexOf(item) === -1) && !isNaN(item)) {
+                result.push(parseInt(item, 10))
+            }
+        })
+
+        return result
+    }
+
+    return result
+}
+
 exports.index = function(req, res) {
     var myTask       = [],
         otherTask    = [],
@@ -149,7 +174,8 @@ exports.create = function(req, res) {
         users         = [],
         newTask       = null,
         branch        = '',
-        newStatus     = null;
+        newStatus     = null,
+        score         = [];
 
     routeApp.ownAuthority(req, function(hasAuth, operator) {
         if (!hasAuth) {
@@ -189,7 +215,7 @@ exports.create = function(req, res) {
                     deleted         : false,
                     branch          : generateBranch(req.body.branch, '', custom_id),
                     projects        : filterProjects(req.body.project),
-                    score           : parseInt(req.body.score, 10) || 0,
+                    score           : filterScore(req.body.score),
                     rating          : [],
                 })
 
@@ -499,7 +525,7 @@ exports.update = function(req, res) {
 
             updateDoc.name        = req.body.name
             updateDoc.branch      = req.body.branch
-            updateDoc.score       = parseInt(req.body.score, 10)
+            updateDoc.score       = filterScore(req.body.score)
             updateDoc.projects    = filterProjects(req.body.project)
 
             newCustomId = parseInt(updateDoc.branch.split('/')[1], 10)
@@ -523,8 +549,8 @@ exports.update = function(req, res) {
                         logContent = logContent + '任务id由 ' + taskResult.custom_id + ' 改为 ' + updatedTask.custom_id + ';\n'
                     }
 
-                    if (taskResult.score !== updatedTask.score) {
-                        logContent = logContent + '分值由 ' + taskResult.score + ' 改为 ' + updatedTask.score + ';\n'
+                    if (taskResult.score.join() !== updatedTask.score.join()) {
+                        logContent = logContent + '分值由 ' + taskResult.score.join() + ' 改为 ' + updatedTask.score.join() + ';\n'
                     }
 
                     if (taskResult.projects.join() !== updatedTask.projects.join()) {
