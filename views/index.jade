@@ -112,9 +112,15 @@ block modal
                 .control-group
                     label.control-label(for='taskUsers') 参与者
                     .controls
-                        input(type='text',name='taskUsers')
-                        input(type='text',name='taskUsers')
-                        input(type='text',name='taskUsers')
+                        .user-and-socre
+                            input.input-small(type='text',name='taskUsers',placeholder="名字")
+                            input.input-small(type="number", name="score", autocomplete="off", min="0", step="5",placeholder="分值")
+                        .user-and-socre
+                            input.input-small(type='text',name='taskUsers',placeholder="名字")
+                            input.input-small(type="number", name="score", autocomplete="off", min="0", step="5",placeholder="分值")
+                        .user-and-socre
+                            input.input-small(type='text',name='taskUsers',placeholder="名字")
+                            input.input-small(type="number", name="score", autocomplete="off", min="0", step="5",placeholder="分值")
                         a#addMoreTaskUserBtn(href='#', tabindex='-1')
                             i.icon-plus
                             | 更多参与者 
@@ -125,13 +131,6 @@ block modal
                         a#addMoreProjectBtn(href='#', tabindex="-1")
                             i.icon-plus
                             | 更多站点
-                .control-group
-                    label.control-label(for='score') 分值
-                    .controls
-                        input(type="number", name="score", autocomplete="off", step="5")
-                        a#addMoreScoreBtn(href='#', tabindex="-1")
-                            i.icon-plus
-                            | 分配分值(按照开发者的顺序)
                 .control-group
                     label.control-label(for="branch") 分支
                     .controls

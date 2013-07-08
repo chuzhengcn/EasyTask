@@ -32,7 +32,7 @@ block content
                                 .task-users.clearfix
                                     .task-users-wrapper.clearfix
                                         h5 参与人员
-                                        - each taskuser in task.users
+                                        - each taskuser,index in task.users
                                             a.user(href='/users/#{taskuser._id}')
                                                 img.img-polaroid.img-rounded(src='#{taskuser.avatar_url}')
                                                 .info 
@@ -49,7 +49,7 @@ block content
                                                 span #{task.branch}
                                             li
                                                 span.title 分值
-                                                span #{task.score}
+                                                span [#{task.score}]
                                             li 
                                                 span.title 站点
                                                 span.sites #{task.projects.join(', ')}
@@ -189,8 +189,10 @@ block modal
                 .control-group
                     label.control-label(for='taskUsers') 参与者
                     .controls
-                        - each taskuser in task.users
-                            input(type='text',name='taskUsers', value="#{taskuser.name}")
+                        - each taskuser,index in task.users
+                            .user-and-socre
+                                input.input-small(type='text',name='taskUsers', value="#{taskuser.name}")
+                                input.input-small(type="number", name="score", autocomplete="off", min="0", step="5",value="#{task.score[index]}")
                         a#addMoreTaskUserBtn(href='#', tabindex='-1')
                             i.icon-plus
                             | 更多参与者 
@@ -202,14 +204,6 @@ block modal
                         a#addMoreProjectBtn(href='#', tabindex="-1")
                             i.icon-plus
                             | 更多站点
-                .control-group
-                    label.control-label(for='score') 分值
-                    .controls
-                        - each taskscore in task.score
-                            input(type="number", name="score", autocomplete="off", step="5", value="#{taskscore}")
-                        a#addMoreScoreBtn(href='#', tabindex="-1")
-                            i.icon-plus
-                            | 分配分值(按照开发者的顺序)
                 .control-group
                     label.control-label(for="branch") 分支
                     .controls

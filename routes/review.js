@@ -235,3 +235,31 @@ exports.update = function(req, res) {
         })
     })
 }
+
+exports.caculate = function(req, res) {
+    var userId      = req.params.user_id,
+        beginTime   = time.parse_date(req.body.beginTime),
+        endTime     = time.parse_date(req.body.endTime);
+
+    if (!(beginTime instanceof Date) || !(endTime instanceof Date) ) {
+        res.send({ok : 0, msg : '不合法的日期格式'})
+        return
+    }
+
+    beginTime = time.beginning_of_day(beginTime)
+    endTime   = time.end_of_day(endTime)
+
+    if (beginTime.getTime() <= endTime.getTime()) {
+        res.send({ok : 0, msg : '结束日期必须晚于开始日期'})
+        return
+    }
+
+     
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+    })
+}

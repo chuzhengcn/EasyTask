@@ -28,17 +28,13 @@
     }
 
     function addMoreTaskUserInput() {
-        $('input[name="taskUsers"]:first').clone().insertBefore($('#addMoreTaskUserBtn')).val('').focus()
+        $('.user-and-socre:first').clone().insertBefore($('#addMoreTaskUserBtn')).find('input').val('')
         typeaheadUser()
     }
 
     function addMoreProjectInput() {
         $('input[name="project"]:first').clone().insertBefore($('#addMoreProjectBtn')).val('').focus()
         typeaheadProject()
-    }
-
-    function addMoreSocerInput() {
-        $('input[name="score"]:first').clone().insertBefore($('#addMoreScoreBtn')).val('').focus()
     }
 
     function hasUnknowUser() {
@@ -196,11 +192,6 @@
 
         $('#addMoreProjectBtn').click(function(event) {
             addMoreProjectInput()
-            event.preventDefault()
-        })
-
-        $('#addMoreScoreBtn').click(function(event) {
-            addMoreSocerInput()
             event.preventDefault()
         })
 

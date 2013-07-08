@@ -368,9 +368,6 @@ body {
 .user-tab-content .working-num {
   padding-bottom: 10px;
 }
-.user-tab-content #scoreStat form input {
-  margin-right: 10px;
-}
 .user-operate-log .log-group-date {
   background-color: #fdfdfd;
   padding: 10px;
@@ -428,18 +425,20 @@ body {
   margin-top: 20px;
 }
 #addMoreTaskUserBtn,
-#addMoreProjectBtn,
-#addMoreScoreBtn {
+#addMoreProjectBtn {
   display: block;
 }
 #addMoreTaskUserBtn i,
-#addMoreProjectBtn i,
-#addMoreScoreBtn i {
+#addMoreProjectBtn i {
   margin-right: 5px;
 }
-input[name='taskUsers'],
-input[name="project"],
-input[name="score"] {
+.user-and-socre {
+  margin-bottom: 10px;
+}
+.user-and-socre input {
+  margin-right: 5px;
+}
+input[name="project"] {
   margin-bottom: 10px;
 }
 .list-body {
@@ -1348,6 +1347,9 @@ input[name="score"] {
   margin-right: 20px;
 }
 .review-form-area .operate-review a {
+  margin-right: 10px;
+}
+.review-form-area #scoreStat form input {
   margin-right: 10px;
 }
 .projects-list {

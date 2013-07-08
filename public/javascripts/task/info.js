@@ -3,7 +3,10 @@
         statusFilesInfo         = [],
         statusContetTemplate    = {
             developer : function() {
-                return '【版本说明】：' + $('.list-header header a').text() +'\n\n【脚本说明】：\n\n【关联站点】：' + $('.task-info .sites').text() + '\n\n【关联数据库】： \n\n【更新步骤】： \n\n【测试地址】： \n\n【特殊情况说明】：\n\n'
+                return '【版本说明】：' + $('.list-header header a').text() + 
+                '\n\n【脚本说明】：\n\n【关联站点】：' + 
+                $('.task-info .sites').text() + 
+                '\n\n【关联数据库】： \n\n【更新步骤】： \n\n【是否重启】： \n\n【测试地址】： \n\n【特殊情况说明】：\n\n'
             } 
         };
 
@@ -32,17 +35,13 @@
     }
 
     function addMoreTaskUserInput() {
-        $('input[name="taskUsers"]:first').clone().insertBefore($('#addMoreTaskUserBtn')).val('').focus()
+        $('.user-and-socre:first').clone().insertBefore($('#addMoreTaskUserBtn')).find('input').val('')
         typeaheadUser()
     }
 
     function addMoreProjectInput() {
         $('input[name="project"]:first').clone().insertBefore($('#addMoreProjectBtn')).val('').focus()
         typeaheadProject()
-    }
-
-    function addMoreSocerInput() {
-        $('input[name="score"]:first').clone().insertBefore($('#addMoreScoreBtn')).val('').focus()
     }
 
     function hasUnknowUser() {
@@ -676,11 +675,6 @@
 
         $('#addMoreProjectBtn').click(function(event) {
             addMoreProjectInput()
-            event.preventDefault()
-        })
-
-        $('#addMoreScoreBtn').click(function(event) {
-            addMoreSocerInput()
             event.preventDefault()
         })
 

@@ -77,8 +77,6 @@ block content
                                     li.active
                                         a(href="#workingOn", data-toggle="tab") working on
                                     li
-                                        a(href="#scoreStat", data-toggle="tab") 得分统计
-                                    li
                                         a(href="#operateLog", data-toggle="tab") 操作日志
                                 .tab-content
                                     #workingOn.tab-pane.active
@@ -110,11 +108,6 @@ block content
                                                         td #{bug.type}
                                                         td #{bug.level}
                                                         td #{bug.score}
-                                    #scoreStat.tab-pane
-                                        form.form-inline
-                                            input(type="date", name="beginTime", placeholder="任务开始时间")
-                                            input(type="date", name="endTime", placeholder="任务结束时间")
-                                            button.btn.btn-primary(type="submit") 计算
                                     #operateLog.tab-pane
                                         .user-operate-log
                                             - for (var date in logs)

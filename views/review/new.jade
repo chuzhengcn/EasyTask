@@ -31,6 +31,8 @@ block content
                                         a(href="#type2Tab", data-toggle="tab") 季度考评
                                     li
                                         a(href="#type3Tab", data-toggle="tab") 团队贡献
+                                    li
+                                        a(href="#scoreStat", data-toggle="tab") 得分统计
                                 .tab-content
                                     #type1Tab.tab-pane.active
                                         form#type1Form.form-horizontal(method="post", action="/review/#{user._id}")
@@ -134,3 +136,8 @@ block content
                                                                     i.icon-edit
                                                                 a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}", title="删除")
                                                                     i.icon-trash
+                                    #scoreStat.tab-pane
+                                        form.form-inline
+                                            input(type="date", name="beginTime", placeholder="任务开始时间")
+                                            input(type="date", name="endTime", placeholder="任务结束时间")
+                                            button.btn.btn-primary(type="submit") 计算

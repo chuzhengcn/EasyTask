@@ -304,10 +304,6 @@ body
     padding 20px
     .working-num
         padding-bottom 10px
-    #scoreStat
-        form
-            input
-                margin-right 10px
 .user-operate-log
     .log-group-date
         background-color #fdfdfd
@@ -351,11 +347,15 @@ body
 #edit_user_btn
     margin-top 20px
 //----------------------task-list----------------------------------------
-#addMoreTaskUserBtn,#addMoreProjectBtn,#addMoreScoreBtn
+#addMoreTaskUserBtn,#addMoreProjectBtn
     display block
     i
         margin-right 5px
-input[name='taskUsers'], input[name="project"],input[name="score"]
+.user-and-socre
+    margin-bottom 10px
+    input
+        margin-right 5px
+input[name="project"]
     margin-bottom 10px
 .list-body
     position absolute
@@ -1102,6 +1102,10 @@ input[name='taskUsers'], input[name="project"],input[name="score"]
     .operate-review
         a
             margin-right 10px
+    #scoreStat
+        form
+            input
+                margin-right 10px
 // --------------------project index ---------------------------------------------------
 .projects-list
     padding 20px

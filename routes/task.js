@@ -37,8 +37,11 @@ function generateTaskUsers(userName, cb) {
     }
 
     userModel.find({name : {$in : userNameGroup}}, {}, {}, function(err, userResults) {
-        userRef = userResults.map(function(item, index) {
-            return String(item._id)
+        userResults.forEach(function(item, index) {
+            var order = userNameGroup.indexOf(item.name)
+            if (order > -1) {
+                userRef[order] = String(item._id)
+            }
         })
 
         cb(null, userRef)
@@ -87,28 +90,28 @@ function filterProjects(projects) {
 
     return result
 }
+// match user and score
+function filterScore(users, score) {
+    var result = users.map(function(item, index) {
+        return 0
+    })
 
-function filterScore(socer) {
-    var result = []
-
-    if (!socer) {
+    if (!score || result.length < 1) {
         return result
     }
 
-    if (typeof socer === 'string') {
-        result.push(socer)
+    if (typeof score === 'string') {
+        result[0] = parseInt(score)
         return result
     }
 
-    if (Array.isArray(socer)) {
-        socer.forEach(function(item, index) {
-            if (item && (result.indexOf(item) === -1) && !isNaN(item)) {
-                result.push(parseInt(item, 10))
-            }
-        })
-
-        return result
-    }
+    users.forEach(function(item, index) {
+        if (score[index] && !isNaN(score[index])) {
+            result[index] = parseInt(score[index])
+        } else {
+            result[index] = 0
+        }
+    })
 
     return result
 }
@@ -215,7 +218,7 @@ exports.create = function(req, res) {
                     deleted         : false,
                     branch          : generateBranch(req.body.branch, '', custom_id),
                     projects        : filterProjects(req.body.project),
-                    score           : filterScore(req.body.score),
+                    score           : filterScore(userRef, req.body.score),
                     rating          : [],
                 })
 
@@ -525,7 +528,7 @@ exports.update = function(req, res) {
 
             updateDoc.name        = req.body.name
             updateDoc.branch      = req.body.branch
-            updateDoc.score       = filterScore(req.body.score)
+            updateDoc.score       = filterScore(userRef, req.body.score)
             updateDoc.projects    = filterProjects(req.body.project)
 
             newCustomId = parseInt(updateDoc.branch.split('/')[1], 10)

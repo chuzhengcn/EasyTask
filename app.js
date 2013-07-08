@@ -102,6 +102,7 @@ app.post('/review/:user_id',             review.create)
 app.get('/review/:user_id/item/:id/edit',review.edit)
 app.put('/review/:user_id/item/:id',     review.update)
 app.delete('/review/:user_id/item/:id',  review.delete)
+app.post('/review/:user_id/caculate',    review.caculate)
 
 //---------project------------------------------------------------------
 var project    = require('./routes/project')
