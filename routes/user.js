@@ -58,6 +58,11 @@ exports.create = function(req, res) {
         return
     }
 
+    if (isNaN(data.weekWorkLoad)) {
+        res.send({ok : 0, msg : '每周工作量必填'});
+        return
+    }
+
     if (data.role) {
         if (Array.isArray(data.role)) {
             role = data.role
@@ -67,14 +72,16 @@ exports.create = function(req, res) {
     }
 
     var newUser = new userModel({
-        name            : data.name, 
-        ip              : data.ip,
-        role            : role,
-        active          : 'open',
-        password        : req.body.password || '1234554321',
-        avatar_url      : req.body.avatar_url,
-        updated_time    : new Date(),
-        created_time    : new Date(),
+        name                : data.name, 
+        ip                  : data.ip,
+        role                : role,
+        active              : 'open',
+        password            : req.body.password || '1234554321',
+        avatar_url          : req.body.avatar_url,
+        updated_time        : new Date(),
+        created_time        : new Date(),
+        week_work_load      : parseInt(data.weekWorkLoad) || 90,
+        excess_work_load    : 0,
     })
 
     newUser.save(function(err, userResult) {

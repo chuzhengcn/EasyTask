@@ -220,6 +220,7 @@ exports.create = function(req, res) {
                     projects        : filterProjects(req.body.project),
                     score           : filterScore(userRef, req.body.score),
                     rating          : [],
+                    end_time        : null,
                 })
 
                 newTask.save(function(err, newTaskResult) {
@@ -465,10 +466,12 @@ exports.archive = function(req, res) {
         taskModel.findById(id, function(err, taskResult) {
             if (taskResult.active === true) {
                 logType = '4'
-                taskResult.active = false
+                taskResult.active   = false
+                taskResult.end_time = new Date()
             } else {
                 logType = '5'
-                taskResult.active = true
+                taskResult.active   = true
+                taskResult.end_time = null
             }
 
             taskResult.save(function(err, updatedTask) {

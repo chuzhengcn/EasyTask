@@ -4,14 +4,16 @@ var mongoose        = require('./config').mongoose,
     
 
 var userSchema = mongoose.Schema({
-    name            : String,
-    ip              : String,
-    role            : Array,
-    avatar_url      : String,
-    active          : String,
-    updated_time    : Date,
-    password        : String,
-    created_time    : Date,
+    name                : String,
+    ip                  : String,
+    role                : Array,
+    avatar_url          : String,
+    active              : String,
+    updated_time        : Date,
+    password            : String,
+    created_time        : Date,
+    week_work_load      : Number,
+    excess_work_load    : Number     
 },{ 
     collection: collectionName, 
 })

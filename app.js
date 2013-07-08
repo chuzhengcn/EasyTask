@@ -14,6 +14,8 @@ app.configure(function(){
     app.use(express.logger('dev'))
     app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname }))
     app.use(express.methodOverride())
+    app.use(express.cookieParser('EasyTask')
+    app.use(express.cookieSession())
     app.use(app.router)
     app.use(stylus.middleware({src: path.join(__dirname, 'public')}))
     app.use(express.static(path.join(__dirname, 'public')))

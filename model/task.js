@@ -20,6 +20,7 @@ var taskSchema = mongoose.Schema({
     score           : [Number],
     projects        : Array,
     rating          : Array,
+    end_time        : Mixed,
 },{
     collection : collectionName,
 })
