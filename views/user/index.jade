@@ -28,6 +28,10 @@ block content
                                                 .controls
                                                     input(type='text', autocomplete='off', placeholder='IP', name='ip', required='true')
                                             .control-group
+                                                label.control-label(for='weekWorkLoad') 工作量
+                                                .controls
+                                                    input(type='number', min="0", autocomplete='off', name='weekWorkLoad',placeholder='每周工作量')
+                                            .control-group
                                                 label.control-label(for='role') 角色
                                                 .controls
                                                     - each role in roles

@@ -1,0 +1,30 @@
+extends ../layout
+append head
+    script(src='/javascripts/review/code-review.js')
+block content
+    .app-layout
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header 选择程序员
+                            .operate-wrapper
+                        .user-list.scrollable
+                            .user-list-wrapper.clearfix
+                                - each user in users
+                                    a.user-item(href='/review-code/#{user._id}/new')
+                                        img.img-rounded.img-polaroid(src='#{user.avatar_url}')
+                                        .item-info
+                                            .name #{user.name}
+                                            small
+                                                em #{user.role}
+                                            .ip #{user.ip}                        

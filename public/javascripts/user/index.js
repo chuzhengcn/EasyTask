@@ -108,7 +108,7 @@
     }
 
     $(function() {
-        app.utility.highlightCurrentPage('成员')
+        app.utility.highlightCurrentPage('成员列表')
 
         eventBind()
 

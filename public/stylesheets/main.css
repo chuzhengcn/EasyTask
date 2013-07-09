@@ -100,7 +100,7 @@ body {
   border-bottom: 1px solid rgba(0,0,0,0.18);
 }
 #header .user-avatar a {
-  display: block;
+  display: inline-block;
   color: rgba(255,255,255,0.66);
 }
 #header .user-avatar span {
@@ -116,6 +116,16 @@ body {
   height: 32px;
   border-radius: 3px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.45) inset, 0 1px 0 rgba(255,255,255,0.33);
+}
+#header #loginBtn {
+  position: absolute;
+  right: 10px;
+  top: 65px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.66);
+}
+#header #loginBtn:hover {
+  text-decoration: underline;
 }
 #main {
   position: absolute;
@@ -1351,6 +1361,12 @@ input[name="project"] {
 }
 .review-form-area #scoreStat form input {
   margin-right: 10px;
+}
+.review-form-area .description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
 }
 .projects-list {
   padding: 20px;

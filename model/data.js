@@ -17,9 +17,13 @@ exports.bugLevel = ['C', 'B', 'A']
 
 exports.rating = [{name : '满意', score : 50}, {name : '一般', score : 30}, {name : '不满意', score : 10}]
 
+exports.manager = [{ip : '127.0.0.2'}]
+
+exports.admin  = [{ip : '127.0.0.1'}]
+
 exports.review = {
     'type1' : {
-        description : '周考评',
+        description : '代码检视',
         standards : {
             workflow : {
                 level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 

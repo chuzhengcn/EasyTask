@@ -2,7 +2,9 @@ var user_coll       = require('../db/user')
 
 var userModel       = require('../model/user').user,
     logTypeModel    = require('../model/data').logType,
-    logModel        = require('../model/log').log;
+    logModel        = require('../model/log').log,
+    configData      = require('../model/data'),
+    authDict        = null;
 
 // use mongoose
 exports.getClientUser = function(ip, cb) {
@@ -54,6 +56,20 @@ exports.err404 = function(req, res) {
 exports.errPage = function(req, res, msg) {
     res.render('error', {title : '出错了', msg : 'msg'})
 }
+
+authDict = {
+
+}
+
+function isManager(ip) {
+    return configData.manager.some(function(item, index) {
+        if (item.ip === ip) {
+            return true
+        }
+    })
+}
+
+exports.isManager = isManager
 
 // use monogo skin below -------------------------------------
 

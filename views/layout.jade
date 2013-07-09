@@ -13,3 +13,14 @@ html(lang='en')
     body
         block content
         block modal
+        #loginModal.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+            .modal-header
+                button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+                h3 登录
+            .modal-body
+                .input-append
+                    input#loginPassword(type="password", name="password", placeholder="密码")
+                    button#submitLoginBtn.btn.btn-primary 登录
+            .modal-footer
+                button.btn(data-dismiss="modal", aria-hidden="true") 关闭
+                

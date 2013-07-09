@@ -10,6 +10,7 @@ var reviewSchema = mongoose.Schema({
     operator_id     : String,
     updated_time    : Date,
     created_time    : Date,
+    description     : String,
     content         : mongoose.Schema.Types.Mixed,
 },{ 
     collection: collectionName, 

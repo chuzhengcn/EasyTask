@@ -1,0 +1,67 @@
+extends ../layout
+append head
+    script(src='/javascripts/review/code-new.js')
+block content
+    .app-layout
+        #main
+            include ../include/app-sidebar
+            #content
+                .content-layout
+                    .detail-wrapper
+                        .detail
+                            section
+                                .action-bar.clearfix
+                                    button.button-close-pane
+                                .scrollable
+                                    .inner
+                    .list
+                        .list-header.clearfix
+                            header 检视 #{user.name}
+                            .back
+                                a.btn.btn-small(href="/review-code")
+                                    i.icon-chevron-left
+                                    | 选择程序员
+                            .operate-wrapper
+                        .main-body.scrollable
+                            .review-form-area
+                                form#type1Form.form-horizontal(method="post", action="/review-code/#{user._id}")
+                                    fieldset
+                                        legend 检视
+                                        input(type="hidden", value="type1", name="type")
+                                        - for (var key in type1Standards)
+                                            .control-group
+                                                label.control-label(for='#{key}') #{type1Standards[key].name}
+                                                .controls
+                                                    - each item,index in type1Standards[key].level
+                                                        label.radio.inline
+                                                            input.review-input-radio(type="radio", value="#{item.score}", name="#{key}")
+                                                            span.review-input-radio-content #{item.name}
+                                        .control-group
+                                            label.control-label(for='description') 说明
+                                            .controls
+                                                textarea.span8(name="description", rows="10")
+                                        .control-group
+                                            .controls
+                                                button#saveType1Btn.btn.btn-primary 保存 
+                                    - if (codeReviews.length > 0)
+                                        h5 检视记录
+                                        table.table.table-striped.table-condensed
+                                            thead
+                                                tr
+                                                    th #
+                                                    th 评价人
+                                                    th 说明
+                                                    th 时间
+                                                    th 操作
+                                            tbody
+                                                - each review,index in codeReviews
+                                                    tr 
+                                                        td #{codeReviews.length - index}
+                                                        td #{review.operator.name}
+                                                        td.description #{review.description}
+                                                        td #{review.updated_time}
+                                                        td.operate-review
+                                                            a.btn.btn-small(href="/review-code/#{user._id}/item/#{review._id}/edit", title="修改")
+                                                                i.icon-edit
+                                                            a.btn.btn-small.delete-review-btn(href="/review-code/#{user._id}/item/#{review._id}", title="删除")
+                                                                i.icon-trash

@@ -85,7 +85,7 @@ body
         height 48px
         border-bottom 1px solid rgba(0,0,0,0.18)
         a
-            display block
+            display inline-block
             color rgba(255, 255, 255, 0.66)
         span
             float left
@@ -99,6 +99,14 @@ body
             height 32px
             border-radius 3px
             box-shadow 0 1px 4px rgba(0, 0, 0, 0.45) inset, 0 1px 0 rgba(255, 255, 255, 0.33)
+    #loginBtn
+        position absolute
+        right 10px
+        top 65px
+        font-size 12px
+        color rgba(255, 255, 255, 0.66)
+        &:hover
+            text-decoration underline
 #main
     position absolute
     top 0
@@ -1106,6 +1114,13 @@ input[name="project"]
         form
             input
                 margin-right 10px
+    .description
+        overflow hidden
+        text-overflow ellipsis
+        white-space nowrap
+        max-width 200px
+// --------------------code - review new ---------------------------------------------------
+
 // --------------------project index ---------------------------------------------------
 .projects-list
     padding 20px

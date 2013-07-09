@@ -292,9 +292,79 @@ app.viewhelper = {
         getClientInfo()
     }
 
+    function checkLogin() {
+        $.ajax({
+            url     : '/check-login',
+            success : function(data) {
+                if (data.ok !== 1) {
+                    $('#loginBtn').click(function(event) {
+                        $('#loginModal').modal()
+                        event.preventDefault()
+                    })
+                } else {
+                    $('#loginBtn').text('登出')
+                    $('#loginBtn').click(function (event) {
+                        logOut()
+                        event.preventDefault()
+                    })
+                }
+            }
+        })
+    }
+
+    function login() {
+        function startLogin() {
+            var password = $('#loginPassword').val().trim()
+            if (!password) {
+                alert('没有填密码')
+                return
+            }
+
+            $.ajax({
+                type        : "post",
+                url         : '/login',
+                data        : {password : password},
+                success     : function (data) {
+                    if (data.ok !== 1) {
+                        alert(data.msg)
+                        return
+                    }
+
+                    location.href = location.href
+                }
+            })
+        }
+
+        $('#submitLoginBtn').click(function() {
+            startLogin()
+        })
+
+        $('#loginPassword').keyup(function(event) {
+            if (event.which === 13) {
+                startLogin()
+            }
+        })
+    }
+
+    function logOut() {
+        $.ajax({
+            url     : '/logout',
+            success : function (data) {
+                if (data.ok !== 1) {
+                    alert(data.msg)
+                    return
+                }
+
+                location.href = location.href
+            }
+        })
+    }
+
     $(function() {
         setClientInfo()
         toggleSearchForm();
         hideSearchForm();
+        checkLogin()
+        login()
     })
 })();

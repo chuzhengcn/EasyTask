@@ -6,6 +6,7 @@ nav#sidebar
             a(href='#')
                 img(src='/images/blank-avatar.jpg')
                 span
+        a#loginBtn(href="") 登录
         .search
             span
             form(action='/tasks-search')
@@ -23,7 +24,11 @@ nav#sidebar
             li
                 a(href='/users')
                     i.icon-user
-                    span 成员
+                    span 成员列表
+            li
+                a(href='/review-code')
+                    i.icon-eye-open
+                    span 代码检视
             li
                 a(href='/review-index')
                     i.icon-star

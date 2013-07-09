@@ -14,8 +14,8 @@ app.configure(function(){
     app.use(express.logger('dev'))
     app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname }))
     app.use(express.methodOverride())
-    app.use(express.cookieParser('EasyTask')
-    app.use(express.cookieSession())
+    app.use(express.cookieParser('EasyTask'))
+    app.use(express.cookieSession({key : 'easytask'}))
     app.use(app.router)
     app.use(stylus.middleware({src: path.join(__dirname, 'public')}))
     app.use(express.static(path.join(__dirname, 'public')))
@@ -28,6 +28,10 @@ app.configure('development', function(){
 app.configure('production', function(){
 })
 //-----------------------route-----------------------------------
+var login = require('./routes/login')
+app.get('/check-login', login.checkLogin)
+app.post('/login',      login.enter)
+app.get('/logout',      login.logout)
 
 //---------task--------------------------------------------------
 var task = require('./routes/task')
@@ -98,6 +102,13 @@ app.get('/tasks/:task_custom_id/logs',                 log.listByTask)
 
 //---------review------------------------------------------------------
 var review    = require('./routes/review')
+app.get('/review-code',                  review.codeReviewIndex)
+app.get('/review-code/:user_id/new',     review.newCodeReview)
+app.post('/review-code/:user_id',               review.addCodeReview)
+app.get('/review-code/:user_id/item/:id/edit',  review.editCodeReview)
+app.put('/review-code/:user_id/item/:id',       review.updateCodeReview)
+app.delete('/review-code/:user_id/item/:id',    review.deleteCodeReview)
+
 app.get('/review-index',                 review.index)
 app.get('/review/:user_id/new',          review.new)
 app.post('/review/:user_id',             review.create)
