@@ -25,12 +25,6 @@ exports.review = {
     'type1' : {
         description : '代码检视',
         standards : {
-            workflow : {
-                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
-                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
-                name    : '流程规范',
-            },
-
             code_standards : {
                 level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
                            {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
@@ -50,12 +44,6 @@ exports.review = {
                 level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
                            {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
                 name    : '个人成长',
-            },
-
-            creative : {
-                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
-                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
-                name    : '创新',
             },
             focus_result : {
                 level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
@@ -88,7 +76,25 @@ exports.review = {
                 name    : '团队贡献',
             },
         }
-    }
+    },
+    'type4' : {
+        description : '流程规范',
+        standards   : {
+            workflow : {
+                level   : [{score : 1, name : '此选项暂无意义'}],
+                name    : '流程规范分数',
+            },
+        }
+    },
+    'type5' : {
+        description : '创新',
+        standards   : {
+            creative : {
+                level   : [{score : 1, name : '此选项暂无意义'}],
+                name    : '创新分数',
+            },
+        }
+    },
 }
 
 exports.logType = {

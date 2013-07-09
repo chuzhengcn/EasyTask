@@ -18,6 +18,8 @@
             }
         })
 
+        sendToServerDate.description = $form.find('textarea').val()
+
         for (key in sendToServerDate) {
             if (!sendToServerDate[key]) {
                 isValide = false
@@ -83,6 +85,8 @@
         bindSaveReview($("#saveType1Btn"), $('#type1Form'))
         bindSaveReview($("#saveType2Btn"), $('#type2Form'))
         bindSaveReview($("#saveType3Btn"), $('#type3Form'))
+        bindSaveReview($("#saveType4Btn"), $('#type4Form'))
+        bindSaveReview($("#saveType5Btn"), $('#type5Form'))
 
         $('.delete-review-btn').click(function(event) {
             deleteReview($(this))

@@ -64,9 +64,10 @@ exports.new = function(req, res) {
                 { 
                     title           : '评价 ' + userResult.name ,
                     user            : userResult,
-                    type1Standards  : reviewStandards.type1.standards,
                     type2Standards  : reviewStandards.type2.standards,
                     type3Standards  : reviewStandards.type3.standards,
+                    type4Standards  : reviewStandards.type4.standards,
+                    type5Standards  : reviewStandards.type5.standards,
                     reviews         : reviewGroup,
                 }
             )
@@ -80,7 +81,8 @@ exports.create = function(req, res) {
         data        = req.body,
         reviewKey   = '',
         isValide    = true,
-        reviewType  = '';
+        reviewType  = '',
+        description = '';
 
     if (!data.type) {
         res.send({ok : 0, msg : '异常，没有设置评价的类型'})
@@ -106,9 +108,19 @@ exports.create = function(req, res) {
         return
     }
 
+    if (!data.description) {
+        res.send({ok : 0, msg : '必须添加描述'})
+        return
+    }
+
     routeApp.ownAuthority(req, function(hasAuth, operator) {
         if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        if ((String(operator._id) !== userId) && (!routeApp.isManager(req.ip))) {
+            res.send({ ok : 0, msg : '只能自评或者主管评价'})
             return
         }
 
@@ -117,9 +129,10 @@ exports.create = function(req, res) {
                 res.send({ ok : 0, msg : '找不到该用户'})
                 return
             }
-
+            description = data.description
             reviewType = data.type
             delete data.type
+            delete data.description
 
             newReview = new reviewModel({
                 operator_id  : String(operator._id),
@@ -127,6 +140,7 @@ exports.create = function(req, res) {
                 updated_time : new Date(),
                 created_time : new Date(),
                 type         : reviewType,
+                description  : description,
                 content      : data,
             })
 
@@ -141,21 +155,33 @@ exports.edit = function(req, res) {
     var userId          = req.params.user_id,
         id              = req.params.id;
 
-    userModel.findById(userId, function(err, userResult) {
-        if (err || !userResult) {
-            routeApp.errPage(req, res, '用户不存在')
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if ((String(operator._id) !== userId) && (!routeApp.isManager(req.ip))) {
+            routeApp.errPage(req, res, '只能查看自己的分数')
             return
         }
 
-        reviewModel.findById(id, function(err, reviewResult) {
+        if (!routeApp.isLogin(req)) {
+            routeApp.errPage(req, res, '必须登录后查看')
+            return
+        }
+
+        userModel.findById(userId, function(err, userResult) {
             if (err || !userResult) {
                 routeApp.errPage(req, res, '用户不存在')
                 return
             }
-            res.render('review/edit', {
-                user            : userResult,
-                review          : reviewResult,
-                reviewTemplate  : reviewStandards,
+
+            reviewModel.findById(id, function(err, reviewResult) {
+                if (err || !userResult) {
+                    routeApp.errPage(req, res, '用户不存在')
+                    return
+                }
+                res.render('review/edit', {
+                    user            : userResult,
+                    review          : reviewResult,
+                    reviewTemplate  : reviewStandards,
+                })
             })
         })
     })
@@ -170,6 +196,16 @@ exports.delete = function(req, res) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
+
+        if (!routeApp.isManager(req.ip)) {
+            res.send({ ok : 0, msg : '只有主管才能删除'})
+            return
+        }
+
+        if (!routeApp.isLogin(req)) {
+            res.send({ ok : 0, msg : '没有登录'})
+            return
+        } 
 
         reviewModel.findByIdAndRemove(id, function(err) {
             if (err) {
@@ -189,7 +225,8 @@ exports.update = function(req, res) {
         data            = req.body,
         reviewKey       = '',
         isValide        = true,
-        reviewType      = '';
+        reviewType      = '',
+        description     = '';
 
     if (!data.type) {
         res.send({ok : 0, msg : '异常，没有设置评价的类型'})
@@ -215,11 +252,26 @@ exports.update = function(req, res) {
         return
     }
 
+    if (!data.description) {
+        res.send({ok : 0, msg : '必须添加描述'})
+        return
+    }
+
     routeApp.ownAuthority(req, function(hasAuth, operator) {
         if (!hasAuth) {
             res.send({ ok : 0, msg : '没有权限'})
             return
         }
+
+        if (!routeApp.isManager(req.ip)) {
+            res.send({ ok : 0, msg : '只有主管才能修改'})
+            return
+        }
+
+        if (!routeApp.isLogin(req)) {
+            res.send({ ok : 0, msg : '没有登录'})
+            return
+        } 
 
         userModel.findById(userId, function(err, userResult) {
             if (err || !userResult) {
@@ -227,12 +279,15 @@ exports.update = function(req, res) {
                 return
             }
 
+            description = data.description
             delete data.type
+            delete data.description
 
             updateReview = {
                 operator_id  : String(operator._id),
                 updated_time : new Date(),
                 content      : data,
+                description  : description
             }
 
             reviewModel.findByIdAndUpdate(id, updateReview, function(err, reviewResult) {

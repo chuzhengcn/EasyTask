@@ -16,7 +16,7 @@ block content
                                     .inner
                     .list
                         .list-header.clearfix
-                            header #{user.name}
+                            header 评价 #{user.name}
                             .back
                                 a.btn.btn-small(href="/review/#{user._id}/new")
                                     i.icon-chevron-left
@@ -39,6 +39,10 @@ block content
                                                             - else
                                                                 input.review-input-radio(type="radio", value="#{item.score}", name="#{key}")
                                                             span.review-input-radio-content #{item.name}
+                                        .control-group
+                                            label.control-label(for='description') 说明
+                                            .controls
+                                                textarea.span6(name="description", rows="10") #{review.description}
                                         .control-group
                                             .controls
                                                 button#saveReviewBtn.btn.btn-primary 保存

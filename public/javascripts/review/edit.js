@@ -17,6 +17,8 @@
                 sendToServerDate[name] = $(this).val()                
             }
         })
+        
+        sendToServerDate.description = $('#reviewForm textarea').val()
 
         for (key in sendToServerDate) {
             if (!sendToServerDate[key]) {

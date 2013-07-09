@@ -54,7 +54,7 @@ exports.err404 = function(req, res) {
 }
 
 exports.errPage = function(req, res, msg) {
-    res.render('error', {title : '出错了', msg : 'msg'})
+    res.render('error', {title : '出错了', msg : msg})
 }
 
 authDict = {
@@ -70,6 +70,12 @@ function isManager(ip) {
 }
 
 exports.isManager = isManager
+
+function isLogin(req) {
+    return (req.session && req.session.login) || false
+}
+
+exports.isLogin = isLogin
 
 // use monogo skin below -------------------------------------
 
