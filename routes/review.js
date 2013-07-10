@@ -1,8 +1,9 @@
 var routeApp        = require('./app'),
     userModel       = require('../model/user').user,
+    statusModel     = require('../model/status').status,
     time            = require('../helper/time'),
     userRole        = require('../model/data').role,
-    statusModel     = require('../model/data').statusNames, 
+    statusNames     = require('../model/data').statusNames, 
     bugStatus       = require('../model/data').bugStatus,   
     logModel        = require('../model/log').log,
     taskModel       = require('../model/task').task,
@@ -347,34 +348,6 @@ exports.update = function(req, res) {
     })
 }
 
-exports.caculate = function(req, res) {
-    var userId      = req.params.user_id,
-        beginTime   = time.parse_date(req.body.beginTime),
-        endTime     = time.parse_date(req.body.endTime);
-
-    if (!(beginTime instanceof Date) || !(endTime instanceof Date) ) {
-        res.send({ok : 0, msg : '不合法的日期格式'})
-        return
-    }
-
-    beginTime = time.beginning_of_day(beginTime)
-    endTime   = time.end_of_day(endTime)
-
-    if (beginTime.getTime() <= endTime.getTime()) {
-        res.send({ok : 0, msg : '结束日期必须晚于开始日期'})
-        return
-    }
-
-     
-
-    routeApp.ownAuthority(req, function(hasAuth, operator) {
-        if (!hasAuth) {
-            res.send({ ok : 0, msg : '没有权限'})
-            return
-        }
-    })
-}
-
 exports.codeReviewIndex = function(req, res) {
     var filter = {active : {$nin : ['close']}, role : userRole[1] };
 
@@ -624,6 +597,100 @@ exports.deleteCodeReview = function(req, res) {
                 }
 
                 res.send({ok : 1})
+            })
+        })
+    })
+}
+
+exports.caculate = function(req, res) {
+    var userId              = req.params.user_id,
+        beginTime           = time.parse_date(req.body.beginTime),
+        endTime             = time.parse_date(req.body.endTime),
+        standardsWorkLoad   = 0,
+        excessWorkLoad      = 0,
+        score               = {};
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        if ((String(operator._id) !== userId) && !routeApp.isManager(req.ip)) {
+            res.send({ok : 0, msg : '只能计算自己的分数'})
+            return
+        }
+
+        if (!(beginTime instanceof Date) || !(endTime instanceof Date) ) {
+            res.send({ok : 0, msg : '不合法的日期格式'})
+            return
+        }
+
+        beginTime = time.beginning_of_thisweek(beginTime)
+        endTime   = time.end_of_thisweek(endTime)
+
+        if (beginTime.getTime() >= endTime.getTime()) {
+            res.send({ok : 0, msg : '结束日期必须晚于开始日期'})
+            return
+        }
+        
+        caculateWorkLoad(userId, beginTime, endTime, function(err, workloadScore) {
+            res.send({ok : 1, score : workloadScore})
+        })
+    })
+}
+
+//工作量
+function caculateWorkLoad(userId, beginTime, endTime, cb) {
+    var tasks               = [],
+        taskIds             = [],
+        standardsWorkLoad   = 0,
+        excessWorkLoad      = 0,
+        taskFilter          = {},
+        score               = 0,
+        day                 = Math.floor((endTime.getTime() - beginTime.getTime())/24*60*60*1000),
+        total               = 0,
+        finalScore          = 0,
+        statusFilter        = {
+            created_time    : {$lte : endTime, $gt : beginTime}, 
+            name            : statusNames[statusNames.length-1]
+        };
+
+    userModel.findById(userId, function(err, userResult) {
+        standardsWorkLoad = userResult.week_work_load
+        excessWorkLoad    = userResult.excess_work_load
+
+        statusModel.find(statusFilter, {}, function(err, statusResults) {
+            
+            statusResults.forEach(function(item, index) {
+                if (taskIds.indexOf(item._id) === -1) {
+                    taskIds.push(item._id)
+                }
+            })
+            
+            taskFilter = {_id : {$in : taskIds}, deleted : false, users : userId}
+
+            taskModel.find(taskFilter, {}, {sort : {custom_id : -1}}, function(err, taskResults) {
+
+                taskResults.forEach(function(item, index) {
+                    var thisTaskScore = item.score[item.users.indexOf(userId)]
+
+                    if (!thisTaskScore) {
+                        thisTaskScore = 0
+                    }
+
+                    score += thisTaskScore
+                })
+
+                total = day*standardsWorkLoad
+
+                if ((score + excessWorkLoad) > total) {
+                    finalScore = 30
+                } else {
+                    finalScore = Math.floor((score + excessWorkLoad)/day*standardsWorkLoad)
+                }
+
+                cb(null, finalScore)
             })
         })
     })

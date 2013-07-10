@@ -42,6 +42,52 @@ exports.end_of_day = function (date) {
 
     return new Date(date.getTime() + distance_to_local_end_of_day)
 }
+// monday is firstday in week
+exports.beginning_of_thisweek = function(date) {
+    var hours           = date.getUTCHours()
+    var minutes         = date.getUTCMinutes()
+    var seconds         = date.getUTCSeconds()
+    var milliseconds    = date.getUTCMilliseconds()
+
+    var today_beginning = new Date(date.getTime() - (1000*60*60*hours + 1000*60*minutes + 1000*seconds + milliseconds)) 
+    var thisday         = today_beginning.getUTCDay()
+    var distance_day
+
+    if (thisday === 0) {
+        distance_day = 6
+    } else {
+        distance_day = thisday - 1
+    }
+
+    var utc_monday = new Date(today_beginning.getTime() - (distance_day*one_day_ms))
+
+    return new Date(utc_monday.getTime() - zone_ms)
+
+}
+
+// sunday is lastday in week
+exports.end_of_thisweek = function(date) {
+    var one_week_include_thisday = 8
+
+    var hours           = date.getUTCHours()
+    var minutes         = date.getUTCMinutes()
+    var seconds         = date.getUTCSeconds()
+    var milliseconds    = date.getUTCMilliseconds()
+
+    var today_beginning = new Date(date.getTime() - (1000*60*60*hours + 1000*60*minutes + 1000*seconds + milliseconds)) 
+    var thisday         = today_beginning.getUTCDay()
+    var distance_day
+
+    if (thisday === 1) {
+        distance_day = 0
+    } else {
+        distance_day = one_week_include_thisday - thisday
+    }
+
+    var utc_monday = new Date(today_beginning.getTime() + (distance_day*one_day_ms))
+
+    return new Date(utc_monday.getTime() - zone_ms)
+}
 // Date => 2012/02/14 ---------------------------------------------------------------------------------------
 exports.format_to_date = function (date, connectors) {
     if (!(date instanceof Date)) {
@@ -242,4 +288,7 @@ function time_zero_completion (time_number) {
         return time_number
     }
 }
+
+
+console.log(exports.end_of_thisweek(new Date()))
 

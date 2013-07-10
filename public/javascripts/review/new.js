@@ -150,6 +150,17 @@
 
     }
 
+    function caculateScore() {
+        $.ajax({
+            type : 'post',
+            data : $('#caculateForm').serialize(),
+            url  : $('#caculateForm').attr('action'),
+            success : function(data) {
+                console.log(data)
+            }
+        })
+    }
+
     $(function() {
         app.utility.highlightCurrentPage('评价')
 
@@ -168,7 +179,16 @@
             event.preventDefault()
         })
 
-        setTab()       
+        setTab()  
+
+        $('#caculateBtn').click(function(event) {
+            caculateScore()
+            event.preventDefault()
+        })
+
+        $('#caculateForm').submit(function(event) {
+            event.preventDefault()
+        })      
     })
 
 })()

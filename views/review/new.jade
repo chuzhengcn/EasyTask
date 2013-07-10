@@ -37,10 +37,10 @@ block content
                                         a(href="#type5Tab") 创新
                                 .tab-content
                                     #scoreStat.tab-pane
-                                        form.form-inline
+                                        form#caculateForm.form-inline(method="post", action="/review/#{user._id}/caculate")
                                             input(type="date", name="beginTime", placeholder="任务开始时间")
                                             input(type="date", name="endTime", placeholder="任务结束时间")
-                                            button.btn.btn-primary(type="submit") 计算
+                                            button.btn.btn-primary#caculateBtn(type="submit") 计算
                                     #type2Tab.tab-pane          
                                         form#type2Form.form-horizontal(method="post", action="/review/#{user._id}")
                                             input(type="hidden", value="type2", name="type")
