@@ -101,11 +101,13 @@ exports.create = function(req, res) {
 }
 
 exports.show = function(req, res) {
-    var id          = req.params.id,
-        logGroup    = {},
-        taskFilter  = {users : id, active : true, deleted : false, status : {$nin : [statusModel[0]]}},
-        taskField   = {name : 1, status : 1, branch : 1, custom_id : 1, score : 1, projects : 1},
-        bugFilter   = null;
+    var id              = req.params.id,
+        logGroup        = {},
+        taskFilter      = {users : id, active : true, deleted : false, status : {$nin : [statusModel[0]]}},
+        taskField       = {name : 1, status : 1, branch : 1, custom_id : 1, score : 1, projects : 1},
+        bugFilter       = null,
+        finishedFilter  = {end_time : {$lte : new Date(), $gte : new Date(Date.now - 7*24*60*60*1000)}, active : false, deleted : false}
+        finishedTask    = [];
 
     userModel.findById(id, function(err, userResult) {
         if (!userResult) {
@@ -134,16 +136,19 @@ exports.show = function(req, res) {
                         }
                     })
 
-                    res.render('user/info', 
-                        { 
-                            title   : userResult.name,
-                            user    : userResult,
-                            logs    : logGroup,
-                            roles   : userRole,
-                            tasks   : taskResults,
-                            bugs    : bugResults,
-                        }
-                    )
+                    taskModel.find(finishedFilter, {}, {sort : {end_time : -1}}, function(err, finishedTaskResults) {
+                        res.render('user/info', 
+                            { 
+                                title           : userResult.name,
+                                user            : userResult,
+                                logs            : logGroup,
+                                roles           : userRole,
+                                tasks           : taskResults,
+                                bugs            : bugResults,
+                                finishedTasks   : finishedTaskResults,
+                            }
+                        )
+                    })
                 })
             })
         })

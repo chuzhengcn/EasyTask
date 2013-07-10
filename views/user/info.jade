@@ -82,6 +82,8 @@ block content
                                     li.active
                                         a(href="#workingOn", data-toggle="tab") working on
                                     li
+                                        a(href="#finishedTask", data-toggle="tab") finished (last 7 days)
+                                    li
                                         a(href="#operateLog", data-toggle="tab") 操作日志
                                 .tab-content
                                     #workingOn.tab-pane.active
@@ -113,6 +115,20 @@ block content
                                                         td #{bug.type}
                                                         td #{bug.level}
                                                         td #{bug.score}
+                                    #finishedTask.tab-pane
+                                        .working-num
+                                            span.badge.badge-success #{finishedTasks.length} 个任务
+                                        table.table
+                                            - each finished in finishedTasks
+                                                tr
+                                                    td ##{finished.custom_id}
+                                                    td 
+                                                        a(href="/tasks/#{finished.custom_id}") #{finished.name}
+                                                    td
+                                                        span.label.task-status #{finished.status}
+                                                    td
+                                                        span.branch #{finished.branch}
+                                                    td #{finished.projects.join(", ")}
                                     #operateLog.tab-pane
                                         .user-operate-log
                                             - for (var date in logs)
