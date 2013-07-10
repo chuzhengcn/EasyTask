@@ -24,19 +24,19 @@ block content
                             .operate-wrapper
                         .main-body.scrollable
                             .review-form-area
-                                ul.nav.nav-tabs
-                                    li.active
-                                        a(href="#scoreStat", data-toggle="tab") 得分统计
+                                ul#reviewTab.nav.nav-tabs
                                     li
-                                        a(href="#type2Tab", data-toggle="tab") 季度考评
+                                        a(href="#scoreStat") 得分统计
                                     li
-                                        a(href="#type3Tab", data-toggle="tab") 团队贡献
+                                        a(href="#type2Tab") 季度考评
                                     li
-                                        a(href="#type4Tab", data-toggle="tab") 流程规范
+                                        a(href="#type3Tab") 团队贡献
                                     li
-                                        a(href="#type5Tab", data-toggle="tab") 创新
+                                        a(href="#type4Tab") 流程规范
+                                    li
+                                        a(href="#type5Tab") 创新
                                 .tab-content
-                                    #scoreStat.tab-pane.active
+                                    #scoreStat.tab-pane
                                         form.form-inline
                                             input(type="date", name="beginTime", placeholder="任务开始时间")
                                             input(type="date", name="endTime", placeholder="任务结束时间")
@@ -131,7 +131,7 @@ block content
                                             .control-group
                                                 label.control-label(for='description') 说明
                                                 .controls
-                                                    textarea.span6(name="description", rows="10") 无              
+                                                    textarea.span6(name="description", rows="10", placeholder="必填")
                                             .control-group
                                                 .controls
                                                     button#saveType4Btn.btn.btn-primary 保存 
@@ -169,7 +169,7 @@ block content
                                             .control-group
                                                 label.control-label(for='description') 说明
                                                 .controls
-                                                    textarea.span6(name="description", rows="10") 无
+                                                    textarea.span6(name="description", rows="10", placeholder="必填")
                                             .control-group
                                                 .controls
                                                     button#saveType5Btn.btn.btn-primary 保存 

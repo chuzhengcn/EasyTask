@@ -45,7 +45,7 @@
                     return
                 }
                 alert('添加成功')
-                location.href = location.href
+                location.href = location.href.split('?')[0] + '?type=' + sendToServerDate.type
             }
         })
     }
@@ -79,6 +79,27 @@
         }) 
     }
 
+    function setTab() {
+        var tabTypeValue,
+            targetId;
+
+        tabTypeValue = app.utility.get_query_value('type')
+
+        if (!tabTypeValue) {
+            return
+        }
+
+        targetId = $('input[value="'+ tabTypeValue +'"]').parent().parent().attr('id')
+
+        $('#reviewTab a[href="#'+ targetId +'"]').tab('show')
+
+        $('#reviewTab a').click(function(event) {
+            event.preventDefault()
+
+            $(this).tab('show')
+        })
+    }
+
     $(function() {
         app.utility.highlightCurrentPage('评价')
 
@@ -91,7 +112,9 @@
         $('.delete-review-btn').click(function(event) {
             deleteReview($(this))
             event.preventDefault()
-        })       
+        })
+
+        setTab()       
     })
 
 })()

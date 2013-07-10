@@ -18,7 +18,7 @@ block content
                         .list-header.clearfix
                             header 评价 #{user.name}
                             .back
-                                a.btn.btn-small(href="/review/#{user._id}/new")
+                                a.btn.btn-small(href="/review/#{user._id}/new?type=#{review.type}")
                                     i.icon-chevron-left
                                     | 评价
                             .operate-wrapper
