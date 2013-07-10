@@ -13,7 +13,7 @@ var routeApp        = require('./app'),
 
 exports.index = function(req, res) {
     if (routeApp.isManager(req.ip)) {
-        var filter = {active : {$nin : ['close']}, role : {$in : userRole.slice(0, 3)}};
+        var filter = {active : {$nin : ['close']}, role : userRole[1]};
 
         userModel.find(filter, {}, {sort : {created_time : 1}}, function(err, userListResult) {
             res.render('review/index', 
@@ -370,7 +370,7 @@ exports.newCodeReview = function(req, res) {
 
             res.render('review/code-review-new', 
                 { 
-                    title           : '评价 ' + userResult.name ,
+                    title           : '检视 ' + userResult.name ,
                     user            : userResult,
                     type1Standards  : reviewStandards.type1.standards,
                     codeReviews     : reviewGroup.type1 || [],
