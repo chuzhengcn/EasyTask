@@ -67,7 +67,7 @@
                     alert('删除失败，刷新页面后重试')
                 }
 
-                location.href = location.href
+                location.href = location.href.split('?')[0] + '?type=' + $btn.data('type')
             } 
         })
     }
@@ -83,9 +83,16 @@
         var tabTypeValue,
             targetId;
 
+        $('#reviewTab a').click(function(event) {
+            event.preventDefault()
+
+            $(this).tab('show')
+        })
+
         tabTypeValue = app.utility.get_query_value('type')
 
         if (!tabTypeValue) {
+            $('#reviewTab a:first').tab('show')
             return
         }
 
@@ -93,11 +100,54 @@
 
         $('#reviewTab a[href="#'+ targetId +'"]').tab('show')
 
-        $('#reviewTab a').click(function(event) {
-            event.preventDefault()
+    }
 
-            $(this).tab('show')
+    function addAllReview($btn) {
+        var isValide            = true,
+            reviewGroup         = [],
+            sendToServerDate    = {};
+
+        $('.review-item').each(function() {
+            if ($(this).find('input:checked').length !== 1) {
+                isValide = false
+            }
         })
+
+        if (!isValide) {
+            alert('要给每个人都打分')
+            return
+        }
+
+        $('.review-item').each(function() {
+            var $self = $(this),
+                name  = $self.find('input:checked').data('name'),
+                item  = {};
+
+            item.user_id = $self.find('h5').data('user-id')
+            item.description = ''
+            item.content = {}
+            item.content[name] = $self.find('input:checked').val()
+
+            reviewGroup.push(item)
+        })
+        sendToServerDate.group = reviewGroup
+        sendToServerDate.type  = $('#type3Form input[name="type"]').val()
+
+        $.ajax({
+            url         : $('#type3Form').attr('action'),
+            type        : 'post',
+            data        : sendToServerDate,
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
+            success     : function(data) {
+                if (data.ok !== 1) {
+                    alert('删除失败，刷新页面后重试')
+                }
+                location.href = location.href.split('?')[0] + '?type=' + sendToServerDate.type
+            }
+        })
+
     }
 
     $(function() {
@@ -105,12 +155,16 @@
 
         bindSaveReview($("#saveType1Btn"), $('#type1Form'))
         bindSaveReview($("#saveType2Btn"), $('#type2Form'))
-        bindSaveReview($("#saveType3Btn"), $('#type3Form'))
         bindSaveReview($("#saveType4Btn"), $('#type4Form'))
         bindSaveReview($("#saveType5Btn"), $('#type5Form'))
 
         $('.delete-review-btn').click(function(event) {
             deleteReview($(this))
+            event.preventDefault()
+        })
+
+        $('#saveType3Btn').click(function(event) {
+            addAllReview($(this))
             event.preventDefault()
         })
 

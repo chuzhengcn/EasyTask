@@ -37,8 +37,9 @@ exports.index = function(req, res) {
 
 exports.new = function(req, res) {
     var userId      = req.params.user_id,
-        reviewGroup = {};
-
+        reviewGroup = {},
+        filter      = {active : {$nin : ['close']}, role : userRole[1]};;
+        
     userModel.findById(userId, function(err, userResult) {
         if (err || !userResult) {
             routeApp.err404(req, res)
@@ -60,17 +61,20 @@ exports.new = function(req, res) {
                 }
             })
 
-            res.render('review/new', 
-                { 
-                    title           : '评价 ' + userResult.name ,
-                    user            : userResult,
-                    type2Standards  : reviewStandards.type2.standards,
-                    type3Standards  : reviewStandards.type3.standards,
-                    type4Standards  : reviewStandards.type4.standards,
-                    type5Standards  : reviewStandards.type5.standards,
-                    reviews         : reviewGroup,
-                }
-            )
+            userModel.find(filter, {}, {sort : {created_time : 1}}, function(err, programmerListResult) {
+                res.render('review/new', 
+                    { 
+                        title           : '评价 ' + userResult.name ,
+                        user            : userResult,
+                        type2Standards  : reviewStandards.type2.standards,
+                        type3Standards  : reviewStandards.type3.standards,
+                        type4Standards  : reviewStandards.type4.standards,
+                        type5Standards  : reviewStandards.type5.standards,
+                        reviews         : reviewGroup,
+                        programmers     : programmerListResult,
+                    }
+                )
+            })
         })
     })
 }
@@ -147,6 +151,47 @@ exports.create = function(req, res) {
             newReview.save(function(err, reviewResult) {
                 res.send({ok : 1})
             })
+        })
+    })
+}
+
+exports.allAdd = function (req, res) {
+    var type            = req.body.type,
+        reviewGroup     = req.body.group
+        isValide        = true,
+        reviewKey       = '';
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        reviewGroup = reviewGroup.map(function(item, index) {
+            item.operator_id    = String(operator._id)
+            item.updated_time   = new Date()
+            item.created_time   = new Date()
+            item.type           = type
+
+            for (reviewKey in item.content) {
+                if (typeof item.content[reviewKey] === 'undefined' || isNaN(item.content[reviewKey])) {
+                    isValide = false
+                    break
+                } else {
+                    item.content[reviewKey] = parseInt(item.content[reviewKey], 10)
+                }
+            }
+
+            return item
+        })
+
+        if (!isValide) {
+            res.send({ok : 0, msg : '不合法的表单'})
+            return
+        }
+
+        reviewModel.create(reviewGroup, function(err) {
+            res.send({ok : 1})
         })
     })
 }

@@ -80,16 +80,19 @@ block content
                                                                 a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}", title="删除")
                                                                     i.icon-trash
                                     #type3Tab.tab-pane          
-                                        form#type3Form.form-horizontal(method="post", action="/review/#{user._id}")
+                                        form#type3Form.form-horizontal(method="post", action="/review-all-add")
                                             input(type="hidden", value="type3", name="type")
-                                            - for (var key in type3Standards)
-                                                .control-group
-                                                    label.control-label(for='#{key}') #{type3Standards[key].name}
-                                                    .controls
-                                                        - each item,index in type3Standards[key].level
-                                                            label.radio.inline
-                                                                input.review-input-radio(type="radio", value="#{item.score}", name="#{key}")
-                                                                span.review-input-radio-content #{item.name}
+                                            - each programmer in programmers
+                                                .review-item
+                                                    h5(data-user-id="#{programmer._id}") #{programmer.name}
+                                                    - for (var key in type3Standards)
+                                                        .control-group
+                                                            label.control-label(for='#{key}') #{type3Standards[key].name}
+                                                            .controls
+                                                                - each item,index in type3Standards[key].level
+                                                                    label.radio.inline
+                                                                        input.review-input-radio(type="radio", value="#{item.score}", data-name="#{key}", name="#{programmer._id}")
+                                                                        span.review-input-radio-content #{item.name}
                                             .control-group.disnone
                                                 label.control-label(for='description') 说明
                                                 .controls
@@ -153,7 +156,7 @@ block content
                                                                 td.operate-review
                                                                     a.btn.btn-small(href="/review/#{user._id}/item/#{review._id}/edit", title="修改")
                                                                         i.icon-edit
-                                                                    a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}", title="删除")
+                                                                    a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}", data-type="#{review.type}", title="删除")
                                                                         i.icon-trash
                                     #type5Tab.tab-pane
                                         form#type5Form.form-horizontal(method="post", action="/review/#{user._id}")
