@@ -2,17 +2,7 @@
 
     var target_file
 
-    $(function() {
-        app.utility.highlightCurrentPage('成员列表')
-
-        eventBind()
-
-        emptyFileUploader()
-
-        app.viewhelper.markDifferentColorToBugStatus($('span.bug-status'))
-
-        app.viewhelper.markDifferentColorToTaskStatus($('span.task-status'))
-    })
+    
 
     function emptyFileUploader() {
         $('#upload_avatar_input').val('')
@@ -162,4 +152,48 @@
             return false
         }
     }
+
+    function changePsw($btn) {
+
+        function startChangePsw() {
+            $.ajax({
+                type        : 'put',
+                url         : $('#changePswForm').attr('action'),
+                data        : $('#changePswForm').serialize(),
+                beforeSend  : function() {
+                    app.utility.isWorking($btn)
+                },
+                success     : function(data) {
+                    if (data.ok) {
+                        location.href = location.href
+                    }
+                }
+            })
+        }
+
+        if (app.utility.isValidForm('changePswForm')) {
+            startChangePsw()
+            event.preventDefault()
+        }
+    }
+
+    $(function() {
+        app.utility.highlightCurrentPage('成员列表')
+
+        eventBind()
+
+        emptyFileUploader()
+
+        app.viewhelper.markDifferentColorToBugStatus($('span.bug-status'))
+
+        app.viewhelper.markDifferentColorToTaskStatus($('span.task-status'))
+
+        $('#changePswBtn').click(function(event) {
+            $('#changePswModal').modal()
+        })
+
+        $('#saveNewPswBtn').click(function(event) {
+            changePsw($(this))
+        })
+    })
 })()

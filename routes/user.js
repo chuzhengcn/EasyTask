@@ -52,45 +52,51 @@ exports.list = function(req, res) {
 exports.create = function(req, res) {
     var data = req.body,
         role = [];
-
-    if (!data.name || !data.ip) {
-        res.send({ok : 0, msg: "不合法"})
-        return
-    }
-
-    if (isNaN(data.weekWorkLoad)) {
-        res.send({ok : 0, msg : '每周工作量必填'});
-        return
-    }
-
-    if (data.role) {
-        if (Array.isArray(data.role)) {
-            role = data.role
-        } else {
-            role = [data.role]
-        }
-    }
-
-    var newUser = new userModel({
-        name                : data.name, 
-        ip                  : data.ip,
-        role                : role,
-        active              : 'open',
-        password            : req.body.password || '1234554321',
-        avatar_url          : req.body.avatar_url,
-        updated_time        : new Date(),
-        created_time        : new Date(),
-        week_work_load      : parseInt(data.weekWorkLoad) || 90,
-        excess_work_load    : 0,
-    })
-
-    newUser.save(function(err, userResult) {
-        if (err) {
-            res.send({ ok : 0, msg : '数据库错误' })
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!routeApp.isAdmin(req.ip)) {
+            res.send({ok : 0, msg: "没有权限添加人员"})
             return
         }
 
-        res.send({ ok : 1 })
+        if (!data.name || !data.ip) {
+            res.send({ok : 0, msg: "表单不合法"})
+            return
+        }
+
+        if (isNaN(data.weekWorkLoad)) {
+            res.send({ok : 0, msg : '每周工作量必填'});
+            return
+        }
+
+        if (data.role) {
+            if (Array.isArray(data.role)) {
+                role = data.role
+            } else {
+                role = [data.role]
+             }
+        }
+
+        var newUser = new userModel({
+            name                : data.name, 
+            ip                  : data.ip,
+            role                : role,
+            active              : 'open',
+            password            : req.body.password || '123456',
+            avatar_url          : req.body.avatar_url,
+            updated_time        : new Date(),
+            created_time        : new Date(),
+            week_work_load      : parseInt(data.weekWorkLoad) || 90,
+            excess_work_load    : 0,
+        })
+
+        newUser.save(function(err, userResult) {
+            if (err) {
+                res.send({ ok : 0, msg : '数据库错误' })
+                return
+            }
+    
+                res.send({ ok : 1 })
+        })   
     })
 }
 
@@ -155,8 +161,18 @@ exports.update = function(req, res) {
             return
         }
 
+        if (id !== String(operator._id) && !routeApp.isAdmin(req.ip)) {
+            res.send({ok : 0, msg: "没有权限"})
+            return
+        }
+
         if (!req.body.name || !req.body.ip) {
             res.send({ok : 0, msg: "不合法"})
+            return
+        }
+
+        if (isNaN(req.body.weekWorkLoad)) {
+            res.send({ok : 0, msg : '每周工作量必填'});
             return
         }
 
@@ -173,7 +189,13 @@ exports.update = function(req, res) {
             ip              : req.body.ip,
             role            : role,
             avatar_url      : req.body.avatar_url,
+            week_work_load  : parseInt(req.body.weekWorkLoad) || 90,
             updated_time    : new Date(),
+        }
+
+        if (!routeApp.isAdmin(req.ip)) {
+            delete updateDoc.role
+            delete updateDoc.week_work_load
         }
 
         userModel.findByIdAndUpdate(id, updateDoc, function(err, userResult) {
@@ -182,18 +204,65 @@ exports.update = function(req, res) {
     })
 }
 
+exports.changePsw = function(req, res) {
+    var id          = req.params.id,
+        updateDoc   = {};
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ok : 0, msg : 'no user'})
+            return
+        }
+
+        if (id !== String(operator._id)) {
+            res.send({ok : 0, msg: "没有权限"})
+            return
+        }
+
+        userModel.findById(id, function(err, userResult) {
+            if (userResult.password !== req.body.originpsw) {
+                res.send({ok : 0, msg : '原密码错误'})
+                return
+            }
+
+            if (!req.body.newpsw) {
+                res.send({ok : 0, msg : ' 新密码不能为空'})
+                return
+            }
+
+            updateDoc.password = req.body.newpsw
+
+            userModel.findByIdAndUpdate(id, updateDoc, function(err, userResult) {
+                res.send({ok : 1, user : userResult})
+            })
+        })
+    })
+}
+
 exports.active = function(req, res) {
     var id          = req.params.id,
         updateDoc   = {};
 
-    if (req.body.active == 'open') {
-        updateDoc = {active : 'open'}
-    } else {
-        updateDoc = {active : 'close'}
-    }
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ok : 0, msg : 'no user'})
+            return
+        }
 
-    userModel.findByIdAndUpdate(id, updateDoc, function(err, userResult) {
-        res.send({ok : 1, user : userResult})
+        if (!routeApp.isAdmin(req.ip)) {
+            res.send({ok : 0, msg: "没有权限修改人员状态"})
+            return
+        }
+
+        if (req.body.active == 'open') {
+            updateDoc = {active : 'open'}
+        } else {
+            updateDoc = {active : 'close'}
+        }
+
+        userModel.findByIdAndUpdate(id, updateDoc, function(err, userResult) {
+            res.send({ok : 1, user : userResult})
+        })
     })
 }
 
@@ -201,23 +270,35 @@ exports.delete = function(req, res) {
     var id          = req.params.id
         fileName    = ''
 
-    userModel.findById(id, function(err, userResult) {
-        fileName = userResult.avatar_url.split('/')[userResult.avatar_url.split('/').length - 1]
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ok : 0, msg : 'no user'})
+            return
+        }
 
-        fs.exists(avatarLocalDir + fileName, function(exists) {
-            if (exists) {
-                fs.unlink(avatarLocalDir + fileName, function() {
-                    deleteUserInfo(req, res) 
-                })
-            } else {
-                deleteUserInfo(req, res)     
-            }
-            // delete user-info
-            function deleteUserInfo(req, res) {
-                userModel.findByIdAndRemove(id, function(err) {
-                    res.send({ ok : 1 })
-                })
-            }
+        if (!routeApp.isAdmin(req.ip)) {
+            res.send({ok : 0, msg: "没有权限删除人员"})
+            return
+        }
+
+        userModel.findById(id, function(err, userResult) {
+            fileName = userResult.avatar_url.split('/')[userResult.avatar_url.split('/').length - 1]
+
+            fs.exists(avatarLocalDir + fileName, function(exists) {
+                if (exists) {
+                    fs.unlink(avatarLocalDir + fileName, function() {
+                        deleteUserInfo(req, res) 
+                    })
+                } else {
+                    deleteUserInfo(req, res)     
+                }
+                // delete user-info
+                function deleteUserInfo(req, res) {
+                    userModel.findByIdAndRemove(id, function(err) {
+                        res.send({ ok : 1 })
+                    })
+                }
+            })
         })
     })
 }

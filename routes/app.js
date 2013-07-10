@@ -68,8 +68,16 @@ function isManager(ip) {
         }
     })
 }
-
 exports.isManager = isManager
+
+function isAdmin(ip) {
+    return configData.admin.some(function(item, index) {
+        if (item.ip === ip) {
+            return true
+        }
+    })
+}
+exports.isAdmin = isAdmin
 
 function isLogin(req) {
     return (req.session && req.session.login) || false
