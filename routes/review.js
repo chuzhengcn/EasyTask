@@ -635,6 +635,7 @@ exports.caculate = function(req, res) {
         }
         
         caculateWorkLoad(userId, beginTime, endTime, function(err, workloadScore) {
+            console.log(workloadScore)
             res.send({ok : 1, score : workloadScore})
         })
     })
@@ -643,55 +644,50 @@ exports.caculate = function(req, res) {
 //工作量
 function caculateWorkLoad(userId, beginTime, endTime, cb) {
     var tasks               = [],
-        taskIds             = [],
         standardsWorkLoad   = 0,
         excessWorkLoad      = 0,
-        taskFilter          = {},
         score               = 0,
-        day                 = Math.floor((endTime.getTime() - beginTime.getTime())/24*60*60*1000),
-        total               = 0,
+        oneWeekTimeMs       = 7 * 24 * 60 * 60 * 1000
+        weekNum             = (endTime.getTime() - beginTime.getTime()) / oneWeekTimeMs,
+        standardstotal      = 0,
         finalScore          = 0,
-        statusFilter        = {
-            created_time    : {$lte : endTime, $gt : beginTime}, 
-            name            : statusNames[statusNames.length-1]
+        baseRatio           = 30,
+        taskFilter          = {
+            end_time        : {$lte : endTime, $gt : beginTime}, 
+            status          : statusNames[statusNames.length-1],
+            deleted         : false,
+            users           : userId,
         };
 
     userModel.findById(userId, function(err, userResult) {
         standardsWorkLoad = userResult.week_work_load
-        excessWorkLoad    = userResult.excess_work_load
+        // excessWorkLoad    = userResult.excess_work_load
 
-        statusModel.find(statusFilter, {}, function(err, statusResults) {
-            
-            statusResults.forEach(function(item, index) {
-                if (taskIds.indexOf(item._id) === -1) {
-                    taskIds.push(item._id)
-                }
-            })
-            
-            taskFilter = {_id : {$in : taskIds}, deleted : false, users : userId}
+        taskModel.find(taskFilter, {}, {sort : {custom_id : -1}}, function(err, taskResults) {
+            taskResults.forEach(function(item, index) {
+                var thisTaskScore = item.score[item.users.indexOf(userId)]
 
-            taskModel.find(taskFilter, {}, {sort : {custom_id : -1}}, function(err, taskResults) {
-
-                taskResults.forEach(function(item, index) {
-                    var thisTaskScore = item.score[item.users.indexOf(userId)]
-
-                    if (!thisTaskScore) {
-                        thisTaskScore = 0
-                    }
-
-                    score += thisTaskScore
-                })
-
-                total = day*standardsWorkLoad
-
-                if ((score + excessWorkLoad) > total) {
-                    finalScore = 30
-                } else {
-                    finalScore = Math.floor((score + excessWorkLoad)/day*standardsWorkLoad)
+                if (!thisTaskScore) {
+                    thisTaskScore = 0
                 }
 
-                cb(null, finalScore)
+                score += thisTaskScore
             })
+
+            score += excessWorkLoad
+
+            console.log(score)
+
+            standardstotal = weekNum * standardsWorkLoad
+            if (score > standardstotal) {
+                finalScore = baseRatio
+            } else {
+                finalScore = Math.round((score / standardstotal) * baseRatio)
+            }
+
+            
+
+            cb(null, finalScore)
         })
     })
 }

@@ -52,51 +52,45 @@ exports.list = function(req, res) {
 exports.create = function(req, res) {
     var data = req.body,
         role = [];
-    routeApp.ownAuthority(req, function(hasAuth, operator) {
-        if (!routeApp.isAdmin(req.ip)) {
-            res.send({ok : 0, msg: "没有权限添加人员"})
+
+    if (!data.name || !data.ip) {
+        res.send({ok : 0, msg: "表单不合法"})
+        return
+    }
+
+    if (isNaN(data.weekWorkLoad)) {
+        res.send({ok : 0, msg : '每周工作量必填'});
+        return
+    }
+
+    if (data.role) {
+        if (Array.isArray(data.role)) {
+            role = data.role
+        } else {
+            role = [data.role]
+         }
+    }
+
+    var newUser = new userModel({
+        name                : data.name, 
+        ip                  : data.ip,
+        role                : role,
+        active              : 'open',
+        password            : req.body.password || '123456',
+        avatar_url          : req.body.avatar_url,
+        updated_time        : new Date(),
+        created_time        : new Date(),
+        week_work_load      : parseInt(data.weekWorkLoad) || 90,
+        excess_work_load    : 0,
+    })
+
+    newUser.save(function(err, userResult) {
+        if (err) {
+            res.send({ ok : 0, msg : '数据库错误' })
             return
         }
 
-        if (!data.name || !data.ip) {
-            res.send({ok : 0, msg: "表单不合法"})
-            return
-        }
-
-        if (isNaN(data.weekWorkLoad)) {
-            res.send({ok : 0, msg : '每周工作量必填'});
-            return
-        }
-
-        if (data.role) {
-            if (Array.isArray(data.role)) {
-                role = data.role
-            } else {
-                role = [data.role]
-             }
-        }
-
-        var newUser = new userModel({
-            name                : data.name, 
-            ip                  : data.ip,
-            role                : role,
-            active              : 'open',
-            password            : req.body.password || '123456',
-            avatar_url          : req.body.avatar_url,
-            updated_time        : new Date(),
-            created_time        : new Date(),
-            week_work_load      : parseInt(data.weekWorkLoad) || 90,
-            excess_work_load    : 0,
-        })
-
-        newUser.save(function(err, userResult) {
-            if (err) {
-                res.send({ ok : 0, msg : '数据库错误' })
-                return
-            }
-    
-                res.send({ ok : 1 })
-        })   
+            res.send({ ok : 1 })
     })
 }
 
