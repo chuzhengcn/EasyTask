@@ -75,7 +75,7 @@ block content
                                                 |  用户评价
                                             ul#ratingList
                                                 - each rating in task.rating
-                                                    li.text-success #{rating.operator.name} 评价了该任务
+                                                    li.text-success #{rating.operator.name} 评价：#{rating.rating}
                                     .task-summary-log
                                         h5
                                             a.task_section_more(href="/tasks/#{task.custom_id}/logs") 任务日志 >>

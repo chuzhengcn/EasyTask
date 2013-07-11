@@ -1362,6 +1362,14 @@ input[name="project"] {
 .review-form-area #scoreStat form input {
   margin-right: 10px;
 }
+.review-form-area #caculateBtn {
+  margin-right: 10px;
+}
+.review-form-area #scoreResult dt,
+.review-form-area #scoreResult dd {
+  padding: 5px 0;
+  border-bottom: dashed 1px #dfdfdf;
+}
 .review-form-area .description {
   overflow: hidden;
   text-overflow: ellipsis;

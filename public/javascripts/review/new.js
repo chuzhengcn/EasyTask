@@ -150,13 +150,32 @@
 
     }
 
-    function caculateScore() {
+    function caculateScore($btn) {
+        if (!app.utility.isValidForm('caculateForm')) {
+            alert('开始结束时间必填')
+            return
+        }
+
         $.ajax({
             type : 'post',
             data : $('#caculateForm').serialize(),
             url  : $('#caculateForm').attr('action'),
+            beforeSend : function() {
+                app.utility.isWorking($btn)
+            },
             success : function(data) {
-                console.log(data)
+                $btn.removeClass('disabled').text('计算')
+                if (data.ok !== 1) {
+                    alert(data.msg)
+                }
+
+                $('#scoreResult h3').html('总分：' + data.finalScore)
+                $('#scoreResult span.label').html(data.beginTime + '--' + data.endTime)
+                $('#scoreDetail').empty()
+                data.scoreGroup.forEach(function (item, index) {
+                    $('#scoreDetail').append('<dt>' + item.name +'</dt>')
+                    $('#scoreDetail').append('<dd>' + item.score +'</dd>')
+                })
             }
         })
     }
@@ -181,14 +200,10 @@
 
         setTab()  
 
-        $('#caculateBtn').click(function(event) {
-            caculateScore()
-            event.preventDefault()
-        })
-
         $('#caculateForm').submit(function(event) {
+            caculateScore($('#caculateBtn'))
             event.preventDefault()
-        })      
+        })    
     })
 
 })()

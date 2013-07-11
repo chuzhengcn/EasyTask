@@ -68,7 +68,7 @@ taskSchema.statics.findArchivedIncludeUser = function (page, cb) {
     var self                = this,
         filter              = {active : false, deleted : false},
         limit               = 20,
-        option              = {sort : {custom_id : -1}, limit : limit, skip : (page-1)*limit};   
+        option              = {sort : {end_time : -1, custom_id : -1}, limit : limit, skip : (page-1)*limit};   
 
     this.find(filter, {}, option, function(err, tasks) {
         if (err) {

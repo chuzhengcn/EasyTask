@@ -38,9 +38,14 @@ block content
                                 .tab-content
                                     #scoreStat.tab-pane
                                         form#caculateForm.form-inline(method="post", action="/review/#{user._id}/caculate")
-                                            input(type="date", name="beginTime", placeholder="任务开始时间")
-                                            input(type="date", name="endTime", placeholder="任务结束时间")
-                                            button.btn.btn-primary#caculateBtn(type="submit") 计算
+                                            input(type="date", name="beginTime", placeholder="任务开始时间", required="required")
+                                            input(type="date", name="endTime", placeholder="任务结束时间",required="required")
+                                            button.btn.btn-primary#caculateBtn 计算
+                                            span.label 计算总是以周为单位
+                                        #scoreResult
+                                            h3.text-success
+                                            span.label.label-info
+                                            dl#scoreDetail.dl-horizontal
                                     #type2Tab.tab-pane          
                                         form#type2Form.form-horizontal(method="post", action="/review/#{user._id}")
                                             input(type="hidden", value="type2", name="type")
@@ -124,12 +129,12 @@ block content
                                         form#type4Form.form-horizontal(method="post", action="/review/#{user._id}")
                                             input(type="hidden", value="type4", name="type")
                                             - for (var key in type4Standards)
-                                                .control-group.disnone
+                                                .control-group
                                                     label.control-label(for='#{key}') #{type4Standards[key].name}
                                                     .controls
                                                         - each item,index in type4Standards[key].level
                                                             label.radio.inline
-                                                                input.review-input-radio(type="radio", value="#{item.score}", name="#{key}", checked="checked")
+                                                                input.review-input-radio(type="radio", value="#{item.score}", name="#{key}")
                                                                 span.review-input-radio-content #{item.name}
                                             .control-group
                                                 label.control-label(for='description') 说明
@@ -162,12 +167,12 @@ block content
                                         form#type5Form.form-horizontal(method="post", action="/review/#{user._id}")
                                             input(type="hidden", value="type5", name="type")
                                             - for (var key in type5Standards)
-                                                .control-group.disnone
+                                                .control-group
                                                     label.control-label(for='#{key}') #{type5Standards[key].name}
                                                     .controls
                                                         - each item,index in type5Standards[key].level
                                                             label.radio.inline
-                                                                input.review-input-radio(type="radio", value="#{item.score}", name="#{key}", checked="checked")
+                                                                input.review-input-radio(type="radio", value="#{item.score}", name="#{key}")
                                                                 span.review-input-radio-content #{item.name}
                                             .control-group
                                                 label.control-label(for='description') 说明

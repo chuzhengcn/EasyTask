@@ -647,6 +647,7 @@ exports.caculate = function(req, res) {
                     score : ratingResult.finalRatingScore,
                     name  : '用户评分'
                 })
+
                 caculateTestBug(userId, beginTime, endTime, workloadResult.tasks, workloadResult.workLoadScore, function(err, testBugResult) {
                     scoreGroup.push({
                         score : testBugResult.finalTestBugScore,
@@ -696,8 +697,13 @@ exports.caculate = function(req, res) {
                                             scoreGroup.forEach(function(item, index) {
                                                 finalScore = item.score + finalScore 
                                             })
-
-                                            res.send({ok : 1, scoreGroup : scoreGroup, finalScore : finalScore})
+                                            res.send({
+                                                ok : 1, 
+                                                scoreGroup : scoreGroup, 
+                                                finalScore : finalScore,
+                                                beginTime  : time.format_to_date(beginTime),
+                                                endTime    : time.format_to_date(endTime),
+                                            })
                                         })
                                     })
                                 })
@@ -773,7 +779,8 @@ function caculateRating(tasks, cb) {
         finalRatingScore    = 0;
 
     if (tasks.length < 1 || !Array.isArray(tasks)) {
-        return 0
+        cb(null, {finalRatingScore : finalRatingScore})
+        return
     }
 
     tasks.forEach(function(item, index) {
@@ -790,7 +797,7 @@ function caculateRating(tasks, cb) {
         totalRating += Math.round(sum / item.rating.length)
     })
 
-    finalRatingScore = totalRating / Math.round(totalRating / tasks.length)
+    finalRatingScore = Math.round(totalRating / tasks.length)
 
     cb(null, {finalRatingScore : finalRatingScore})
 }
@@ -807,6 +814,11 @@ function caculateTestBug(userId, beginTime, endTime, tasks, workLoadScore, cb) {
             assign_to       : userId, 
             type            : bugType[0]
         };
+
+    if (workLoadScore === 0) {
+        cb(null, {finalTestBugScore : finalTestBugScore})
+        return
+    }
 
     tasks.forEach(function(item, index) {
         if (taskIds.indexOf(String(item._id)) === -1) {
@@ -844,6 +856,10 @@ function caculateReleaseBug(userId, beginTime, endTime, workLoadScore, cb) {
             type            : bugType[1]
         };
 
+    if (workLoadScore === 0) {
+        cb(null, {finalReleaseBugScore : finalReleaseBugScore})
+        return
+    }
 
     bugModel.find(releaseBugFilter, function(err, releaseBugResults) {
         releaseBugResults.forEach(function(item, index) {
@@ -917,7 +933,7 @@ function caculateReviewType2(userId, beginTime, endTime, cb) {
         }
 
         for (var key in reviewResult.content) {
-            result[key] = item.content[key]
+            result[key] = reviewResult.content[key]
         }
 
         cb(null, result)
@@ -1023,7 +1039,7 @@ function caculateReviewType5(userId, beginTime, endTime, cb) {
         })
 
         for (var type5key in result) {
-            result[type5key]  = Math.round(result[type1key] / reviewResults.length)
+            result[type5key]  = Math.round(result[type5key] / reviewResults.length)
         }
 
         cb(null, result)

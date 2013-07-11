@@ -1,6 +1,12 @@
-exports.project = [{name : 'nycs.syyx.com'}, {name : 'adminnycs.syyx.com'}, {name : 'events.syyx.com'},
-                   {name : 'user.syyx.com'}, {name : 'r.syyx.com'}, {name : 'party.syyx.com'},
-                   {name : 'adminparty.syyx.com'},{name : 'others'},{name : 'unknown'}]
+exports.project = [{name : 'adminnycs.syyx.cn'}, {name : 'adminparty.syyx.cn'}, {name : 'adminres.syyx.cn'},
+                   {name : 'appdm.syyx.cn'}, {name : 'caiwu.syyx.cn'}, {name : 'di.syyx.com'},
+                   {name : 'events.syyx.com'}, {name : 'finance.syyx.cn'}, {name : 'fn.syyx.com'},
+                   {name : 'fn2.syyx.com'}, {name : 'gamecards.syyx.cn'}, {name : 'ggfx.syyx.cn'},
+                   {name : 'hr.sygame.com'}, {name : 'if.syyx.cn'}, {name : 'kf.syyx.cn'},
+                   {name : 'nycs.syyx.com'}, {name : 'nycsdm.syyx.cn'}, {name : 'party.syyx.com'},
+                   {name : 'payvip.syyx.com'}, {name : 'r.syyx.com'}, {name : 'service.syyx.com'},
+                   {name : 'stat.syyx.com'},{name : 'stat2.syyx.com'}, {name : 'vip.syyx.com'}, 
+                   {name : 'z.syyx.com'}, {name : 'others'}, {name : 'unknown'}]
 
 exports.statusNames = ['需求提交','任务已分配','开发已完成','已提交Dev','已提交Test','已提交Master',
                        '测试拒绝','Dev测试通过','Test测试通过','Master测试通过','已发布外网','已验收通过']
@@ -17,7 +23,7 @@ exports.bugLevel = ['C', 'B', 'A']
 
 exports.rating = [{name : '很好', score : 7}, {name : '好', score : 5}, {name : '一般', score : 3}, {name : '差', score : 1}, {name : '很差', score : 0}]
 
-exports.manager = [{ip : '127.0.0.2'}]
+exports.manager = [{ip : '192.168.10.142'}]
 
 exports.admin  = [{ip : '127.0.0.1'}]
 
@@ -47,7 +53,7 @@ exports.review = {
             },
             focus_result_1 : {
                 level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
-                name    : '从事情对公司目标的意义出发',
+                name    : '从公司目标的意义出发',
             },
             focus_result_2 : {
                 level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
@@ -99,7 +105,7 @@ exports.review = {
             },
             share_1 : {
                 level   : [{score : 0, name : '0'}, {score : 1, name : '1'}],
-                name    : 'Rtx等简单分享',
+                name    : 'rtx等简单分享',
             },
             share : {
                 level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
