@@ -4,8 +4,8 @@ var mongoose        = require('./config').mongoose,
     
 
 var userSchema = mongoose.Schema({
-    name                : String,
-    ip                  : String,
+    name                : {type : String, index : true},
+    ip                  : {type : String, index : true},
     role                : Array,
     avatar_url          : String,
     active              : String,
@@ -13,7 +13,7 @@ var userSchema = mongoose.Schema({
     password            : String,
     created_time        : Date,
     week_work_load      : Number,
-    excess_work_load    : Number     
+    excess_work_load    : Number,     
 },{ 
     collection: collectionName, 
 })

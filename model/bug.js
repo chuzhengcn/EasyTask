@@ -8,19 +8,19 @@ var mongoose        = require('./config').mongoose,
 
 var bugSchema = mongoose.Schema({
     name            : String,
-    task_id         : String,
+    task_id         : {type : String, index : true},
     content         : String,
-    operator_id     : String,
+    operator_id     : {type : String, index : true},
     score           : Number,
-    status          : String,
+    status          : {type : String, index : true},
     level           : String,
-    type            : String,
+    type            : {type : String, index : true},
     comments        : Array,
     files           : Array,
     closed          : Boolean,
     updated_time    : Date,
     created_time    : Date,
-    assign_to       : String,
+    assign_to       : {type : String, index : true}
 },{ 
     collection: collectionName, 
 })

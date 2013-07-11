@@ -8,11 +8,11 @@ var mongoose        = require('./config').mongoose,
     statusNameModel = require('./data').statusNames;
 
 var taskSchema = mongoose.Schema({
-    name            : String,
-    status          : String,
-    branch          : String,
-    custom_id       : Number,
-    active          : Boolean,
+    name            : {type : String, index : true},
+    status          : {type : String, index : true},
+    branch          : {type : String, index : true},
+    custom_id       : {type : Number, index : true},
+    active          : Boolean, 
     deleted         : Boolean,
     updated_time    : Date,
     created_time    : Date,

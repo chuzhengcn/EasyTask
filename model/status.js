@@ -5,11 +5,11 @@ var mongoose        = require('./config').mongoose,
     
 
 var statusSchema = mongoose.Schema({
-    name            : String,
-    task_id         : String,
+    name            : {type : String, index : true},
+    task_id         : {type : String, index : true},
     content         : String,
     files           : Array,
-    operator_id     : String,
+    operator_id     : {type : String, index : true},
     updated_time    : Date,
     created_time    : Date,
 },{ 

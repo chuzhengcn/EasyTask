@@ -7,9 +7,9 @@ var mongoose        = require('./config').mongoose,
 
 var logSchema = mongoose.Schema({
     log_type        : String,
-    task_id         : String,
+    task_id         : {type : String, index : true},
     content         : String,
-    operator_id     : String,
+    operator_id     : {type : String, index : true},
     created_time    : Date,
 },{ 
     collection: collectionName, 

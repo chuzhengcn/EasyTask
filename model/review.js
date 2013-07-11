@@ -5,9 +5,9 @@ var mongoose        = require('./config').mongoose,
     
 
 var reviewSchema = mongoose.Schema({
-    type            : String,
-    user_id         : String,
-    operator_id     : String,
+    type            : {type : String, index : true},
+    user_id         : {type : String, index : true},
+    operator_id     : {type : String, index : true},
     updated_time    : Date,
     created_time    : Date,
     description     : String,

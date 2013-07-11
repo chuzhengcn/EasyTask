@@ -4,7 +4,7 @@ var mongoose        = require('./config').mongoose,
 
 var milestoneSchema = mongoose.Schema({
     name            : String,
-    task_id         : String,
+    task_id         : {type : String, index : true},
     event_time      : Date,
     updated_time    : Date,
     created_time    : Date,

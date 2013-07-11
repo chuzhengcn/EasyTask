@@ -6,13 +6,13 @@ var mongoose        = require('./config').mongoose,
 
 var todoSchema = mongoose.Schema({
     name            : String,
-    task_id         : String,
+    task_id         : {type : String, index : true},
     category        : String,
     content         : String,
     files           : Array,
     comments        : Array,
     complete        : Boolean,
-    operator_id     : String,
+    operator_id     : {type : String, index : true},
     updated_time    : Date,
     created_time    : Date,
 },{ 
