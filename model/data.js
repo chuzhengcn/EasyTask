@@ -15,7 +15,7 @@ exports.bugStatus = ['未解决', '解决中', '已解决', '测试通过', '挂
 
 exports.bugLevel = ['C', 'B', 'A']
 
-exports.rating = [{name : '满意', score : 50}, {name : '一般', score : 30}, {name : '不满意', score : 10}]
+exports.rating = [{name : '很好', score : 7}, {name : '好', score : 5}, {name : '一般', score : 3}, {name : '差', score : 1}, {name : '很差', score : 0}]
 
 exports.manager = [{ip : '127.0.0.2'}]
 
@@ -45,26 +45,71 @@ exports.review = {
                            {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
                 name    : '个人成长',
             },
-            focus_result : {
-                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
-                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
-                name    : '关注结果',
+            focus_result_1 : {
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
+                name    : '从事情对公司目标的意义出发',
             },
-            focus_user : {
-                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
-                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
-                name    : '关注用户',
+            focus_result_2 : {
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
+                name    : '关注事情的各个环节',
             },
-            communicate : {
-                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
-                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
-                name    : '沟通',
+            focus_result_3 : {
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
+                name    : '关注细节',
+            },
+            focus_result_4 : {
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
+                name    : '锲而不舍',
+            },
+            focus_user_1 : {
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}],
+                name    : '清楚用户是谁',
+            },
+            focus_user_2 : {
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
+                name    : '与用户经常沟通',
+            },
+            focus_user_3 : {
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
+                name    : '知道用户究竟想要什么',
+            },
+            focus_user_4 : {
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
+                name    : '从用户角度思考问题',
+            },
+            communicate_1 : {
+                level   : [{score : 1, name : '0'}, {score : 1, name : '1'}],
+                name    : '及时沟通',
+            },
+            communicate_2 : {
+                level   : [{score : 1, name : '0'}, {score : 1, name : '1'}],
+                name    : '清晰表达',
+            },
+            communicate_3 : {
+                level   : [{score : 1, name : '0'}, {score : 1, name : '1'}],
+                name    : '求真不求胜',
+            },
+            communicate_4 : {
+                level   : [{score : 1, name : '0'}, {score : 1, name : '1'}],
+                name    : '坦诚直接',
+            },
+            communicate_5 : {
+                level   : [{score : 1, name : '0'}, {score : 1, name : '1'}],
+                name    : '理解与倾听',
+            },
+            share_1 : {
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}],
+                name    : 'Rtx等简单分享',
             },
             share : {
-                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, 
-                           {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
-                name    : '分享',
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
+                name    : 'wiki分享',
             },
+            share : {
+                level   : [{score : 0, name : '0'}, {score : 1, name : '1'}, {score : 2, name : '2'}],
+                name    : '会议分享',
+            },
+
         }
     },
     'type3' : {
@@ -81,8 +126,8 @@ exports.review = {
         description : '流程规范',
         standards   : {
             workflow : {
-                level   : [{score : 1, name : '此选项暂无意义'}],
-                name    : '流程规范分数',
+                level   :  [{score : 1, name : '1'}, {score : 2, name : '2'}, {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '流程规范',
             },
         }
     },
@@ -90,8 +135,8 @@ exports.review = {
         description : '创新',
         standards   : {
             creative : {
-                level   : [{score : 1, name : '此选项暂无意义'}],
-                name    : '创新分数',
+                level   : [{score : 1, name : '1'}, {score : 2, name : '2'}, {score : 3, name : '3'}, {score : 4, name : '4'}, {score : 5, name : '5'}],
+                name    : '创新',
             },
         }
     },

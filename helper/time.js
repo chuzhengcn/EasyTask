@@ -288,7 +288,3 @@ function time_zero_completion (time_number) {
         return time_number
     }
 }
-
-
-console.log(exports.end_of_thisweek(new Date()))
-
