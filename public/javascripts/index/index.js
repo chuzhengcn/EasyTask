@@ -217,7 +217,8 @@
             $(this).data('content',$(this).next().html())
         })
         $('span[rel="popover"]').popover({
-            trigger     : 'hover'
+            trigger     : 'hover',
+            html        : true,
         })
     }
 
