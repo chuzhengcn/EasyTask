@@ -51,7 +51,7 @@ function change_task() {
                 updated_time : new Date(),
                 created_time : item.created_time,
                 score        : score,
-                projects     : [],
+                projects     : ['unknown'],
                 rating       : [],
                 end_time     : new Date(),
                 users        : users,
@@ -215,4 +215,4 @@ function change_log() {
     })
 }
 
-// change_log()
+// change_task()

@@ -19,6 +19,8 @@ exports.bugType = ['测试Bug', '现网Bug']
 
 exports.bugStatus = ['未解决', '解决中', '已解决', '测试通过', '挂起']
 
+exports.bugScore  = [{name : '1', score : 1},{name : '5', score : 5},{name : '10', score : 10},{name : '20', score : 20},]
+
 exports.bugLevel = ['C', 'B', 'A']
 
 exports.rating = [{name : '很好', score : 7}, {name : '好', score : 5}, {name : '一般', score : 3}, {name : '差', score : 1}, {name : '很差', score : 0}]

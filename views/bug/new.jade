@@ -38,7 +38,10 @@ block content
                                     .control-group
                                         label.control-label 分值、级别和类别
                                         .controls
-                                            input(type='number', autocomplete='off', name='score', required='true', min="0") 
+                                            //- input(type='number', autocomplete='off', name='score', required='true', min="0") 
+                                            select(name="score")
+                                                - each bugScore in bugScores
+                                                    option(value="#{bugScore.score}") #{bugScore.name}
                                             select#bugLevel(name="level")
                                                 - each level in bugLevels
                                                     option(value="#{level}") #{level}

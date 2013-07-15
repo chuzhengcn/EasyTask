@@ -9,6 +9,7 @@ var routeApp        = require('./app'),
     bugtypeModel    = require('../model/data').bugType,
     bugStatusModel  = require('../model/data').bugStatus,
     bugLevelModel   = require('../model/data').bugLevel,
+    bugScoresModel  = require('../model/data').bugScore,
     upload_route    = require('./upload');
 
 exports.new = function(req, res) {
@@ -32,6 +33,7 @@ exports.new = function(req, res) {
                 { 
                     title       : '添加Bug - ' + taskResult.name, 
                     task        : taskResult,
+                    bugScores   : bugScoresModel,
                     bugTypes    : bugtypeModel,
                     bugLevels   : bugLevelModel,
                     programmers : programmers,
@@ -326,6 +328,7 @@ exports.edit = function(req, res) {
                     title       : '编辑' + bugResult.name,
                     task        : taskResult,
                     bug         : bugResult,
+                    bugScores   : bugScoresModel,
                     bugTypes    : bugtypeModel,
                     bugLevels   : bugLevelModel,
                     programmers : programmers,

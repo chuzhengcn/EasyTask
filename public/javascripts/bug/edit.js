@@ -171,6 +171,8 @@
     $(function() {
         app.utility.highlightCurrentPage('任务')
 
+        app.viewhelper.setSelect('bugScore')
+
         app.viewhelper.setSelect('bugLevel')
 
         app.viewhelper.setSelect('bugTypeSelector')
