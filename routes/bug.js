@@ -12,6 +12,18 @@ var routeApp        = require('./app'),
     bugScoresModel  = require('../model/data').bugScore,
     upload_route    = require('./upload');
 
+exports.index = function(req, res) {
+    var page   = parseInt(req.query.page || 1),
+        filter = {closed : false};
+
+    bugModel.findBugsIncludeUsersAndTask(filter, page, function(err, bugResults, total) {
+        res.render('bug/index', {
+            bugs            : time.format_specify_field(bugResults, {updated_time : 'readable_time'}),
+            total           : total,
+        })
+    })
+}
+
 exports.new = function(req, res) {
     var customId    = req.params.task_id,
         programmers = [];
@@ -113,7 +125,7 @@ exports.listPage = function(req, res) {
         
         taskModel.findOne({custom_id : taskId}, function(err, taskResult) {
             bugModel.find({task_id : String(taskResult._id), closed : true},{},{sort : {created_time : -1}}, function(err, closedBugs) {
-                res.render('bug/index', {
+                res.render('bug/list', {
                     bugs            : bugResults,
                     task            : taskResult,
                     bugStatusList   : bugStatusModel,

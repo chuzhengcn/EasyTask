@@ -35,7 +35,7 @@ exports.create = function(req, res) {
             task_id         : taskId,
             name            : req.body.name,
             content         : req.body.content,
-            files           : req.body.taskfiles,
+            files           : req.body.taskfiles || [],
             operator_id     : String(operator._id),
             updated_time    : new Date(),
             created_time    : new Date(),

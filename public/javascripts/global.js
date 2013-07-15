@@ -211,10 +211,10 @@ app.viewhelper = {
                 case '解决中' :
                     $(this).addClass('label-warning')
                     break
-                case '已解决' :
+                case '已修改' :
                     $(this).addClass('label-info')
                     break
-                case '测试通过' :
+                case '已解决' :
                     $(this).addClass('label-success')
                     break
                 case '挂起' :

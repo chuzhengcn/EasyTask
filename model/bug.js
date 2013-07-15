@@ -26,8 +26,8 @@ var bugSchema = mongoose.Schema({
 })
 
 bugSchema.statics.findBugsIncludeUsersByTaskId = function(filter, cb) {
-    var operators = []
-
+    var operators = [];
+        
     this.find(filter, {}, {sort : { created_time : -1}}, function(err, bugResults) {
         if (err) {
             cb('数据库错误')
@@ -68,8 +68,77 @@ bugSchema.statics.findBugsIncludeUsersByTaskId = function(filter, cb) {
                 return item
             })
 
-
             cb(err, bugResults)
+        })
+    })
+}
+
+bugSchema.statics.findBugsIncludeUsersAndTask = function(filter, page, cb) {
+    var operators = [],
+        tasks     = [],
+        limit     = 20,
+        page      = page || 1,
+        self      = this;
+
+    this.find(filter, {}, {sort : { created_time : -1}, skip : (page-1)*limit, limit : limit}, function(err, bugResults) {
+        if (err) {
+            cb('数据库错误')
+            return
+        }
+
+        bugResults = bugResults.map(function(item, index) {
+            item = item.toObject()
+
+            if (operators.indexOf(item.operator_id) === -1 && item.operator_id) {
+                operators.push(item.operator_id)
+            }
+
+            if (operators.indexOf(item.assign_to) === -1 && item.assign_to) {
+                operators.push(item.assign_to)
+            }
+
+            if (tasks.indexOf(item.task_id) === -1 && item.task_id) {
+                tasks.push(item.task_id)
+            }
+
+            return item
+
+        })
+
+        operators = operators.map(function(item, index) {
+            return mongoose.Types.ObjectId(item)
+        })
+
+        tasks = tasks.map(function(item, index) {
+            return mongoose.Types.ObjectId(item)
+        })
+
+        userModel.find({_id : {$in : operators}}, function(err, users) {
+            taskModel.find({_id : {$in : tasks}}, function(err, taskResults) {
+                bugResults = bugResults.map(function (item, index) {
+                    users.forEach(function(value, key) {
+                        if (item.operator_id === String(value._id)) {
+                            item.operator = value
+                        }
+
+                        if (item.assign_to === String(value._id)) {
+                            item.programmer = value
+                        }
+                    })
+
+                    taskResults.forEach(function(value, key) {
+                        if (item.task_id === String(value._id)) {
+                            item.task = value
+                        }
+                    })
+
+                    return item
+                })
+
+                self.count(filter, function(err, num) {
+                    cb(err, bugResults, num)
+                })
+            })
         })
     })
 }

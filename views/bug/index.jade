@@ -16,51 +16,42 @@ block content
                                     .inner
                     .list
                         .list-header.clearfix
-                            header(data-id='#{task._id}', data-custom-id="#{task.custom_id}")
-                                a.task-name(href='/tasks/#{task.custom_id}') #{task.custom_id} - #{task.name} - Bug列表
-                            .back
-                                a.btn.btn-small(href='/tasks/#{task.custom_id}') 
-                                    i.icon-chevron-left
-                                    |  任务主页
+                            header 所有Bug
                             .operate-wrapper
-                                a.btn.btn-primary.btn-small(href='/tasks/#{task.custom_id}/bugs-new') 添加Bug
                         .main-body.scrollable
-                            .bug-list-wrapper.clearfix
-                                .bug-list-info
-                                    #bugFilter.btn-group(data-toggle="buttons-radio")
-                                        button.btn.btn-small.active 全部
-                                        - each bugStatus in bugStatusList
-                                            button.btn.btn-small
-                                                span #{bugStatus}
-                                    #fetchBugProgress.progress.progress-striped.active
-                                        .bar(style="width:100%")
-                                    table#bugList.table.table-hover.table-condensed
+                            .bug-index-wrapper.clearfix
+                                .bug-index-info
+                                    table.table.table-hover.table-condensed
                                         thead
                                             tr
-                                                th #
+                                                th 任务Id
                                                 th 名称
                                                 th 状态
                                                 th 分值
                                                 th 等级
                                                 th 指派给
-                                                th 最近更新
                                                 th 创建人
-                                                th 修改状态
                                                 th 留言
-                                                th 操作
+                                                th 更新时间
                                         tbody
-                                .bug-closed-list
-                                    h5 已关闭的Bug
-                                    ul.unstyled
-                                        - each closedBug,index in closedBugList
-                                            li
-                                                span.index ##{closedBugList.length - index}
-                                                a(href="/tasks/#{task.custom_id}/bugs/#{closedBug._id}") #{closedBug.name}
-block modal
-    #previewBugModal.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
-        .modal-header
-            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
-            h3
-        .modal-body
-        .modal-footer
-            button.btn(data-dismiss="modal", aria-hidden="true") 关闭
+                                            - each bug in bugs
+                                                tr
+                                                    td 
+                                                        a(href="/tasks/#{bug.task.custom_id}") #{bug.task.custom_id}
+                                                    td 
+                                                        a(href="/tasks/#{bug.task.custom_id}/bugs/#{bug._id}") #{bug.name}
+                                                    td 
+                                                        span.label.bug-status #{bug.status}
+                                                    td #{bug.score}
+                                                    td #{bug.level}
+                                                    td #{bug.programmer.name}
+                                                    td #{bug.operator.name}
+                                                    td 
+                                                        span.badge #{bug.comments.length} 
+                                                    td #{bug.updated_time}
+                                    - if (total > 0)
+                                        ul.pager(data-count='#{total}')
+                                            li.previous
+                                                a(href='#') &larr;前一页
+                                            li.next
+                                                a(href='#') 后一页&&rarr;

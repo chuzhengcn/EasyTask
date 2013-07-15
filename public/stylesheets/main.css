@@ -695,13 +695,7 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-summary-version .change-status-btn-group {
   position: absolute;
   top: 15px;
-  right: 95px;
-}
-.task-summary .task-summary-wrapper .task-summary-version .delete-this-status {
-  position: absolute;
-  top: 15px;
   right: 20px;
-  cursor: pointer;
 }
 .task-summary .task-summary-wrapper .task-summary-version .states-date {
   position: absolute;
@@ -906,7 +900,7 @@ input[name="project"] {
 .status-info-wrapper .status-history-item .delete-this-status {
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 60px;
   cursor: pointer;
 }
 .status-info-wrapper .status-history-item .states-date {
@@ -1037,12 +1031,12 @@ input[name="project"] {
   margin-top: 1px;
   width: 80px;
 }
-.bug-list-wrapper .task-nav {
-  padding: 10px 20px 10px 20px;
-  border-bottom: 1px solid #dfdfdf;
+.bug-index-wrapper .bug-index-info {
+  position: relative;
+  padding: 20px 20px 0 20px;
 }
-.bug-list-wrapper .task-nav ul {
-  margin-bottom: 0;
+.bug-index-wrapper .pager {
+  display: none;
 }
 .bug-list-wrapper .bug-list-info {
   position: relative;

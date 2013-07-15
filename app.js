@@ -85,6 +85,7 @@ app.delete('/tasks/:task_id/todos/:id',                 todo.delete)
 
 //---------bug------------------------------------------------------
 var bug    = require('./routes/bug')
+app.get('/bugs-index',                                      bug.index)
 app.post('/tasks/:task_id/bugs',                            bug.create)
 app.get('/tasks/:task_id/bugs-new',                         bug.new)
 app.get('/tasks/:task_id/bugs',                             bug.list)

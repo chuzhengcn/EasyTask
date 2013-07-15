@@ -66,7 +66,7 @@ function change_task() {
 
         function save_task(index) {
             if (tasks[index]) {
-                taskModel.create(tasks[index], function(err) {
+                task_coll.save(tasks[index], function(err) {
                     saveEmitter.emit('begin next task', ++index)
                     console.log('task ' + index)
                 })
@@ -74,7 +74,7 @@ function change_task() {
         }
 
         // taskModel.create(tasks, function(err, results) {
-        //     console.log('ok')
+        //     console.log('tasks ok')
         // })
     })
 }
@@ -101,9 +101,22 @@ function change_user() {
             return new_user
         })
 
-        userModel.create(users, function(err, results) {
-            console.log('ok')
-        })
+        var saveEmitter = new Emitter()
+        saveEmitter.on('begin next user', save_user)
+        saveEmitter.emit('begin next user', 0)
+
+        function save_user(index) {
+            if (users[index]) {
+                user_coll.save(users[index], function(err) {
+                    saveEmitter.emit('begin next user', ++index)
+                    console.log('user ' + index)
+                })
+            }
+        }
+
+        // userModel.create(users, function(err, results) {
+        //     console.log('user ok')
+        // })
     })
 }
 
@@ -117,7 +130,7 @@ function change_status() {
                 name : item.name,
                 task_id : item.task_id,
                 content : item.content,
-                files : item.files,
+                files : item.files || [],
                 updated_time : new Date(),
                 created_time : item.created_time,
                 operator_id        : operator_id,
@@ -126,9 +139,22 @@ function change_status() {
             return status_item
         })
 
-        statusModel.create(status, function(err, results) {
-            console.log('ok')
-        })
+        var saveEmitter = new Emitter()
+        saveEmitter.on('begin next status', save_status)
+        saveEmitter.emit('begin next status', 0)
+
+        function save_status(index) {
+            if (status[index]) {
+                status_coll.save(status[index], function(err) {
+                    saveEmitter.emit('begin next status', ++index)
+                    console.log('status ' + index)
+                })
+            }
+        }
+
+        // statusModel.create(status, function(err, results) {
+        //     console.log('status ok')
+        // })
     })
 }
 
@@ -148,9 +174,22 @@ function change_milestone() {
             return milestone_item
         })
 
-        milestoneModel.create(milestones, function(err, results) {
-            console.log('milestone ok')
-        })
+        var saveEmitter = new Emitter()
+        saveEmitter.on('begin next milestones', save_milestones)
+        saveEmitter.emit('begin next milestones', 0)
+
+        function save_milestones(index) {
+            if (milestones[index]) {
+                milestone_coll.save(milestones[index], function(err) {
+                    saveEmitter.emit('begin next milestones', ++index)
+                    console.log('milestones ' + index)
+                })
+            }
+        }
+
+        // milestoneModel.create(milestones, function(err, results) {
+        //     console.log('milestone ok')
+        // })
     })
 }
 
@@ -177,7 +216,7 @@ function change_todo() {
                 updated_time : item.modify_time,
                 created_time : item.created_time,
                 operator_id   : String(item.operator_id),
-                files         : item.files,
+                files         : item.files || [],
                 comments      : comments,
                 category      : item.category,
                 complete      : complete_schema[item.complete],
@@ -186,9 +225,22 @@ function change_todo() {
             return todo_item
         })
 
-        todoModel.create(todos, function(err, results) {
-            console.log('todo ok')
-        })
+        var saveEmitter = new Emitter()
+        saveEmitter.on('begin next todo', save_todo)
+        saveEmitter.emit('begin next todo', 0)
+
+        function save_todo(index) {
+            if (todos[index]) {
+                todo_coll.save(todos[index], function(err) {
+                    saveEmitter.emit('begin next todo', ++index)
+                    console.log('todo ' + index)
+                })
+            }
+        }
+
+        // todoModel.create(todos, function(err, results) {
+        //     console.log('todo ok')
+        // })
     })
 }
 
@@ -209,10 +261,46 @@ function change_log() {
             return log_item
         })
 
+        var saveEmitter = new Emitter()
+        saveEmitter.on('begin next log', save_log)
+        saveEmitter.emit('begin next log', 0)
+
+        function save_log(index) {
+            if (logs[index]) {
+                log_coll.save(logs[index], function(err) {
+                    saveEmitter.emit('begin next log', ++index)
+                    console.log('todo ' + index)
+                })
+            }
+        }
+
+        // logModel.create(logs, function(err, results) {
+        //     console.log('log ok')
+        // })
+    })
+}
+
+function begin_test() {
+    log_coll.find().limit(2).sort({created_time : -1}).toArray(function(err, logs) {
+        logs = logs.map(function(item, index) {
+            var operator_id = String(item.operator_id)
+
+            var log_item = {
+                _id : item._id,
+                log_type : item.log_type,
+                task_id : String(item.task_id),
+                content : '11',
+                created_time : item.created_time,
+                operator_id        : operator_id,
+            }
+
+            return log_item
+        })
+
         logModel.create(logs, function(err, results) {
-            console.log('log ok')
+            console.log('log2 ok')
         })
     })
 }
 
-// change_task()
+change_log()

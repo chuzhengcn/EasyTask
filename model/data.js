@@ -17,7 +17,7 @@ exports.branch = ['master','test', 'dev', 'release']
 
 exports.bugType = ['测试Bug', '现网Bug']
 
-exports.bugStatus = ['未解决', '解决中', '已解决', '测试通过', '挂起']
+exports.bugStatus = ['未解决', '解决中', '已修改', '已解决', '挂起']
 
 exports.bugScore  = [{name : '1', score : 1},{name : '5', score : 5},{name : '10', score : 10},{name : '20', score : 20},]
 

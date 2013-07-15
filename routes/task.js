@@ -503,12 +503,6 @@ exports.update = function(req, res) {
         newCustomId = 0,
         logContent  = '',
         updateDoc   = {
-            name            : '',
-            users           : [],
-            custom_id       : '',
-            branch          : '',
-            projects        : [],
-            score           : 0,
             updated_time    : new Date(),
         };
         
@@ -535,7 +529,7 @@ exports.update = function(req, res) {
             updateDoc.projects    = filterProjects(req.body.project)
 
             newCustomId = parseInt(updateDoc.branch.split('/')[1], 10)
-            if (!isNaN(newCustomId)) {
+            if (newCustomId && !isNaN(newCustomId)) {
                 updateDoc.custom_id = newCustomId
             }
 

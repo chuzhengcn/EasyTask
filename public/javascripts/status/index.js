@@ -4,10 +4,14 @@
 
     $(function() {
         eventBind()
+        app.utility.highlightCurrentPage('任务')
         app.viewhelper.markDifferentColorToTaskStatus($('.status-name span.label'))
     })
 
     function eventBind() {
+        $('.delete-this-status').click(function() {
+            deleteStatus.call(this)
+        })
 
         //close pane btn
         $('.button-close-pane').click(function() {
@@ -33,10 +37,6 @@
                 target_file = null
             }
             
-        })
-
-        $('.delete-this-status').click(function() {
-            delete_status.call(this)
         })
 
     }
@@ -131,7 +131,7 @@
         })
     }
 
-    function delete_status() {
+    function deleteStatus() {
         var sureToDelete = confirm('确认删除？')
         if(!sureToDelete) {
             return
@@ -143,15 +143,15 @@
             type        : 'delete',
             url         : '/tasks/' + getTaskId() + '/status/' + statusId,
             beforeSend  : function() {
-                currentDeleteBtn.html('<span class="text-error">正在删除...</span>')
+                currentDeleteBtn.html('<span class="text-error">删除中</span>')
             },
             success     : function(data) {
                 if (data.ok == 1) {
-                    currentDeleteBtn.html('<span class="text-success">正在删除...</span>')
-                    location.href= location.href
+                    currentDeleteBtn.html('<span class="text-success">已删除</span>')
                 } else {
-                    alert('删除失败')
+                    alert(data.msg)
                 }
+                location.href= location.href
             } 
         })
     }
