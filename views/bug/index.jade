@@ -44,7 +44,7 @@ block content
                                                         span.label.bug-status #{bug.status}
                                                     td #{bug.score}
                                                     td #{bug.level}
-                                                    td #{bug.programmer.name}
+                                                    td #{bug.programmer && bug.programmer.name}
                                                     td #{bug.operator.name}
                                                     td 
                                                         span.badge #{bug.comments.length} 
