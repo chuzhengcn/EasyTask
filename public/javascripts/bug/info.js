@@ -78,13 +78,13 @@
 
         if (role.indexOf('Programmer') > -1) {
             insertStatusBtn('解决中', 'btn-warning')
-            insertStatusBtn('已解决', 'btn-info')
+            insertStatusBtn('已修改', 'btn-info')
             insertStatusBtn('挂起', 'btn-inverse')
         }
 
         if (role.indexOf('Tester') > -1) {
             insertStatusBtn('未解决', 'btn-danger')
-            insertStatusBtn('测试通过', 'btn-success')
+            insertStatusBtn('已解决', 'btn-success')
             insertStatusBtn('挂起', 'btn-inverse')
         } 
 
