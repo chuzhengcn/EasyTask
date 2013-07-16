@@ -166,6 +166,9 @@
                 success     : function(data) {
                     if (data.ok) {
                         location.href = location.href
+                    } else {
+                        alert(data.msg)
+                        location.href = location.href
                     }
                 }
             })
