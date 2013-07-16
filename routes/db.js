@@ -139,22 +139,22 @@ function change_status() {
             return status_item
         })
 
-        var saveEmitter = new Emitter()
-        saveEmitter.on('begin next status', save_status)
-        saveEmitter.emit('begin next status', 0)
+        // var saveEmitter = new Emitter()
+        // saveEmitter.on('begin next status', save_status)
+        // saveEmitter.emit('begin next status', 0)
 
-        function save_status(index) {
-            if (status[index]) {
-                status_coll.save(status[index], function(err) {
-                    saveEmitter.emit('begin next status', ++index)
-                    console.log('status ' + index)
-                })
-            }
-        }
+        // function save_status(index) {
+        //     if (status[index]) {
+        //         status_coll.save(status[index], function(err) {
+        //             saveEmitter.emit('begin next status', ++index)
+        //             console.log('status ' + index)
+        //         })
+        //     }
+        // }
 
-        // statusModel.create(status, function(err, results) {
-        //     console.log('status ok')
-        // })
+        statusModel.create(status, function(err, results) {
+            console.log('status ok')
+        })
     })
 }
 
@@ -261,22 +261,22 @@ function change_log() {
             return log_item
         })
 
-        var saveEmitter = new Emitter()
-        saveEmitter.on('begin next log', save_log)
-        saveEmitter.emit('begin next log', 0)
+        // var saveEmitter = new Emitter()
+        // saveEmitter.on('begin next log', save_log)
+        // saveEmitter.emit('begin next log', 0)
 
-        function save_log(index) {
-            if (logs[index]) {
-                log_coll.save(logs[index], function(err) {
-                    saveEmitter.emit('begin next log', ++index)
-                    console.log('todo ' + index)
-                })
-            }
-        }
+        // function save_log(index) {
+        //     if (logs[index]) {
+        //         log_coll.save(logs[index], function(err) {
+        //             saveEmitter.emit('begin next log', ++index)
+        //             console.log('todo ' + index)
+        //         })
+        //     }
+        // }
 
-        // logModel.create(logs, function(err, results) {
-        //     console.log('log ok')
-        // })
+        logModel.create(logs, function(err, results) {
+            console.log('log ok')
+        })
     })
 }
 
@@ -303,4 +303,4 @@ function begin_test() {
     })
 }
 
-change_log()
+// change_log()
