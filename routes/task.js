@@ -347,16 +347,16 @@ exports.requirement = function(req, res) {
 // }
 
 exports.search = function(req, res) {
-    var page        = isNaN(parseInt(req.query.page, 10))? 1 : parseInt(req.query.page, 10),
-        keyword     = req.query.keyword.trim(),
-        filter      = {},
-        operator_id = '';
-
     if (!req.query.keyword) {
         routeApp.redirect('/')
         return
     }
 
+    var page        = isNaN(parseInt(req.query.page, 10))? 1 : parseInt(req.query.page, 10),
+        keyword     = req.query.keyword.trim(),
+        filter      = {},
+        operator_id = '';
+    
     userModel.find(function(err, userResults) {
         if (!isNaN(parseInt(keyword, 10))) {
             filter = {
