@@ -178,6 +178,9 @@ app.viewhelper = {
                 case '测试通过' :
                     $(this).addClass('label-success')
                     break
+                case 'Release测试通过' :
+                    $(this).addClass('label-success')
+                    break
                 case 'Master测试通过' :
                     $(this).addClass('label-success')
                     break

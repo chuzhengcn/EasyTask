@@ -314,6 +314,7 @@
                     insertStatusBtn('已提交Dev')
                     insertStatusBtn('已发布外网')
                     insertStatusBtn('已验收通过')
+                    insertStatusBtn('已提交Release')
                 }
 
                 if (role.indexOf('Programmer') > -1) {
@@ -321,6 +322,7 @@
                 }
 
                 if (role.indexOf('Tester') > -1) {
+                    insertStatusBtn('Release测试通过')
                     insertStatusBtn('Master测试通过')
                     insertStatusBtn('Test测试通过')
                     insertStatusBtn('Dev测试通过')
