@@ -42,6 +42,7 @@
             success     : function(data) {
                 if (data.ok !== 1) {
                     alert(data.msg)
+                    location.href = location.href
                     return
                 }
                 alert('编辑成功')
