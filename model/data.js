@@ -28,7 +28,7 @@ exports.rating = [{name : '很好', score : 7}, {name : '好', score : 5}, {name
 
 exports.manager = [{ip : '192.168.10.142'}]
 
-exports.admin  = [{ip : '192.168.3.31'}]
+exports.admin  = [{ip : '192.168.3.32'}]
 
 exports.review = {
     'type1' : {

@@ -49,9 +49,8 @@
                         editUserIsWorking()
                     },
                     success     : function(data) {
-                        if (data.ok) {
-                            location.href = location.href
-                        }
+                        alert(data.msg)
+                        location.href = location.href
                     }
                 })
             }

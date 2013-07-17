@@ -152,7 +152,8 @@ exports.show = function(req, res) {
 exports.update = function(req, res) {
     var id          = req.params.id,
         updateDoc   = {},
-        role        = [];
+        role        = [],
+        msg         = '修改成功';
 
     routeApp.ownAuthority(req, function(hasAuth, operator) {
         if (!hasAuth) {
@@ -195,10 +196,11 @@ exports.update = function(req, res) {
         if (!routeApp.isAdmin(req.ip)) {
             delete updateDoc.role
             delete updateDoc.week_work_load
+            msg = '修改成功，但是没有权限修改角色和工作量'
         }
 
         userModel.findByIdAndUpdate(id, updateDoc, function(err, userResult) {
-            res.send({ ok : 1 , user : userResult})
+            res.send({ ok : 1 , user : userResult, msg : msg})
         })
     })
 }
