@@ -67,6 +67,10 @@
                 app.utility.isWorking($btn)
             },
             success     : function(data) {
+                if (data.ok !== 1) {
+                    alert(data.msg)
+                }
+                
                 location.href = location.href
             }
         })
@@ -82,6 +86,8 @@
                     if (data.ok) {
                         alert('删除成功')
                         location.href = '/users'
+                    } else {
+                        alert(data.msg)
                     }
                 }
             })
