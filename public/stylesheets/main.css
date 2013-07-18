@@ -1407,6 +1407,11 @@ input[name="project"] {
 .wiki-list {
   padding: 20px;
 }
+.wiki-list li {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: dashed 1px #dfdfdf;
+}
 .err-404 {
   text-align: center;
   color: #fff;
