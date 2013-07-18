@@ -699,9 +699,10 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-summary-version .states-date {
   position: absolute;
-  bottom: 15px;
-  right: 20px;
+  bottom: 10px;
+  left: 87px;
   font-size: 12px;
+  color: #999;
 }
 .task-summary .task-summary-wrapper .task-summary-version .status-history-content {
   padding: 2px 20px 0 65px;
@@ -907,8 +908,8 @@ input[name="project"] {
   color: #999;
   font-size: 12px;
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  left: 100px;
+  bottom: 5px;
 }
 .status-info-wrapper .status-history-item .status-index {
   position: absolute;
@@ -927,6 +928,7 @@ input[name="project"] {
 }
 .status-info-wrapper .status-history-item .status-history-content .status-history-des {
   font-size: 12px;
+  padding-bottom: 5px;
 }
 .status-info-wrapper .status-history-item .status-history-content .status-files .file-item i {
   margin-right: 5px;

@@ -27,6 +27,10 @@ block content
                                     |  返回任务列表
                             .operate-wrapper
                                 button#editTaskBtn.btn.btn-primary.btn-small 编辑任务
+                                - if (task.active)
+                                    button#archiveTaskBtn.btn.btn-inverse.btn-small 存档
+                                - else
+                                    button#archiveTaskBtn.btn.btn-inverse.btn-small 恢复
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
                                 .task-users.clearfix
@@ -210,10 +214,6 @@ block modal
         .modal-footer
             .modal-footer-btns
                 button#deleteTaskBtn.btn.btn-danger.btn-small 删除
-                - if (task.active)
-                    button#archiveTaskBtn.btn.btn-inverse.btn-small 存档
-                - else
-                    button#archiveTaskBtn.btn.btn-inverse.btn-small 恢复
             button.btn(data-dismiss="modal", aria-hidden="true") 关闭
             button#saveTask.btn.btn-primary 保存
 
