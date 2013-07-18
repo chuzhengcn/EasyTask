@@ -76,7 +76,7 @@ bugSchema.statics.findBugsIncludeUsersByTaskId = function(filter, cb) {
 bugSchema.statics.findBugsIncludeUsersAndTask = function(filter, page, cb) {
     var operators = [],
         tasks     = [],
-        limit     = 20,
+        limit     = 25,
         page      = page || 1,
         self      = this;
 

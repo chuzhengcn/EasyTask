@@ -202,7 +202,7 @@
 
     function setPage(){
         var total           = parseInt($('ul.pager').data('count'), 10)
-        var perPageNum      = 20
+        var perPageNum      = 25
         var currentPage     = parseInt(app.utility.get_query_value('page'), 10) || 1
 
         if (total <= perPageNum ) {
