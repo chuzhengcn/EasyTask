@@ -851,8 +851,17 @@ input[name="project"]
 .bug-index-wrapper
     .bug-index-info
         position relative
-        padding 20px 20px 0 20px
+        table
+            border-bottom solid 1px #dfdfdf
+        thead
+            background linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
+            background -webkit-linear-gradient(#E1E1E1, #CDCDCD) repeat 0 0
+            th
+                font-weight normal 
+        .task-id
+            padding-left 10px
     .pager
+        padding 0 5px
         display none
 //----------------------bug-list-------------------------------------------------
 .bug-list-wrapper

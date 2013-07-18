@@ -24,9 +24,20 @@ block content
                                     table.table.table-hover.table-condensed
                                         thead
                                             tr
-                                                th 任务Id
+                                                th.task-id 任务id
                                                 th 名称
-                                                th 状态
+                                                th
+                                                    .btn-group#bugStatusFilter
+                                                        button.btn.btn-small 状态
+                                                        button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                                            span.caret
+                                                        ul.dropdown-menu
+                                                            li
+                                                                a(href="/bugs-index") 全部
+                                                            - each status,index in bugStatus
+                                                                    li
+                                                                        a(href="/bugs-index?status=#{status}") 
+                                                                            span.label #{status}
                                                 th 分值
                                                 th 等级
                                                 th 责任人
@@ -36,7 +47,7 @@ block content
                                         tbody
                                             - each bug in bugs
                                                 tr
-                                                    td 
+                                                    td.task-id 
                                                         a(href="/tasks/#{bug.task.custom_id}") #{bug.task.custom_id}
                                                     td 
                                                         a(href="/tasks/#{bug.task.custom_id}/bugs/#{bug._id}") #{bug.name}

@@ -1035,9 +1035,22 @@ input[name="project"] {
 }
 .bug-index-wrapper .bug-index-info {
   position: relative;
-  padding: 20px 20px 0 20px;
+}
+.bug-index-wrapper .bug-index-info table {
+  border-bottom: solid 1px #dfdfdf;
+}
+.bug-index-wrapper .bug-index-info thead {
+  background: linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
+  background: -webkit-linear-gradient(#e1e1e1, #cdcdcd) repeat 0 0;
+}
+.bug-index-wrapper .bug-index-info thead th {
+  font-weight: normal;
+}
+.bug-index-wrapper .bug-index-info .task-id {
+  padding-left: 10px;
 }
 .bug-index-wrapper .pager {
+  padding: 0 5px;
   display: none;
 }
 .bug-list-wrapper .bug-list-info {

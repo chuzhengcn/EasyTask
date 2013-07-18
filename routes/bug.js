@@ -13,13 +13,24 @@ var routeApp        = require('./app'),
     upload_route    = require('./upload');
 
 exports.index = function(req, res) {
-    var page   = parseInt(req.query.page || 1),
-        filter = {closed : false};
+    var page        = parseInt(req.query.page || 1),
+        filterKey   = ''
+        filter      = {
+            closed : false,
+            status : req.query.status,
+        };
+
+    for (filterKey in filter) {
+        if (typeof filter[filterKey] === 'undefined') {
+            delete filter[filterKey]
+        }
+    }
 
     bugModel.findBugsIncludeUsersAndTask(filter, page, function(err, bugResults, total) {
         res.render('bug/index', {
             bugs            : time.format_specify_field(bugResults, {updated_time : 'readable_time'}),
             total           : total,
+            bugStatus       : bugStatusModel,
         })
     })
 }

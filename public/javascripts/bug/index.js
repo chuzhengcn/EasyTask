@@ -243,6 +243,7 @@
         app.utility.highlightCurrentPage('Bug列表')
         // eventBind()
         app.viewhelper.markDifferentColorToBugStatus($('.bug-status'))
+        app.viewhelper.markDifferentColorToBugStatus($('#bugStatusFilter span.label'))
         setPage()
     })
 })()
