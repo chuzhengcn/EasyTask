@@ -39,7 +39,8 @@ block content
                                         .control-group
                                             label.control-label(for='description') 说明
                                             .controls
-                                                textarea.span8(name="description", rows="10")
+                                                - var template = '【检视文件】\n\n【编码规范问题】\n\n【清晰度与通用度问题】\n\n'
+                                                textarea.span8(name="description", rows="10") #{template}
                                         .control-group
                                             .controls
                                                 button#saveType1Btn.btn.btn-primary 保存 
