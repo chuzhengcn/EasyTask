@@ -53,7 +53,7 @@ block content
                                                 - each type in bugTypes
                                                     option(value="#{type}") #{type}
                                     .control-group
-                                        label.control-label(for='assign_to') 指派给
+                                        label.control-label(for='assign_to') 责任人
                                         .controls
                                             select#programmerSelector(name='assign_to', data-origin-value="#{bug.assign_to}")
                                                 option(value="") 不指定

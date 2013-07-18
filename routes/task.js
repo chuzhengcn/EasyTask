@@ -60,7 +60,7 @@ function generateBranch(baseBranch, userNameEnglish, taskCustomId) {
     }
 
     if (!userNameEnglish) {
-        return baseBranch + '-developer/' + taskCustomId
+        return baseBranch + '-'
     }
 
     return baseBranch + '-' + userNameEnglish +'/' + taskCustomId
