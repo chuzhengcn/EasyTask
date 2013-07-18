@@ -187,7 +187,6 @@
 
         $('.task-list li').each(function() {
             var thisUsers = $.trim($(this).find('.users span[rel="popover"]').text())
-            console.log(thisUsers)
             if (thisUsers.indexOf(userName) > -1) {
                 $(this).slideDown()
             } else {
