@@ -240,7 +240,7 @@
     }
 
     $(function() {
-        app.utility.highlightCurrentPage('Bug列表')
+        app.utility.highlightCurrentPage('所有Bug')
         // eventBind()
         app.viewhelper.markDifferentColorToBugStatus($('.bug-status'))
         app.viewhelper.markDifferentColorToBugStatus($('#bugStatusFilter span.label'))

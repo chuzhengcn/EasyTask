@@ -92,6 +92,36 @@ exports.new = function(req, res) {
     })
 }
 
+exports.newAssignTask = function(req, res) {
+    var programmers = [];
+
+    taskModel.findDeveloping(function(err, taskResults) {
+        if (err || taskResults.length < 1) {
+            routeApp.errPage(req, res, '没有正在开发的任务')
+            return
+        }
+
+        userModel.findActiveUsers(function(err, users) {
+            users.forEach(function(item, index) {
+                if (item.role.indexOf(roleModel[1]) > -1) {
+                    programmers.push(item)
+                }
+            })
+
+            res.render('bug/new-assign-task', 
+                { 
+                    title       : '添加Bug', 
+                    tasks       : taskResults,
+                    bugScores   : bugScoresModel,
+                    bugTypes    : bugtypeModel,
+                    bugLevels   : bugLevelModel,
+                    programmers : programmers,
+                } 
+            )
+        })
+    })
+}
+
 exports.create = function(req, res) {
     var taskId = req.params.task_id,
         newBug = null;
