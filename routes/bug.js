@@ -6,6 +6,7 @@ var routeApp        = require('./app'),
     roleModel       = require('../model/data').role,
     bugModel        = require('../model/bug').bug,
     counterModel    = require('../model/counter').counter,
+    userRoleModel   = require('../model/data').role,
     bugtypeModel    = require('../model/data').bugType,
     bugStatusModel  = require('../model/data').bugStatus,
     bugLevelModel   = require('../model/data').bugLevel,
@@ -14,10 +15,16 @@ var routeApp        = require('./app'),
 
 exports.index = function(req, res) {
     var page        = parseInt(req.query.page || 1),
-        filterKey   = ''
+        filterKey   = '',
+        userGroup   = {},
         filter      = {
-            closed : false,
-            status : req.query.status,
+            score       : isNaN(req.query.score)? undefined : parseInt(req.query.score),
+            level       : req.query.level,
+            closed      : false,
+            operator_id : req.query.operator_id,
+            assign_to   : req.query.assign_to,
+            type        : req.query.type,
+            status      : req.query.status,
         };
 
     for (filterKey in filter) {
@@ -26,11 +33,30 @@ exports.index = function(req, res) {
         }
     }
 
-    bugModel.findBugsIncludeUsersAndTask(filter, page, function(err, bugResults, total) {
-        res.render('bug/index', {
-            bugs            : time.format_specify_field(bugResults, {updated_time : 'readable_time'}),
-            total           : total,
-            bugStatus       : bugStatusModel,
+    userModel.findActiveUsers(function(err, users) {
+        userRoleModel.forEach(function(item, index) {
+            userGroup[item] = []
+        })
+
+        users.forEach(function(item, index) {
+            for (roleName in userGroup) {
+                if (item.role.indexOf(roleName) > -1) {
+                    userGroup[roleName].push(item)
+                }
+            }
+        })
+
+        bugModel.findBugsIncludeUsersAndTask(filter, page, function(err, bugResults, total) {
+            res.render('bug/index', {
+                bugs            : time.format_specify_field(bugResults, {updated_time : 'readable_time'}),
+                total           : total,
+                bugStatus       : bugStatusModel,
+                bugScores       : bugScoresModel,
+                bugLevels       : bugLevelModel,
+                bugTypes        : bugtypeModel,
+                assignToGroup   : userGroup[userRoleModel[1]],
+                operatorGroup   : userGroup[userRoleModel[2]],
+            })
         })
     })
 }

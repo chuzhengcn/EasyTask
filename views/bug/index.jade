@@ -34,14 +34,65 @@ block content
                                                         ul.dropdown-menu
                                                             li
                                                                 a(href="/bugs-index") 全部
-                                                            - each status,index in bugStatus
+                                                            - each status in bugStatus
                                                                     li
                                                                         a(href="/bugs-index?status=#{status}") 
                                                                             span.label #{status}
-                                                th 分值
-                                                th 等级
-                                                th 责任人
-                                                th 创建人
+                                                th
+                                                    .btn-group#bugTypesFilter
+                                                        button.btn.btn-small 类型
+                                                        button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                                            span.caret
+                                                        ul.dropdown-menu
+                                                            li
+                                                                a(href="/bugs-index") 全部
+                                                            - each type in bugTypes
+                                                                    li
+                                                                        a(href="/bugs-index?type=#{type}") #{type}
+                                                th
+                                                    .btn-group#bugScoresFilter
+                                                        button.btn.btn-small 分值
+                                                        button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                                            span.caret
+                                                        ul.dropdown-menu
+                                                            li
+                                                                a(href="/bugs-index") 全部
+                                                            - each score in bugScores
+                                                                    li
+                                                                        a(href="/bugs-index?score=#{score.score}") #{score.score}
+                                                th
+                                                    .btn-group#bugLevelFilter
+                                                        button.btn.btn-small 等级
+                                                        button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                                            span.caret
+                                                        ul.dropdown-menu
+                                                            li
+                                                                a(href="/bugs-index") 全部
+                                                            - each level in bugLevels
+                                                                    li
+                                                                        a(href="/bugs-index?level=#{level}") #{level}
+                                                th
+                                                    .btn-group#bugAssignToFilter
+                                                        button.btn.btn-small 责任人
+                                                        button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                                            span.caret
+                                                        ul.dropdown-menu
+                                                            li 
+                                                                a(href="/bugs-index") 全部
+                                                            - each assign_to in assignToGroup
+                                                                li
+                                                                    a(href="/bugs-index?assign_to=#{assign_to._id}") #{assign_to.name}
+                                                th
+                                                    .btn-group#bugOperatorToFilter
+                                                        button.btn.btn-small 创建人
+                                                        button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                                            span.caret
+                                                        ul.dropdown-menu
+                                                            li 
+                                                                a(href="/bugs-index") 全部
+                                                            - each operator in operatorGroup
+                                                                li
+                                                                    a(href="/bugs-index?operator_id=#{operator._id}") #{operator.name}
                                                 th 留言
                                                 th 更新时间
                                         tbody
@@ -53,6 +104,7 @@ block content
                                                         a(href="/tasks/#{bug.task.custom_id}/bugs/#{bug._id}") #{bug.name}
                                                     td 
                                                         span.label.bug-status #{bug.status}
+                                                    td #{bug.type}
                                                     td #{bug.score}
                                                     td #{bug.level}
                                                     td #{bug.programmer && bug.programmer.name}
