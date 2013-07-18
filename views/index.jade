@@ -56,21 +56,23 @@ block content
                                                         a(href="#") 
                                                             span.label #{status}
                                 .time  下一个时间点
-                                .users 人员
-                                    //- .btn-group#task_user_filter
-                                    //-     button.btn.btn-small 
-                                    //-     button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
-                                    //-         span.caret
-                                    //-     ul.dropdown-menu
-                                    //-         - for (var key in userGroup)
-                                    //-             li.dropdown-submenu
-                                    //-                 a(tabindex='-1',href='#') #{key}
-                                    //-                 ul.dropdown-menu
-                                    //-                     - each user in userGroup[key]
-                                    //-                         li
-                                    //-                             a.clearfix(href='/tasks?user=#{user._id}')
-                                    //-                                 span.name(data-id='#{user._id}') #{user.name}
-                                    //-                                 //- span.role #{user.role}
+                                .users
+                                    .btn-group#taskUserFilter
+                                        button.btn.btn-small 人员
+                                        button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                                            span.caret
+                                        ul.dropdown-menu
+                                            li 
+                                                a(href="#") 全部
+                                            - for (var key in userGroup)
+                                                li.dropdown-submenu
+                                                    a(tabindex='-1',href='#') #{key}
+                                                    ul.dropdown-menu
+                                                        - each user in userGroup[key]
+                                                            li
+                                                                a.clearfix(href='#')
+                                                                    span.name(data-id='#{user._id}') #{user.name}
+                                                                    //- span.role #{user.role}
                             ul.task-list.unstyled
                                 - each task in taskList
                                     li(class="#{task.belong}") 

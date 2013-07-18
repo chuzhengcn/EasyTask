@@ -177,6 +177,25 @@
         })
     }
 
+    function filterTaskByUser($btn) {
+        var userName = $.trim($btn.text())
+
+        if (userName === '全部') {
+            showAllTask()
+            return
+        }
+
+        $('.task-list li').each(function() {
+            var thisUsers = $.trim($(this).find('.users span[rel="popover"]').text())
+            console.log(thisUsers)
+            if (thisUsers.indexOf(userName) > -1) {
+                $(this).slideDown()
+            } else {
+                $(this).slideUp()
+            }
+        })
+    }
+
     function eventBind() {
 
         $('#createTaskBtn').click(function(event) {
@@ -207,6 +226,11 @@
 
         $('#taskBranchFilter ul a').click(function(event) {
             filterTaskByBranch($(this))
+            event.preventDefault()
+        })
+
+        $('#taskUserFilter ul a').click(function(event) {
+            filterTaskByUser($(this))
             event.preventDefault()
         })
 

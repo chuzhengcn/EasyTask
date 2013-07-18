@@ -13,6 +13,7 @@ var routeApp        = require('./app'),
     branchModel     = require('../model/data').branch,
     bugStatusModel  = require('../model/data').bugStatus,
     ratingModel     = require('../model/data').rating,
+    userRoleModel   = require('../model/data').role,
     upload_route    = require('./upload');
 
 function generateTaskUsers(userName, cb) {
@@ -119,7 +120,8 @@ function filterScore(users, score) {
 exports.index = function(req, res) {
     var myTask       = [],
         otherTask    = [],
-        userGroup    = {}; 
+        userGroup    = {},
+        roleName     = ''; 
 
     taskModel.findDevelopingIncludeUserAndMilestone(function(err, tasks) {
 
@@ -143,11 +145,15 @@ exports.index = function(req, res) {
         })
 
         userModel.findActiveUsers(function(err, users) {
+            userRoleModel.forEach(function(item, index) {
+                userGroup[item] = []
+            })
+
             users.forEach(function(item, index) {
-                if (!userGroup[item.role]) {
-                    userGroup[item.role] = [item]
-                } else {
-                    userGroup[item.role].push(item)
+                for (roleName in userGroup) {
+                    if (item.role.indexOf(roleName) > -1) {
+                        userGroup[roleName].push(item)
+                    }
                 }
             })
 
