@@ -190,7 +190,7 @@ block modal
                         - each taskuser,index in task.users
                             .user-and-socre
                                 input.input-small(type='text',name='taskUsers', value="#{taskuser.name}")
-                                input.input-small(type="number", name="score", autocomplete="off", min="0", step="5",value="#{task.score[index]}")
+                                input.input-small(type="number", name="score", autocomplete="off", min="0",value="#{task.score[index]}")
                         a#addMoreTaskUserBtn(href='#', tabindex='-1')
                             i.icon-plus
                             | 更多参与者 

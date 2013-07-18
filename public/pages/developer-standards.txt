@@ -1,0 +1,86 @@
+一、开发前要做的事情
+
+（1）检查下当前所在分支whereami.bat，以免在别的分支上做该任务
+
+（2）检查是否有东西没有提交clean_check.bat，如果有文件没有提交则需先提交了才可切分支add_all.bat，commit_all.bat，
+其中如发现有不是自己改的文件或不需要提交的文件需撤销了再提交，不要把不必要的文件也提入版本库，命令undo.bat ，例undo.bat sql_scripts/test_version.txt
+新加的文件不需要提交的直接删除即可。
+
+（3）切分支前需先刷新下项目进度表看下对应分支号，以免切错分支switch_to.bat 
+
+二、开发中需做如下事情
+
+（1）需要时不时的提交一下代码add_all.bat、commit_all.bat、push.bat，以免出现异常状况造成代码丢失
+
+（2）要定期更新一下对应流代码update_from_dev.bat、update_from_master.bat、update_from_release.bat、update_from_test.bat，
+如果有多人共同做一个任务还需update_self.bat
+
+（3）做如上操作时如有报错的情况一定要提出来，把问题解决了才可提交代码，不要直接就忽视错误提代码，这样会造成版本有问题的。
+
+（4）如果开发中需用到第三方组件，必须由团队共同讨论评估确认后方可使用。
+
+（5）新增数据库脚本相关要求：
+
+	1、添加至目录：code/sql_scripts
+	2、命名方式：花名_开发流名称_任务号_序号-数据库名.sql，如dongni_dev_934_01-Admin_Finance.sql，数据库名称前的符号是'-'。
+
+	操作方式：
+	1、运行批处理：\code\tools\DbTools\update_db.bat，根据提示操作
+	2、版本发布人员选择1，
+	3、版本更新人员选择9。
+
+	数据库初始化操作步骤：
+	1、执行drop_all_DB.txt里的脚本，删除同名数据库；
+	2、执行create_all_DB.txt里的脚本，创建新的空库；
+	3、执行DB_Version.txt里的脚本，初始化数据库版本号，可以跟进实际情况配置；
+	4、执行LinkServer。txt里的脚本，创建本地链接服务器；
+	5、需要配置数据库连接字符串文件DbExecuteSql.exe.config和DBVersion.exe.config，分别在对应工具所在目录。
+  
+注意：所提的脚本需是可以重复执行的，并且执行不会报错。
+有bug需要修改时不要直接修改原先的脚本就提交，要改一下名字，如dongni_dev_934_02-Admin_Finance.sql。
+
+三、开发完成需做的事情
+
+（1）检查代码是否有提交并push
+
+（2）修改项目进度表任务状态为开发已完成，并写好更新说明，一定要写明是否要重启node服务和加载站点，如没有写就代表都不需要，
+
+注意：不要什么任务都写要重启node服务，重启时对别的站点是会有影响的，所以真正需要重启的时候才写明要重启。
+
+
+模板事例如下：
+
+【版本说明】：下载器页面更换 + 前端统计新uv统计定义修改 
+
+【脚本说明】：
+
+1、qiaoba_master_2289_001-NYCS_Web.sql
+2、qiaoba_master_2289_001-Analysis_NYCS_Operation.sql 
+
+【关联站点】：
+
+party.syyx.com
+r.syyx.com
+nycs.syyx.com
+nycsdm.syyx.cn
+
+【关联数据库】：
+
+Analysis_NYCS_Operation 、NYCS_Web
+
+【更新步骤】：
+
+1.更新至指定版本号（IIS的就写更新版本包文件）
+
+2.重新加载nycs.syyx.com
+
+3.party.syyx.com重启node服务
+
+4.顺序执行数据库脚本
+
+【特殊情况说明】：无
+
+【测试入口链接】：
+
+http://party.syyx.com/nycs/downloader_173/index.html
+

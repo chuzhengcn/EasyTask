@@ -7,6 +7,7 @@ exports.project = [{name : 'adminnycs.syyx.cn'}, {name : 'adminparty.syyx.cn'}, 
                    {name : 'payvip.syyx.com'}, {name : 'r.syyx.com'}, {name : 'service.syyx.com'},
                    {name : 'stat.syyx.com'},{name : 'stat2.syyx.com'}, {name : 'vip.syyx.com'},
                    {name : 'user.syyx.com'}, {name : 'safe.syyx.com'},{name : 'pay.syyx.com'},
+                   {name : 'fwg.syyx.cn'}, {name : 'ad.syyx.cn'},{name : 'adminpay.syyx.cn'},
                    {name : 'z.syyx.com'}, {name : 'others'}, {name : 'unknown'}]
 
 exports.statusNames = ['需求提交','任务已分配','开发已完成','已提交Dev','已提交Test','已提交Master','已提交Release',
