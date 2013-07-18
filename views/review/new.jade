@@ -82,7 +82,7 @@ block content
                                                             td.operate-review
                                                                 a.btn.btn-small(href="/review/#{user._id}/item/#{review._id}/edit", title="修改")
                                                                     i.icon-edit
-                                                                a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}", title="删除")
+                                                                a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}",data-type="#{review.type}", title="删除")
                                                                     i.icon-trash
                                     #type3Tab.tab-pane          
                                         form#type3Form.form-horizontal(method="post", action="/review-all-add")
@@ -123,7 +123,7 @@ block content
                                                             td.operate-review
                                                                 a.btn.btn-small(href="/review/#{user._id}/item/#{review._id}/edit", title="修改")
                                                                     i.icon-edit
-                                                                a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}", title="删除")
+                                                                a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}",data-type="#{review.type}", title="删除")
                                                                     i.icon-trash
                                     #type4Tab.tab-pane
                                         form#type4Form.form-horizontal(method="post", action="/review/#{user._id}")
@@ -199,5 +199,5 @@ block content
                                                             td.operate-review
                                                                 a.btn.btn-small(href="/review/#{user._id}/item/#{review._id}/edit", title="修改")
                                                                     i.icon-edit
-                                                                a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}", title="删除")
+                                                                a.btn.btn-small.delete-review-btn(href="/review/#{user._id}/item/#{review._id}",data-type="#{review.type}", title="删除")
                                                                     i.icon-trash
