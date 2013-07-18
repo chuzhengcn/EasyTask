@@ -1,72 +1,91 @@
 (function() {
-    var target_file
-    var files_info = []
+    var statusTargetFile        = null,
+        statusFilesInfo         = [],
+        statusContetTemplate    = {
+            developer : function() {
+                return '【版本说明】：' + $('.list-header header a').text() + 
+                '\n\n【脚本说明】：\n\n【关联站点】：' + 
+                $('.task-info .sites').text() + 
+                '\n\n【关联数据库】： \n\n【更新步骤】： \n\n【是否重启】： \n\n【测试地址】： \n\n【特殊情况说明】：\n\n'
+            } 
+        };
 
-    $(function() {
-        eventBind()
-        app.utility.highlightCurrentPage('任务')
-        app.viewhelper.markDifferentColorToTaskStatus($('.status-name span.label'))
-    })
+    function setChangeStatusBtnGroup() {
+        var role        = '',
+            btnGroup    = [];
 
-    function eventBind() {
-        $('.delete-this-status').click(function() {
-            deleteStatus.call(this)
-        })
-
-        //close pane btn
-        $('.button-close-pane').click(function() {
-            app.utility.hideRightSideBar()
-        })
-
-        //add task milestone btn
-        $('#mark_task_status').click(function() {
-            app.utility.showRightSideBar()
-            resetStatusForm()
-        })
-
-        //submit task milestone btn
-        $('#mark_task_status_form_btn').click(function(event) {
-            readyToAddStatus.call(this, event, $(this))
-        })
-
-        //ready to upload
-        $('#upload_status_files_input').change(function(event) {
-            if (event.currentTarget.files) {
-                target_file = event.currentTarget.files
-            } else {
-                target_file = null
+        function insertStatusBtn(name) {
+            if (btnGroup.indexOf(name) > -1) {
+                return
             }
-            
-        })
 
-    }
-
-    function setOriginTaskStatus() {
-        app.viewhelper.setSelect('task_status_selecter')
-    }
-
-    function checkPaneNeedOpen() {
-        if (app.utility.get_query_value('change') == 'true') {
-            app.utility.showRightSideBar()
-            resetStatusForm()
+            btnGroup.push(name)
         }
+
+        $.ajax({
+            url     : '/userinfo',
+            success : function(data) {
+                if (!data.ok) {
+                    return
+                }
+
+                role = data.result.role
+
+                if (role.indexOf('PM') > -1) {
+                    insertStatusBtn('需求提交')
+                    insertStatusBtn('任务已分配')
+                    insertStatusBtn('已提交Master')
+                    insertStatusBtn('已提交Test')
+                    insertStatusBtn('已提交Dev')
+                    insertStatusBtn('已发布外网')
+                    insertStatusBtn('已验收通过')
+                    insertStatusBtn('已提交Release')
+                }
+
+                if (role.indexOf('Programmer') > -1) {
+                    insertStatusBtn('开发已完成')
+                }
+
+                if (role.indexOf('Tester') > -1) {
+                    insertStatusBtn('Release测试通过')
+                    insertStatusBtn('Master测试通过')
+                    insertStatusBtn('Test测试通过')
+                    insertStatusBtn('Dev测试通过')
+                    insertStatusBtn('测试拒绝')
+                }
+
+                btnGroup.forEach(function(item, index) {
+                    $('.change-status-btn-group .btn-group .dropdown-menu').append('<li><a href="#"><span class="label">' + item + '</span></a></li>')
+                })
+
+                $('.change-status-btn-group .btn-group .dropdown-menu a').click(function(event) {
+                    showStatusForm($(this).text())
+                    event.preventDefault()
+                })
+
+                app.viewhelper.markDifferentColorToTaskStatus($('.change-status-btn-group .btn-group .dropdown-menu span.label'))
+            }
+        })
     }
 
-    function resetStatusForm() {
-        $('#upload_status_files_input').val('')
-        $('#mark_task_status_form textarea').val('')
-    } 
-    
-    function getTaskId() {
-        return $('.list-header header').data('id')
+    function showStatusForm(statusName) {
+        var $textarea = $('#createStatusForm textarea')
+
+        if (statusName.indexOf('开发') > -1) {
+            $textarea.val(statusContetTemplate.developer())
+        }
+
+        $('#createStatusForm input[name="name"]').val(statusName)
+        $('#createStatusModal h3').html(statusName)
+        $('#createStatusModal').modal()
     }
 
     function readyToAddStatus(event, $btn) {
-        if (app.utility.isValidForm('mark_task_status_form')) {
+        if (app.utility.isValidForm('createStatusForm')) {
             event.preventDefault() 
-            if (needFiles()) {
-                satrtUpload($btn, function() {
-                     startAddStatus($btn)
+            if (needStatusFiles()) {
+                satrtUploadStatusFile($btn, function() {
+                    startAddStatus($btn)
                 })
             } else {
                 startAddStatus($btn)
@@ -74,15 +93,23 @@
         }
     }
 
+    function needStatusFiles() {
+        if (statusTargetFile) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     function startAddStatus($btn) {
         var sendToServerData =  {}
-        $('#mark_task_status_form').serializeArray().forEach(function(item, index, array) {
+        $('#createStatusForm').serializeArray().forEach(function(item, index, array) {
             sendToServerData[item.name] = item.value
         })
-        sendToServerData.taskfiles = files_info
+        sendToServerData.taskfiles = statusFilesInfo
         $.ajax({
             type        : 'post',
-            url         : $('#mark_task_status_form').attr('action'),
+            url         : $('#createStatusForm').attr('action'),
             data        : sendToServerData,
             beforeSend  : function() {
                 app.utility.isWorking($btn)
@@ -91,24 +118,16 @@
                 if (!data.ok) {
                     alert(data.msg)
                 }
-                location.href = location.href.split('?')[0]
+                location.href = location.href
             }
         })
     }
 
-    function needFiles() {
-        if (target_file) {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    function satrtUpload($btn, cb) {
+    function satrtUploadStatusFile($btn, cb) {
         var file_form = new FormData()
-        var file_attr = $('#upload_status_files_input').attr('name')
-        for (var i = 0; i < target_file.length; i++) {
-            file_form.append(file_attr, target_file[i])
+        var file_attr = $('#uploadStatusFilesInput').attr('name')
+        for (var i = 0; i < statusTargetFile.length; i++) {
+            file_form.append(file_attr, statusTargetFile[i])
         }
         $.ajax({
             type        : 'post',
@@ -121,7 +140,7 @@
             data        : file_form,
             success     : function(data) {
                 if (data.ok == 1) {
-                    files_info = data.files
+                    statusFilesInfo = data.files
                     // $('#upload_status_files_input').remove()
                     cb()
                 } else {
@@ -130,6 +149,30 @@
             } 
         })
     }
+
+    
+
+    function eventBind() {
+        $('.delete-this-status').click(function() {
+            deleteStatus.call(this)
+        })
+
+        //save status
+        $('#saveStatusBtn').click(function(event) {
+            readyToAddStatus.call(this, event, $(this))
+            event.preventDefault()
+        })
+
+        //upload status files
+        $('#uploadStatusFilesInput').change(function(event) {
+            if (event.currentTarget.files) {
+                statusTargetFile = event.currentTarget.files
+            } else {
+                statusTargetFile = null
+            }
+        })
+    }
+
 
     function deleteStatus() {
         var sureToDelete = confirm('确认删除？')
@@ -155,5 +198,16 @@
             } 
         })
     }
+
+    function getTaskId() {
+        return $('.list-header header').data('id')
+    }
+
+    $(function() {
+        eventBind()
+        app.utility.highlightCurrentPage('任务')
+        setChangeStatusBtnGroup()
+        app.viewhelper.markDifferentColorToTaskStatus($('.status-name span.label'))
+    })
 
 })()

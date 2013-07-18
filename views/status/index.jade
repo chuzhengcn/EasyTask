@@ -42,6 +42,11 @@ block content
                                     |  任务主页
                             .operate-wrapper
                                 //- button#mark_task_status.btn.btn-primary.btn-small 修改状态
+                                .change-status-btn-group
+                                    .btn-group
+                                        a.btn.btn-small.btn-primary.dropdown-toggle(data-toggle="dropdown", href="#") 修改状态
+                                            span.caret
+                                        ul.dropdown-menu.pull-right
                         .main-body.scrollable
                             .status-info-wrapper.clearfix
                                 - each status,index in statusHistory
@@ -49,7 +54,7 @@ block content
                                         img.img-rounded(src='#{status.operator.avatar_url}')
                                         - if (index === 0)
                                             .delete-this-status(title='回退状态', data-id='#{status._id}')
-                                                button.btn.btn-danger.btn-small 删除状态
+                                                i.icon-remove
                                         .states-date #{status.created_time} by #{status.operator.name}
                                         .status-index ##{statusHistory.length - index}
                                         .status-history-content
@@ -63,4 +68,16 @@ block content
                                                         .file-item
                                                             i.icon-file
                                                             a(href='#{file.url}') #{file.name}
-                                        
+block modal
+    #createStatusModal.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+        .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3
+        .modal-body
+            form#createStatusForm.form-horizontal(action='/tasks/#{task._id}/status')
+                input(type="hidden", name="name")
+                textarea(name='content', autocomplete='off', rows="15", placeholder='可选描述')
+                input#uploadStatusFilesInput(type='file', name='task_files', multiple="multiple")
+        .modal-footer
+            button.btn(data-dismiss="modal", aria-hidden="true") 关闭
+            button#saveStatusBtn.btn.btn-primary 保存                                        

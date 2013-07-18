@@ -718,6 +718,9 @@ input[name="project"] {
   font-size: 12px;
   padding-bottom: 5px;
 }
+.task-summary .task-summary-wrapper .task-summary-version .status-history-content .status-files {
+  padding-bottom: 10px;
+}
 .task-summary .task-summary-wrapper .task-summary-version .status-history-content .status-files .file-item i {
   margin-right: 5px;
 }
@@ -900,8 +903,8 @@ input[name="project"] {
 }
 .status-info-wrapper .status-history-item .delete-this-status {
   position: absolute;
-  top: 10px;
-  right: 60px;
+  bottom: 10px;
+  right: 10px;
   cursor: pointer;
 }
 .status-info-wrapper .status-history-item .states-date {
@@ -929,6 +932,9 @@ input[name="project"] {
 .status-info-wrapper .status-history-item .status-history-content .status-history-des {
   font-size: 12px;
   padding-bottom: 5px;
+}
+.status-info-wrapper .status-history-item .status-history-content .status-files {
+  padding-bottom: 10px;
 }
 .status-info-wrapper .status-history-item .status-history-content .status-files .file-item i {
   margin-right: 5px;
