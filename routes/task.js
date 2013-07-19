@@ -124,6 +124,30 @@ exports.index = function(req, res) {
         roleName     = ''; 
 
     taskModel.findDevelopingIncludeUserAndMilestone(function(err, tasks) {
+        // sort by next event_time
+        tasks.sort(function(value1, value2) {
+            if (typeof value1.milestones[0] === 'undefined' && typeof value2.milestones[0] === 'object') {
+                return 1
+            }
+
+            if (typeof value1.milestones[0] === 'object' && typeof value2.milestones[0] === 'undefined') {
+                return -1
+            }
+
+            if (typeof value1.milestones[0] === 'undefined' && typeof value2.milestones[0] === 'undefined') {
+                return 0
+            }
+
+            if (value1.milestones[0].event_time.getTime() > value2.milestones[0].event_time.getTime()) {
+                return 1
+            }
+
+            if (value1.milestones[0].event_time.getTime() < value2.milestones[0].event_time.getTime()) {
+                return -1
+            }
+
+            return 0
+        })
 
         tasks.forEach(function(taskItem, taskIndex) {
             taskItem.milestones = time.format_specify_field(taskItem.milestones, {event_time : 'date'})
