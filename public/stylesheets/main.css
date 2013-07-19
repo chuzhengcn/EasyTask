@@ -1301,7 +1301,7 @@ input[name="project"] {
   margin: 10px 20px;
   border: solid 1px #dedfe3;
   border-radius: 5px;
-  background-color: #efeddf;
+  background-color: #f5f5f5;
 }
 .bug-info-wrapper .bug-info .bug-base dd {
   margin-bottom: 10px;
@@ -1311,7 +1311,7 @@ input[name="project"] {
   margin: 10px 20px;
   border: solid 1px #dedfe3;
   border-radius: 5px;
-  background-color: #f5f5f5;
+  background-color: #efeddf;
 }
 .bug-info-wrapper .bug-info .content img {
   max-width: 1000px;
