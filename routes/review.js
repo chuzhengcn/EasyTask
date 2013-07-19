@@ -587,8 +587,8 @@ exports.deleteCodeReview = function(req, res) {
         }
 
         reviewModel.findById(id, function(err, originReview) {
-            if (originReview.operator_id !== String(operator._id)) {
-                res.send({ ok : 0, msg : '只能由创建人删除'})
+            if (originReview.operator_id !== String(operator._id) && (!routeApp.isManager(req.ip))) {
+                res.send({ ok : 0, msg : '只能由创建人删除或者主管删除'})
                 return
             }
 

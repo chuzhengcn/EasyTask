@@ -64,7 +64,7 @@
             },
             success     : function(data) {
                 if (data.ok !== 1) {
-                    alert('删除失败，刷新页面后重试')
+                    alert(data.msg)
                 }
 
                 location.href = location.href
