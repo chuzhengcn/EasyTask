@@ -313,5 +313,3 @@ function addIdHistory() {
         })
     })
 }
-
-addIdHistory()
