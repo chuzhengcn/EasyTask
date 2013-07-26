@@ -379,7 +379,7 @@ exports.requirement = function(req, res) {
 
 exports.search = function(req, res) {
     if (!req.query.keyword) {
-        routeApp.redirect('/')
+        res.redirect('/')
         return
     }
 
