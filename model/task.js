@@ -20,6 +20,7 @@ var taskSchema = mongoose.Schema({
     score           : [Number],
     projects        : Array,
     rating          : Array,
+    id_history      : {type : [Number], index : true},
     end_time        : mongoose.Schema.Types.Mixed,
 },{
     collection : collectionName,

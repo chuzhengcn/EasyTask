@@ -303,4 +303,15 @@ function begin_test() {
     })
 }
 
-// change_log()
+function addIdHistory() {
+    taskModel.find(function(err, tasks) {
+        tasks.forEach(function(item, index) {
+            if (typeof item.custom_id === 'number') {
+                item.id_history = [item.custom_id]
+                item.save(function(err, task){ console.log(task.id_history)})
+            }
+        })
+    })
+}
+
+addIdHistory()

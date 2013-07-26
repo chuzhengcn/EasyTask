@@ -241,6 +241,7 @@ exports.create = function(req, res) {
                     name            : req.body.name,
                     users           : users,
                     custom_id       : custom_id,
+                    id_history      : [custom_id],
                     active          : true,
                     status          : defaultStatus,
                     updated_time    : new Date(),
@@ -390,7 +391,7 @@ exports.search = function(req, res) {
     userModel.find(function(err, userResults) {
         if (!isNaN(parseInt(keyword, 10))) {
             filter = {
-                'custom_id' : parseInt(keyword, 10)
+                'id_history' : parseInt(keyword, 10)
             } 
         } else {
             userResults.forEach(function(item, index) {
@@ -557,14 +558,16 @@ exports.update = function(req, res) {
             updateDoc.branch      = req.body.branch
             updateDoc.score       = filterScore(userRef, req.body.score)
             updateDoc.projects    = filterProjects(req.body.project)
-
-            newCustomId = parseInt(updateDoc.branch.split('/')[1], 10)
-            if (newCustomId && !isNaN(newCustomId)) {
-                updateDoc.custom_id = newCustomId
-            }
-
+            
             taskModel.findById(id, function(err, taskResult) {
+                newCustomId = parseInt(updateDoc.branch.split('/')[1], 10)
+                if (newCustomId && !isNaN(newCustomId) && (taskResult.custom_id !== newCustomId)) {
+                    updateDoc.custom_id     = newCustomId
+                    updateDoc["$push"]      = {"id_history" : newCustomId}
+                }
+
                 taskModel.findByIdAndUpdate(id, updateDoc, function(err, updatedTask) {
+
                     res.send({ok : 1, task : updatedTask})
 
                     if (taskResult.name !== updatedTask.name) {
