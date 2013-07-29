@@ -100,7 +100,7 @@ exports.show = function(req, res) {
         taskFilter      = {users : id, active : true, deleted : false, status : {$nin : [statusModel[0]]}},
         taskField       = {name : 1, status : 1, branch : 1, custom_id : 1, score : 1, projects : 1},
         bugFilter       = null,
-        finishedFilter  = {users : id, end_time : {$lte : new Date(), $gte : new Date(Date.now - 7*24*60*60*1000)}, active : false, deleted : false}
+        finishedFilter  = {users : id, end_time : {$lte : new Date(), $gte : new Date(Date.now() - 7*24*60*60*1000)}, active : false, deleted : false}
         finishedTask    = [];
 
     userModel.findById(id, function(err, userResult) {
