@@ -1,6 +1,7 @@
 exports.project = [{name : 'adminnycs.syyx.cn'}, {name : 'admin.syyx.cn'}, {name : 'adminpay.syyx.cn'},
                    {name : 'adminparty.syyx.cn'}, {name : 'adminres.syyx.cn'}, {name : 'appdm.syyx.cn'}, 
                    {name : 'ad.syyx.cn'},
+                   {name : 'bbs.nycs.syyx.com'},
                    {name : 'caiwu.syyx.cn'}, {name : 'di.syyx.com'},
                    {name : 'events.syyx.com'}, {name : 'finance.syyx.cn'}, {name : 'fn.syyx.com'},
                    {name : 'fn2.syyx.com'}, {name : 'gamecards.syyx.cn'}, {name : 'ggfx.syyx.cn'},
