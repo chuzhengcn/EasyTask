@@ -438,6 +438,17 @@ exports.show = function(req, res) {
         }
         taskResult.created_time   = time.readable_time(taskResult.created_time)
         taskResult.updated_time   = time.readable_time(taskResult.updated_time)
+        // readable ratings
+        taskResult.rating = taskResult.rating.map(function(item, index) {
+            console.log(item)
+            ratingModel.forEach(function(value, key) {
+                if (value.score === item.rating) {
+                    item.name = value.name
+                }
+            })
+            
+            return item
+        })
         // get all user
         userModel.findActiveUsers(function(err, usersResults) {
 

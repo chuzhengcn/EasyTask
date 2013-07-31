@@ -514,8 +514,8 @@ input[name="project"]
             padding-bottom 10px
             .task-info
                 float left
-                padding 0 80px 0 20px
-                min-height 170px
+                padding 0 120px 0 20px
+                min-height 200px
                 li
                     margin-bottom 5px
                     span.title
@@ -523,9 +523,9 @@ input[name="project"]
                         width 70px
                         display inline-block
             .task-milestone
-                padding 0 60px 0 20px
+                padding 0 40px 0 20px
                 float left
-                min-height 170px
+                min-height 200px
                 h5
                     i
                         cursor pointer
@@ -534,21 +534,29 @@ input[name="project"]
                         margin-bottom 5px                    
                         span
                             margin-right 10px
+                        .content
+                            margin-left 10px
+                            max-width 300px
+                            white-space nowrap
+                            overflow hidden
+                            display inline-block
+                            text-overflow ellipsis
             .task-summary-log                        
                 float left
                 padding 0 20px
                 overflow hidden
-                min-height 170px
+                min-height 200px
                 ul
                     li
                         margin-bottom 5px                  
                         span
                             margin-right 10px
             .task-rating
-                float left
+                clear both
                 padding 0 60px 0 20px
-                min-height 170px
                 position relative   
+                li
+                    margin-bottom 10px
                 #addRatingBtn
                     cursor pointer
         .task-summary-version

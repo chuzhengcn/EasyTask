@@ -634,8 +634,8 @@ input[name="project"] {
 }
 .task-summary .task-summary-wrapper .task-info-all .task-info {
   float: left;
-  padding: 0 80px 0 20px;
-  min-height: 170px;
+  padding: 0 120px 0 20px;
+  min-height: 200px;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-info li {
   margin-bottom: 5px;
@@ -646,9 +646,9 @@ input[name="project"] {
   display: inline-block;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-milestone {
-  padding: 0 60px 0 20px;
+  padding: 0 40px 0 20px;
   float: left;
-  min-height: 170px;
+  min-height: 200px;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-milestone h5 i {
   cursor: pointer;
@@ -659,11 +659,19 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-info-all .task-milestone ul li span {
   margin-right: 10px;
 }
+.task-summary .task-summary-wrapper .task-info-all .task-milestone ul li .content {
+  margin-left: 10px;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+}
 .task-summary .task-summary-wrapper .task-info-all .task-summary-log {
   float: left;
   padding: 0 20px;
   overflow: hidden;
-  min-height: 170px;
+  min-height: 200px;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-summary-log ul li {
   margin-bottom: 5px;
@@ -672,10 +680,12 @@ input[name="project"] {
   margin-right: 10px;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-rating {
-  float: left;
+  clear: both;
   padding: 0 60px 0 20px;
-  min-height: 170px;
   position: relative;
+}
+.task-summary .task-summary-wrapper .task-info-all .task-rating li {
+  margin-bottom: 10px;
 }
 .task-summary .task-summary-wrapper .task-info-all .task-rating #addRatingBtn {
   cursor: pointer;

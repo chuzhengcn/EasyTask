@@ -75,6 +75,13 @@ block content
                                                 li
                                                     span #{milestone.event_time.substring(5)}
                                                     a.milestone-name(href='#', data-id="#{milestone._id}", data-time="#{milestone.event_time}", title="#{milestone.name}",  data-content="#{milestone.content}") #{milestone.name}
+                                                    span.content #{milestone.content}
+                                    .task-summary-log
+                                        h5
+                                            a.task_section_more(href="/tasks/#{task.custom_id}/logs") 任务日志 >>
+                                        ul
+                                            - each log in logs
+                                                li [#{log.log_type}] #{log.operator.name} #{log.created_time.length > 16?log.created_time.substring(5) : log.created_time} 
                                     - if (task.status === allStatus[allStatus.length-1])
                                         .task-rating.clearfix
                                             h5 
@@ -82,13 +89,7 @@ block content
                                                 |  用户评价
                                             ul#ratingList
                                                 - each rating in task.rating
-                                                    li.text-success #{rating.operator.name} 评价：#{rating.rating}
-                                    .task-summary-log
-                                        h5
-                                            a.task_section_more(href="/tasks/#{task.custom_id}/logs") 任务日志 >>
-                                        ul
-                                            - each log in logs
-                                                li [#{log.log_type}] #{log.operator.name} #{log.created_time.length > 16?log.created_time.substring(5) : log.created_time} 
+                                                    li.text-success #{rating.operator.name} 评价：#{rating.name}  #{rating.content}
                                 .task-summary-todo
                                     h5
                                         a.task_section_more(href="/tasks/#{task.custom_id}/todos") 文档 >>
