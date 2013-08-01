@@ -12,7 +12,8 @@ exports.project = [{name : 'adminnycs.syyx.cn'}, {name : 'admin.syyx.cn'}, {name
                    {name : 'user.syyx.com'}, {name : 'safe.syyx.com'},{name : 'pay.syyx.com'},
                    {name : 'fwg.syyx.cn'}, 
                    {name : 'kfwg.syyx.cn'},{name : 'jbl.syyx.com'},{name : 'nycs.jbl.syyx.com'},
-                   {name : 'z.syyx.com'}, {name : 'others'}, {name : 'unknown'}]
+                   {name : 'z.syyx.com'}, {name : 'others'}, {name : 'unknown'},
+                   {name : 'www.syyx.com'}]
 
 exports.statusNames = ['需求提交','任务已分配','开发已完成','已提交Dev','已提交Test','已提交Master','已提交Release',
                        '测试拒绝','Dev测试通过','Test测试通过','Master测试通过','Release测试通过','已发布外网','已验收通过']
