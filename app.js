@@ -6,10 +6,8 @@ var stylus  = require('stylus')
 //-----------------app-------------------------------------------------------
 var app = express()
 
-console.log(process.env)
-
 app.configure(function(){
-    app.set('port', process.env.PORT || 5000)
+    app.set('port', process.env.PORT || 80)
     app.set('views', __dirname + '/views')
     app.set('view engine', 'jade')
     app.use(express.favicon(__dirname + '/public/images/favicon.ico'))
