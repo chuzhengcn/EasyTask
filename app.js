@@ -6,7 +6,7 @@ var stylus  = require('stylus')
 //-----------------app-------------------------------------------------------
 var app = express()
 
-console.log(process.env)
+console.log(process.env.PORT)
 
 app.configure(function(){
     app.set('port', process.env.PORT || 5000)
