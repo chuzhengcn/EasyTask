@@ -1065,6 +1065,12 @@ input[name="project"] {
 .bug-index-wrapper .bug-index-info .task-id {
   padding-left: 10px;
 }
+.bug-index-wrapper .bug-index-info .bug-name {
+  max-width: 450px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .bug-index-wrapper .pager {
   padding: 0 5px;
   display: none;

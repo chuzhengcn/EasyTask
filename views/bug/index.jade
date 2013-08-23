@@ -26,7 +26,7 @@ block content
                                         thead
                                             tr
                                                 th.task-id 任务id
-                                                th 名称
+                                                th.bug-name 名称
                                                 th
                                                     .btn-group#bugStatusFilter
                                                         button.btn.btn-small 状态
@@ -101,7 +101,7 @@ block content
                                                 tr
                                                     td.task-id 
                                                         a(href="/tasks/#{bug.task.custom_id}") #{bug.task.custom_id}
-                                                    td 
+                                                    td.bug-name 
                                                         a(href="/tasks/#{bug.task.custom_id}/bugs/#{bug._id}") #{bug.name}
                                                     td 
                                                         span.label.bug-status #{bug.status}
