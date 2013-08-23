@@ -1298,7 +1298,7 @@ input[name="project"] {
 .bug-info-wrapper .bug-info h3 {
   margin-top: 0;
   margin-bottom: 0;
-  padding: 10px 0 10px 20px;
+  padding: 10px 500px 10px 20px;
 }
 .bug-info-wrapper .bug-info .edit-bug-btn-group {
   position: absolute;
