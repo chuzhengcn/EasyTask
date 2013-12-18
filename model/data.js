@@ -33,7 +33,7 @@ exports.bugLevel = ['C', 'B', 'A']
 
 exports.rating = [{name : '很好', score : 7}, {name : '好', score : 5}, {name : '一般', score : 3}, {name : '差', score : 1}, {name : '很差', score : 0}]
 
-exports.manager = [{ip : '192.168.10.142'},{ip : '192.168.3.32'},{ip : '192.168.3.22'}]
+exports.manager = [{ip : '192.168.10.142'},{ip : '192.168.3.32'},{ip : '192.168.3.22'},{ip : '127.0.0.1'}]
 
 exports.admin  = [{ip : '192.168.3.32'},{ip : '192.168.3.22'},{ip : '192.168.3.34'}]
 

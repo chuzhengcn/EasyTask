@@ -700,7 +700,7 @@ exports.caculate = function(req, res) {
                                             res.send({
                                                 ok : 1, 
                                                 scoreGroup : scoreGroup, 
-                                                finalScore : finalScore,
+                                                finalScore : finalScore.toFixed(2),
                                                 beginTime  : time.format_to_date(beginTime),
                                                 endTime    : time.format_to_date(endTime),
                                             })
@@ -794,10 +794,10 @@ function caculateRating(tasks, cb) {
             sum += value.rating
         })
 
-        totalRating += Math.round(sum / item.rating.length)
+        totalRating += Math.round(sum / item.rating.length * 100) / 100
     })
 
-    finalRatingScore = Math.round(totalRating / tasks.length)
+    finalRatingScore = Math.round(totalRating / tasks.length * 100) / 100
 
     cb(null, {finalRatingScore : finalRatingScore})
 }
@@ -838,8 +838,7 @@ function caculateTestBug(userId, beginTime, endTime, tasks, workLoadScore, cb) {
 
                 testBugScore += item.score
             })
-
-            finalTestBugScore = Math.round((1 - (testBugScore / workLoadScore)) * baseRatio)
+            finalTestBugScore = Math.round((1 - (testBugScore / workLoadScore)) * baseRatio * 100) / 100
             cb(null, {finalTestBugScore : finalTestBugScore})
         })
     })
@@ -871,7 +870,7 @@ function caculateReleaseBug(userId, beginTime, endTime, workLoadScore, cb) {
             releaseBugScore += item.score
         })
 
-        finalReleaseBugScore = Math.round((1 - (releaseBugScore / workLoadScore)) * baseRatio)
+        finalReleaseBugScore = Math.round((1 - (releaseBugScore / workLoadScore)) * baseRatio * 100) / 100
         cb(null, {finalReleaseBugScore : finalReleaseBugScore})
     })
 }
@@ -907,7 +906,7 @@ function caculateReviewType1(userId, beginTime, endTime, cb) {
         })
 
         for (var type1key in result) {
-            result[type1key]  = Math.round(result[type1key] / reviewResults.length)
+            result[type1key]  = Math.round(result[type1key] / reviewResults.length * 100) / 100
         }
 
         cb(null, result)
@@ -971,7 +970,7 @@ function caculateReviewType3(userId, beginTime, endTime, cb) {
         })
 
         for (var type3key in result) {
-            result[type3key]  = Math.round(result[type3key] / reviewResults.length)
+            result[type3key]  = Math.round(result[type3key] / reviewResults.length * 100) / 100
         }
 
         cb(null, result)
@@ -1039,7 +1038,7 @@ function caculateReviewType5(userId, beginTime, endTime, cb) {
         })
 
         for (var type5key in result) {
-            result[type5key]  = Math.round(result[type5key] / reviewResults.length)
+            result[type5key]  = Math.round(result[type5key] / reviewResults.length * 100) / 100
         }
 
         cb(null, result)
