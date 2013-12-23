@@ -1,1 +1,5 @@
 forever restart -l forever.log -o out.log -e err.log -a app.js 
+
+var a = db.status.find({task_id : {$in : s}, name : '已发布外网'}).map(function(item) {return {time : item.created_time, id : item.task_id}})
+
+db.milestone.find({name : '发外网', task_id : {$in : s}}).forEach(function(item){ a.forEach(function(task) {if (item.task_id === task.id && task.time.getTime() > item.created_time.getTime() + 1000*60*60*24) {num++}})})
