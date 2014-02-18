@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
 
 // mongoose.connect('chuzhengcn:123456@ds037977.mongolab.com:37977/heroku_app7939210');
 mongoose.connect('chuzhengcn:123456@192.168.10.102:27017/easytask');
+// mongoose.connect('r1pKxTuiIPs9RiP5IXrCySFu:mr0vxPhCzGnYXdGPIubRfOfyzWoTGpXA@mongo.duapp.com:8908/RpMtgOJjjtaclCftTQPf');
 // mongoose.connect('mongodb://192.168.1.177:27017/easytask');
 
 db = mongoose.connection;

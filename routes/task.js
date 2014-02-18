@@ -1,4 +1,5 @@
-var routeApp        = require('./app'),
+var async           = require('async'),
+    routeApp        = require('./app'),
     time            = require('../helper/time'),
     view            = require('../helper/view'),
     taskModel       = require('../model/task').task,
@@ -14,6 +15,7 @@ var routeApp        = require('./app'),
     bugStatusModel  = require('../model/data').bugStatus,
     ratingModel     = require('../model/data').rating,
     userRoleModel   = require('../model/data').role,
+    reviewStandards = require('../model/data').review,
     upload_route    = require('./upload');
 
 function generateTaskUsers(userName, cb) {
@@ -440,7 +442,6 @@ exports.show = function(req, res) {
         taskResult.updated_time   = time.readable_time(taskResult.updated_time)
         // readable ratings
         taskResult.rating = taskResult.rating.map(function(item, index) {
-            console.log(item)
             ratingModel.forEach(function(value, key) {
                 if (value.score === item.rating) {
                     item.name = value.name
@@ -484,6 +485,7 @@ exports.show = function(req, res) {
                                 logs            : logResults,
                                 ratings         : ratingModel,
                                 allStatus       : statusNameModel,
+                                type1Standards  : reviewStandards.type1.standards,
                             })
                         })
                     })
@@ -696,6 +698,13 @@ exports.ratingDelete = function(req, res) {
             })
         })
     })
+}
+
+exports.check = function(req, res) {
+    var task_id         = req.params.id,
+        logType         = '21';
+
+
 }
 
 exports.newCustomId = function(req, res) {

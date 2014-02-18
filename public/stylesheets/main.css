@@ -734,6 +734,16 @@ input[name="project"] {
 .task-summary .task-summary-wrapper .task-summary-version .status-history-content .status-files .file-item i {
   margin-right: 5px;
 }
+.task-summary .task-summary-wrapper .task-summary-check {
+  border-bottom: solid 1px #dfdfdf;
+  padding: 10px 20px;
+  position: relative;
+}
+.task-summary .task-summary-wrapper .task-summary-check #addCheckBtn {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
 .task-summary .task-summary-wrapper .task-summary-bug {
   position: relative;
   border-bottom: solid 1px #dfdfdf;

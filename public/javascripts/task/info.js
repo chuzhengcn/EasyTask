@@ -646,6 +646,56 @@
         }
     }
 
+    function showAddCheckForm() {
+        $('#upsertCheckModal input[type="radio"]').removeAttr('checked')
+        $('#upsertCheckModal').modal()
+    }
+
+    function saveCheck($btn) {
+
+        if ($('#upsertCheckForm input[type="radio"]:checked').length === 0) {
+            alert('还没有检视')
+            return
+        }
+
+        $.ajax({
+            type        : 'put',
+            url         : $('#upsertCheckForm').attr('action'),
+            data        : $('#upsertCheckForm').serialize(),
+            beforeSend  : function() {
+                app.utility.isWorking($btn)
+            },
+            success     : function(data) {
+                if (!data.ok) {
+                    alert(data.msg)
+                }
+
+                location.href = location.href
+            }
+        })
+    }
+
+    function deleteCheck($btn) {
+        var sure = confirm('确认删除？')
+        if (sure) {
+            $.ajax({
+                type        : 'delete',
+                url         : '/tasks/' + getTaskId() + '/rating-delete',
+                beforeSend  : function() {
+                    app.utility.isWorking($btn)
+                },
+                success     : function(data) {
+                    if (data.ok) {
+                        alert('删除成功')
+                        location.href = location.href
+                    } else {
+                        alert(data.msg)
+                    }
+                }
+            })
+        }
+    }
+
     function eventBind() {
         $('#addMoreTaskUserBtn').click(function(event) {
             addMoreTaskUserInput()
@@ -766,6 +816,21 @@
         // delete rating
         $('#deleteRatingBtn').click(function() {
             deleteRating($(this))
+        })
+
+        // add check
+        $('#addCheckBtn').click(function() {
+            showAddCheckForm()
+        })
+
+        //save check
+        $('#saveCheckBtn').click(function() {
+            saveCheck($(this))
+        })
+
+        // delete check
+        $('#deleteCheckBtn').click(function() {
+            deleteCheck($(this))
         })
 
     }
