@@ -1,7 +1,7 @@
 exports.project = [{name : 'adminnycs.syyx.cn'}, {name : 'admin.syyx.cn'}, {name : 'adminpay.syyx.cn'},
                    {name : 'adminparty.syyx.cn'}, {name : 'adminres.syyx.cn'}, {name : 'appdm.syyx.cn'}, 
-                   {name : 'ad.syyx.cn'},{name : 'adminjgb.syyx.cn'},
-                   {name : 'bbs.nycs.syyx.com'},
+                   {name : 'ad.syyx.cn'},{name : 'adminjgb.syyx.cn'},{name : 'adminztt.syyx.cn'},
+                   {name : 'bbs.nycs.syyx.com'}, {name : 'bbs.ztt.syyx.com'},
                    {name : 'caiwu.syyx.cn'}, {name : 'di.syyx.com'},
                    {name : 'events.syyx.com'}, {name : 'finance.syyx.cn'}, {name : 'fn.syyx.com'},
                    {name : 'fn2.syyx.com'}, {name : 'gamecards.syyx.cn'}, {name : 'ggfx.syyx.cn'},
@@ -14,7 +14,8 @@ exports.project = [{name : 'adminnycs.syyx.cn'}, {name : 'admin.syyx.cn'}, {name
                    {name : 'safe.syyx.com'},{name : 'pay.syyx.com'},
                    {name : 'fwg.syyx.cn'}, 
                    {name : 'kfwg.syyx.cn'},{name : 'jbl.syyx.com'},{name : 'nycs.jbl.syyx.com'},
-                   {name : 'z.syyx.com'}, {name : 'others'}, {name : 'unknown'},
+                   {name : 'z.syyx.com'}, {name : 'ztt.syyx.com'},
+                   {name : 'others'}, {name : 'unknown'},
                    {name : 'us.syyx.com'},{name : 'user.syyx.com'},
                    {name : 'www.syyx.com'}]
 
