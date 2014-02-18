@@ -48,7 +48,7 @@ app.put('/get-new-custom-id',   task.newCustomId)
 app.get('/tasks-archive',       task.archiveList)
 app.get('/tasks-search',        task.search)
 
-app.get('/tasks/:id/check',     task.check)
+app.post('/tasks/:id/check',     task.check)
 
 //--------milestone-------------------------------------------------
 var milestone = require('./routes/milestone')

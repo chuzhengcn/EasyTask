@@ -31,6 +31,7 @@ block content
                                     button#archiveTaskBtn.btn.btn-inverse.btn-small 存档
                                 - else
                                     button#archiveTaskBtn.btn.btn-inverse.btn-small 恢复
+                                button#addCheckBtn.btn.btn-small.btn-primary 检视任务
                         .task-summary.scrollable
                             .task-summary-wrapper.clearfix
                                 .task-users.clearfix
@@ -134,9 +135,6 @@ block content
                                                         .file-item
                                                             i.icon-file
                                                             a(href='#{file.url}') #{file.name}
-                                .task-summary-check
-                                    h5 任务检视
-                                    a#addCheckBtn.btn.btn-small.btn-primary(href="#") 检视任务
                                 .task-summary-bug.clearfix
                                     h5
                                         a.task_section_more(href="/tasks/#{task.custom_id}/bugs-list") Bug >>
@@ -296,9 +294,9 @@ block modal
     #upsertCheckModal.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
         .modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true") x
-            h3 任务检视(多次检视以最后一条为准)
+            h3 任务检视
         .modal-body
-            form#upsertCheckForm.form-horizontal(action='/tasks/#{task._id}/check')
+            form#upsertCheckForm.form-horizontal(action='/tasks/#{task.custom_id}/check')
                 input(type="hidden", value="type1", name="type")
                 - for (var key in type1Standards)
                     .control-group
@@ -311,10 +309,8 @@ block modal
                 .control-group
                     label.control-label(for='description') 说明
                     .controls
-                        - var template = '【编码规范问题】\n\n【清晰度与通用度问题】\n\n'
+                        - var template = task.custom_id + '-' + task.name + ' \n\n【编码规范问题】\n\n【清晰度与通用度问题】\n\n'
                         textarea.span4(name="description", rows="10") #{template}
         .modal-footer
-            .modal-footer-btns
-                button#deleteCheckBtn.btn.btn-danger.btn-small 删除
             button#saveCheckBtn.btn.btn-primary 保存
             button.btn(data-dismiss="modal", aria-hidden="true") 关闭

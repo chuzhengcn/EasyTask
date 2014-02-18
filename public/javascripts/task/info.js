@@ -646,7 +646,7 @@
         }
     }
 
-    function showAddCheckForm() {
+    function showAddCheckForm($btn) {
         $('#upsertCheckModal input[type="radio"]').removeAttr('checked')
         $('#upsertCheckModal').modal()
     }
@@ -659,7 +659,7 @@
         }
 
         $.ajax({
-            type        : 'put',
+            type        : 'post',
             url         : $('#upsertCheckForm').attr('action'),
             data        : $('#upsertCheckForm').serialize(),
             beforeSend  : function() {
@@ -673,27 +673,6 @@
                 location.href = location.href
             }
         })
-    }
-
-    function deleteCheck($btn) {
-        var sure = confirm('确认删除？')
-        if (sure) {
-            $.ajax({
-                type        : 'delete',
-                url         : '/tasks/' + getTaskId() + '/rating-delete',
-                beforeSend  : function() {
-                    app.utility.isWorking($btn)
-                },
-                success     : function(data) {
-                    if (data.ok) {
-                        alert('删除成功')
-                        location.href = location.href
-                    } else {
-                        alert(data.msg)
-                    }
-                }
-            })
-        }
     }
 
     function eventBind() {
@@ -819,18 +798,14 @@
         })
 
         // add check
-        $('#addCheckBtn').click(function() {
-            showAddCheckForm()
+        $('#addCheckBtn').click(function(event) {
+            showAddCheckForm($(this))
+            event.preventDefault()
         })
 
         //save check
         $('#saveCheckBtn').click(function() {
             saveCheck($(this))
-        })
-
-        // delete check
-        $('#deleteCheckBtn').click(function() {
-            deleteCheck($(this))
         })
 
     }

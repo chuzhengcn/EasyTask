@@ -15,6 +15,7 @@ var async           = require('async'),
     bugStatusModel  = require('../model/data').bugStatus,
     ratingModel     = require('../model/data').rating,
     userRoleModel   = require('../model/data').role,
+    reviewModel     = require('../model/review').review,
     reviewStandards = require('../model/data').review,
     upload_route    = require('./upload');
 
@@ -701,14 +702,161 @@ exports.ratingDelete = function(req, res) {
 }
 
 exports.check = function(req, res) {
-    var task_id         = req.params.id,
+    var custom_id       = parseInt(req.params.id),
         logType         = '21';
 
+    var newReview   = {},
+        data        = req.body,
+        reviewKey   = '',
+        isValide    = true,
+        operator    = null,
+        description = '';
 
+    async.waterfall([
+            function(callback) {
+                if (!data.type) {
+                    callback('异常，没有设置评价的类型')
+                    return
+                } 
+
+                if (typeof reviewStandards[data.type] === 'undefined') {
+                    callback('异常，评价类型不合法')
+                    return
+                }
+
+                for (reviewKey in reviewStandards[data.type].standards) {
+                    if (typeof data[reviewKey] === 'undefined' || isNaN(data[reviewKey])) {
+                        isValide = false
+                        break
+                    } else {
+                        data[reviewKey] = parseInt(data[reviewKey], 10)
+                    }
+                }
+
+                if (!isValide) {
+                    callback('不合法的表单')
+                    return
+                }
+
+                if (!data.description) {
+                    callback('必须添加描述')
+                    return
+                }
+
+                callback(null)
+            },
+            function(callback) {
+                routeApp.ownAuthority(req, function(hasAuth, current_operator) {
+                    if (!hasAuth) {
+                        callback('没有权限')
+                        return
+                    }
+                    operator = current_operator
+                    callback(null)
+                })
+            },
+            function(callback) {
+                taskModel.findOneTaskIncludeUser({custom_id : custom_id}, {}, {}, function(err, taskResult) {
+                    var programmers = getProgrammerInTaskUsers(taskResult.users)
+                    if (!(Array.isArray(programmers)) || programmers.length < 1) {
+                        callback('没有可检视的开发人员')
+                        return                        
+                    }
+
+                    callback(null, programmers)
+                })
+            },
+
+            function(programmers, callback) {
+                description = data.description
+                reviewType  = data.type
+                delete data.type
+                delete data.description
+
+                async.each(programmers, function(item, callback_i) {
+
+                    var newReview = new reviewModel({
+                        operator_id  : String(operator._id),
+                        user_id      : String(item._id),
+                        updated_time : new Date(),
+                        created_time : new Date(),
+                        type         : reviewType,
+                        content      : data,
+                        description  : description,
+                    })
+
+                    newReview.save(function(err, reviewResult) {
+                        callback_i(null)
+                    })
+                },
+                function(err) {
+                    callback(err)
+                })
+            }
+        ], 
+        function(err, result) {
+            if (err) {
+                res.send({ok : 0, msg : err})
+                return
+            }
+
+            res.send({ok : 1})
+        }
+    )
+
+    function getProgrammerInTaskUsers(users) {
+        return users.filter(function(user) {
+            if (isProgrammer(user)) {
+                return true
+            }
+        })
+    }
+
+    return
+
+    routeApp.ownAuthority(req, function(hasAuth, operator) {
+        if (!hasAuth) {
+            res.send({ ok : 0, msg : '没有权限'})
+            return
+        }
+
+        userModel.findById(userId, function(err, userResult) {
+            if (err || !userResult) {
+                res.send({ ok : 0, msg : '找不到该用户'})
+                return
+            }
+            description = data.description
+            reviewType  = data.type
+            delete data.type
+            delete data.description
+
+            newReview = new reviewModel({
+                operator_id  : String(operator._id),
+                user_id      : userId,
+                updated_time : new Date(),
+                created_time : new Date(),
+                type         : reviewType,
+                content      : data,
+                description  : description,
+            })
+
+            newReview.save(function(err, reviewResult) {
+                res.send({ok : 1})
+            })
+        })
+    })
 }
 
 exports.newCustomId = function(req, res) {
     counterModel.saveTaskId(function(err, newId) {
         res.send({ ok : 1, id : newId})
     })
+}
+
+function isProgrammer(user_doc) {
+    if (user_doc.role.indexOf('Programmer') > -1) {
+        return true
+    } else {
+        return false
+    }
 }
