@@ -143,6 +143,12 @@ var wiki = require('./routes/wiki')
 
 app.get('/wikis', wiki.list)
 
+// ----------------cacluate pm score ------------------------------------
+var pm = require("./routes/pm");
+
+app.get("/caculate_pm_score", pm.score)
+app.get("/pm_score_time", pm.score_by_time)
+
 //---------change_db--------------------------------------------------
 var db_change = require('./routes/db')
 
